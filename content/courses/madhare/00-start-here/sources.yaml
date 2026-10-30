@@ -1,0 +1,15 @@
+sources:
+  - slug: m0-global-process
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/main/agents/AGENTS.md
+    title: "Mad Hare Operations (agents/AGENTS.md)"
+    site: GitHub
+    summary_md: |
+      The global process: roles, releases, issue structure, branches, merging, review, testing, docs and hours. Merged 2026-10-29 (madhare-support#65). It is the authority this course measures against.
+  - slug: m0-process-pr
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/pull/65
+    title: "madhare-support#65: the global process"
+    site: GitHub
+    summary_md: |
+      The PR that made /srv/conflux/AGENTS.md the single process file.

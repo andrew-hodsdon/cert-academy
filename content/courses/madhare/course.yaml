@@ -1,0 +1,29 @@
+slug: madhare
+ordinal: 3
+title: "Mad Hare: how it really works"
+subtitle: "Onboarding with hands-on labs: what we built, how it runs, how our agents work, and how we work, including what is broken"
+level: practitioner
+estimated_hours: 24
+status: published
+readiness: { pct: 80, window: 3 }
+domains:
+  - { key: a1-architecture, title: "1. Architecture", weight: 20 }
+  - { key: a2-implementations, title: "2. Conflux, Code A Zone and Sabai", weight: 20 }
+  - { key: a3-agents, title: "3. How our agents are built", weight: 20 }
+  - { key: a4-using-products, title: "4. Using the products", weight: 25 }
+  - { key: a5-how-we-work, title: "5. How we work", weight: 15 }
+summary_md: |
+  The onboarding course for anyone, person or agent, joining Mad Hare. It is built from an
+  audit of every repository, GitHub, the installed software and our session history
+  (October 2026), and it is deliberately **honest**: every component is marked **Built**,
+  **Partial**, **Target** or **Abandoned**, with evidence, and every module ends with what is
+  broken or inconsistent.
+
+  It is hands-on. Each module has labs you run on the dev machine. Where a lab fails today,
+  the failure is the lesson, and it says so.
+
+  You are **onboarded** when your last three final exams average 80% or more.
+exam_facts_md: |
+  - **Audit date:** 2026-10-30. Facts drift; each lesson links its evidence.
+  - **Final exam:** 40 questions drawn across all five areas, 60 minutes.
+  - **Labs** run read-only on the dev machine. Never deploy, merge, push or post from a lab.

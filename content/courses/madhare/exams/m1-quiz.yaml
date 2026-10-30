@@ -1,0 +1,567 @@
+slug: m1-quiz
+ordinal: 11
+title: "Module 1 quiz: Architecture"
+kind: quiz
+draw: 15
+time_limit_min: 20
+pass_pct: 80
+instructions_md: |
+  15 questions drawn at random from a 28-question bank covering Module 1: the intended shape of
+  Conflux, what actually runs on the dev machine, repos and sources of truth, versions and
+  releases, tracing and audit, and the findings. 20 minutes. Most questions have one best
+  answer; questions marked "Choose two." need both correct choices to score.
+
+  Facts are as of 2026-10-30. Answer from the evidence in the lessons, not from what the
+  READMEs claim. Read every explanation afterwards, including for questions you got right.
+  Retake until you hold 80%.
+questions:
+  - key: m1-running-engine-line
+    kind: single
+    domain: a1-architecture
+    prompt_md: "On 2026-10-30, which conflux-engine code is running as `conflux-engine-local` on the dev machine?"
+    choices:
+      - { key: a, text: "conflux-engine main at 13801f5, version 1.1.1" }
+      - { key: b, text: "The conflux-runtime Debian package, version 0.1.0~dev.0" }
+      - { key: c, text: "feat/engine-consolidated at 5f6b308, @conflux/engine 1.0.6, from open PR #86" }
+      - { key: d, text: "The andrew-hodsdon/agent-runtime fork at its main branch" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The unit's working directory resolves to an install named `5f6b308…`,
+      `conflux version` reports 1.0.6 with that `sourceRevision`, and `git branch -r --contains
+      5f6b308` lists `feat/engine-consolidated` (PR #86) but not `origin/main`.
+
+      - **a**: main is the documented engine, but nothing on the machine runs it; nothing listens on its port 8792.
+      - **b**: the .deb is installed at `/usr/bin/conflux` but installs no service, and it was never started.
+      - **d**: the fork has six extra commits on Line 1. It is not what the service runs.
+    points: 1
+
+  - key: m1-clients-call-only
+    kind: single
+    domain: a1-architecture
+    prompt_md: "Under the intended Conflux design, a new Android feature needs to list a user's agents. Which service should the app call?"
+    choices:
+      - { key: a, text: "conflux-api, which reads the records from madhare-platform" }
+      - { key: b, text: "madhare-platform/apps/mh-api directly, because it holds the records" }
+      - { key: c, text: "conflux-engine's apps/api on port 8792" }
+      - { key: d, text: "madhare-api, because it is the Mad Hare API" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. conflux-api's architecture says "Clients call only this API". It is the
+      one public endpoint, and it reads the platform, which is the system of record.
+
+      - **b**: the platform holds the data, but clients must never call its roughly 176 paths directly.
+      - **c**: the engine's `apps/api` is internal resource adapters on loopback, not a client API.
+      - **d**: madhare-api is a NestJS starter that returns a hello string; it owns nothing.
+    points: 1
+
+  - key: m1-provider-sdk-place
+    kind: single
+    domain: a1-architecture
+    prompt_md: "By design, where is the only place an Anthropic, Gemini or OpenAI SDK may be called in Conflux?"
+    choices:
+      - { key: a, text: "Anywhere, as long as the call is traced to Langfuse" }
+      - { key: b, text: "The engine's agent-runtime, through the single callModel prompt path" }
+      - { key: c, text: "conflux-api's router, which picks the provider" }
+      - { key: d, text: "madhare-platform, because it stores the agent definitions" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. The engine is "the only place a provider SDK runs", and inside it
+      `callModel` in `src/prompt-path.ts` is the only function that sends a prompt.
+      `check:prompt-path` fails the build if any other file imports a vendor SDK.
+
+      - **a**: tracing does not make a call legitimate. The point is one path for budget, auth and tracing.
+      - **c**: the router chooses a route (local or engine) but does not call provider SDKs itself.
+      - **d**: the platform is the system of record, not a place that calls models.
+    points: 1
+
+  - key: m1-system-of-record
+    kind: single
+    domain: a1-architecture
+    prompt_md: "Which repository is the system of record for identity, agents and memory, board and traces, and is the largest Built codebase?"
+    choices:
+      - { key: a, text: "conflux-agents" }
+      - { key: b, text: "conflux-api" }
+      - { key: c, text: "madhare-api" }
+      - { key: d, text: "madhare-platform (apps/mh-api)" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. `madhare-platform/apps/mh-api` has the agents, memory (Qdrant), board,
+      docs, queue, telemetry and trace-ingest modules, and conflux-api's design names the
+      platform as the system of record. It was tagged v0.1.0 on 2026-10-15.
+
+      - **a**: conflux-agents is a placement skeleton for agent definitions; it is not a running service.
+      - **b**: conflux-api is the gateway in front of the platform, with in-memory sessions.
+      - **c**: madhare-api is a placeholder starter.
+    points: 1
+
+  - key: m1-madhare-api-status
+    kind: single
+    domain: a1-architecture
+    prompt_md: "What is the accurate status of the `madharedev/madhare-api` repository as of 2026-10-30?"
+    choices:
+      - { key: a, text: "Abandoned / placeholder: a NestJS starter with a hello-world root and /health; its 'GitHub CRUD endpoints' PR merged docs only" }
+      - { key: b, text: "Built: it serves the GitHub CRUD endpoints added in PR #18" }
+      - { key: c, text: "Partial: it is the gateway for Conflux clients, with in-memory sessions" }
+      - { key: d, text: "Target: it is planned as the engine's public API in release v1.0.0" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Its whole controller is one `@Get()` returning the starter string, plus
+      `/health`. PR #18's title promised GitHub CRUD endpoints, but `git log --stat` shows it
+      merged only `docs/github-app/*`.
+
+      - **b**: PR #18 merged no code, so nothing serves those endpoints.
+      - **c**: that describes conflux-api, not madhare-api.
+      - **d**: no issue defines madhare-api's future. Its role is an open question for Andrew.
+    points: 1
+
+  - key: m1-qdrant-owner
+    kind: single
+    domain: a1-architecture
+    prompt_md: "You need to change how agent memory is retrieved from Qdrant. Where does that code live?"
+    choices:
+      - { key: a, text: "conflux-engine main, in the PostgreSQL resource adapter" }
+      - { key: b, text: "conflux-agents, next to the agent definitions" }
+      - { key: c, text: "madhare-platform/apps/mh-api, in the agents module" }
+      - { key: d, text: "conflux-api, in the router" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Qdrant appears only in `madhare-platform/apps/mh-api` (`health`, `docs`
+      and `agents/agent-memory.store.ts` with its retriever store). No conflux-* repo uses it.
+
+      - **a**: main's engine has no database client at all; its AlloyDB resource reads management metadata only.
+      - **b**: conflux-agents holds definitions (and on main, very little); it has no retrieval code.
+      - **d**: the router chooses a model route; it does not retrieve memory.
+    points: 1
+
+  - key: m1-deb-health-fails
+    kind: single
+    domain: a1-architecture
+    prompt_md: "`/usr/bin/conflux health` returns `Health endpoint unreachable`. What is the correct explanation?"
+    choices:
+      - { key: a, text: "The engine is down and should be restarted" }
+      - { key: b, text: "The .deb installs no service, and nothing listens on its default port 8792" }
+      - { key: c, text: "The health route needs an authentication token" }
+      - { key: d, text: "The collector on 13133 is blocking the request" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. `/usr/bin/conflux` comes from the `conflux-runtime` package (Line 1),
+      which says "Installation does not activate a service". Its health check defaults to
+      8792, and `ss -ltnp` shows nothing there. The failure is expected.
+
+      - **a**: the engine that runs is a different binary on 13080, and it is healthy. Labs never restart services.
+      - **c**: the health endpoint is unauthenticated (the running engine returns 200 on /health); /v1/agents is what returns 401.
+      - **d**: 13133 is the OTel collector's own health endpoint; it has nothing to do with this request.
+    points: 1
+
+  - key: m1-health-default-port
+    kind: single
+    domain: a1-architecture
+    prompt_md: "`~/.local/opt/conflux-engine/bin/conflux health` fails, but the engine is running. What makes the check succeed?"
+    choices:
+      - { key: a, text: "Running it with sudo" }
+      - { key: b, text: "Setting ENGINE_PORT=8792 in the shell" }
+      - { key: c, text: "Restarting conflux-engine-local first" }
+      - { key: d, text: "Passing --url http://127.0.0.1:13080, because the default port 3080 is not where the service listens" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. The binary defaults to 3080, but the service listens on 13080. With
+      `--url http://127.0.0.1:13080` it returns `"healthy":true` and the same revision as
+      `conflux version`.
+
+      - **a**: privileges are not the problem; the port is.
+      - **b**: 8792 is the Line 1 API port, which is not in use, and an env var in your shell does not change a running service.
+      - **c**: the service is healthy. Labs are read-only and never restart anything.
+    points: 1
+
+  - key: m1-version-policy-main
+    kind: single
+    domain: a1-architecture
+    prompt_md: "Under the Mad Hare version policy, what version does `main` carry while v1.0.0 is in development, and what does the release branch carry?"
+    choices:
+      - { key: a, text: "main 1.0.0-dev; release/v1.0.0 1.0.0-rc.N; the tag v1.0.0 is created at release" }
+      - { key: b, text: "main 1.0.0; release/v1.0.0 1.0.0-dev; the tag is created when the branch is cut" }
+      - { key: c, text: "main 0.1.0-dev.0 until the release, then 1.0.0" }
+      - { key: d, text: "main carries the last released version; release branches carry no version" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. The process says main carries `X.Y.Z-dev`, the release branch
+      `X.Y.Z-rc.N`, and the tag `vX.Y.Z` is created at release. #87 recorded exactly this for
+      the engine on 2026-10-29.
+
+      - **b**: plain 1.0.0 on main would claim a release that has not happened, and the tag comes at release, not at branch cut.
+      - **c**: 0.1.0-dev.0 was the abandoned 10-27 reset, superseded by the 10-29 decision.
+      - **d**: that is what main does today (1.1.1), and it is the out-of-policy state.
+    points: 1
+
+  - key: m1-version-namespaces
+    kind: single
+    domain: a1-architecture
+    prompt_md: "conflux-engine has releases tagged `v1.1.0` (2026-10-23) and `v0.9.95` (2026-10-24). Why does the newer one have a lower number?"
+    choices:
+      - { key: a, text: "v0.9.95 was a rollback of a bad v1.1.0" }
+      - { key: b, text: "Tags sort alphabetically, so the numbers are arbitrary" }
+      - { key: c, text: "They are in two namespaces: v0.9.95 is the Conflux product version (engine component 1.1.1); v1.1.0 is the engine component version" }
+      - { key: d, text: "v0.9.95 is a release candidate for v1.0.0" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The release titles say it: "Conflux 0.9.95 — Engine 1.1.1" and "Conflux
+      Engine 1.1.0 — local API foundation". Product and component versions were cut on the
+      same repo, which the one-version-per-repo policy forbids.
+
+      - **a**: no evidence of a rollback. Main's HEAD is "Release Conflux 0.9.95 (Engine 1.1.1)".
+      - **b**: semver numbers are meaningful. The problem is two namespaces, not sorting.
+      - **d**: a release candidate would be `1.0.0-rc.N` on `release/v1.0.0`, not a 0.9.x tag.
+    points: 1
+
+  - key: m1-releases-out-of-policy
+    kind: single
+    domain: a1-architecture
+    prompt_md: "What does the process require of the pre-reset conflux-engine releases v1.1.0 and v0.9.95, and what is their state on 2026-10-30?"
+    choices:
+      - { key: a, text: "They must be deleted; both still exist" }
+      - { key: b, text: "The tags stay and the releases are marked 'pre-reset, superseded'; neither is marked, and v0.9.95 is still Latest" }
+      - { key: c, text: "They must be retagged as 1.0.0-rc.1; this has been done" }
+      - { key: d, text: "Nothing; pre-reset releases are outside the process" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. "Published tags are never rewritten." The superseded tags stay, and their
+      GitHub releases are marked "pre-reset, superseded". `gh release list` shows neither
+      marked, with v0.9.95 as Latest.
+
+      - **a**: deleting or rewriting published tags is exactly what the process forbids.
+      - **c**: retagging is rewriting. Release candidates are cut on `release/v1.0.0`.
+      - **d**: the process names these two tags explicitly.
+    points: 1
+
+  - key: m1-agents-load-from
+    kind: single
+    domain: a1-architecture
+    prompt_md: "Where do the installed conflux-core role agents (coder, tester, dispatcher, doc-writer and so on) load from?"
+    choices:
+      - { key: a, text: "conflux-agents main, which holds the generated catalogue" }
+      - { key: b, text: "The database named in the conflux-agents README" }
+      - { key: c, text: "The archived madhare-agents repository" }
+      - { key: d, text: "A detached worktree of conflux-agents at f721fc0 (install-f721fc0e9f2a), on the open PR #83 line" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. `known_marketplaces.json` (and the Codex config) point conflux-core at
+      `…/worktrees/conflux-agents/install-f721fc0e9f2a/dist/conflux-core`, a detached
+      worktree whose commit is only on open PR branches.
+
+      - **a**: main says it "intentionally contains no active agent implementations".
+      - **b**: the README says records live in "the configured database", but no database is named or used by the plugins.
+      - **c**: madhare-agents is archived; only its old systemd units remain.
+    points: 1
+
+  - key: m1-turn-service-status
+    kind: single
+    domain: a1-architecture
+    prompt_md: "Four documents describe the engine's agent-runtime turn service differently. Which status does this course assign, and why?"
+    choices:
+      - { key: a, text: "Built, because its own README says Built" }
+      - { key: b, text: "Target, because conflux-api lists the engine endpoint as Target" }
+      - { key: c, text: "Partial: code and stub-provider tests exist, but no real provider call has been made and nothing calls it" }
+      - { key: d, text: "Abandoned, because the engine README calls it a process shell" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The agent-runtime README itself says "No real provider call has been
+      made from this service yet", and the gateway's engine route is Target, so nothing
+      consumes it. Code plus stub tests with no real run is Partial.
+
+      - **a**: "Built" here means on main and running with evidence; a stub-only run does not qualify.
+      - **b**: the code exists and is tested, so Target understates it.
+      - **d**: the "process shell" line is stale doc drift. The code is real and nobody has abandoned it.
+    points: 1
+
+  - key: m1-bind-address
+    kind: single
+    domain: a1-architecture
+    prompt_md: "`ss -ltnp` shows the running engine listening on `0.0.0.0:13080`. Why is that recorded as a finding?"
+    choices:
+      - { key: a, text: "It listens on every interface, while the engine's own README says to keep this release local until its controls exist" }
+      - { key: b, text: "Port 13080 is reserved for the OTel collector" }
+      - { key: c, text: "0.0.0.0 means the service is not actually listening" }
+      - { key: d, text: "The process requires every service to use port 8792" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. 0.0.0.0 accepts connections on all interfaces, including the tailnet,
+      while the README says "Keep this release local until those controls exist". The fix is
+      to bind loopback, or the tailnet address only if the phone needs it, and record the
+      decision.
+
+      - **b**: the collector uses 4317/4318 and 13133.
+      - **c**: 0.0.0.0 is the wildcard address; the service is listening, and the health check on 13080 succeeds.
+      - **d**: no such rule exists. 8792 is just Line 1's default.
+    points: 1
+
+  - key: m1-otel-content
+    kind: single
+    domain: a1-architecture
+    prompt_md: "What is wrong with the Claude Code OpenTelemetry setup on 2026-10-30?"
+    choices:
+      - { key: a, text: "It is not exporting anything, because the collector is down" }
+      - { key: b, text: "OTEL_LOG_USER_PROMPTS, OTEL_LOG_TOOL_CONTENT and OTEL_LOG_RAW_API_BODIES are on, so full content goes to Langfuse and Dynatrace, against the 'payloads are hashes' contract" }
+      - { key: c, text: "It sends traces to BigQuery instead of the platform" }
+      - { key: d, text: "It uses OTLP over HTTP, which the collector does not accept" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. The three switches opt in to prompt text, tool content and raw API
+      bodies. The collector forwards traces to Langfuse and Dynatrace (a SaaS endpoint). The
+      `mh-trace-telemetry` contract says no client text goes into traces, and the
+      agent-runtime says message content is never traced.
+
+      - **a**: the collector health endpoint reports "Server available", up since 10-27.
+      - **c**: BigQuery is fed by the separate fleet-telemetry loader from transcripts, not by OTel.
+      - **d**: sessions export to the collector's OTLP receiver on 4317, and it accepts them.
+    points: 1
+
+  - key: m1-trace-missing
+    kind: single
+    domain: a1-architecture
+    prompt_md: "The engine's agent-runtime tries to POST a run-event.v1 envelope to the platform's /v1/telemetry/ingest and the call fails. What does it do?"
+    choices:
+      - { key: a, text: "Retries forever and blocks the turn" }
+      - { key: b, text: "Drops the event silently" }
+      - { key: c, text: "Sends the full message content to Dynatrace instead" }
+      - { key: d, text: "Writes a trace_missing gap record to trace-missing.jsonl in the spool, so the gap is visible" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Per the agent-runtime README, a failed post writes a `trace_missing`
+      record. Trace stores are fail-closed: a missing trace is recorded as a gap, never lost
+      silently.
+
+      - **a**: nothing in the design blocks the turn on trace delivery.
+      - **b**: silent loss is exactly what `trace_missing` exists to prevent.
+      - **c**: the runtime never traces message content, and it does not talk to Dynatrace.
+    points: 1
+
+  - key: m1-receipt-meaning
+    kind: single
+    domain: a1-architecture
+    prompt_md: "A session-entry receipt reads `status: WORKSPACE_READY`, `dispatch: LOCKED`, `adapter_enforcement: NOT_VERIFIED`. What may you conclude?"
+    choices:
+      - { key: a, text: "The session is approved to dispatch builders, and its tools are restricted to its role" }
+      - { key: b, text: "The session failed entry and must stop" }
+      - { key: c, text: "session-start ran and the workspace checks passed; dispatch is not approved, and nothing shows the role's limits were enforced" }
+      - { key: d, text: "conflux-guard verified the session against its five rules" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. A receipt records entry. `LOCKED` means no unexpired approval (the
+      approval file expired on 2026-10-22), and `NOT_VERIFIED` means no enforcement was
+      checked; hooks are disabled fleet-wide.
+
+      - **a**: LOCKED means dispatch is not approved, and NOT_VERIFIED means nothing restricts tools.
+      - **b**: WORKSPACE_READY means entry succeeded. A refusal is a BLOCKED result with exit 78.
+      - **d**: conflux-guard is designed for this, but nothing shows it running.
+    points: 1
+
+  - key: m1-fleet-telemetry-dest
+    kind: single
+    domain: a1-architecture
+    prompt_md: "Where does the conflux-fleet-telemetry loader write, and what does it read?"
+    choices:
+      - { key: a, text: "It reads Claude and Codex session transcripts and writes to BigQuery madhare-ai.conflux_telemetry" }
+      - { key: b, text: "It reads OTLP from the collector and writes to Langfuse" }
+      - { key: c, text: "It reads run-event.v1 spools and writes to madhare-platform trace-ingest" }
+      - { key: d, text: "It reads the twin store and writes judge labels to SQLite" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. The unit description says "fleet sessions -> BigQuery
+      madhare-ai.conflux_telemetry". Its 2026-10-30 03:10 run loaded 1,044 rows (Claude turns
+      and agent runs, Codex turns, PR links, hooks). It runs from a detached worktree.
+
+      - **b**: that is the Claude Code OTel path, a separate system.
+      - **c**: that is the engine's designed path, which has run only on the stub provider.
+      - **d**: that is the twin harness, which has no store on disk.
+    points: 1
+
+  - key: m1-fork-canonical
+    kind: single
+    domain: a1-architecture
+    prompt_md: "What is `andrew-hodsdon/agent-runtime`, and why is it a finding?"
+    choices:
+      - { key: a, text: "The canonical engine; madharedev/conflux-engine is a read-only mirror of it" }
+      - { key: b, text: "A private fork of conflux-engine whose main is 6 commits ahead of upstream (including docs retrieval from PostgreSQL), with no stated canonical copy" }
+      - { key: c, text: "An archived prototype that nothing depends on" }
+      - { key: d, text: "The repo that builds the conflux-runtime Debian package" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. `gh repo view` names `madharedev/conflux-engine` as its parent, and the
+      compare shows ahead_by 6, behind_by 0. The work exists in two places, and which one is
+      canonical is unstated.
+
+      - **a**: nothing says the fork is canonical, and the process wants one canonical clone per repo, which points to upstream.
+      - **c**: it was pushed on 2026-10-30 and holds work upstream lacks.
+      - **d**: the .deb is built from conflux-engine's `packaging/debian`, at `d4ee1ab`.
+    points: 1
+
+  - key: m1-tests-location
+    kind: single
+    domain: a1-architecture
+    prompt_md: "You are adding a test scenario for a new conflux-api route. Where does it go?"
+    choices:
+      - { key: a, text: "conflux-api/test, next to gateway.e2e-spec.ts" }
+      - { key: b, text: "conflux-engine, because it has the most spec files" }
+      - { key: c, text: "A plans/ folder in the repo until the feature is accepted" }
+      - { key: d, text: "madhare-testing, under projects/conflux-api/" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. The process says "No tests in product repos. madhare-testing holds all
+      tests", and madhare-testing has `projects/conflux-api/`.
+
+      - **a**: existing in-repo specs are legacy that has not been moved yet (finding A14). Do not add more.
+      - **b**: conflux-engine's 29 spec files are the same violation, not a model.
+      - **c**: plans never go in a repo's `plans/` folder; plans are issues, and tests are not plans.
+    points: 1
+
+  - key: m1-fix-order-first
+    kind: single
+    domain: a1-architecture
+    prompt_md: "Of the architecture findings, which should be fixed first, and why?"
+    choices:
+      - { key: a, text: "Deleting the 14 empty epic branches, because it is the quickest" }
+      - { key: b, text: "Merging PR #86, because the running engine should be on main" }
+      - { key: c, text: "Turning off raw-content OTel export, because it is an ongoing client-data exposure and a configuration change with no dependencies" }
+      - { key: d, text: "Archiving madhare-api, because it causes the most confusion" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Every session sends prompts, tool content and API bodies to a SaaS
+      endpoint, so the harm grows daily, and the fix depends on nothing else.
+
+      - **a**: quick, but low severity; it removes clutter, not risk.
+      - **b**: the engine line is decided through release v1.0.0 (#87), which needs the 160-path conflict resolved. Merging #86 straight in is not the fix.
+      - **d**: worth doing (medium), but it is not urgent or harmful the way A3 is.
+    points: 1
+
+  - key: m1-two-engine-lines
+    kind: multi
+    domain: a1-architecture
+    prompt_md: "Which two statements about the two conflux-engine lines are true? Choose two."
+    choices:
+      - { key: a, text: "They diverged in mid-October and now conflict in about 160 paths, so neither merges cleanly into the other" }
+      - { key: b, text: "Line 2 is a strict superset of main, so merging it loses nothing" }
+      - { key: c, text: "Main has the agent-runtime, twin harness and guard; Line 2 has portal, tenants, JBC, installer and a BullMQ dispatcher" }
+      - { key: d, text: "Both lines publish the same package name, @madhare/conflux-engine" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right. The lines share history only up to the merge-base `554dd6c`
+      ("Add proprietary LICENSE", 2026-10-15), and #87 records the roughly 160-path conflict. Main has
+      `apps/agent-runtime`, `libs/harnesses/twin` and `libs/python/guard`; Line 2 has seven
+      apps with dashboard, dispatcher, installer, jbc, mobile, portal, support and tenants
+      modules.
+
+      - **b**: main's agent-runtime, twin and guard do not exist on Line 2, so a straight merge would lose them. That is open question 1 for Andrew.
+      - **d**: Line 2 is `@conflux/engine` 1.0.6; main is `@madhare/conflux-engine` 1.1.1.
+    points: 1
+
+  - key: m1-unmerged-deploys
+    kind: multi
+    domain: a1-architecture
+    prompt_md: "Which two of these run or are installed from something other than a merged branch? Choose two."
+    choices:
+      - { key: a, text: "madhare-web v1.0.0, released from its tag" }
+      - { key: b, text: "The conflux-core role plugins, from a detached worktree at f721fc0" }
+      - { key: c, text: "The OTel collector image, otel-collector-contrib 0.162.0" }
+      - { key: d, text: "The fleet-telemetry loader, from a worktree detached at cdd62ac on task/e3-fleet-telemetry" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right. Both are pushed commits that are not merged: f721fc0 is only
+      on open conflux-agents PR branches, and cdd62ac is on a task branch.
+
+      - **a**: madhare-web v1.0.0 is the one cleanly tagged release, the example to copy.
+      - **c**: a pinned upstream vendor image, not Mad Hare code from a branch.
+    points: 1
+
+  - key: m1-collector-exporters
+    kind: multi
+    domain: a1-architecture
+    prompt_md: "According to /opt/otel-collector/config.yaml, which two destinations receive traces from Claude Code sessions? Choose two."
+    choices:
+      - { key: a, text: "Langfuse" }
+      - { key: b, text: "BigQuery madhare-ai.conflux_telemetry" }
+      - { key: c, text: "madhare-platform /v1/telemetry/ingest" }
+      - { key: d, text: "Dynatrace" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right. The traces pipeline exports to `otlp_http/langfuse` and
+      `otlp_http/dynatrace`. Metrics and logs go to Dynatrace only.
+
+      - **b**: BigQuery is fed by the fleet-telemetry loader from transcript files, not by the collector.
+      - **c**: the platform's ingest is the engine runtime's optional destination; the collector does not send there.
+    points: 1
+
+  - key: m1-api-services
+    kind: multi
+    domain: a1-architecture
+    prompt_md: "Which two statements about Mad Hare's API services are true? Choose two."
+    choices:
+      - { key: a, text: "madhare-api is the gateway every Conflux client must call" }
+      - { key: b, text: "conflux-api is meant to be the one public endpoint, but its sessions are in memory and it has no image or CLI" }
+      - { key: c, text: "madhare-platform/apps/mh-api is the de facto Mad Hare API, with traces, agents, docs, board and Qdrant" }
+      - { key: d, text: "There is exactly one NestJS API in the organisation, so new routes have one obvious home" }
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** are right. conflux-api's README lists in-memory sessions, no image and no
+      CLI under "Not built yet". mh-api holds the real modules.
+
+      - **a**: the gateway is conflux-api. madhare-api is a hello-world placeholder.
+      - **d**: there are three NestJS "APIs" (conflux-api, madhare-api, mh-api), plus engine surfaces. That duplication is finding A6.
+    points: 1
+
+  - key: m1-version-identities
+    kind: multi
+    domain: a1-architecture
+    prompt_md: "Which two statements about Conflux version identities on 2026-10-30 are true? Choose two."
+    choices:
+      - { key: a, text: "main, the running engine and the installed .deb all report 1.0.0-dev" }
+      - { key: b, text: "The agreed 1.0.0-dev version is already merged to main" }
+      - { key: c, text: "The installed /usr/bin/conflux reports 0.1.0-dev.0, from the 10-27 reset, built at d4ee1ab" }
+      - { key: d, text: "main's package.json says 1.1.1, which is out of policy because main should carry a -dev version" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are right. The .deb's `release-info.json` shows `0.1.0-dev.0` and
+      `sourceRevision d4ee1ab`. main's `package.json` reads 1.1.1, while the policy says main
+      carries `X.Y.Z-dev`.
+
+      - **a**: there are four different identities: 1.1.1 (main), 1.0.6 (running), 0.1.0-dev.0 (.deb), 1.0.0-dev (agreed).
+      - **b**: 1.0.0-dev is only on draft PR #88 (`chore/version-1.0.0-dev`), unmerged.
+    points: 1
+
+  - key: m1-docs-drift
+    kind: multi
+    domain: a1-architecture
+    prompt_md: "Which two README claims are contradicted by the code on main? Choose two."
+    choices:
+      - { key: a, text: "conflux-engine libs/README.md: the libs 'contain no runtime library implementation'" }
+      - { key: b, text: "conflux-agents README: 'Each directory is empty except for its placement README'" }
+      - { key: c, text: "conflux-engine README: the API listens on 127.0.0.1:8792 by default" }
+      - { key: d, text: "agent-runtime README: 'No real provider call has been made from this service yet'" }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. `libs/harnesses/twin` and `libs/python/guard` are full Python
+      packages with tests, and conflux-agents main holds `agents/pemberton/*` and two skills
+      (#79, #80).
+
+      - **c**: true of Line 1's API. The running engine is a different line on 13080, but the README describes main correctly here.
+      - **d**: an honest statement, and the reason the turn service is Partial rather than Built.
+    points: 1
+
+  - key: m1-common-causes
+    kind: multi
+    domain: a1-architecture
+    prompt_md: "Lesson 6 traces most architecture findings to two common causes. Which two? Choose two."
+    choices:
+      - { key: a, text: "Too much test coverage slowing delivery" }
+      - { key: b, text: "Running and installing from unmerged branches, worktrees, forks and candidate directories" }
+      - { key: c, text: "Using semver instead of date-based versions" }
+      - { key: d, text: "Rebuilding per project instead of extending the service that owns the concern" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right. Running unmerged lines explains the engine on PR #86, the
+      plugin and telemetry deploys, the fork drift, the version chaos and the doc drift.
+      Rebuilding per project explains the three APIs, two queues, several trace stores and
+      two `conflux` binaries.
+
+      - **a**: no finding concerns too many tests; the test finding is about where tests live.
+      - **c**: semver is the policy and is sound. The problem is not following it.
+    points: 1

@@ -1,0 +1,535 @@
+slug: m5-quiz
+ordinal: 15
+title: "Module 5 quiz: How we work"
+kind: quiz
+draw: 15
+time_limit_min: 20
+pass_pct: 80
+instructions_md: |
+  15 questions drawn at random from a 26-question bank covering Module 5: the process as
+  written, sessions and the two process generations, the conflux-api golden path, auditing a
+  PR and a board, the week of 2026-10-20 to 10-30, and the findings and fixes. 20-minute
+  clock. Most questions have one best answer; questions marked "Choose two." need both
+  correct choices to score. Facts are as of 2026-10-30. Read every explanation afterwards,
+  and retake until you hold 80%.
+questions:
+  # ---------- Lesson 1: the process as written ----------
+  - key: m5-process-source-of-truth
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "A repo's `AGENTS.md` says feature PRs need two reviewers. The Mad Hare Operations file says one cross-model reviewer. Which governs, and why?"
+    choices:
+      - { key: a, text: "The Mad Hare Operations file (`madhare-support/agents/AGENTS.md`): it is the process, it wins on conflict, and repo files describe only structure and code" }
+      - { key: b, text: "The repo's `AGENTS.md`, because the more specific file always overrides the general one" }
+      - { key: c, text: "Whichever was edited most recently" }
+      - { key: d, text: "The org PR template in `madharedev/.github`, because templates are enforced by GitHub" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. The process file says it is **the** process, that it wins on any conflict,
+      and that repo `AGENTS.md` files describe only how a repo is structured and coded.
+
+      - **b** is the usual software convention, but the process explicitly reverses it for process rules.
+      - **c** has no basis. Recency doesn't decide authority, and process changes go through a PR to the process file.
+      - **d** is wrong twice. Templates hold no process, and the `.github` repo is private, so GitHub probably doesn't even apply them as defaults.
+    points: 1
+
+  - key: m5-feature-three-tasks
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "Under the process, which tasks does every feature have?"
+    choices:
+      - { key: a, text: "Design, build, deploy" }
+      - { key: b, text: "Code, test (cross-model review plus a documented Ran It with real input and output), and docs" }
+      - { key: c, text: "Story, checklist, review" }
+      - { key: d, text: "Code and test only; docs are written once per release" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. A feature has exactly three tasks. The code task implements it. The test
+      task is the cross-model review plus a Ran It with real input and output. The docs task is
+      the feature's own documentation. conflux-api #72/#73/#74 under #71 is the example.
+
+      - **a** isn't the structure. Deploys aren't per-feature tasks, and test environments are temporary.
+      - **c** is the older agentd WORKFLOW.md hierarchy (Feature → Story → checklist tasks), which the global process replaced.
+      - **d** is wrong because every feature ships its own docs task. The doc auditor checks it at feature Accepted.
+    points: 1
+
+  - key: m5-task-branch-name
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "Feature #71 has code task #72. Following the process, what is the code task's branch, and where is it cut from?"
+    choices:
+      - { key: a, text: "`feature/72-code`, cut from `main`" }
+      - { key: b, text: "`story/72-code`, cut from `andrew/review`" }
+      - { key: c, text: "`task/72-code`, cut from `feat/71-<slug>`" }
+      - { key: d, text: "`rls/72-code`, cut from `integration`" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The chain is `release/vX.Y.Z → epic/<issue>-<slug> → feat/<issue>-<slug> →
+      task/<issue>-<code|test|docs>`. Task branches are cut from the feature branch and merge
+      back into it, as `task/72-code` → `feat/71-cflx-run-dispatch` did in conflux-api#82.
+
+      - **a** uses a prefix outside the scheme and the wrong parent.
+      - **b** is the old agentd scheme (operator clones on `andrew/review`, `story/` branches). That remote branch no longer exists.
+      - **d** is the scheme the installed dispatcher agent still encodes, which conflux-agents#85 corrects.
+    points: 1
+
+  - key: m5-board-status-order
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "Which is the process's single status field, in order?"
+    choices:
+      - { key: a, text: "Backlog → Draft → In progress → In review → Accepted → Done" }
+      - { key: b, text: "Todo → In progress → Done" }
+      - { key: c, text: "New → Triaged → In progress → Resolved → Closed" }
+      - { key: d, text: "Backlog → Refining → Ready → In progress → In review → Accepted → Done, with Blocked as a flag" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. The process says there is "one status field everywhere", with these seven
+      statuses, and that Blocked is a flag, not a status.
+
+      - **a** is the agentd WORKFLOW.md set, which has `Draft` and lacks `Refining` and `Ready`.
+      - **b** is board 93's set, one of the boards that breaks the rule.
+      - **c** is close to the production support board's set (82). It's a support-desk flow, not the release status field.
+    points: 1
+
+  - key: m5-merge-approval-rule
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "An agent has a reviewed, accepted feature PR ready. What does the process require before it merges?"
+    choices:
+      - { key: a, text: "Andrew's explicit approval, given at the time, ahead of time for that named PR or set, or through release authority recorded on the release issue" }
+      - { key: b, text: "Nothing more: agents can merge anything, so acceptance is enough" }
+      - { key: c, text: "Agents must never merge. Only Andrew may press the button" }
+      - { key: d, text: "Approval from any human with write access to the repo" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. "Agents can merge anything", and "the one rule: every merge needs Andrew's
+      explicit approval". It can be given at the time, ahead of time for named PRs, or as release
+      authority recorded on the release issue.
+
+      - **b** quotes the first half of the rule and drops the approval requirement.
+      - **c** is the superseded agentd WORKFLOW.md rule ("Andrew… alone merges"). The process also says models must not refuse a merge on principle.
+      - **d** is wrong because the approval must be Andrew's, or a dispatcher's with recorded release authority.
+    points: 1
+
+  - key: m5-cross-model-reviewer
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "A change was authored by a Claude subagent. Which review satisfies the process's test task?"
+    choices:
+      - { key: a, text: "A second Claude Opus session running four review rounds" }
+      - { key: b, text: "A Codex review (for example `codex exec` in a read-only sandbox) of the head being merged, with findings, fixes and their validation recorded" }
+      - { key: c, text: "A GitHub Copilot ask on the PR" }
+      - { key: d, text: "The author's own self-review checklist in the PR body" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. The reviewer is always from a **different model family**. For a Claude author
+      that means Codex, as on conflux-api#82 (codex-cli 0.165.0, read-only, six rounds). The review
+      must cover the head that merges, with fixes validated.
+
+      - **a** is the same family. The process doesn't count it, however many rounds it runs.
+      - **c** isn't one of the defined routes. Even the old workspace said "a Copilot ask does not count".
+      - **d** is self-certification. No author certifies their own work.
+    points: 1
+
+  - key: m5-patch-release-use
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "You need to change a board's status options and edit the process file to describe it. No product code changes. How is this tracked?"
+    choices:
+      - { key: a, text: "It isn't tracked: configuration with no deployment needs no version" }
+      - { key: b, text: "As a minor release, because it adds a capability" }
+      - { key: c, text: "As a patch release, through a PR: core workflow and configuration changes are versioned even when nothing is deployed" }
+      - { key: d, text: "As an entry in a decision log in the hub" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Patch covers core workflow changes (templates, Actions, the process file) and
+      states that "configuration changes are tracked in a version, even when no deployment is
+      needed". Process changes are edits to the process file through a PR as a patch release.
+
+      - **a** contradicts that sentence directly.
+      - **b** is wrong. Minor is for agents, skills and tools in Conflux, or single endpoints elsewhere.
+      - **d** is wrong because the process says process changes are never entries in a decision log or register.
+    points: 1
+
+  - key: m5-tests-live-where
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "Where do the automated tests for a conflux-api feature belong?"
+    choices:
+      - { key: a, text: "In conflux-api's `test/` folder, next to the code" }
+      - { key: b, text: "In `madhare-testing`, which holds all tests. Product repos hold none" }
+      - { key: c, text: "In the epic's test-environment compose file" }
+      - { key: d, text: "In the PR body's Ran It section" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. "No tests in product repos. madhare-testing holds all tests." The golden-path
+      suite is madhare-testing#401, pinned to the conflux-api revision.
+
+      - **a** is what many projects do, but the process forbids it.
+      - **c** is wrong because a test environment brings containers up to run tests. It doesn't store them.
+      - **d** is evidence that a feature was used with real input and output. It's not a test suite.
+    points: 1
+
+  - key: m5-test-environment-meaning
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "In the process, what is an epic's **test environment**?"
+    choices:
+      - { key: a, text: "The configuration that starts temporary containers from existing images and seeded volumes, so Andrew can sign in and run each feature's command with no further setup, then tears them down" }
+      - { key: b, text: "A long-lived staging server in the lab that every epic shares" }
+      - { key: c, text: "Andrew's `~/dev` checkout, where features are tried before release" }
+      - { key: d, text: "The production deployment, with feature flags turned off" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. "A test environment is temporary and portable, not something that lives on
+      a filesystem." A run starts containers, runs, and is torn down. The epic's environment is the
+      configuration that brings them up. Until release, a feature's CLI runs only there. As of
+      2026-10-30 this is **Target**: conflux-api#70's is "TO BE WRITTEN".
+
+      - **b** is wrong. The lab is for major DevOps work, and routine feature testing doesn't depend on it.
+      - **c** is wrong. `~/dev` is Andrew's, and agents never work there.
+      - **d** is wrong. Unreleased CLIs aren't installed on machines, let alone run in production.
+    points: 1
+
+  # ---------- Lesson 2: sessions ----------
+  - key: m5-receipt-locked-meaning
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "A new bootstrap receipt in `/srv/work/dev/agentd/conflux/state/` reads `\"status\":\"WORKSPACE_READY\",\"dispatch\":\"LOCKED\"`. What does it mean?"
+    choices:
+      - { key: a, text: "The session may dispatch builders, because the workspace is ready" }
+      - { key: b, text: "Session-start failed and the session must stop" }
+      - { key: c, text: "Another session holds a lock on the workspace" }
+      - { key: d, text: "The clones were clean and the instructions were hashed, but there is no unexpired Andrew-approved dispatch batch (it expired 2026-10-22). A receipt is never permission" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. `WORKSPACE_READY` means bootstrap's checks passed. `dispatch` is
+      `APPROVED_BOUNDED` only with an unexpired, Andrew-approved `approved-dispatch.json` matching
+      the batch. That file expired at 2026-10-22T22:00Z, so every receipt since says LOCKED.
+      WORKFLOW.md: "A valid setup receipt is not permission to dispatch."
+
+      - **a** confuses readiness with permission.
+      - **b** is wrong: a refusal exits 78 and writes no READY receipt.
+      - **c** is wrong: LOCKED refers to dispatch authority, not a file or process lock.
+    points: 1
+
+  - key: m5-new-session-model
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "How were sessions actually created and coordinated in the new `/srv/conflux` layout from 2026-10-28?"
+    choices:
+      - { key: a, text: "Each session ran `./scripts/session-start` and received a role receipt" }
+      - { key: b, text: "Codex created one session per issue through `cflx run dispatch` against a live engine" }
+      - { key: c, text: "A cron job opened one session per board item every morning" }
+      - { key: d, text: "A hub session was forked into named persona sessions (Reeve, Calder, Rook…), which messaged each other and dispatched conflux-core subagents, with Codex called as reviewer" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. On 10-28 at 23:55Z one status session was forked into seven persona sessions.
+      They exchanged cross-session messages and dispatched subagents (299 transcripts that week),
+      and Codex was invoked with `codex exec` for review.
+
+      - **a** is the old agentd model. The new layout has no session-start receipts.
+      - **b** describes the feature being built. Its live-engine path was NOT RUN, because the engine has no run endpoint yet.
+      - **c** has no evidence. Nothing schedules sessions per board item.
+    points: 1
+
+  - key: m5-two-generations-folder
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "Why can a session opened in `/srv/work/dev/agentd/conflux` today behave differently from one opened in `/srv/conflux/projects/madhare/repos/conflux-api`?"
+    choices:
+      - { key: a, text: "It loads both the global process and the workspace's own `AGENTS.md`, which still mandates session-start, `andrew/review`, AGY review and 'Andrew alone merges'" }
+      - { key: b, text: "It runs a different Claude model" }
+      - { key: c, text: "Hooks are enabled only in the agentd workspaces" }
+      - { key: d, text: "It has no access to GitHub" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. The global file loads everywhere through `CLAUDE.md`. The agentd workspace's
+      `AGENTS.md` also loads as project instructions there, and it contradicts the global process
+      on statuses, PR template, merges, reviewer and branches. The global file wins on paper, but
+      both are in the session's context.
+
+      - **b** is wrong because the folder doesn't change the model.
+      - **c** is wrong: hooks are disabled globally and in six workspaces.
+      - **d** has no basis. `gh` works the same from both.
+    points: 1
+
+  # ---------- Lesson 3: golden path ----------
+  - key: m5-closed-by-hand-why
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "conflux-api#80's merge comment says the task issues and #71 'are closed by hand'. Why was that necessary?"
+    choices:
+      - { key: a, text: "The PR body forgot to say 'Closes #71'" }
+      - { key: b, text: "Hooks were disabled, and GitHub closes issues through a hook" }
+      - { key: c, text: "Closing keywords only close issues when the PR merges into the default branch, and #80 merged into `epic/70-…`" }
+      - { key: d, text: "The agent account lacks permission to close issues automatically" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. GitHub acts on "Closes #n" only for merges into the repository's default
+      branch. Every merge in the release → epic → feature → task chain targets a non-default
+      branch, so `closingIssuesReferences` is empty and someone must close by hand.
+
+      - **a** is false. #80's body says "Closes #71, closes #72, closes #73, closes #74".
+      - **b** confuses Claude client hooks with GitHub's server-side closing. They're unrelated.
+      - **d** is false. The same account closed them by hand moments later.
+    points: 1
+
+  - key: m5-not-run-honesty
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "The golden-path feature PR states 'Positive path with a live engine: NOT RUN.' Why is it still the model to follow?"
+    choices:
+      - { key: a, text: "Because a stub engine stood in for the live engine, which the process allows" }
+      - { key: b, text: "Because it reports the gap honestly with its cause (no engine run endpoint), uses no fake engine or dummy agents, runs every failure control it can, and lists the gap as still open" }
+      - { key: c, text: "Because NOT RUN counts as a pass once Andrew approves" }
+      - { key: d, text: "Because the positive path is optional for features" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. The process forbids fake agents and dummy results, not reporting a gap.
+      #80 says "No fake engine and no dummy agents were used anywhere", runs more than a dozen
+      failure controls, and lists the live path as open.
+
+      - **a** is false. No fake engine was used, and the process wouldn't accept one as the positive path.
+      - **c** is wrong. NOT RUN is never a pass. It is recorded as a gap.
+      - **d** is wrong. The positive path is the feature's purpose. It stays an open item until it runs.
+    points: 1
+
+  - key: m5-board-stale-after-merge
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "After #80 merged and #71–#74 were closed, board 89 still showed them **In review**. What does this most directly show?"
+    choices:
+      - { key: a, text: "The merge failed and was rolled back" }
+      - { key: b, text: "In review is the correct final status for closed tasks" }
+      - { key: c, text: "Board 89 is the support board, which uses different statuses" }
+      - { key: d, text: "Nothing moves board items after a hand close (no hook, no Action), so the board stopped telling the truth, which is what the board audit exists to catch" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. The issues were closed by hand, and no step or automation moved their board
+      items to Done. The board audit's test is that the operator can tell what's done from the
+      board, and here they can't.
+
+      - **a** is false. `mergedAt` is 06:44:23Z, and the merge commit exists on the epic branch.
+      - **b** is wrong. Closed and accepted work is Done.
+      - **c** is wrong. 89 is the Conflux v1.0.0 release board. The support board is 82.
+    points: 1
+
+  # ---------- Lesson 4: audit lab ----------
+  - key: m5-template-private-repo
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "Why are the org issue and PR templates probably not applied as defaults to Mad Hare repos?"
+    choices:
+      - { key: a, text: "`madharedev/.github` is private, and GitHub serves org-default templates only from a public `.github` repo" }
+      - { key: b, text: "The templates are YAML, and GitHub only reads Markdown templates" }
+      - { key: c, text: "Every repo has branch protection that blocks templates" }
+      - { key: d, text: "The templates were never merged" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. `gh repo view madharedev/.github --json visibility` returns `PRIVATE`.
+      GitHub's community-health defaults come from a **public** `.github` repo, so authors copy
+      the template by hand and section names drift. madhare-support also has its own template
+      folder, without a release template.
+
+      - **b** is false. GitHub supports both Markdown and YAML issue forms, and the PR template is Markdown.
+      - **c** is false. Branch protection doesn't affect templates, and most repos have little protection.
+      - **d** is false. They merged in `.github#2` on 2026-10-29.
+    points: 1
+
+  - key: m5-jbc-537-failure
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "What went wrong with jbc-site-plan-review-engine#537 on 2026-10-30?"
+    choices:
+      - { key: a, text: "Its Ran It used fake agents" }
+      - { key: b, text: "It was merged to a feature branch instead of main" }
+      - { key: c, text: "It had no hours" }
+      - { key: d, text: "It merged to `main` with 'Cross-model review: Not yet', and the Codex review that followed returned REQUEST_CHANGES with a major finding, so the defect was already on main" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. `mergedAt` is 10:50:07Z, and the REQUEST_CHANGES comment is 11:11:49Z, with a
+      major ownership-lifecycle finding. Merging before the review meant acceptance couldn't
+      confirm the review and its fixes.
+
+      - **a** is false. The Ran It ran real checks against a real database.
+      - **b** is backwards. It went from a task branch straight to `main`, skipping the feature and epic branches.
+      - **c** is false. It records 0.4 h.
+    points: 1
+
+  - key: m5-approval-identity
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "An approval review on #537 was posted under the `andrew-hodsdon` account and ends 'Recorded by the hub session (Claude Code)'. What is the problem, and the fix?"
+    choices:
+      - { key: a, text: "No problem: Andrew did say 'merge everything to main' in chat" }
+      - { key: b, text: "The review should have been REQUEST_CHANGES instead" }
+      - { key: c, text: "The record can't distinguish Andrew's approval from an agent's. Agents should record the approval as a comment from their own account (mh-devops-admin), quoting Andrew's words, time and session" }
+      - { key: d, text: "The fix is to delete the review" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The audit trail for "every merge needs Andrew's explicit approval" depends on
+      knowing who approved. An agent acting as the operator's GitHub identity erases that. Recording
+      from the agent's own account, with the quoted instruction, keeps both the approval and its
+      provenance.
+
+      - **a** confuses having an instruction with recording it truthfully. The instruction may be real, but the identity is wrong.
+      - **b** is unrelated. Review verdicts come from the cross-model reviewer, not the approval record.
+      - **d** destroys evidence and fixes nothing for next time.
+    points: 1
+
+  # ---------- Lessons 5–6: the week, findings and fixes ----------
+  - key: m5-fix-rebuilt-tooling
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "Six agentd workspaces carry `workspace.py` in four variants and six different `WORKFLOW.md` files. What is the right fix?"
+    choices:
+      - { key: a, text: "Diff the four variants and merge the best features into a fifth" }
+      - { key: b, text: "Retire them in one patch release: stub each workspace `AGENTS.md` to point at the global process, archive the old instructions, and delete the copies in the same PR" }
+      - { key: c, text: "Leave them for reference and add a note saying which one is current" }
+      - { key: d, text: "Re-enable hooks so each workspace enforces its own copy" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. The pattern is: put one copy in one place, load it everywhere, and delete the
+      others in the same PR. The global process already replaces WORKFLOW.md, so the old copies
+      should go.
+
+      - **a** creates a fifth variant, which is the rebuild pattern itself.
+      - **c** is how two process generations stayed live. A copy left in a folder is still loaded as project instructions.
+      - **d** goes against Andrew's direction to keep hooks off, and would enforce contradicting rules.
+    points: 1
+
+  - key: m5-hours-where
+    kind: single
+    domain: a5-how-we-work
+    prompt_md: "Where must hours be recorded, and what is the honest state of that as of 2026-10-30?"
+    choices:
+      - { key: a, text: "Only in a weekly spreadsheet; boards don't track time" }
+      - { key: b, text: "Only on epics, rolled up at release" }
+      - { key: c, text: "On every task's Actual hours field (meant to be set by the add-hours hook) and in the PR's Hours section. Today it's done by hand, since hooks are disabled. 12 of 16 sampled PRs had hours, and no live time report was found" }
+      - { key: d, text: "Hours are optional for agents" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The process requires hours on every task in every project, in the Actual
+      hours field (via the add-hours hook) and the PR's Hours section, plus a live time report.
+      With hooks off, hours are hand-typed. The audit found 12 of 16 PRs with hours, board 89 with
+      hours on 3 of 12 items, and no live report.
+
+      - **a** is wrong. The process names the board field and the PR section, not a spreadsheet.
+      - **b** is wrong. Hours go on every task. Epics don't replace that.
+      - **d** is wrong. There are no exceptions, "Sabai included".
+    points: 1
+
+  # ---------- Multi: choose two ----------
+  - key: m5-multi-workflow-conflicts
+    kind: multi
+    domain: a5-how-we-work
+    prompt_md: "Which two are real conflicts between the agentd `WORKFLOW.md` and the global process? Choose two."
+    choices:
+      - { key: a, text: "Statuses: WORKFLOW.md uses Backlog → Draft → …, the global process uses Refining and Ready" }
+      - { key: b, text: "Merge rights: WORKFLOW.md says Andrew alone merges; the global process says agents can merge anything with Andrew's explicit approval" }
+      - { key: c, text: "WORKFLOW.md puts tests in product repos, while the global process puts them in madhare-testing" }
+      - { key: d, text: "WORKFLOW.md requires hours, while the global process does not" }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. Both are documented conflicts (WORKFLOW.md line 11 against the
+      global §Branches/§Merging). Others are the PR template, the reviewer (AGY against Codex ⇄
+      Claude) and branches (`andrew/review` against the `release/` chain).
+
+      - **c** is false. Both put tests in madhare-testing (WORKFLOW.md: "Tests belong in madhare-testing").
+      - **d** is false. The global process requires hours on every task, and WORKFLOW.md also measures hours and turns.
+    points: 1
+
+  - key: m5-multi-golden-path-true
+    kind: multi
+    domain: a5-how-we-work
+    prompt_md: "Which two statements about the conflux-api epic #70 golden path are true? Choose two."
+    choices:
+      - { key: a, text: "Its per-epic test environment (a compose file) was written and used to run the feature command" }
+      - { key: b, text: "Its closing keywords closed #71–#74 automatically when #80 merged" }
+      - { key: c, text: "The code task had six Codex review rounds with 25 findings, and review was reopened after an approval when the test suite found a new defect" }
+      - { key: d, text: "Hours were recorded per task and rolled up on the feature PR: 2.6 + 0.85 + 0.8 = 4.25 h" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are right. PR #80 records six rounds on #82 with 25 findings. Round 4
+      approved, then the suite exposed a defect, and rounds 5–6 reviewed the fix. The merge comment
+      gives the hours roll-up.
+
+      - **a** is false. The epic still says "How to bring it up: TO BE WRITTEN by #73".
+      - **b** is false. Closing keywords don't act on non-default branches, so the issues were closed by hand.
+    points: 1
+
+  - key: m5-multi-stale-control-plane
+    kind: multi
+    domain: a5-how-we-work
+    prompt_md: "Which two references in the agentd conflux workspace's control plane are stale as of 2026-10-30? Choose two."
+    choices:
+      - { key: a, text: "`project.json` names board 72, which is closed" }
+      - { key: b, text: "`/srv/conflux/AGENTS.md` no longer resolves to madhare-support" }
+      - { key: c, text: "The `remote_baseline` `origin/andrew/review` no longer exists on conflux-engine and conflux-agents" }
+      - { key: d, text: "Receipts are written into the madhare-testing repo" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right. `gh project view 72` shows `closed=true`, and
+      `gh api …/branches/andrew%2Freview` returns 404. The dispatch approval (expired 10-22) and
+      all leases (expired by 10-28) are stale too.
+
+      - **b** is false. `readlink -f /srv/conflux/AGENTS.md` resolves to `madhare-support/agents/AGENTS.md`.
+      - **d** is false. Receipts live in the workspace's own `state/` folder.
+    points: 1
+
+  - key: m5-multi-readonly-audit
+    kind: multi
+    domain: a5-how-we-work
+    prompt_md: "During the audit lab, which two commands are safe, read-only ways to gather evidence? Choose two."
+    choices:
+      - { key: a, text: "`gh pr merge 537 --admin -R madharedev/jbc-site-plan-review-engine` to check whether it can merge" }
+      - { key: b, text: "`gh pr view 82 -R madharedev/conflux-api --json headRefName,baseRefName,mergedBy,closingIssuesReferences,projectItems`" }
+      - { key: c, text: "`./scripts/session-start --role coordination --session operator-review` to see the current receipt" }
+      - { key: d, text: "`gh project field-list 89 --owner madharedev --format json`" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right. `gh pr view` and `gh project field-list` only read.
+
+      - **a** writes. It would merge (or attempt to), which is forbidden in a lab and needs Andrew's approval.
+      - **c** writes a receipt into workspace state. To inspect receipts, `cat` the existing `state/bootstrap-*.json` files instead.
+    points: 1
+
+  - key: m5-multi-target-items
+    kind: multi
+    domain: a5-how-we-work
+    prompt_md: "Which two parts of the written process are **Target** (not running) as of 2026-10-30? Choose two."
+    choices:
+      - { key: a, text: "The local-model judge that breaks review ties" }
+      - { key: b, text: "The global process file loaded by Claude and Codex" }
+      - { key: c, text: "The Operator Request issue type in madhare-support" }
+      - { key: d, text: "A per-epic test environment Andrew can sign in to with no further setup" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right. No chat or judge model is served on mh-ai (only an embedding
+      model), and no PR names a local judge. Even the golden-path epic's environment is "TO BE
+      WRITTEN".
+
+      - **b** is Built. It has been merged and loaded since 2026-10-29. (Codex's symlink to it went missing late on 10-30, Module 3 finding 6, but that is a break, not Target.)
+      - **c** is Built. madhare-support #78–#94 use it to queue decisions for Andrew.
+    points: 1
+
+  - key: m5-multi-merge-review-fix
+    kind: multi
+    domain: a5-how-we-work
+    prompt_md: "Which two changes would best prevent another 'merged before cross-model review' like jbc#537? Choose two."
+    choices:
+      - { key: a, text: "Skip cross-model review when Andrew says to merge quickly, and note it afterwards" }
+      - { key: b, text: "Branch protection on `main`, `release/*` and `epic/*` requiring a check or review that only the cross-model step posts" }
+      - { key: c, text: "Answer any 'merge everything' instruction with each PR's review state (APPROVE, NOT RUN, REQUEST_CHANGES) before merging, so the approval is informed" }
+      - { key: d, text: "Let the authoring model review its own change when Codex is busy" }
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** are right. Branch protection is enforced by GitHub on every merge and doesn't
+      depend on the disabled client hooks. Reporting review state turns a blanket instruction into
+      an informed decision, and costs one `gh pr view` per PR.
+
+      - **a** institutionalises the failure. Acceptance requires the review before the merge.
+      - **d** is same-family self-review, which the process explicitly excludes.
+    points: 1

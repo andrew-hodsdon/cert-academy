@@ -1,0 +1,353 @@
+sources:
+  # ---------- Conflux proper ----------
+  - slug: m2-conflux-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/README.md
+    title: "conflux-engine README (main, 13801f5)"
+    site: GitHub
+    tags: [conflux, design, runtime]
+    summary_md: |
+      States the design (one NestJS monorepo, planner, orchestrator, ephemeral workers, agent
+      definitions as versioned database data), that the agent runtime is "a process shell", that the
+      API listens on 127.0.0.1:8792 with a fail-closed authenticator, and "Keep this release local".
+  - slug: m2-conflux-arch-010
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/docs/architecture/0.1.0/README.md
+    title: "Conflux 0.1.0 three-tier architecture"
+    site: GitHub
+    tags: [conflux, architecture]
+    summary_md: |
+      The agreed runtime direction (three tiers, BullMQ queue events). Documents direction, not
+      implemented worker orchestration.
+  - slug: m2-conflux-agent-runtime-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/apps/agent-runtime/README.md
+    title: "conflux-engine apps/agent-runtime README"
+    site: GitHub
+    tags: [conflux, runtime, providers]
+    summary_md: |
+      The turn service: POST /internal/v1/turns, API-key providers only, budget refusals, a single
+      prompt path, run-event.v1 JSONL spool. Built on the STUB provider; no real provider call made.
+  - slug: m2-conflux-pr86
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/pull/86
+    title: "conflux-engine PR #86: Consolidate the live Conflux engine (OPEN)"
+    site: GitHub
+    tags: [conflux, deploy, findings]
+    summary_md: |
+      The feat/engine-consolidated line (1.0.6, 5f6b308) that actually runs on the dev machine on
+      port 13080. Open, unmerged, as of 2026-10-30.
+  - slug: m2-conflux-issue87
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/issues/87
+    title: "conflux-engine #87: release issue, version and baseline"
+    site: GitHub
+    tags: [conflux, release, versions]
+    summary_md: |
+      Records the ~160 path conflicts between main and the consolidated line, and the 2026-10-29
+      version decision: main 1.0.0-dev, release branch 1.0.0-rc.N, tag v1.0.0.
+  - slug: m2-conflux-api-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/blob/44a3f09cecf20b4b8eb18415028d28c7b4a24d8e/README.md
+    title: "conflux-api README (main)"
+    site: GitHub
+    tags: [conflux, gateway]
+    summary_md: |
+      conflux-api is meant to be the one public endpoint for every client. Sessions in memory, engine
+      route not built yet, no CLI and no image.
+  - slug: m2-conflux-agents-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/b15c16210e93e312b97bc4a789be570068285d49/README.md
+    title: "conflux-agents README (main)"
+    site: GitHub
+    tags: [conflux, agents]
+    summary_md: |
+      Places agents, roles, skills, tools and profiles; canonical records "live in the configured
+      database". Says its directories are empty, though Pemberton is merged.
+  - slug: m2-global-process
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/agents/AGENTS.md
+    title: "Mad Hare Operations (global AGENTS.md)"
+    site: GitHub
+    tags: [process]
+    summary_md: |
+      The one process: releases, branch names, board states, "No tests in product repos", minimal CI,
+      "No process pointers to ChatGPT Pages", Sabai's staging-and-promotion rule, Code A Zone's
+      andrew/review reconciliation, hours on every task.
+  - slug: m2-research-architecture
+    kind: web
+    url: https://github.com/madharedev/conflux-engine/tree/5f6b308ddd69f31f9d53caf22a59a783be622d01
+    title: "conflux-engine feat/engine-consolidated tree (5f6b308), the running line"
+    site: GitHub
+    tags: [conflux, runtime]
+    summary_md: |
+      The tree of the running engine line. Audit notes (2026-10-30): `conflux version` reports
+      1.0.6 at 5f6b308; health answers on 127.0.0.1:13080; the service binds 0.0.0.0.
+
+  # ---------- Code A Zone / JBC ----------
+  - slug: m2-caz-readme
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/README.md
+    title: "code-a-zone README (main, 3fda7a5)"
+    site: GitHub
+    tags: [code-a-zone, deploy]
+    summary_md: |
+      Public site vs private dist/, "Never serve the repository root or publish dist/ to the public
+      website", deployment boundary, Dockerfiles. Still describes routes retired by #51.
+  - slug: m2-caz-review-portal-doc
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/docs/REVIEW-PORTAL.md
+    title: "code-a-zone docs/REVIEW-PORTAL.md"
+    site: GitHub
+    tags: [code-a-zone, portal]
+    summary_md: |
+      How the Review Portal is served: GCP load balancer plus IAP, static private server for pages,
+      /api/* routed to the jbc-engine /v1/*.
+  - slug: m2-caz-review-package
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/review/package.json
+    title: "code-a-zone review/package.json"
+    site: GitHub
+    tags: [code-a-zone, portal, duplication]
+    summary_md: |
+      Describes the portal as ported from jbc-site-plan-review-portal (andrew/review dd742bf): a copy,
+      not a shared package.
+  - slug: m2-caz-transport
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/review/src/lib/engine/transport.ts
+    title: "code-a-zone review/src/lib/engine/transport.ts"
+    site: GitHub
+    tags: [code-a-zone, portal, auth]
+    summary_md: |
+      Same-origin transport: /api/x goes to engine /v1/x using the viewer's IAP session. The portal
+      holds no token.
+  - slug: m2-caz-serve-public
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/scripts/serve-public.py
+    title: "code-a-zone scripts/serve-public.py"
+    site: GitHub
+    tags: [code-a-zone, security, lab]
+    summary_md: |
+      The static server: BIND_HOST must be 127.0.0.1 or 0.0.0.0 (lines 15-17); on loopback it refuses
+      any Host header other than its own (DNS-rebinding guard, lines 24-30 and 69-80); /api paths
+      return 503 locally (around line 54).
+  - slug: m2-caz-build-public
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/scripts/build-public.mjs
+    title: "code-a-zone scripts/build-public.mjs"
+    site: GitHub
+    tags: [code-a-zone, build, lab]
+    summary_md: |
+      Builds the public or private audience from a clean tree only and stamps version.json with the
+      revision. Refuses a dirty tree ("Clean source required").
+  - slug: m2-caz-release-metadata
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/scripts/release-metadata.mjs
+    title: "code-a-zone scripts/release-metadata.mjs"
+    site: GitHub
+    tags: [code-a-zone, build]
+    summary_md: |
+      Resolves and checks the source revision; a SOURCE_REVISION that does not match the checkout throws.
+  - slug: m2-caz-package-release
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/scripts/package-release.py
+    title: "code-a-zone scripts/package-release.py"
+    site: GitHub
+    tags: [code-a-zone, release, lab]
+    summary_md: |
+      Deterministic public and private tarballs with manifests and SHA256SUMS. Produces no tag and no
+      registry digest.
+  - slug: m2-caz-hosting-json
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/.openai/hosting.json
+    title: "code-a-zone .openai/hosting.json"
+    site: GitHub
+    tags: [code-a-zone, findings, security]
+    summary_md: |
+      Declares the static directory as dist, which is the private audience (financial model, founder
+      worksheet). Contradicts the README's deployment boundary.
+  - slug: m2-caz-release-config
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/release/config.json
+    title: "code-a-zone release/config.json"
+    site: GitHub
+    tags: [code-a-zone, versions]
+    summary_md: |
+      targetVersion 0.1.0, while the release issue is v1.0.0. Still lists retired routes.
+  - slug: m2-caz-cloud-move-plan
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/docs/cloud-move/PLAN.md
+    title: "code-a-zone docs/cloud-move/PLAN.md"
+    site: GitHub
+    tags: [code-a-zone, cloud]
+    summary_md: |
+      The cloud plan: AlloyDB database jbc (trial ends 2026-11-06), Dynatrace telemetry being set up,
+      dependence on a home-workstation embedder for wave 2.
+  - slug: m2-caz-pr52
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/pull/52
+    title: "code-a-zone PR #52: Retire the old portal (OPEN, head d6566ae)"
+    site: GitHub
+    tags: [code-a-zone, deploy, findings]
+    summary_md: |
+      The cutover to the Review Portal. Its revision code-a-zone-private-review-d6566ae serves 100% of
+      private traffic while the PR is open.
+  - slug: m2-caz-issue51
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/issues/51
+    title: "code-a-zone #51: portal cutover issue and deployment comment"
+    site: GitHub
+    tags: [code-a-zone, deploy]
+    summary_md: |
+      Records the live deployment of d6566ae and the URL-map change on 2026-10-30.
+  - slug: m2-caz-issue1
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/issues/1
+    title: "code-a-zone #1: release v1.0.0"
+    site: GitHub
+    tags: [code-a-zone, release, branches]
+    summary_md: |
+      The v1.0.0 release issue. Cut release/v1.0.0 from andrew/review "not main, which is far
+      behind". On GitHub today main contains all of andrew/review and is 15 commits ahead.
+  - slug: m2-caz-pr37
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/pull/37
+    title: "code-a-zone PR #37: merge the live site build to main"
+    site: GitHub
+    tags: [code-a-zone, branches]
+    summary_md: |
+      A feature branch merged straight to main, bypassing the release/epic/feature chain.
+  - slug: m2-jbc-engine-pyproject
+    kind: repo
+    url: https://github.com/madharedev/jbc-site-plan-review-engine/blob/aed486b7680349b7538688ce3413b5729844fcf9/pyproject.toml
+    title: "jbc-site-plan-review-engine pyproject.toml (main, aed486b)"
+    site: GitHub
+    tags: [code-a-zone, jbc, runtime]
+    summary_md: |
+      Package mh-site-plan-review 0.1.0.dev0, script jbc = site_plan_review.cli:main, agents extra
+      pins google-adk 2.10.0 and litellm 1.102.1.
+  - slug: m2-jbc-engine-criteria-agent
+    kind: repo
+    url: https://github.com/madharedev/jbc-site-plan-review-engine/blob/aed486b7680349b7538688ce3413b5729844fcf9/agents/criteria/agent.yaml
+    title: "jbc-site-plan-review-engine agents/criteria/agent.yaml"
+    site: GitHub
+    tags: [code-a-zone, jbc, agents]
+    summary_md: |
+      One of four agents defined as YAML in the repo (criteria, evidence, review, report): model
+      gemini_vertex/gemini-2.5-pro, temperature 0, budget and limits.
+  - slug: m2-jbc-engine-readme
+    kind: repo
+    url: https://github.com/madharedev/jbc-site-plan-review-engine/blob/aed486b7680349b7538688ce3413b5729844fcf9/README.md
+    title: "jbc-site-plan-review-engine README"
+    site: GitHub
+    tags: [code-a-zone, jbc]
+    summary_md: |
+      The engine and its status vocabulary: a subjective criterion is never met by code; it is
+      needs_interpretation with a model recommendation beside it.
+  - slug: m2-jbc-tests-pin
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/projects/jbc/PIN
+    title: "madhare-testing projects/jbc/PIN"
+    site: GitHub
+    tags: [code-a-zone, tests]
+    summary_md: |
+      The JBC suite is pinned to engine b6984dc (about 2026-10-13). No scenarios exist for
+      code-a-zone or the Review Portal.
+
+  # ---------- Sabai ----------
+  - slug: m2-sabai-readme
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/blob/491285e33b18954b7cad75462e0b2a277e17b391/README.md
+    title: "sabai-engine README (release/v1.0.0, 491285e)"
+    site: GitHub
+    tags: [sabai, cli, provenance]
+    summary_md: |
+      Install path (uv build, uv venv, keep umask 022), the exit-code table, and the Provenance
+      section listing the files copied from conflux-engine 35f4733 and 4e4d041.
+  - slug: m2-sabai-pyproject
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/blob/491285e33b18954b7cad75462e0b2a277e17b391/pyproject.toml
+    title: "sabai-engine pyproject.toml"
+    site: GitHub
+    tags: [sabai, versions]
+    summary_md: |
+      Package sabai-engine 1.0.0, Python >=3.12,<3.13, entry point sabai = sabai_engine.cli:main.
+  - slug: m2-sabai-preflight
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/blob/491285e33b18954b7cad75462e0b2a277e17b391/src/sabai_engine/claude_preflight.py
+    title: "sabai-engine claude_preflight.py"
+    site: GitHub
+    tags: [sabai, guard]
+    summary_md: |
+      The usage guard before any provider call: 95% quota stop, a required per-run cap with no
+      default (CLI-006).
+  - slug: m2-sabai-azure-pg
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/blob/491285e33b18954b7cad75462e0b2a277e17b391/tools/azure/sabai_azure_pg.py
+    title: "sabai-engine tools/azure/sabai_azure_pg.py"
+    site: GitHub
+    tags: [sabai, azure, auth]
+    summary_md: |
+      Managed-identity token from IMDS, verify-full TLS, refuses group- or world-writable config
+      (SABAI-AZURE-PG-CONFIG-UNSAFE-FILE).
+  - slug: m2-sabai-migrate
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/blob/491285e33b18954b7cad75462e0b2a277e17b391/bin/sabai-db-migrate
+    title: "sabai-engine bin/sabai-db-migrate"
+    site: GitHub
+    tags: [sabai, migrations, lab]
+    summary_md: |
+      Migration runner with a checksum manifest. The inventory mode works offline
+      (database_contacted false) and reports MATCH or CHECKSUM_MISMATCH per file.
+  - slug: m2-sabai-migration-001
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/blob/491285e33b18954b7cad75462e0b2a277e17b391/db/migrations/audit/001_schemas.sql
+    title: "sabai-engine db/migrations/audit/001_schemas.sql (PostgreSQL)"
+    site: GitHub
+    tags: [sabai, data]
+    summary_md: |
+      The PostgreSQL port of the audit plane. The client's ADO master still carries the SQL Server
+      version (db/sql/audit/001-schemas.sql, local clone only).
+  - slug: m2-sabai-main
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/tree/637b79332c58d6a7906538b3c0fe12e98d8c61f9
+    title: "sabai-engine main (637b793, Initial commit)"
+    site: GitHub
+    tags: [sabai, release, findings]
+    summary_md: |
+      main is one commit, a README. The pushed annotated tag v1.0.0 resolves to this commit, not to
+      the release head 491285e.
+  - slug: m2-sabai-pr130
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/pull/130
+    title: "sabai-engine PR #130: release v1.0.0 (OPEN)"
+    site: GitHub
+    tags: [sabai, release]
+    summary_md: |
+      The release PR. Lists known defects deferred to 1.2.0 and claims 2.0 hours not recorded on any task.
+  - slug: m2-sabai-issue120
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/issues/120
+    title: "sabai-engine #120: managed Azure PostgreSQL and the live run"
+    site: GitHub
+    tags: [sabai, azure, ran-it]
+    summary_md: |
+      Records the managed PostgreSQL server and the first live audited run (2026-10-30 01:52Z).
+  - slug: m2-sabai-issue131
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/issues/131
+    title: "sabai-engine #131: hours ledger"
+    site: GitHub
+    tags: [sabai, hours]
+    summary_md: |
+      The ledger has 129 records and stops at 2026-10-17; three copies disagree on invoice stamps.
+      The only task with Actual hours on board 94.
+  - slug: m2-sabai-issue39
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/issues/39
+    title: "sabai-engine #39: release plan and epics (E7 promotion)"
+    site: GitHub
+    tags: [sabai, release, promotion]
+    summary_md: |
+      Says wave-1 issues are on projects 94 and 93 (today 94 holds one item). Promotion to ADO is
+      epic E7, still Target.

@@ -1,0 +1,307 @@
+sources:
+  - slug: m1-engine-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/README.md
+    title: "conflux-engine README (main @ 13801f5)"
+    authors: [Mad Hare]
+    site: GitHub
+    published: 2026-10-24
+    tags: [conflux-engine, architecture]
+    summary_md: |
+      Main-line engine README. The API listens on 127.0.0.1:8792 by default (line 29), the
+      unconfigured authenticator returns 503 (line 32), "Keep this release local until those
+      controls exist" (line 34), and it calls apps/agent-runtime a "process shell" (lines 10,
+      68), which contradicts the agent-runtime README. Used in lessons 1, 2, 3 and 6.
+
+  - slug: m1-engine-runtime-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/apps/agent-runtime/README.md
+    title: "conflux-engine apps/agent-runtime README (main @ 13801f5)"
+    authors: [Mad Hare]
+    site: GitHub
+    published: 2026-10-24
+    tags: [agent-runtime, tracing]
+    summary_md: |
+      The turn service. Status "Built, with tests on the STUB provider… No real provider call
+      has been made" (line 5). Run discipline: one prompt path enforced by check:prompt-path
+      (line 51); run-event.v1 envelopes to a JSONL spool, optional POST to the platform
+      ingest, trace_missing on failure, "Message content is never traced" (line 53); API-key
+      providers only, OAuth/Vertex env refused (line 54). Used in lessons 1, 5 and 6.
+
+  - slug: m1-engine-libs-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/libs/README.md
+    title: "conflux-engine libs/README.md (main @ 13801f5)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [conflux-engine, docs-drift]
+    summary_md: |
+      Says the placement directories "contain no runtime library implementation" (line 30),
+      while libs/harnesses/twin and libs/python/guard are full Python packages. Doc drift
+      finding in lesson 6.
+
+  - slug: m1-engine-twin-schema
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/libs/harnesses/twin/src/conflux_twin/schema.sql
+    title: "Twin harness SQLite schema (conflux_twin/schema.sql)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [twin, tracing]
+    summary_md: |
+      The twin-run store: run, step, model_call, tool_call tables with append-only triggers.
+      Used for Claude-vs-Conflux A/B labels. Partial: no store database was found on disk on
+      2026-10-30. Used in lessons 1 and 5.
+
+  - slug: m1-engine-guard-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/libs/python/guard/README.md
+    title: "conflux-guard README (libs/python/guard)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [guard, audit]
+    summary_md: |
+      A policy-as-JSON monitor that replaces instruction-file ceremony (line 4) and "never
+      blocks a tool call and installs no hooks" (line 6). Not seen running. Used in lesson 5.
+
+  - slug: m1-engine-alloy-doc
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/docs/resources/alloy.md
+    title: "conflux-engine docs/resources/alloy.md"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [alloydb, conflux-engine]
+    summary_md: |
+      The AlloyDB resource reads management metadata only and "does not connect to
+      PostgreSQL, manage local AlloyDB Omni…" (line 3). Evidence that main has no database
+      client. Used in lesson 1.
+
+  - slug: m1-engine-consolidated-package
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/5f6b308ddd69f31f9d53caf22a59a783be622d01/package.json
+    title: "feat/engine-consolidated package.json (@conflux/engine 1.0.6 @ 5f6b308)"
+    authors: [Mad Hare]
+    site: GitHub
+    published: 2026-10-29
+    tags: [conflux-engine, versions]
+    summary_md: |
+      The package that runs on the dev machine: name @conflux/engine, version 1.0.6, at the
+      head of the unmerged PR #86 branch. Used in lessons 2 and 4.
+
+  - slug: m1-engine-pr86
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/pull/86
+    title: "conflux-engine PR #86: Consolidate the live Conflux engine with the conflux CLI"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [conflux-engine, deploy]
+    summary_md: |
+      Open draft PR for feat/engine-consolidated (Line 2). Its head 5f6b308 is what
+      conflux-engine-local.service runs on port 13080. Used in lessons 1, 2, 3 and 6.
+
+  - slug: m1-engine-issue87
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/issues/87
+    title: "conflux-engine #87: Release v1.0.0, one engine line that runs agent workflows on any platform"
+    authors: [Mad Hare]
+    site: GitHub
+    published: 2026-10-29
+    tags: [release, versions]
+    summary_md: |
+      The release issue. "Version and baseline": main carries 1.0.0-dev (draft #88),
+      release/v1.0.0 carries 1.0.0-rc.N, tag v1.0.0, decided 2026-10-29; the live line is PR
+      #86 and "conflicts with main in about 160 paths"; pre-reset tags v1.1.0 and v0.9.95
+      stay. Used in lessons 1, 4 and 6.
+
+  - slug: m1-engine-releases
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/releases
+    title: "conflux-engine GitHub releases"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [releases, versions]
+    summary_md: |
+      As of 2026-10-30: "Conflux 0.9.95 — Engine 1.1.1" (v0.9.95, Latest, 10-24), a draft
+      "Conflux 0.1.0 — three-tier monorepo architecture" (10-23) and "Conflux Engine 1.1.0 —
+      local API foundation" (v1.1.0, 10-23). Neither pre-reset release is marked "pre-reset,
+      superseded". Used in lessons 4 and 6.
+
+  - slug: m1-engine-pr88
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/pull/88
+    title: "conflux-engine PR #88: set version 1.0.0-dev (draft)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [versions]
+    summary_md: |
+      The draft PR named in #87 that moves main to 1.0.0-dev (branch chore/version-1.0.0-dev).
+      Unmerged on 2026-10-30, so main still reads 1.1.1. Used in lesson 4.
+
+  - slug: m1-conflux-api-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/blob/44a3f09cecf20b4b8eb18415028d28c7b4a24d8e/README.md
+    title: "conflux-api README (main @ 44a3f09)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [conflux-api, gateway]
+    summary_md: |
+      "The one public Conflux product endpoint. Every client goes through it" (line 3). The
+      "Not built yet" section (line 50) lists persistent sessions (everything is in memory),
+      the engine turn endpoint, a CLI and an image. Used in lessons 1, 3 and 6.
+
+  - slug: m1-conflux-api-architecture
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/blob/44a3f09cecf20b4b8eb18415028d28c7b4a24d8e/docs/architecture.md
+    title: "conflux-api docs/architecture.md"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [conflux-api, architecture]
+    summary_md: |
+      "Clients call only this API" (line 30): the platform is the system of record and the
+      engine the only place a provider SDK runs. Router table: local route Built (ran against
+      Ollama qwen3:0.6b, 2026-10-23, line 56); engine route gateway side Built, engine
+      endpoint Target (line 57). Used in lessons 1 and 3.
+
+  - slug: m1-conflux-agents-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/b15c16210e93e312b97bc4a789be570068285d49/README.md
+    title: "conflux-agents README (main @ b15c162)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [conflux-agents, source-of-truth]
+    summary_md: |
+      Says main "intentionally contains no active agent implementations" after the v1.1.0
+      reset, that canonical records "live in the configured database" (lines 7-10), and that
+      "Each directory is empty". In fact Pemberton is merged (#79/#80). Used in lessons 3 and 6.
+
+  - slug: m1-conflux-agents-pr83
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/83
+    title: "conflux-agents PR #83: Conflux role agent packages, conflux-gen generator, skills and hooks"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [conflux-agents, deploy]
+    summary_md: |
+      Open PR. The installed conflux-core role plugins (coder, tester, dispatcher, doc-*) are
+      built from a detached worktree of this line at f721fc0, not from main. Used in lessons
+      2, 3 and 6.
+
+  - slug: m1-madhare-api-controller
+    kind: repo
+    url: https://github.com/madharedev/madhare-api/blob/c5ac55822838c141b86a96acba7840a8d0e590fb/src/app.controller.ts
+    title: "madhare-api src/app.controller.ts (main @ c5ac558)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [madhare-api]
+    summary_md: |
+      The whole controller: one GET that returns the starter "Hello World!" string. With
+      /health, that is the entire API. PR #18 ("expose GitHub CRUD endpoints") merged docs
+      only. Used in lessons 3 and 6.
+
+  - slug: m1-platform-mh-api
+    kind: repo
+    url: https://github.com/madharedev/madhare-platform/tree/f96f3148ea5816470cf5b4ea2eb1cde03f3e8c29/apps/mh-api/src
+    title: "madhare-platform apps/mh-api/src (main @ f96f314)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [madhare-platform, system-of-record]
+    summary_md: |
+      The de facto Mad Hare API: agent-run-trace, agents (memory, Qdrant store), board, docs,
+      queue, telemetry, trace-ingest and many more modules. Tagged "Release v0.1.0
+      (platform)" on 2026-10-15. Used in lessons 1, 3 and 5.
+
+  - slug: m1-platform-trace-ingest
+    kind: repo
+    url: https://github.com/madharedev/madhare-platform/tree/f96f3148ea5816470cf5b4ea2eb1cde03f3e8c29/apps/mh-api/src/trace-ingest
+    title: "madhare-platform trace-ingest module"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [tracing, madhare-platform]
+    summary_md: |
+      Implements POST /v1/telemetry/ingest, the destination the agent-runtime posts its
+      run-event.v1 envelopes to when TRACE_INGEST_URL is set. Used in lesson 5.
+
+  - slug: m1-agent-runtime-fork
+    kind: repo
+    url: https://github.com/andrew-hodsdon/agent-runtime/compare/madharedev:main...main
+    title: "andrew-hodsdon/agent-runtime compared with madharedev/conflux-engine main"
+    authors: [Andrew Hodsdon]
+    site: GitHub
+    tags: [fork, source-of-truth]
+    summary_md: |
+      A private fork of conflux-engine. On 2026-10-30 its main is 6 commits ahead and 0
+      behind upstream main (docs retrieval from PostgreSQL #66, resource fixes #61/#63, a
+      release/local merge). Which copy is canonical is unstated. Used in lessons 3 and 6.
+
+  - slug: m1-process-agents-md
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/agents/AGENTS.md
+    title: "Mad Hare Operations process (madhare-support agents/AGENTS.md)"
+    authors: [Mad Hare]
+    site: GitHub
+    published: 2026-10-29
+    tags: [process, versions]
+    summary_md: |
+      The global process, merged 2026-10-29 (PR #65). Sets the version policy (main X.Y.Z-dev,
+      release branch rc.N, tag at release, superseded pre-reset tags marked), "Nothing is
+      deployed from a commit that isn't pushed", one source of truth per repo, and "No tests
+      in product repos". Used in lessons 1, 3, 4 and 6.
+
+  - slug: m1-support-issue93
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/issues/93
+    title: "madhare-support #93: Rotate two exposed tokens"
+    authors: [Mad Hare]
+    site: GitHub
+    published: 2026-10-30
+    tags: [security, tracing]
+    summary_md: |
+      Operator request to rotate two exposed tokens (the AlloyDB proxy, passed on a command
+      line, and the Dynatrace ingest token). Shows that the telemetry path itself is in the
+      security incident queue. Used in lessons 5 and 6.
+
+  - slug: m1-otel-collector-docs
+    kind: vendor_docs
+    url: https://opentelemetry.io/docs/collector/configuration/
+    title: "OpenTelemetry Collector configuration"
+    authors: [OpenTelemetry]
+    site: opentelemetry.io
+    tags: [otel, tracing]
+    summary_md: |
+      How receivers, processors, exporters and service pipelines fit together. Needed to read
+      /opt/otel-collector/config.yaml in the tracing lab: one otlp receiver fanning out to
+      several exporters per signal. Used in lessons 2 and 5.
+
+  - slug: m1-claude-code-monitoring
+    kind: vendor_docs
+    url: https://docs.anthropic.com/en/docs/claude-code/monitoring-usage
+    title: "Claude Code: monitoring usage with OpenTelemetry"
+    authors: [Anthropic]
+    site: docs.anthropic.com
+    tags: [otel, claude-code, privacy]
+    summary_md: |
+      Documents the OTEL_* environment variables Claude Code reads, including the opt-in
+      switches that add user prompt text and tool content to exported events. Prompt content
+      is off by default; turning it on is a deliberate choice. Used in lesson 5.
+
+  - slug: m1-semver
+    kind: standard
+    url: https://semver.org/spec/v2.0.0.html
+    title: "Semantic Versioning 2.0.0"
+    authors: [Tom Preston-Werner]
+    site: semver.org
+    tags: [versions]
+    summary_md: |
+      Defines pre-release identifiers (1.0.0-dev, 1.0.0-rc.1) and their precedence below the
+      release. The basis of the Mad Hare version policy taught in lesson 4.
+
+  - slug: m1-github-default-files
+    kind: vendor_docs
+    url: https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file
+    title: "GitHub: creating a default community health file"
+    authors: [GitHub]
+    site: docs.github.com
+    tags: [github, templates]
+    summary_md: |
+      Org-default issue and PR templates are served only from a public .github repository.
+      Cross-reference for why a private madharedev/.github undermines the process. Used in
+      lesson 6.

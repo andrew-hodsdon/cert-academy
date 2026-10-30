@@ -1,0 +1,407 @@
+sources:
+  - slug: m4-global-process
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/agents/AGENTS.md
+    title: "Mad Hare Operations: the global process file (madhare-support agents/AGENTS.md @ 865da77)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [process, testing, hours, test-environments]
+    summary_md: |
+      The process. Line 53: repos with their own ISSUE_TEMPLATE keep a copy of the release
+      template. Line 59: "Releases start here" (madhare-support). Line 120: test environments
+      are temporary and portable. Line 135: "No tests in product repos". Lines 155-156: hours
+      via the add-hours hook and "A live time report must be available at all times". Used in
+      lessons 1, 4, 5, 7 and 9.
+
+  - slug: m4-pkg-install-doc
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/d4ee1ab9b37eab30f0d374c686fe23e27ba2a66a/docs/releases/install-debian.md
+    title: "Conflux 0.1.0-dev.0 Debian install and rollback (conflux-engine @ d4ee1ab)"
+    authors: [Mad Hare]
+    site: GitHub
+    published: 2026-10-27
+    tags: [conflux, package, runtime]
+    summary_md: |
+      Source of the installed `/usr/share/doc/conflux-runtime/README.md`. Ships the Engine API
+      and agent runtime with a foreground `conflux` CLI; no systemd unit; the env example is
+      "never automatically evaluated"; the offline recipe with `ENGINE_STUB=1` (line 37); API
+      on 8792, runtime on 8793; bad options exit 64, health failures exit 1. Used in lessons 2,
+      3 and 4.
+
+  - slug: m4-runtime-readme-pkg
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/d4ee1ab9b37eab30f0d374c686fe23e27ba2a66a/apps/agent-runtime/README.md
+    title: "agent-runtime README at the packaged revision (d4ee1ab)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [agent-runtime, ndjson, error-codes, tracing]
+    summary_md: |
+      "No real provider call has been made from this service yet" (line 5). The only work route
+      is `POST /internal/v1/turns` (line 9); REQ-001 on bad input (line 19); NDJSON response
+      ending in `usage` or `error`; the code table (AGT-001, BUD-001, MDL-*, TRC-001); run
+      discipline (one prompt path, budget refusal, run-event.v1 traces, API keys only). Used in
+      lessons 2, 3 and 4.
+
+  - slug: m4-conflux-cli-script
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/d4ee1ab9b37eab30f0d374c686fe23e27ba2a66a/scripts/conflux.mjs
+    title: "The packaged conflux CLI (scripts/conflux.mjs @ d4ee1ab)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [conflux, cli]
+    summary_md: |
+      The whole `/usr/bin/conflux` program: `version`, `health`, `start`. Anything else throws
+      "Unknown command" with exit 64 (lines 15-26); a failed health check sets exit 1 (line 50).
+      Used in lessons 2 and 4.
+
+  - slug: m4-engine-main-package
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/package.json
+    title: "conflux-engine package.json on main (13801f5)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [versions, conflux-engine]
+    summary_md: |
+      Main carries version 1.1.1, not an `X.Y.Z-dev` version as the process requires. The third
+      of three Conflux versions on one host (deb 0.1.0-dev.0, user-local 1.0.6, main 1.1.1).
+      Used in lessons 2 and 9.
+
+  - slug: m4-engine-ci
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/blob/13801f53295b082a26d8f9cd7cc425788d27535e/.github/workflows/ci.yml
+    title: "conflux-engine CI workflow (main @ 13801f5)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [ci, testing]
+    summary_md: |
+      Runs `npm run typecheck|lint|test` (in-repo vitest specs) and gitleaks on self-hosted
+      runners. It does not call madhare-testing. Evidence that product repos hold tests, against
+      the process. Used in lessons 5 and 9.
+
+  - slug: m4-engine-issue87
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/issues/87
+    title: "conflux-engine#87: Release v1.0.0: one engine line that runs agent workflows on any platform"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [release, dispatch]
+    summary_md: |
+      Open as of 2026-10-30. The madhare-testing conflux-api suite marks its 10 dispatch
+      scenarios PENDING against this issue ("no engine implements /internal/v1/runs"). Used in
+      lessons 2, 5 and 9.
+
+  - slug: m4-conflux-api-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/blob/44a3f09cecf20b4b8eb18415028d28c7b4a24d8e/README.md
+    title: "conflux-api README (main @ 44a3f09)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [gateway, cflx]
+    summary_md: |
+      The gateway. Main has `scripts/dev.sh` but the `cflx` CLI lives on the epic branch the
+      test suite pins (`6518568`). Used in lessons 2 and 4.
+
+  - slug: m4-mht-readme
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/README.md
+    title: "madhare-testing README (main @ ecf3cc1)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [testing, harness]
+    summary_md: |
+      Repository map and entry points. Line 9 gives the harness volume root as
+      `/srv/work/dev/testing/volumes/<project>/`, which disagrees with docs/harness.md. Line 46:
+      "Host step (Andrew, once)" to replace the `mha` wrapper, not yet done. Line 91: `make
+      test-all`. Used in lessons 1, 5 and 6.
+
+  - slug: m4-mht-makefile
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/Makefile
+    title: "madhare-testing Makefile (ecf3cc1)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [testing]
+    summary_md: |
+      Top-level targets. Lines 76 and 79 scan `/srv/work/dev/repos/...` paths that do not exist.
+      Line 126: `test-all` runs substrate, verifier, surface, certification and rls in order, so
+      the archived-repo crash in surface/rls stops it. Used in lessons 5 and 6.
+
+  - slug: m4-mht-harness-doc
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/docs/harness.md
+    title: "Test harness: one container per client project (docs/harness.md)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [harness, test-environments]
+    summary_md: |
+      One shell container plus a FAKE-seeded PostgreSQL 18 + pgvector per project; host volume
+      at `/srv/hot/runtime/<env>/volumes/<project>/`; `make down` keeps the host volume (line
+      31); isolated copies with their own PROJECT, PROFILE and port (lines 39-47); every stack
+      joins the shared `mht-shared` network, which nothing removes. Used in lessons 5, 6 and 7.
+
+  - slug: m4-mht-verifier-test
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/verifier/test.sh
+    title: "Verifier suite (verifier/test.sh)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [testing, rot]
+    summary_md: |
+      Scenarios 9 and 10 (lines 116 and 123) scan `/srv/work/dev/repos/madhare-platform` and
+      `/srv/work/dev/repos/madhare-agents`, neither of which exists, so the suite is 18/20 on
+      any machine laid out per the current workspace rules. Used in lessons 5, 6 and 9.
+
+  - slug: m4-mht-rls
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/rls/harness/rls.py
+    title: "rls harness: fresh clone of the release branch (rls/harness/rls.py)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [testing, archived-repo]
+    summary_md: |
+      Lines 12-13 hard-code `madhare-agents.git` and branch `rls/madhare-agents-v0.1.0`. The
+      repo is archived and the branch is gone, so test-surface and test-rls crash with git exit
+      128. Used in lessons 5 and 9.
+
+  - slug: m4-mht-sabai-profile
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/harness/projects/sabai.env
+    title: "Sabai harness profile (harness/projects/sabai.env)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [sabai, harness]
+    summary_md: |
+      `HARNESS_SRC=/srv/work/dev/repos/sabai-agent-platform`: a missing path pointing at an
+      archived repo. `make up PROJECT=sabai` is REFUSED with exit 2. Used in lessons 1, 6 and 9.
+
+  - slug: m4-mht-conflux-api-runner
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/projects/conflux-api/run-suite
+    title: "conflux-api suite runner (projects/conflux-api/run-suite)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [testing, pin]
+    summary_md: |
+      Header: the system under test is a fresh clone at the PIN SHA, "never a working tree";
+      PENDING scenarios are listed, never run and never counted as passed; exit 0/1/2 meanings.
+      Used in lessons 5 and 6.
+
+  - slug: m4-mht-jbc-pin
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/projects/jbc/PIN
+    title: "JBC suite engine pin (projects/jbc/PIN)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [jbc, pin]
+    summary_md: |
+      Pins the JBC engine at `b6984dc` (around 2026-10-13). Suites test what is pinned, so a fix
+      merged upstream later does not show until the pin moves. Used in lessons 5 and 6.
+
+  - slug: m4-mht-certification
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/blob/ecf3cc1bf3ff13863dd7fbb3aba5437b85f99a30/certification/README.md
+    title: "Certification engine (\"Vera Prosecutor\") README"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [certification, testing-law]
+    summary_md: |
+      The quality gate that enforces "Andrew's Testing Law" (no string-match assertions, no mock
+      bypasses). Run on the repo itself, `make audit` finds 8 violations, so `make
+      test-certification` is 25/26 REJECTED. Used in lessons 5 and 9.
+
+  - slug: m4-jbc-issue212
+    kind: repo
+    url: https://github.com/madharedev/jbc-site-plan-review-engine/issues/212
+    title: "jbc-site-plan-review-engine#212: 0013_chunk_search fails under a non-superuser owner (S-09)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [jbc, known-bug]
+    summary_md: |
+      The known cause of JBC scenario S-09. Closed as of 2026-10-30, but the suite still runs the
+      pinned engine SHA, so S-09 still fails in a run. Used in lesson 6.
+
+  - slug: m4-jbc-pyproject
+    kind: repo
+    url: https://github.com/madharedev/jbc-site-plan-review-engine/blob/aed486b7680349b7538688ce3413b5729844fcf9/pyproject.toml
+    title: "JBC engine pyproject.toml (main @ aed486b)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [jbc, cli]
+    summary_md: |
+      Declares the `jbc` console script (`site_plan_review.cli:main`, line 35). The CLI is not
+      on the host PATH; it runs inside the harness container. Used in lesson 4.
+
+  - slug: m4-caz-package
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/package.json
+    title: "code-a-zone package.json (main @ 3fda7a5)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [code-a-zone, build]
+    summary_md: |
+      `npm run build` (public site) and `npm run build:private`; version 0.1.0-dev.0. The
+      canonical clone's stale local `main` (e6bb0e1) has no build script, so check out the real
+      `origin/main` in a scratch clone. Used in lesson 4.
+
+  - slug: m4-caz-serve-public
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/blob/3fda7a5e627ea6667f8786417ee1d1fe8afbb1c9/scripts/serve-public.py
+    title: "code-a-zone static server (scripts/serve-public.py)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [code-a-zone, security]
+    summary_md: |
+      Static server with a loopback Host guard; refuses any BIND_HOST other than 127.0.0.1 or
+      0.0.0.0; `/api/*` returns 503 with no engine. Crashes with `FileNotFoundError: '/app'`
+      without `PUBLIC_ROOT`, which the README does not mention. Used in lesson 4.
+
+  - slug: m4-sabai-release-readme
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/blob/491285e33b18954b7cad75462e0b2a277e17b391/README.md
+    title: "sabai-engine README on release/v1.0.0 (491285e)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [sabai, cli]
+    summary_md: |
+      The `sabai` CLI, its install path (uv build, venv, umask 022), exit-code table and the
+      Provenance section listing files copied from conflux-engine `35f4733`. On the unmerged
+      release branch; `main` is a README only. Used in lessons 1 and 4.
+
+  - slug: m4-sabai-pr130
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/pull/130
+    title: "sabai-engine PR #130: release v1.0.0 (open)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [sabai, release]
+    summary_md: |
+      The open release PR. Claims "Hours 2.0" without hours on any task; lists defects deferred
+      to 1.2.0. Used in lessons 4 and 7.
+
+  - slug: m4-support-readme
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/README.md
+    title: "madhare-support README (main @ 865da77)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [support, triage]
+    summary_md: |
+      Board (org project 82) columns New → Triaged → In progress → Waiting on customer →
+      Resolved → Closed (line 5); intake via support.madhare.ai or an issue (line 6); sev-1 to
+      sev-5 (lines 13-17); cases keep their MH- number; product issues link back with "Support
+      case: ..." (line 24); `/public` replies (line 25); forms generated from case-forms.json
+      (line 27). Used in lessons 7 and 8.
+
+  - slug: m4-support-forms
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/packages/ops/forms/case-forms.json
+    title: "Case forms contract (packages/ops/forms/case-forms.json)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [support, forms]
+    summary_md: |
+      The single source for the support issue forms: Support request, Defect, Incident. No
+      Release form. The YAML in .github/ISSUE_TEMPLATE is generated from it. Used in lessons 7
+      and 8.
+
+  - slug: m4-support-ops-package
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/packages/ops/package.json
+    title: "@madhare/ops package.json"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [support, ops]
+    summary_md: |
+      "Shared Mad Hare operations domain": scripts `build`, `test` (`node --test`), `forms`,
+      `forms:check`. Used in lessons 4, 7 and 8.
+
+  - slug: m4-support-forms-ci
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/.github/workflows/forms.yml
+    title: "madhare-support forms workflow (.github/workflows/forms.yml)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [ci, support]
+    summary_md: |
+      One of only four repos with CI: `npm ci`, build, `npm test` and `forms:check` for
+      @madhare/ops. Runs product-repo tests, not madhare-testing. Used in lessons 5, 7 and 8.
+
+  - slug: m4-support-templates
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/tree/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/.github/ISSUE_TEMPLATE
+    title: "madhare-support issue templates (config, defect, incident, support)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [support, templates]
+    summary_md: |
+      Four generated files and no release template. Because the repo has its own templates, the
+      org default `release.md` does not show here. Used in lessons 1, 7, 8 and 9.
+
+  - slug: m4-org-templates
+    kind: repo
+    url: https://github.com/madharedev/.github/tree/c99d68197aa58f86411e4af4ebc229a2ff3837b8/.github/ISSUE_TEMPLATE
+    title: "Org default issue templates (madharedev/.github @ c99d681)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [templates]
+    summary_md: |
+      config, defect, epic.md, feature.md, incident, release.md, remainder.md, support, task.md.
+      Compare with madhare-support's four. Used in lessons 7 and 8.
+
+  - slug: m4-support-runbook-deploy
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/runbooks/deploy-0-1-0.md
+    title: "Runbook: deploy 0.1.0 (runbooks/deploy-0-1-0.md)"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [runbook, deploy]
+    summary_md: |
+      Cites madhare-infra#129 (archived repo). Every script is dry-run by default and
+      `--execute` (or `EXECUTE=1`) is the only gate that writes. Used in lesson 7.
+
+  - slug: m4-support-issue95
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/issues/95
+    title: "madhare-support#95: [Incident] Codex desktop tool bridge rejects result_buffered_for_ns after package update"
+    authors: [Mad Hare]
+    site: GitHub
+    tags: [incident, support]
+    summary_md: |
+      An open incident in the support repo, used as the walk-through case in lab 8. Most nearby
+      issues (#81-#94) are operator tasks rather than customer cases. Used in lessons 7 and 8.
+
+  - slug: m4-systemd-run
+    kind: web
+    url: https://www.freedesktop.org/software/systemd/man/latest/systemd-run.html
+    title: "systemd-run(1) manual"
+    authors: [systemd project]
+    site: freedesktop.org
+    tags: [systemd, mhjob]
+    summary_md: |
+      `systemd-run --user --scope` runs a command in a transient scope unit; transient units do
+      not survive a reboot. Explains both `mhjob` and why ad-hoc services started this way are
+      fragile. Used in lessons 1, 2, 4 and 9.
+
+  - slug: m4-ndjson-spec
+    kind: web
+    url: https://github.com/ndjson/ndjson-spec
+    title: "NDJSON: newline-delimited JSON specification"
+    authors: [ndjson]
+    site: GitHub
+    tags: [ndjson, streaming]
+    summary_md: |
+      One JSON value per line. The runtime's turn stream uses it, which is why an error arrives
+      as the last line of an HTTP 200 response rather than as an HTTP error. Used in lessons 2
+      and 3.
+
+  - slug: m4-claude-hooks-docs
+    kind: web
+    url: https://docs.anthropic.com/en/docs/claude-code/hooks
+    title: "Claude Code hooks reference"
+    authors: [Anthropic]
+    site: Anthropic docs
+    tags: [hooks, hours]
+    summary_md: |
+      Hooks (PreToolUse, PostToolUse...) run only when enabled; `disableAllHooks: true` turns
+      every hook off. That is why the process's add-hours hook records nothing on this fleet.
+      Used in lessons 7 and 9.

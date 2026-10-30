@@ -1,0 +1,484 @@
+slug: m2-quiz
+ordinal: 12
+title: "Module 2 quiz: Conflux, Code A Zone and Sabai"
+kind: quiz
+draw: 15
+time_limit_min: 20
+pass_pct: 80
+instructions_md: |
+  15 questions drawn at random from a bank of 28 on Module 2, 20 minutes. Most questions have one
+  answer; questions marked "Choose two." need both correct options for the point. Facts are as of
+  2026-10-30. Retake until you hold 80% or more, then read every explanation, including the ones you
+  got right.
+questions:
+  # ---------- Conflux proper ----------
+  - key: m2-conflux-agents-as-data
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      According to the conflux-engine README, what is the source of truth for a Conflux agent definition?
+    choices:
+      - { key: a, text: "A Markdown file in the conflux-agents repo" }
+      - { key: b, text: "An immutable, versioned database record; Markdown and plugin bundles are generated exports" }
+      - { key: c, text: "A YAML file under agents/<name>/agent.yaml in the engine repo" }
+      - { key: d, text: "A JSON locator file bundled in the engine wheel" }
+    answer: [b]
+    explanation_md: |
+      **b** is the design stated in the engine README. **a** inverts it: Markdown is an export, not
+      the source. **c** is how Code A Zone's JBC engine stores agents. **d** is how Sabai stores its
+      two technical agents. The three formats are incompatible, which is one reason agents cannot be shared.
+    points: 1
+  - key: m2-conflux-running-line
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      You run `~/.local/opt/conflux-engine/bin/conflux version` on the dev machine and get version 1.0.6.
+      What code is that?
+    choices:
+      - { key: a, text: "conflux-engine main, package 1.1.1" }
+      - { key: b, text: "The .deb conflux-runtime 0.1.0-dev.0" }
+      - { key: c, text: "The feat/engine-consolidated line at 5f6b308, open PR #86, unmerged" }
+      - { key: d, text: "The agreed 1.0.0-dev version on main" }
+    answer: [c]
+    explanation_md: |
+      **c**: the running engine is `@conflux/engine` 1.0.6 from the consolidated line, open as PR #86.
+      **a** is wrong: main is 1.1.1 at 13801f5 and is not what runs. **b** is the other binary named
+      `conflux` (`/usr/bin/conflux`), which installs no service. **d** is the agreed target, carried
+      only by open PRs.
+    points: 1
+  - key: m2-conflux-reuse-today
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      A new client project asks which Conflux package or service it should depend on for model turns.
+      What is the accurate answer as of 2026-10-30?
+    choices:
+      - { key: a, text: "None yet: the turn service is Built on a stub provider only and the gateway route to the engine is Target" }
+      - { key: b, text: "conflux-api, which is deployed and routes turns to the engine" }
+      - { key: c, text: "The Python cflx CLI, which is the current Conflux interface" }
+      - { key: d, text: "The conflux-agents package published to npm" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: nothing in Conflux is consumable by a client line yet. **b** is wrong: conflux-api
+      has in-memory sessions, no image and no engine route. **c** is wrong: cflx was the 10-22 Python
+      generation, since rebuilt as a NestJS monorepo. **d** is wrong: conflux-agents is not a published
+      package, and its canonical records live in an unnamed database.
+    points: 1
+  - key: m2-conflux-bind
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      Why is the running engine's listener on `0.0.0.0:13080` a finding?
+    choices:
+      - { key: a, text: "Port 13080 is reserved for the OTel collector" }
+      - { key: b, text: "The engine should listen on 8792 because that is the README default" }
+      - { key: c, text: "Binding all interfaces is always forbidden by the global process" }
+      - { key: d, text: "The engine's own README says to keep the release local until authentication controls exist, and 0.0.0.0 exposes it beyond loopback" }
+    answer: [d]
+    explanation_md: |
+      **d**: main's README says "Keep this release local until those controls exist"; binding all
+      interfaces contradicts that. **a** is invented. **b** confuses the main line's default port with
+      the risk; the issue is exposure, not the number. **c** overstates: Code A Zone's container binds
+      0.0.0.0 legitimately behind an edge that does Host routing.
+    points: 1
+  - key: m2-conflux-reuse-rules
+    kind: multi
+    domain: a2-implementations
+    prompt_md: |
+      Which two rules in the global process say client lines should reuse rather than rebuild? Choose two.
+    choices:
+      - { key: a, text: "\"Libraries and packages are preferred over custom code\"" }
+      - { key: b, text: "\"Published tags are never rewritten\"" }
+      - { key: c, text: "\"Like products are designed in like ways\"" }
+      - { key: d, text: "\"Blocked is a flag, not a status\"" }
+      - { key: e, text: "\"Every merge needs Andrew's explicit approval\"" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are the engineering standards that make reuse the default. **b** is a release
+      rule about tags. **d** is a board rule. **e** is the merge rule. All three are real, but none is
+      about reuse.
+    points: 1
+
+  # ---------- Code A Zone ----------
+  - key: m2-caz-runtime-repo
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      Which repo holds the runtime that actually reviews site plans for Code A Zone?
+    choices:
+      - { key: a, text: "code-a-zone" }
+      - { key: b, text: "jbc-site-plan-review-engine (CLI jbc, API jbc serve)" }
+      - { key: c, text: "conflux-engine, through its JBC module" }
+      - { key: d, text: "jbc-gcp-infra" }
+    answer: [b]
+    explanation_md: |
+      **b**: the engine is the runtime, deployed as Cloud Run `jbc-engine`. **a** holds static sites and
+      the Review Portal only. **c** is wrong: Code A Zone imports no Conflux code, even though the
+      unmerged consolidated Conflux line has a JBC module. **d** is the Terraform for `jbc3-platform`.
+    points: 1
+  - key: m2-caz-agent-stack
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      What does the JBC engine use as its agent runtime?
+    choices:
+      - { key: a, text: "The Conflux agent-runtime turn service" }
+      - { key: b, text: "The local Claude Code CLI under a usage guard" }
+      - { key: c, text: "Azure AI Foundry" }
+      - { key: d, text: "Google ADK with LiteLLM, models such as Gemini 2.5 Pro on Vertex" }
+    answer: [d]
+    explanation_md: |
+      **d**: pyproject pins google-adk 2.10.0 and litellm 1.102.1, and the criteria agent uses
+      `gemini_vertex/gemini-2.5-pro`. **a** is wrong: the engine has no Conflux dependency. **b** is
+      Sabai's live path. **c** was the provider in Sabai's archived second-generation runtime.
+    points: 1
+  - key: m2-caz-needs-interpretation
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      The JBC engine meets a subjective criterion ("compatible with neighbourhood character"). How is it recorded?
+    choices:
+      - { key: a, text: "needs_interpretation, with the model's recommendation beside it; it is never marked met" }
+      - { key: b, text: "met, if the model is confident" }
+      - { key: c, text: "not_met, because code cannot decide it" }
+      - { key: d, text: "It is skipped and left out of the report" }
+    answer: [a]
+    explanation_md: |
+      **a** is the engine's status vocabulary: code decides, models recommend. **b** would let a model
+      decide a subjective requirement, which the design forbids. **c** would be a false failure. **d**
+      would hide a requirement from the review board.
+    points: 1
+  - key: m2-caz-api-flow
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      In production, how does the Review Portal in the browser get run data?
+    choices:
+      - { key: a, text: "The static server proxies /api to the engine with a stored service token" }
+      - { key: b, text: "The portal calls the engine's public URL with an API key in the bundle" }
+      - { key: c, text: "It calls /api/x on its own origin; the load balancer routes it to engine /v1/x with the viewer's IAP identity, and the engine checks its allow-list" }
+      - { key: d, text: "It reads a nightly JSON export committed under dist/review" }
+    answer: [c]
+    explanation_md: |
+      **c** matches transport.ts and REVIEW-PORTAL.md: same origin, routed by the load balancer, the
+      portal holds no token. **a** is wrong: the static server never proxies, which is why /api returns
+      503 locally. **b** is wrong and would leak a key. **d** confuses the committed compiled portal
+      code with data.
+    points: 1
+  - key: m2-caz-host-guard
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      The local preview returns 403 for `Host: evil.example:4199`. What does the 403 prove?
+    choices:
+      - { key: a, text: "That the caller is not signed in" }
+      - { key: b, text: "That the caller lacks the engine allow-list entry" }
+      - { key: c, text: "That the port is wrong" }
+      - { key: d, text: "That the request was not addressed to this server's own authority; it is a DNS-rebinding guard, not authentication" }
+    answer: [d]
+    explanation_md: |
+      **d**: on loopback the server serves only its own Host, compared whole, so a foreign page that
+      resolves its name to 127.0.0.1 cannot read the preview. **a** and **b** are authentication and
+      authorization, which are IAP's and the engine's jobs. **c** is wrong: the port matched; the host
+      name did not.
+    points: 1
+  - key: m2-caz-clean-build
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      Why does `scripts/build-public.mjs` refuse to build with an uncommitted edit?
+    choices:
+      - { key: a, text: "So the revision stamped into version.json is true: what is served can always be traced to a commit" }
+      - { key: b, text: "Because npm cannot read modified files" }
+      - { key: c, text: "To force a git push before every build" }
+      - { key: d, text: "Because the public build includes dist/" }
+    answer: [a]
+    explanation_md: |
+      **a**: a dirty tree would make the revision stamp a lie, breaking the rule that nothing is
+      deployed from an unpushed commit. **b** is false. **c** overstates: the check is on cleanliness
+      and the matching revision, not a push. **d** is wrong: the public build excludes dist/.
+    points: 1
+  - key: m2-caz-branch-state
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      On GitHub on 2026-10-30, what is the relation between code-a-zone `main` and `andrew/review`?
+    choices:
+      - { key: a, text: "andrew/review is about 600 commits ahead, so main must never be treated as current" }
+      - { key: b, text: "main contains all of andrew/review and is 15 commits ahead; release/v1.0.0 equals main" }
+      - { key: c, text: "They have no common history" }
+      - { key: d, text: "They are identical" }
+    answer: [b]
+    explanation_md: |
+      **b**: `git rev-list --left-right --count origin/main...origin/andrew/review` gives `15 0`. **a**
+      is the old state-memory line; it is still true for the old portal but false for code-a-zone. **c**
+      is wrong: andrew/review is an ancestor of main. **d** is wrong: main is 15 ahead.
+    points: 1
+  - key: m2-caz-stale-local
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      In a plain clone of the canonical code-a-zone clone, `npm run build` fails with "Missing script: build". Why?
+    choices:
+      - { key: a, text: "Node is too old" }
+      - { key: b, text: "The build script was removed from GitHub main" }
+      - { key: c, text: "The canonical clone's local main is stale at e6bb0e1, where package.json is still the investor-model package" }
+      - { key: d, text: "You must run it inside review/" }
+    answer: [c]
+    explanation_md: |
+      **c**: the clone copies the stale local main; GitHub main is 3fda7a5 and has the script. That is
+      why the lab fetches `refs/remotes/origin/main`. **a** is wrong: the error names a missing script,
+      not a version. **b** is wrong: GitHub main builds. **d** is wrong: review/ is the portal source
+      and needs network for npm ci.
+    points: 1
+  - key: m2-caz-prod-unmerged
+    kind: multi
+    domain: a2-implementations
+    prompt_md: |
+      Which two statements about Code A Zone production on 2026-10-30 are true? Choose two.
+    choices:
+      - { key: a, text: "The private site runs from main 3fda7a5" }
+      - { key: b, text: "The private site runs revision code-a-zone-private-review-d6566ae from open PR #52" }
+      - { key: c, text: "The engine is deployed only from tagged releases" }
+      - { key: d, text: "The Review Portal has its own scenarios in madhare-testing" }
+      - { key: e, text: "The engine was promoted from an unmerged engine PR (#595), and both merges await Andrew" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are recorded on #51 and in the state journal. **a** is wrong: what runs differs
+      from main. **c** is wrong: there are no tags for code-a-zone, and the engine ran an unmerged PR.
+      **d** is wrong: there are no scenarios for code-a-zone or the portal.
+    points: 1
+  - key: m2-caz-hosting-json
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      Why is `.openai/hosting.json` in code-a-zone rated High severity?
+    choices:
+      - { key: a, text: "It contains a deploy token" }
+      - { key: b, text: "It points a hosting tool at dist/, the private audience holding the financial model and founder worksheet" }
+      - { key: c, text: "It breaks the build" }
+      - { key: d, text: "It routes the engine to the wrong project" }
+    answer: [b]
+    explanation_md: |
+      **b**: the README says never publish dist/ publicly; anything that honours this file would publish
+      the private audience. **a** is wrong: it holds a directory setting, not a secret. **c** is wrong:
+      builds ignore it. **d** is wrong: it has nothing to do with engine routing.
+    points: 1
+  - key: m2-caz-instructions
+    kind: multi
+    domain: a2-implementations
+    prompt_md: |
+      What is wrong with `/srv/conflux/projects/code-a-zone/AGENTS.md`? Choose two.
+    choices:
+      - { key: a, text: "It points agents at a ChatGPT Page, which the global process forbids as a process pointer" }
+      - { key: b, text: "It is a symlink to the global AGENTS.md" }
+      - { key: c, text: "It is checked into the code-a-zone repo on main" }
+      - { key: d, text: "It tells agents to read site-planning-jbc/state.json, which does not exist" }
+      - { key: e, text: "It enables Claude hooks" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are the findings: a forbidden ChatGPT pointer and a non-existent state file.
+      **b** is what it should effectively be, not what it is. **c** is wrong: it is a local project
+      file, not on main. **e** is unrelated and not claimed by the audit.
+    points: 1
+
+  # ---------- Sabai ----------
+  - key: m2-sabai-staging
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      According to the global process, what is `madharedev/sabai-engine`?
+    choices:
+      - { key: a, text: "Sabai's production repo, which the client deploys from" }
+      - { key: b, text: "An archived predecessor of the ADO repo" }
+      - { key: c, text: "A fork of conflux-engine" }
+      - { key: d, text: "Staging: releases are promoted from it into Sabai's Azure DevOps repos" }
+    answer: [d]
+    explanation_md: |
+      **d** is the Product-line variation for Sabai. **a** inverts it: the client's repo is in ADO.
+      **b** describes sabai-platform and sabai-agent-platform, which are archived. **c** is wrong:
+      sabai-engine copied a few Conflux files with attribution; it is not a fork.
+    points: 1
+  - key: m2-sabai-live-path
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      In the live `sabai run --subscription-cli` path, how does the CLI authenticate to Azure PostgreSQL?
+    choices:
+      - { key: a, text: "A password read from pass-cli" }
+      - { key: b, text: "A connection string in the README" }
+      - { key: c, text: "A managed-identity token for the VM from IMDS, over TLS with sslmode=verify-full" }
+      - { key: d, text: "Andrew's interactive MFA session" }
+    answer: [c]
+    explanation_md: |
+      **c**: sabai_azure_pg.py gets an IMDS token for role `sabai_vm_azure_1`; the server is Entra-only.
+      **a** and **b** are wrong: no database password exists in this path. **d** describes how Azure
+      portal access works for people, not how the VM's CLI connects.
+    points: 1
+  - key: m2-sabai-durable-first
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      The first live attempt stopped with `CLI-007: run.started not durable … no provider call`. What does that show?
+    choices:
+      - { key: a, text: "The audit row must be durable before the model is called; an unsafe, group-writable config was refused, so nothing was spent" }
+      - { key: b, text: "The Claude subscription had run out" }
+      - { key: c, text: "The VM had no network" }
+      - { key: d, text: "The cap of $5.00 was too low" }
+    answer: [a]
+    explanation_md: |
+      **a**: the umask left the config group-writable, the transport refused it, and because
+      run.started was not durable the provider was never called. **b** would trip the usage guard, not
+      CLI-007. **c** is not what was recorded. **d** is wrong: a missing cap is CLI-006, and the cap
+      does not cause CLI-007.
+    points: 1
+  - key: m2-sabai-guard
+    kind: multi
+    domain: a2-implementations
+    prompt_md: |
+      Which two are enforced by Sabai's usage guard before any provider call? Choose two.
+    choices:
+      - { key: a, text: "A default run cap of $1.00 when none is given" }
+      - { key: b, text: "A required --run-cap-usd with no default" }
+      - { key: c, text: "Credits are always refused" }
+      - { key: d, text: "A stop at 95% of quota" }
+      - { key: e, text: "A check that the events file is on Azure storage" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are the guard (CLI-006 says "there is no default"). **a** is the opposite of the
+      rule. **c** is wrong: credits are now allowed. **e** is invented; the events file is local NDJSON.
+    points: 1
+  - key: m2-sabai-tag
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      `git ls-remote origin 'refs/tags/v1*'` in sabai-engine shows `637b793… refs/tags/v1.0.0^{}`. What is the problem?
+    choices:
+      - { key: a, text: "The tag is lightweight instead of annotated" }
+      - { key: b, text: "The pushed annotated tag points at the empty initial commit, not the release head 491285e" }
+      - { key: c, text: "The tag has not been pushed" }
+      - { key: d, text: "The tag uses the wrong name format" }
+    answer: [b]
+    explanation_md: |
+      **b**: `^{}` shows the commit the annotated tag resolves to, which is `637b793` "Initial commit".
+      **a** is wrong: the separate tag object `3e0e714` shows it is annotated. **c** is wrong: it is on
+      origin. **d** is wrong: `vX.Y.Z` is the required format.
+    points: 1
+  - key: m2-sabai-tag-fix
+    kind: multi
+    domain: a2-implementations
+    prompt_md: |
+      The process says published tags are never rewritten. Which two fixes for Sabai's v1.0.0 tag are acceptable? Choose two.
+    choices:
+      - { key: a, text: "Force-push the tag to 491285e without telling anyone" }
+      - { key: b, text: "Edit the draft release notes to say the tag is wrong" }
+      - { key: c, text: "With Andrew's explicit approval recorded on the release issue, delete and recreate it after #130 merges, since only a draft release depends on it" }
+      - { key: d, text: "Leave the tag and release the merged release commit as v1.0.1" }
+      - { key: e, text: "Merge main into the release branch so the tag becomes correct" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** respect the rule: either a recorded, approved exception or a new version. **a**
+      is a silent rewrite of a published tag. **b** documents the defect without fixing it. **e** cannot
+      move a tag; the tag still resolves to 637b793.
+    points: 1
+  - key: m2-sabai-db-dialect
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      What does promoting sabai-engine's audit store into ADO `master` mean for the client?
+    choices:
+      - { key: a, text: "Nothing: both use PostgreSQL" }
+      - { key: b, text: "A schema upgrade from migration 012 to 015 in the same dialect" }
+      - { key: c, text: "Moving from Azure to GCP" }
+      - { key: d, text: "Replacing the SQL Server audit plane the client already accepted with a PostgreSQL one, which needs the client's agreement" }
+    answer: [d]
+    explanation_md: |
+      **d**: ADO master has SQL Server DDL (sqlcmd, sys.schemas, QUOTED_IDENTIFIER); staging is a
+      PostgreSQL port. **a** is wrong for ADO. **b** ignores the dialect change. **c** is wrong: Sabai
+      stays on Azure.
+    points: 1
+  - key: m2-sabai-promotion
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      How does Sabai code get into the client's ADO repo today?
+    choices:
+      - { key: a, text: "A manual copy into an ADO worktree branch, committed under the client identity with the source SHA in the message and pushed over SSH; nothing from sabai-engine has been promoted" }
+      - { key: b, text: "An Azure Pipelines job mirrors sabai-engine main nightly" }
+      - { key: c, text: "A GitHub Action opens an ADO PR on each release tag" }
+      - { key: d, text: "Messina pulls it from GitHub" }
+    answer: [a]
+    explanation_md: |
+      **a** matches the ADO log: the 10-07 and 10-17 pushes name their staging SHAs and are unmerged,
+      and promotion is epic E7, still Target. **b** and **c** describe automation that does not exist.
+      **d** is wrong: Messina is the integrator and has no such role.
+    points: 1
+  - key: m2-sabai-hours
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      What is the state of Sabai hours as of 2026-10-30?
+    choices:
+      - { key: a, text: "Every task has Actual hours and the live report is current" }
+      - { key: b, text: "Hours are not tracked for client work" }
+      - { key: c, text: "A private 15-minute-increment ledger stops at 2026-10-17, lives in an attic directory with disagreeing copies, and only one task has Actual hours" }
+      - { key: d, text: "Hours are recorded only in PR #130's Hours section, which is enough" }
+    answer: [c]
+    explanation_md: |
+      **c** is what #131 and the ledger show. **a** is the process target, not the state. **b** is
+      wrong: the process says hours go on every task, Sabai included, and the client is billed. **d**
+      is wrong: PR #130 claims 2.0 hours that are on no task, and the PR section does not replace the
+      task field.
+    points: 1
+
+  # ---------- Side by side and findings ----------
+  - key: m2-copied-files
+    kind: multi
+    domain: a2-implementations
+    prompt_md: |
+      Which two were copied between projects rather than shared as a package? Choose two.
+    choices:
+      - { key: a, text: "Sabai's CLI shell, exit codes and build stamping, from conflux-engine 35f4733 and 4e4d041" }
+      - { key: b, text: "The global process file, loaded by every agent" }
+      - { key: c, text: "The org issue and PR templates" }
+      - { key: d, text: "The madhare-testing harness" }
+      - { key: e, text: "Code A Zone's Review Portal, ported from jbc-site-plan-review-portal at dd742bf" }
+    answer: [a, e]
+    explanation_md: |
+      **a** is listed in sabai-engine's Provenance section; **e** is stated in review/package.json.
+      **b** and **c** are genuinely shared (one copy, loaded or defaulted everywhere). **d** is a shared
+      location, though each project's suite is separate.
+    points: 1
+  - key: m2-orphan-fork
+    kind: single
+    domain: a2-implementations
+    prompt_md: |
+      Why does it matter that Sabai's copied CLI files came from Conflux's Python cflx generation?
+    choices:
+      - { key: a, text: "Python is not allowed in client repos" }
+      - { key: b, text: "Conflux was rebuilt as a NestJS monorepo, so the source files no longer exist on main and fixes cannot flow either way" }
+      - { key: c, text: "The licence forbids copying" }
+      - { key: d, text: "cflx was never tested" }
+    answer: [b]
+    explanation_md: |
+      **b**: the copy is now an orphaned fork of a Conflux that no longer exists. **a** is false: Sabai
+      and JBC are both Python. **c** is wrong: the README records attribution with rights preserved.
+      **d** is not the point and is not claimed by the audit.
+    points: 1
+  - key: m2-common-break
+    kind: multi
+    domain: a2-implementations
+    prompt_md: |
+      Which two findings appear in all three of Conflux, Code A Zone and Sabai? Choose two.
+    choices:
+      - { key: a, text: "The database runs on SQL Server" }
+      - { key: b, text: "The cloud is Azure" }
+      - { key: c, text: "What runs comes from unmerged branches or PRs, not main" }
+      - { key: d, text: "Version identities disagree across the repo's own sources" }
+      - { key: e, text: "Agents are defined as database records" }
+    answer: [c, d]
+    explanation_md: |
+      **c**: Conflux PR #86, Code A Zone PR #52 and engine#595, Sabai's task-branch VM build with #130
+      open. **d**: four Conflux identities, 0.1.0-dev.0 vs v1.0.0 for Code A Zone, seven strings for
+      Sabai. **a** is only Sabai's ADO master. **b** is only Sabai. **e** is only Conflux's design.
+    points: 1

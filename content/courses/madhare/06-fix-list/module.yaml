@@ -1,0 +1,5 @@
+title: "The fix list: build it once"
+summary_md: |
+  The pieces that, built once and shared, would stop every project rebuilding its own copy;
+  the security and data fixes to do first; and the decisions only Andrew can make. This module
+  turns the course's findings into a plan.

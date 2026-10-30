@@ -1,0 +1,10 @@
+title: "Module 1: Architecture: what we built and what we are building"
+domain: a1-architecture
+summary_md: |
+  The shape of Conflux and Mad Hare as designed (clients → conflux-api → madhare-platform and
+  conflux-engine, with agents from conflux-agents) set against what actually runs on the dev
+  machine as of 2026-10-30. Six lessons: the intended shape; a read-only lab that finds what
+  is installed and listening; a map of every repository and which one is the source of truth
+  for what; versions and the October reset; tracing and audit; and the findings table of what
+  is broken here and the fix. Every component is marked **Built**, **Partial**, **Target** or
+  **Abandoned**, with evidence. Finish with the Module 1 quiz and hold 80% before moving on.

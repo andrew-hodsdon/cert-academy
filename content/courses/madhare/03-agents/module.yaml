@@ -1,0 +1,12 @@
+title: "Module 3: How our agents are built"
+domain: a3-agents
+summary_md: |
+  Who our agents are, where they are defined, how they get into a Claude Code or Codex session,
+  and how their work is reviewed, as of 2026-10-30. You will compare the roster the process
+  file describes with the roster that is actually configured; tell apart the three agent
+  systems (the generated conflux-core plugins, the mh-ai standards skills and the agentd
+  workspace roles) plus the persona layer; build the conflux-core team yourself in a scratch
+  folder and prove the installed copies match; read session-entry receipts and explain why they
+  all say `LOCKED`; and trace the four competing definitions of cross-model review and the
+  2026-10-22 hook incident that left every Claude hook inert. The module ends with the findings
+  table: what is broken, how badly, and the fix. Finish with the Module 3 quiz and hold 80%.

@@ -1,0 +1,10 @@
+slug: final
+ordinal: 1
+title: "Final exam (40 questions, 60 minutes)"
+kind: practice
+draw: 40
+time_limit_min: 60
+pass_pct: 80
+instructions_md: |
+  40 questions drawn from every module quiz, weighted across the five areas. Questions you
+  have seen least come first. Counts toward readiness: **average 80% over your last three.**

@@ -1,0 +1,10 @@
+title: "Module 2: Conflux, Code A Zone and Sabai: how each is implemented"
+domain: a2-implementations
+summary_md: |
+  Mad Hare has one product, Conflux, and two client lines, Code A Zone (site-plan compliance review
+  for JBC3) and Sabai (an auditable AI platform for Sabai Global). This module shows how each one is
+  actually built and run as of 2026-10-30: its design, runtime, agents, data, cloud, deployment,
+  tests, release and hours. Two labs let you build and probe Code A Zone and Sabai safely on the
+  dev machine. The module then puts the three side by side and shows the pattern that matters most:
+  each project rebuilt its own stack instead of reusing Conflux, and what was copied, by hand, from
+  where. It ends with the findings and the fix for each.

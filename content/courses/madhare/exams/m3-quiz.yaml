@@ -1,0 +1,558 @@
+slug: m3-quiz
+ordinal: 13
+title: "Module 3 quiz: How our agents are built"
+kind: quiz
+draw: 15
+time_limit_min: 20
+pass_pct: 80
+instructions_md: |
+  15 questions drawn at random from a 28-question bank covering all six Module 3 lessons, with a
+  20-minute clock. Most questions have one best answer; questions marked "Choose two." need both
+  correct choices to score.
+
+  Facts are as of 2026-10-30. Answer for how things actually are, not only how AGENTS.md says
+  they should be, and read every explanation afterwards. Retake until you hold 80%.
+questions:
+  # ---------- Lesson 1: the roster ----------
+  - key: m3-claude-load-chain
+    kind: single
+    domain: a3-agents
+    prompt_md: "How does a Claude Code session on the dev machine come to know the global Mad Hare process?"
+    choices:
+      - { key: a, text: "The conflux-core dispatcher plugin injects AGENTS.md into every subagent prompt" }
+      - { key: b, text: "CLAUDE_CONFIG_DIR=/srv/conflux/claude, whose CLAUDE.md is a single @/srv/conflux/AGENTS.md import of the madhare-support file" }
+      - { key: c, text: "A SessionStart hook copies AGENTS.md into the working directory" }
+      - { key: d, text: "session-start writes the process into the bootstrap receipt, which Claude reads" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. `/srv/conflux/claude/environment.sh` sets `CLAUDE_CONFIG_DIR`, and that
+      directory's `CLAUDE.md` is one line, `@/srv/conflux/AGENTS.md`, which resolves to
+      `madhare-support/agents/AGENTS.md`.
+
+      - **a**: plugin agents carry their own charters; they do not inject the process file.
+      - **c**: all Claude hooks are disabled (`disableAllHooks: true`), and no hook ever did this.
+      - **d**: the receipt holds hashes and status fields, not instructions.
+    points: 1
+
+  - key: m3-role-flip-source
+    kind: single
+    domain: a3-agents
+    prompt_md: "Which file assigns the lead (coordination) role to GPT-6.1 Sol and the builder role to Claude Sonnet, the opposite of AGENTS.md §Method?"
+    choices:
+      - { key: a, text: "conflux-agents teams/core.yaml" }
+      - { key: b, text: "/srv/conflux/claude/settings.json" }
+      - { key: c, text: "The mh-ai mh-dispatch skill" }
+      - { key: d, text: "/srv/work/dev/agentd/conflux/project.json (lead_profile and worker_profile)" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. `project.json` has `lead_profile` gpt-6.1-sol/high and `worker_profile`
+      Claude subscription CLI `sonnet`/high, written 10-20 to 10-22, a week before AGENTS.md
+      flipped it (Claude dispatches, Codex implements).
+
+      - **a** lists the six team members but no model families; the generated agents all say `model: opus`.
+      - **b** configures Claude Code (plugins, hooks, permissions), not a role roster.
+      - **c** is a disabled process skill and does not set model profiles.
+    points: 1
+
+  - key: m3-coder-family
+    kind: single
+    domain: a3-agents
+    prompt_md: "A Claude hub session dispatches `coder:coder` to implement an issue. Which model family writes the code, and so which family must review it?"
+    choices:
+      - { key: a, text: "Claude (the generated agent declares model: opus), so Codex reviews" }
+      - { key: b, text: "Codex, because AGENTS.md says Codex is the primary implementer, so Claude reviews" }
+      - { key: c, text: "Claude Sonnet, as in project.json, so AGY/Gemini reviews" }
+      - { key: d, text: "Whatever the local judge assigns at dispatch time" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. The conflux-core coder plugin's agent file says `model: opus`, so the author
+      is Claude. AGENTS.md requires the other family, Codex, as reviewer.
+
+      - **b** confuses what AGENTS.md *says should* implement with what this dispatch actually runs.
+      - **c**: `project.json` only applies inside agentd session entry, and the AGY route has never completed a review.
+      - **d**: there is no local judge; mh-ai serves only an embedding model.
+    points: 1
+
+  - key: m3-local-judge
+    kind: single
+    domain: a3-agents
+    prompt_md: "AGENTS.md says \"the local judge breaks ties\" in cross-model review. Why is that not operational as of 2026-10-30?"
+    choices:
+      - { key: a, text: "The judge model is served but its port is firewalled from the dev machine" }
+      - { key: b, text: "The judge runs only as a hook, and hooks are disabled" }
+      - { key: c, text: "The only model served on mh-ai is vllm-embed-qwen3-8b, an embedding model that cannot read and compare reviews" }
+      - { key: d, text: "The judge is the twin harness, which only judges Sabai work" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. `ssh mh-ai docker ps` shows one vLLM container, an embedding model. A judge
+      needs a chat model; none is served.
+
+      - **a**: there is no judge model to firewall.
+      - **b**: no judge hook exists; the cross-model-review hook picks Codex or Claude, not a local model.
+      - **d**: the twin harness judges Claude-vs-Conflux pairs with `claude-opus-5-5`, and it is not limited to Sabai.
+    points: 1
+
+  - key: m3-vera
+    kind: single
+    domain: a3-agents
+    prompt_md: "AGENTS.md says \"Vera builds the test strategy… during refinement\". Where is Vera defined?"
+    choices:
+      - { key: a, text: "As the conflux-core tester plugin" }
+      - { key: b, text: "As an output style in /srv/conflux/claude/output-styles/" }
+      - { key: c, text: "Nowhere: that line of AGENTS.md is the only definition; the work is split between agentd test-lead and conflux-core tester/test-writer" }
+      - { key: d, text: "As the agentd custodian role" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Vera appears once, at AGENTS.md:141. No agent package, role brief, output
+      style or persona defines her. Status: Target (undefined).
+
+      - **a**: `tester` runs the suite and qualifies changes; it is not called Vera and has no refinement-time command.
+      - **b**: the output styles are Bert, Calder, Kif, LaShonda, Reeve, Rook and Sabrina.
+      - **d**: custodian is a separate agentd role with nothing to do with test strategy.
+    points: 1
+
+  # ---------- Lesson 2: three systems ----------
+  - key: m3-install-source
+    kind: single
+    domain: a3-agents
+    prompt_md: "Where do the conflux-core agent files that Claude Code and Codex load actually come from?"
+    choices:
+      - { key: a, text: "Gitignored build output (dist/conflux-core) in a detached worktree of commit f721fc0, from open PR #83" }
+      - { key: b, text: "conflux-agents main, tagged v1.1.0" }
+      - { key: c, text: "The agent database named in the conflux-agents README" }
+      - { key: d, text: "The mh-ai marketplace on madhare-pi" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Both hosts' marketplace paths point at
+      `…/worktrees/conflux-agents/install-f721fc0e9f2a/dist/conflux-core`; the worktree is a
+      detached HEAD on the PR #83 commit and `dist/` is in `.gitignore`.
+
+      - **b**: `main` (`b15c162`) "intentionally contains no active agent implementations" after the reset.
+      - **c**: no installed component references any database; that is Target.
+      - **d**: mh-ai supplies the standards skills, not the six role agents.
+    points: 1
+
+  - key: m3-mh-ai-history
+    kind: single
+    domain: a3-agents
+    prompt_md: "A reviewer asks for the history of a change to the mh-code-style skill. What will you find?"
+    choices:
+      - { key: a, text: "A merged PR in conflux-agents with a cross-model review" }
+      - { key: b, text: "Nothing reviewable: the mh-ai marketplace is a one-commit mirror published by pkg-hub from a directory on host mh-ai" }
+      - { key: c, text: "The change history in madhare-support, because skills are process" }
+      - { key: d, text: "A versioned entry in the agent database" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. `git rev-list --count HEAD` in the marketplace clone is 1 (commit `7e2e0e4`,
+      "publish mh-ai from mh-ai:/srv/hot/ai/config"). There is no GitHub repo or PR trail.
+
+      - **a**: mh-ai skills are not in conflux-agents.
+      - **c**: madhare-support holds AGENTS.md, not the skills.
+      - **d**: the database is Target and holds nothing installed.
+    points: 1
+
+  - key: m3-mh-ai-process-skills
+    kind: single
+    domain: a3-agents
+    prompt_md: "The mh-ai marketplace lists mh-merge-flow, mh-dispatch and mh-cross-model-review. What is their status?"
+    choices:
+      - { key: a, text: "Enabled in Claude only, because Codex cannot load skills" }
+      - { key: b, text: "Enabled in both hosts and authoritative over AGENTS.md" }
+      - { key: c, text: "Abandoned and deleted from the marketplace" }
+      - { key: d, text: "Disabled in both Claude and Codex, superseded by conflux-core and AGENTS.md, but still present in the marketplace" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Eleven process skills are disabled in both hosts; the eight standards skills
+      (mh-code-style, mh-api-construction, mh-config, …) are enabled.
+
+      - **a**: Codex loads mh-ai skills too, and these are disabled in both.
+      - **b**: nothing is authoritative over AGENTS.md, and these are switched off.
+      - **c**: they are still in the marketplace, just disabled.
+    points: 1
+
+  - key: m3-personas
+    kind: single
+    domain: a3-agents
+    prompt_md: "Reeve, Calder and Rook appear as session names in the fleet. What are they?"
+    choices:
+      - { key: a, text: "Personas: Claude output styles that name sessions; the agents those sessions dispatch are the conflux-core plugins" }
+      - { key: b, text: "agentd workspace roles with receipts" }
+      - { key: c, text: "Vertex roles from PR #82" }
+      - { key: d, text: "conflux-core agents generated by conflux-gen" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. They are files in `/srv/conflux/claude/output-styles/`. PR #86 proposes
+      versioning them, and it is open.
+
+      - **b**: agentd roles are coordination, dispatcher, builder, docs-auditor, test-lead, custodian.
+      - **c**: the Vertex roles are board-operator, code-executor and status-reporter.
+      - **d**: the conflux-core team is dispatcher, coder, tester, test-writer, doc-writer, doc-auditor.
+    points: 1
+
+  # ---------- Lesson 3: lab, define and generate ----------
+  - key: m3-gen-exit-2
+    kind: single
+    domain: a3-agents
+    prompt_md: "You run `conflux-gen --root $W build conflux-core --out $W/dist/conflux-core --check` and it exits 2. What does that mean?"
+    choices:
+      - { key: a, text: "A package failed a schema or policy rule, with a CFG- or POL- code" }
+      - { key: b, text: "The installed dist/ no longer matches what the source builds: drift" }
+      - { key: c, text: "The build succeeded and overwrote dist/" }
+      - { key: d, text: "The team file is missing" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. `conflux-gen --help`: 0 ok, 1 refused (CFG-/POL-), 2 drift found by `--check`.
+      Report the diff; don't rebuild into `dist/` yourself.
+
+      - **a** is exit 1.
+      - **c**: `--check` compares; it does not write.
+      - **d** would be a refusal (exit 1), not drift.
+    points: 1
+
+  - key: m3-coder-nestjs
+    kind: single
+    domain: a3-agents
+    prompt_md: "The rendered coder charter begins \"Coder: typescript (nestjs), implementation\", even when it is dispatched for Python engine work. Where does that come from?"
+    choices:
+      - { key: a, text: "A hard-coded string in conflux-gen" }
+      - { key: b, text: "The mh-api-construction skill overriding the charter" }
+      - { key: c, text: "The agentd builder role brief" }
+      - { key: d, text: "The bindings in agents/coder/configs/coder.yaml (language: typescript, frameworks: [nestjs]) filling the Jinja charter template" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. `charter.md` is a template (`# Coder: {{ language }}…`); the only config binds
+      TypeScript and NestJS. It is a config problem; the fix is more configs (coder-python, coder-tests).
+
+      - **a**: the generator renders whatever the bindings say.
+      - **b**: skills don't rewrite the charter heading.
+      - **c**: agentd briefs are not inputs to conflux-gen.
+    points: 1
+
+  - key: m3-safe-rebuild
+    kind: single
+    domain: a3-agents
+    prompt_md: "You want to prove the installed agents match their source. Which approach is safe?"
+    choices:
+      - { key: a, text: "Run conflux-gen build with --out pointing at the worktree's dist/, then reinstall the plugins" }
+      - { key: b, text: "Edit the Claude plugin cache to match the source by hand" }
+      - { key: c, text: "Build into a scratch folder, diff it against dist/, run build --check against dist/, and diff dist/ against both host caches" }
+      - { key: d, text: "Merge PR #83 so main holds the source, then compare" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. It writes only to scratch; `--check` reads `dist/` without writing; `diff -rq`
+      against the caches proves what each host loads.
+
+      - **a** overwrites the files both hosts load, and reinstalling changes host state.
+      - **b** creates exactly the drift you are trying to detect.
+      - **d** needs Andrew's approval and doesn't verify anything by itself.
+    points: 1
+
+  # ---------- Lesson 4: bootstrapping ----------
+  - key: m3-receipt-locked
+    kind: single
+    domain: a3-agents
+    prompt_md: "Every bootstrap receipt written since late October says `\"dispatch\": \"LOCKED\"`. Why?"
+    choices:
+      - { key: a, text: "The role is not listed in project.json" }
+      - { key: b, text: "The operator clones are dirty" }
+      - { key: c, text: "state/approved-dispatch.json expired at 2026-10-22T22:00:00Z, so approved_dispatch() returns false" }
+      - { key: d, text: "Hooks are disabled, so dispatch cannot be verified" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. `approved_dispatch()` needs Andrew's approval, the matching batch id and an
+      unexpired `expires_at`. The CFLX-LS1 approval expired on 10-22.
+
+      - **a**: an unknown role raises an error and writes no receipt.
+      - **b**: a dirty clone raises `operator checkout dirty` and writes no receipt; today they are clean.
+      - **d**: bootstrap doesn't consult hooks.
+    points: 1
+
+  - key: m3-adapter-not-verified
+    kind: single
+    domain: a3-agents
+    prompt_md: "What does `adapter_enforcement: NOT_VERIFIED` in a bootstrap receipt tell you?"
+    choices:
+      - { key: a, text: "It is hard-coded: the receipt shows the agent ran the command, not that the host enforces anything. A receipt is a self-report" }
+      - { key: b, text: "The operator has not yet reviewed the receipt" }
+      - { key: c, text: "The model adapter failed authentication" }
+      - { key: d, text: "The instruction files changed since the last receipt" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. `workspace.py` writes `NOT_VERIFIED` unconditionally; the workspace AGENTS.md
+      says "Do not claim universal host interception."
+
+      - **b**: there is no operator review field.
+      - **c**: bootstrap makes no model calls ("no model calls" in its help).
+      - **d**: changed instructions change the fingerprint and `receipt_reused`, not this field.
+    points: 1
+
+  - key: m3-bootstrap-refuses
+    kind: single
+    domain: a3-agents
+    prompt_md: "Which condition makes `workspace.py bootstrap` refuse to write a receipt?"
+    choices:
+      - { key: a, text: "The remote andrew/review branch is missing on GitHub" }
+      - { key: b, text: "An operator/<repo> clone is not on branch andrew/review, or has uncommitted changes" }
+      - { key: c, text: "The session has no lease registered" }
+      - { key: d, text: "The approved dispatch has expired" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. It raises `operator branch mismatch` or `operator checkout dirty`.
+
+      - **a**: it checks only the local branch name, which is why it says "ready" although the remote branch is gone.
+      - **c**: leases are for temporary paths and are not checked at bootstrap.
+      - **d**: an expired approval still writes a receipt, with `dispatch: LOCKED` (exit 78 only if `--dispatch` was requested).
+    points: 1
+
+  # ---------- Lesson 5: review and hooks ----------
+  - key: m3-agy-failure
+    kind: single
+    domain: a3-agents
+    prompt_md: "All 14 AGY/Gemini review runs recorded in state/agy-reviews ended without a verdict. What do the records show as the cause?"
+    choices:
+      - { key: a, text: "AGY was not authenticated" }
+      - { key: b, text: "The requested Gemini model did not exist" }
+      - { key: c, text: "Running headless, AGY auto-denied the mandatory first command (session-start), so it stopped before reviewing" }
+      - { key: d, text: "The PRs were merged before AGY started" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The records say "NOT RUN: mandatory bootstrap refused by native headless
+      permission mode" (`permission_mode_observed: request-review`). The entry ritual blocked the review.
+
+      - **a**: the records show a normal authenticated AGY account and the model started.
+      - **b**: `actual_model` was `gemini-4-argon-high`, as requested.
+      - **d**: the records stop at entry, not at a merged PR.
+    points: 1
+
+  - key: m3-old-hook
+    kind: single
+    domain: a3-agents
+    prompt_md: "What did the retired agentd `claude-hook.py` PreToolUse hook do that led Andrew to say \"nothing should be blocked, at all\"?"
+    choices:
+      - { key: a, text: "It asked for confirmation before every git push" }
+      - { key: b, text: "It enforced the conflux-core policy.yaml deny rules" }
+      - { key: c, text: "It logged every tool call to GitHub" }
+      - { key: d, text: "It was default-deny: only Read, Glob, Grep and the exact session-start command were allowed, unless a per-session grant file existed" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Lines 24–34 of the backup: "The workspace is deliberately not released for
+      delivery yet". Everything else was denied, so no edits, builds or git.
+
+      - **a**: it denied far more than pushes, without asking.
+      - **b**: the conflux-core policy hook was installed a week later, on 10-29.
+      - **c**: it did not post anywhere.
+    points: 1
+
+  - key: m3-hooks-consequence
+    kind: single
+    domain: a3-agents
+    prompt_md: "What is the main consequence of the 2026-10-22 fix (`disableAllHooks: true`) for the conflux-core plugins installed on 2026-10-29?"
+    choices:
+      - { key: a, text: "Their policy, add-hours, update-issues and cross-model-review hooks are installed but never run" }
+      - { key: b, text: "The plugins fail to load, so coder:coder is unavailable" }
+      - { key: c, text: "Their hooks run in dry-run mode and log GitHub writes" }
+      - { key: d, text: "Only the policy hook is disabled; the others still run" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. `disableAllHooks` switches off every hook, including later ones; install.md
+      says the agents still load but "their policy is then not enforced".
+
+      - **b**: the agents load and appear in Claude's agent list.
+      - **c**: dry-run is `CONFLUX_HOOKS=dry-run`; the settings say `off`, and hooks don't run at all.
+      - **d**: the setting is global, not per hook.
+    points: 1
+
+  - key: m3-compliant-enforcement
+    kind: single
+    domain: a3-agents
+    prompt_md: "Andrew directed hooks to stay disabled and no replacement tool-denial gate to be built. Which way of enforcing \"hours on every PR\" fits that direction?"
+    choices:
+      - { key: a, text: "Re-enable only the conflux-core add-hours and policy hooks" }
+      - { key: b, text: "A GitHub check that fails a PR missing its Hours and Cross-model review sections, plus agents recording hours by hand" }
+      - { key: c, text: "A new PreToolUse hook that blocks gh pr create until hours are entered" }
+      - { key: d, text: "Set Codex approval_policy to on-request so it asks about hours" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. A server-side PR check blocks no tool call; it reports after the work, which
+      is what AGENTS.md already requires.
+
+      - **a** restores hooks, and the policy hook is a PreToolUse gate.
+      - **c** is exactly a replacement tool-denial gate.
+      - **d** changes host settings for an unrelated purpose and still wouldn't record hours.
+    points: 1
+
+  - key: m3-working-review-route
+    kind: single
+    domain: a3-agents
+    prompt_md: "Claude authored a PR today. Which cross-model review route will actually produce a verdict?"
+    choices:
+      - { key: a, text: "The conflux-core cross-model-review hook after gh pr create" }
+      - { key: b, text: "The mh-ai mh-cross-model-review skill" }
+      - { key: c, text: "A Codex read-only review dispatched by hand, recorded in the PR's Cross-model review section" }
+      - { key: d, text: "An AGY/Gemini review as required by WORKFLOW.md" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. It matches AGENTS.md and is how conflux-api#80 got six review rounds and 25 findings.
+
+      - **a**: hooks are disabled, so it never fires.
+      - **b**: the skill is disabled in both hosts.
+      - **d**: 0 of 14 AGY runs completed; entry is blocked in headless mode.
+    points: 1
+
+  # ---------- Lesson 6: findings ----------
+  - key: m3-fix-order
+    kind: single
+    domain: a3-agents
+    prompt_md: "Why should conflux-core be merged and versioned (PRs #83 and #85) before the roster contradictions are fixed?"
+    choices:
+      - { key: a, text: "Because the roster lives only in PR #85" }
+      - { key: b, text: "Because merging deletes the agentd project.json" }
+      - { key: c, text: "Because Andrew has already approved the roster fix" }
+      - { key: d, text: "Because fixing the roster means editing agent packages and regenerating them; until the source is merged and versioned, those edits would be installed from an unmerged worktree's gitignored output" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Every downstream fix edits files that should come from a merged, tagged
+      source; otherwise the fix itself breaks "nothing is deployed from a commit that isn't pushed".
+
+      - **a**: PR #85 fixes dispatcher branch names, not the roster.
+      - **b**: conflux-agents doesn't touch agentd files.
+      - **c**: no such approval is recorded, and it wouldn't change the dependency.
+    points: 1
+
+  # ---------- Multi ----------
+  - key: m3-roster-true
+    kind: multi
+    domain: a3-agents
+    prompt_md: "Which two statements about the roster are true as of 2026-10-30? Choose two."
+    choices:
+      - { key: a, text: "AGENTS.md names Codex as the primary implementer of code, architecture and infra" }
+      - { key: b, text: "project.json names Claude Code as the lead and Codex as builders" }
+      - { key: c, text: "The agentd lead_profile is gpt-6.1-sol with high effort" }
+      - { key: d, text: "The generated conflux-core agents each pin a different model family" }
+      - { key: e, text: "Local models currently judge review ties" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: AGENTS.md §Method lines 9–11, and `project.json` `lead_profile`.
+
+      - **b** is reversed: `project.json` has Codex (gpt-6.1-sol) leading and Claude Sonnet building.
+      - **d**: all six generated agents say `model: opus`.
+      - **e**: no judge model is served; the only vLLM model is an embedding model.
+    points: 1
+
+  - key: m3-switched-off-routes
+    kind: multi
+    domain: a3-agents
+    prompt_md: "Which two cross-model review routes cannot produce a verdict today because they are switched off? Choose two."
+    choices:
+      - { key: a, text: "A Codex read-only review dispatched by hand" }
+      - { key: b, text: "The conflux-core cross-model-review hook" }
+      - { key: c, text: "The AGY/Gemini route in WORKFLOW.md" }
+      - { key: d, text: "The mh-ai mh-cross-model-review skill" }
+      - { key: e, text: "A Claude docs-auditor review of Claude-built work" }
+    answer: [b, d]
+    explanation_md: |
+      **b** (hooks disabled by `disableAllHooks: true`) and **d** (skill disabled in both hosts) are right.
+
+      - **a** works and is the route to use.
+      - **c** fails, but not because it is switched off: AGY is blocked at session entry in headless mode.
+      - **e** runs and completes, but it is the same family, so it is not cross-model review at all.
+    points: 1
+
+  - key: m3-bootstrap-does
+    kind: multi
+    domain: a3-agents
+    prompt_md: "Which two things does `workspace.py bootstrap` actually do? Choose two."
+    choices:
+      - { key: a, text: "Launches a worker session for the role" }
+      - { key: b, text: "Verifies that origin/andrew/review exists on GitHub" }
+      - { key: c, text: "Writes state/bootstrap-<sha256(session)[:20]>-<role>.json unless the fingerprint is unchanged" }
+      - { key: d, text: "Installs a PreToolUse hook that enforces the role's permissions" }
+      - { key: e, text: "Hashes the instruction files, workspace.py and [session, role, clone heads] into a fingerprint" }
+    answer: [c, e]
+    explanation_md: |
+      **c** and **e** are right (`workspace.py` lines 86–126).
+
+      - **a**: role briefs say "Prepared only; no worker/session is launched".
+      - **b**: it checks only the local branch name; the remote branch returns 404.
+      - **d**: it installs nothing, and hooks are disabled.
+    points: 1
+
+  - key: m3-hooks-off-effects
+    kind: multi
+    domain: a3-agents
+    prompt_md: "Which two are consequences of all Claude hooks being disabled? Choose two."
+    choices:
+      - { key: a, text: "Hours are not recorded on tasks automatically by the add-hours hook" }
+      - { key: b, text: "The conflux-core subagents no longer appear in Claude's agent list" }
+      - { key: c, text: "session-start can no longer be run" }
+      - { key: d, text: "The policy.yaml deny rules (force-push, push to main) are not enforced by Conflux" }
+      - { key: e, text: "Codex's own hooks were disabled as well" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right. Those hooks are installed but inert, and with `bypassPermissions`
+      and Codex `danger-full-access` nothing else enforces the deny rules.
+
+      - **b**: the agents still load; only their hooks are skipped.
+      - **c**: session-start is a manual command, not a hook.
+      - **e**: at research time Codex still ran GitKraken hooks; "fleet-wide" meant Claude only.
+    points: 1
+
+  - key: m3-copies
+    kind: multi
+    domain: a3-agents
+    prompt_md: "Which two statements about the copies of a conflux-core definition are true? Choose two."
+    choices:
+      - { key: a, text: "The Claude cache copy is the committed source of truth" }
+      - { key: b, text: "The Codex agent roles were placed by hand; the installer is Target (#72)" }
+      - { key: c, text: "The dist/ copy is committed on main" }
+      - { key: d, text: "Only one copy exists, served from the agent database" }
+      - { key: e, text: "Only the source template (for example skills/code/SKILL.md) is committed, and only on the unmerged PR #83 branch" }
+    answer: [b, e]
+    explanation_md: |
+      **b** (install.md: "The agent role is copied by hand") and **e** are right.
+
+      - **a**: the cache is a copy of `dist/`, which is build output.
+      - **c**: `dist/` is gitignored, and `main` holds no agents.
+      - **d**: there are four copies (source, dist, Claude cache, Codex cache), and the database is Target.
+    points: 1
+
+  - key: m3-high-findings
+    kind: multi
+    domain: a3-agents
+    prompt_md: "Which two of these findings are rated High in Module 3? Choose two."
+    choices:
+      - { key: a, text: "The mh-ai skills have only one commit" }
+      - { key: b, text: "Status names differ between AGENTS.md and WORKFLOW.md" }
+      - { key: c, text: "The installed agents come from an unmerged, detached worktree" }
+      - { key: d, text: "The local judge and Vera do not exist" }
+      - { key: e, text: "The coder config is hard-wired to NestJS" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are High: one breaks the deploy rule for every agent, the other leaves review
+      ties and test strategy with no owner.
+
+      - **a** is Low: no history, but the skills work.
+      - **b** is Medium: confusing, not unsafe.
+      - **e** is Medium: wrong prompts for some work, fixed by adding configs.
+    points: 1
+
+  - key: m3-codex-home
+    kind: multi
+    domain: a3-agents
+    prompt_md: "Which two statements about the Codex home (`CODEX_HOME=/srv/conflux/codex`) are true on 2026-10-30? Choose two."
+    choices:
+      - { key: a, text: "By design, its AGENTS.md is a symlink to /srv/conflux/AGENTS.md, so Codex loads the same process as Claude" }
+      - { key: b, text: "Later that day the home was rewritten and the AGENTS.md symlink and config.toml went missing, so new Codex sessions would load no global process" }
+      - { key: c, text: "Codex loads the process through a CLAUDE.md @import" }
+      - { key: d, text: "The Codex conflux-core plugin cache differed from dist/" }
+      - { key: e, text: "config.toml runs Codex in a read-only sandbox with approvals on request" }
+    answer: [a, b]
+    explanation_md: |
+      **a** is the design and was verified by the research run earlier that day; **b** is what
+      lesson 4 observed later (at 14:49Z, after a 14:47Z rewrite left a `rollback/codex-migration`
+      folder and only caches).
+
+      - **c**: `@` imports are a Claude Code feature; Codex reads AGENTS.md from `CODEX_HOME`.
+      - **d**: the Codex plugin cache matched `dist/` byte for byte.
+      - **e**: the config ran `danger-full-access` with `approval_policy = "never"`.
+    points: 1

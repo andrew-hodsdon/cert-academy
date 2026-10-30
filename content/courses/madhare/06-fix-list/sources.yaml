@@ -1,0 +1,43 @@
+sources:
+  - slug: m6-engine-release
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/issues/87
+    title: "conflux-engine#87: Release v1.0.0, one engine line"
+    site: GitHub
+    summary_md: |
+      The release that is meant to end the two-engine split. Open as of 2026-10-30.
+  - slug: m6-engine-consolidate
+    kind: repo
+    url: https://github.com/madharedev/conflux-engine/pull/86
+    title: "conflux-engine#86: consolidate the live engine with the conflux CLI"
+    site: GitHub
+    summary_md: |
+      The unmerged branch the running engine is built from. About 160 paths conflict with main.
+  - slug: m6-agents-pr
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/83
+    title: "conflux-agents#83: role agent packages, conflux-gen, skills and hooks"
+    site: GitHub
+    summary_md: |
+      The open PR whose detached worktree is what Claude and Codex actually load today.
+  - slug: m6-token-rotation
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/issues/93
+    title: "madhare-support#93: rotate two exposed tokens"
+    site: GitHub
+    summary_md: |
+      Open incident: two tokens exposed (on a command line and in a collector environment) need rotation.
+  - slug: m6-client-data
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/issues/84
+    title: "madhare-support#84: delete a PR description revision holding a client address"
+    site: GitHub
+    summary_md: |
+      Open: client data left in a PR's edit history.
+  - slug: m6-global-process
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/main/agents/AGENTS.md
+    title: "Mad Hare Operations (agents/AGENTS.md)"
+    site: GitHub
+    summary_md: |
+      The global process the fixes are measured against.

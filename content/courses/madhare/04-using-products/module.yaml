@@ -1,0 +1,11 @@
+title: "Module 4: Using the products"
+domain: a4-using-products
+summary_md: |
+  How a person or agent actually uses what Mad Hare ships, as of 2026-10-30: the first hour on
+  the dev machine (with the nine places it breaks and what to do at each), the two programs
+  called `conflux` and which one runs, a lab that starts the Conflux runtime offline and traces
+  a stub turn, a reference to every CLI we ship, how madhare-testing works and a lab that runs
+  it (including a failure that is the lesson), the support path from triage to fix with hours
+  and test environments, a read-only support lab, and the findings table of what is broken and
+  the fix. Every component is marked **Built**, **Partial**, **Target** or **Abandoned**, with
+  evidence. Finish with the Module 4 quiz and hold 80% before moving on.

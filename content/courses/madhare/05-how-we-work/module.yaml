@@ -1,0 +1,12 @@
+title: "Module 5: How we work: process, sessions, and what actually happened"
+domain: a5-how-we-work
+summary_md: |
+  How work is meant to move at Mad Hare, from a release issue in madhare-support down to a
+  task branch, a PR with **Ran It**, a cross-model review, hours and an approved merge, and
+  how it actually moved in the week of 2026-10-20 to 2026-10-30. Six lessons: the process as
+  written (the global `AGENTS.md`, merged 2026-10-29); how a session is created and the two
+  process generations that disagree; the one end-to-end "golden path" (conflux-api epic #70);
+  a read-only lab where you audit a PR and a board yourself with `gh`; an honest timeline of
+  the week, with evidence; and the findings table of what is broken here and the fix,
+  including everything each project rebuilt for itself. Facts are as of 2026-10-30. Finish
+  with the Module 5 quiz and hold 80% before moving on.

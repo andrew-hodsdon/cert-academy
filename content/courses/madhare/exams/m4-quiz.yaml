@@ -1,0 +1,581 @@
+slug: m4-quiz
+ordinal: 14
+title: "Module 4 quiz: Using the products"
+kind: quiz
+draw: 15
+time_limit_min: 20
+pass_pct: 80
+instructions_md: |
+  15 questions drawn at random from a 32-question bank covering Module 4: the runtimes, the
+  CLIs, madhare-testing, support, hours and test environments, and what is broken. You have 20
+  minutes. Most questions have one best answer; questions marked "Choose two." need both correct
+  choices to score. Facts are as of 2026-10-30. Read every explanation afterwards, including for
+  questions you got right. Retake until you hold 80%.
+questions:
+  # ---------- Runtimes ----------
+  - key: m4-which-conflux-on-path
+    kind: single
+    domain: a4-using-products
+    prompt_md: "On the dev machine you type `conflux version` in a fresh shell. Which program answers?"
+    choices:
+      - { key: a, text: "`/usr/bin/conflux`, installed by the conflux-runtime Debian package" }
+      - { key: b, text: "The user-local engine at ~/.local/opt/conflux-engine, version 1.0.6" }
+      - { key: c, text: "A build of conflux-engine main, version 1.1.1" }
+      - { key: d, text: "The conflux-api gateway CLI, which forwards to the engine" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: `command -v conflux` resolves to `/usr/bin/conflux` from the
+      `conflux-runtime` deb, and `conflux version` prints productVersion 0.1.0-dev.0 with source
+      d4ee1ab. **b** is wrong: the 1.0.6 engine is the one running on port 13080, but its CLI is
+      not first on PATH. **c** is wrong: nothing installed is built from main (1.1.1). **d** is
+      wrong: the gateway CLI is `cflx`, a different program on a conflux-api epic branch.
+    points: 1
+
+  - key: m4-running-engine
+    kind: single
+    domain: a4-using-products
+    prompt_md: "A Conflux dashboard and Swagger answer on 127.0.0.1:13080. What is serving them, and what is the risk?"
+    choices:
+      - { key: a, text: "The packaged Engine API; the risk is that it has no authentication" }
+      - { key: b, text: "The user-local 1.0.6 engine, started as a transient systemd-run unit, so it will not survive a reboot as configured" }
+      - { key: c, text: "The Python HTTP runtime, which is the supported production line" }
+      - { key: d, text: "The madhare-testing harness, which leaves a stack running after make down" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: `conflux-engine-local.service` runs `@conflux/engine` 1.0.6 (5f6b308) and
+      `systemctl --user status` shows a transient unit. **a** is wrong: the packaged API defaults
+      to 8792 and anonymous `/version` returns 401. **c** is wrong: the Python HTTP runtime has
+      been stopped since 2026-10-22 and is Abandoned. **d** is wrong: the harness serves no
+      dashboard, and `make down` removes its containers.
+    points: 1
+
+  - key: m4-offline-variable
+    kind: single
+    domain: a4-using-products
+    prompt_md: "`conflux --help` lists four variables the runtime needs. Which extra setting for an offline start with no provider call appears only in the package README?"
+    choices:
+      - { key: a, text: "CONFLUX_AUTH_DISABLED=true" }
+      - { key: b, text: "TRACE_INGEST_URL pointing at the platform" }
+      - { key: c, text: "ENGINE_STUB=1, with ENGINE_DEFAULT_MODEL=stub/echo" }
+      - { key: d, text: "CONFLUX_PERSISTENCE_MODE=file" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the install doc (line 37) sets `ENGINE_STUB=1` and `stub/echo` for offline
+      validation, and `--help` doesn't mention it. **a** and **d** are wrong: those belong to the
+      other, user-local 1.0.6 CLI's environment contract. **b** is wrong: without it traces go to
+      the local spool, which is what you want offline; it isn't required.
+    points: 1
+
+  - key: m4-agt001-status
+    kind: single
+    domain: a4-using-products
+    prompt_md: "You POST a turn to the runtime with `\"agent\":\"rook\"` and get HTTP 200. What happened?"
+    choices:
+      - { key: a, text: "The turn ran on the rook agent with the stub model" }
+      - { key: b, text: "The turn ran on the default model because unknown agents fall back" }
+      - { key: c, text: "The request was queued for dispatch through the gateway" }
+      - { key: d, text: "It was refused: the last NDJSON line is an AGT-001 error, because the package ships no agents" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: the response streams NDJSON, and refusals after acceptance come as the
+      final `{"type":"error","code":"AGT-001"}` line while the status stays 200. `/ready` shows
+      `"agents":[]`. **a** is wrong: rook does not exist in this package, even though the README
+      uses it as an example. **b** is wrong: there's no fallback; AGT-001 is raised before any
+      model call. **c** is wrong: the runtime has no queue, and dispatch (`/internal/v1/runs`)
+      isn't built.
+    points: 1
+
+  - key: m4-req001
+    kind: single
+    domain: a4-using-products
+    prompt_md: "A turn request has `\"messages\":[]` and `\"maxUsd\":-1`. What comes back?"
+    choices:
+      - { key: a, text: "HTTP 400 with code REQ-001, because validation happens before the stream starts" }
+      - { key: b, text: "HTTP 200 with a final BUD-001 line" }
+      - { key: c, text: "HTTP 200 with a usage line and costUsd 0" }
+      - { key: d, text: "HTTP 401, because the runtime requires authentication" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: an empty messages list or a negative maxUsd gets `400 {"code":"REQ-001"}`
+      (agent-runtime README line 19), observed as "maxUsd must be null or a number >= 0". **b**
+      is wrong: BUD-001 is for a turn that can't fit under a valid cap, and the request never
+      gets that far. **c** is wrong: nothing runs. **d** is wrong: the runtime is an internal
+      loopback hop with no user auth; 401 is the API's `/version`.
+    points: 1
+
+  - key: m4-dispatch-blocked
+    kind: single
+    domain: a4-using-products
+    prompt_md: "A teammate wants to start the engine and dispatch a coding task to it with `cflx run`. Why can't that work as of 2026-10-30?"
+    choices:
+      - { key: a, text: "The runtime refuses to start without a provider key" }
+      - { key: b, text: "No engine implements /internal/v1/runs; the dispatch scenarios are PENDING on conflux-engine#87" }
+      - { key: c, text: "cflx is only on madhare-web" }
+      - { key: d, text: "Dispatch works, but only through the user-local 1.0.6 engine" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: the madhare-testing conflux-api suite lists 10 PENDING scenarios with the
+      reason "no engine implements /internal/v1/runs; conflux-engine#87", which is open. **a** is
+      wrong: the runtime starts fine on the stub with no keys. **c** is wrong: `cflx` is
+      conflux-api's CLI, on its epic branch. **d** is wrong: no line implements the dispatch
+      route.
+    points: 1
+
+  - key: m4-trace-content
+    kind: single
+    domain: a4-using-products
+    prompt_md: "After a stub turn with the message \"hello onboarding\", what is in `<TRACE_SPOOL_DIR>/<date>-<runId>.jsonl`?"
+    choices:
+      - { key: a, text: "The full prompt and response, for replay" }
+      - { key: b, text: "Nothing, until TRACE_INGEST_URL is set" }
+      - { key: c, text: "run-event records (run.accepted, model.call.started, model.call.finished, run.closed) in trace envelopes, with no message content" }
+      - { key: d, text: "Only an error record, because stub turns aren't traced" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: each turn writes run-event.v1 records as mh.trace.envelope/v1 lines, and
+      "Message content is never traced"; a grep for the message finds 0. **a** is wrong: content
+      is deliberately excluded. **b** is wrong: the spool is always written, and the ingest URL
+      only adds a POST to the platform. **d** is wrong: the stub turn produces the normal four
+      records.
+    points: 1
+
+  - key: m4-board-audit
+    kind: single
+    domain: a4-using-products
+    prompt_md: "An epic says each feature is tested with a command like `conflux board audit --project=56`. What happens if you run it?"
+    choices:
+      - { key: a, text: "It prints the board audit JSON for project 56" }
+      - { key: b, text: "It works only on the user-local 1.0.6 engine" }
+      - { key: c, text: "It needs MHA_* variables from make dev-env" }
+      - { key: d, text: "It returns Unknown command with exit 64: it's quoted in the process as an example and has no code (Target)" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: the package CLI has only version, health and start, so this gives
+      `{"error":"Unknown command"}` with exit 64, and no branch implements it. **a** is wrong:
+      nothing produces that output. **b** is wrong: the 1.0.6 CLI doesn't have it either. **c** is
+      wrong: dev-env is unrelated, and the command doesn't exist anywhere.
+    points: 1
+
+  # ---------- CLIs and workspace ----------
+  - key: m4-mhjob
+    kind: single
+    domain: a4-using-products
+    prompt_md: "The process says to run builds and tests through `mhjob`. What does it actually do?"
+    choices:
+      - { key: a, text: "It runs the command in a transient user systemd scope in madharejobs.slice, inheriting your environment and directory" }
+      - { key: b, text: "It queues the command on the self-hosted CI runner" }
+      - { key: c, text: "It runs the command in a fresh Docker container" }
+      - { key: d, text: "It records hours for the command on the board" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: `~/.local/bin/mhjob` is a short shell wrapper that execs `systemd-run
+      --user --scope --slice=madharejobs.slice`, so heavy jobs stay out of desktop cgroups. **b**
+      is wrong: it runs locally and immediately. **c** is wrong: there's no container; it uses
+      your environment. **d** is wrong: it has nothing to do with hours, and it doesn't even
+      support `--help`.
+    points: 1
+
+  - key: m4-fetch-shared
+    kind: single
+    domain: a4-using-products
+    prompt_md: "You need the latest remote state of madhare-testing for a lab. What is the safe way to get it?"
+    choices:
+      - { key: a, text: "Run git fetch in /srv/conflux/projects/madhare/repos/madhare-testing, since fetch changes no files" }
+      - { key: b, text: "Use ~/dev/madhare-testing, which Andrew keeps current" }
+      - { key: c, text: "Run git pull in the canonical clone with --ff-only" }
+      - { key: d, text: "Make a scratch clone and fetch from GitHub there, leaving the shared canonical clone untouched" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: the rule is never to `git fetch` in a shared clone, because it moves
+      remote-tracking refs other agents rely on, so you fetch in your own scratch clone. **a** is
+      wrong: fetch changes refs even if it leaves files alone; the course audit did this by
+      accident and recorded it as a side effect. **b** is wrong: `~/dev` is Andrew's, and agents
+      never work there. **c** is wrong: pull changes the shared working tree.
+    points: 1
+
+  - key: m4-jbc-cli-where
+    kind: single
+    domain: a4-using-products
+    prompt_md: "Where do you run the JBC engine's `jbc` CLI in a lab?"
+    choices:
+      - { key: a, text: "On the host PATH, after pip installing the engine" }
+      - { key: b, text: "Inside the madhare-testing JBC harness container, against its FAKE-seeded PostgreSQL" }
+      - { key: c, text: "Through caz, the Code A Zone wrapper on PATH" }
+      - { key: d, text: "Against the production Cloud Run engine, read-only" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: `jbc` isn't on the host PATH; the harness doctor reports `jbc 0.0.1` and
+      migrations at level 0018 inside the container, with FAKE data. **a** is wrong: installing
+      on the host risks real config and breaks the workspace rules. **c** is wrong: `caz` exists
+      only on an experiment branch (Target). **d** is wrong: labs never touch the client cloud.
+    points: 1
+
+  # ---------- madhare-testing ----------
+  - key: m4-pin-fresh-clone
+    kind: single
+    domain: a4-using-products
+    prompt_md: "What does `projects/conflux-api/run-suite` test, by default?"
+    choices:
+      - { key: a, text: "Your current working tree of conflux-api" }
+      - { key: b, text: "The latest commit on conflux-api main" }
+      - { key: c, text: "A fresh clone of conflux-api at the SHA in projects/conflux-api/PIN, never a working tree" }
+      - { key: d, text: "The installed Debian package" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the runner's header says the system under test is a fresh clone at --sha
+      (default PIN), "never a working tree", so a result names exactly what was tested. **a** is
+      wrong: that's the thing it explicitly refuses. **b** is wrong: the pin, not main, is the
+      default, and today's pin (6518568) is on an epic branch. **d** is wrong: the deb is the
+      engine, not the gateway.
+    points: 1
+
+  - key: m4-pending-claim
+    kind: single
+    domain: a4-using-products
+    prompt_md: "The conflux-api suite reports 26 passed, 10 pending, exit 0. What can you honestly write in a PR's Ran It section?"
+    choices:
+      - { key: a, text: "conflux-api fully tested, 36/36" }
+      - { key: b, text: "conflux-api dispatch tested, because exit 0 means success" }
+      - { key: c, text: "Nothing, because pending scenarios make the run invalid" }
+      - { key: d, text: "26 scenarios passed at the pinned SHA; 10 dispatch scenarios are pending on conflux-engine#87 and untested" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: PENDING scenarios are "written, listed, never run and never counted as
+      passed", and exit 0 means everything that ran passed. **a** and **b** are wrong: they count
+      pending scenarios as passed. **c** is wrong: the run is valid; it just has a stated
+      boundary.
+    points: 1
+
+  - key: m4-test-all-fails
+    kind: single
+    domain: a4-using-products
+    prompt_md: "Why does `make test-all` fail on a fresh clone of madhare-testing?"
+    choices:
+      - { key: a, text: "It runs suites that depend on missing /srv/work/dev/repos paths and on a branch of the archived madhare-agents repo, which crashes surface and rls" }
+      - { key: b, text: "The substrate suite fails its negative controls" }
+      - { key: c, text: "It needs Andrew's ADC login" }
+      - { key: d, text: "It requires the CI runner, which only conflux-engine has" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: test-all runs substrate, verifier, surface, certification and rls in order.
+      The verifier fails 18/20 on hard-coded paths, and surface and rls crash cloning
+      `rls/madhare-agents-v0.1.0`. **b** is wrong: the substrate passes 20/20. **c** is wrong: ADC
+      is a dev-doctor failure, not a test-all one. **d** is wrong: it runs locally with Docker.
+    points: 1
+
+  - key: m4-substrate-first
+    kind: single
+    domain: a4-using-products
+    prompt_md: "Which madhare-testing command is the safest first run for a newcomer?"
+    choices:
+      - { key: a, text: "make dev-env, to set up everything" }
+      - { key: b, text: "make test-substrate from a scratch clone via mhjob, after checking no one else has the mht-substrate containers up" }
+      - { key: c, text: "make up PROJECT=jbc, using the operator's defaults" }
+      - { key: d, text: "make certify, to get a verdict on the whole repo" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: the substrate is self-contained, passes 20/20 in about 8 seconds and tears
+      itself down. It uses fixed container names, so check first. **a** is wrong: dev-env fails
+      with 8 FAILs on unavailable services. **c** is wrong: plain `PROJECT=jbc` clobbers the
+      operator's stack, port and volume. **d** is wrong: certification is REJECTED because the
+      repo fails its own audit.
+    points: 1
+
+  - key: m4-negative-control
+    kind: single
+    domain: a4-using-products
+    prompt_md: "Substrate scenario [17], \"Remote DSN Refusal\", expects exit 2. Why does a suite need a scenario like this?"
+    choices:
+      - { key: a, text: "To measure the database's startup time" }
+      - { key: b, text: "To prove that remote databases are reachable from the test network" }
+      - { key: c, text: "It's a negative control: it proves the guard can refuse, so passing checks aren't passing by accident" }
+      - { key: d, text: "To satisfy the string-match rule in the Testing Law" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a negative control shows the check can fail. Here the guard must refuse a
+      remote DSN (exit 2), which protects shared databases. **a** is wrong: it isn't a timing
+      test. **b** is wrong: the point is that a remote DSN is refused, not reached. **d** is wrong:
+      the Testing Law forbids bare string-match assertions; it doesn't require them.
+    points: 1
+
+  - key: m4-certification-rejected
+    kind: single
+    domain: a4-using-products
+    prompt_md: "Why does `make test-certification` end with VERDICT: REJECTED on madhare-testing itself?"
+    choices:
+      - { key: a, text: "The substrate containers were left running" }
+      - { key: b, text: "The certification engine needs network access to GitHub" }
+      - { key: c, text: "Its PIN files point at deleted commits" }
+      - { key: d, text: "Its full workspace law audit finds violations in the test repo's own code, such as a string-matching assertion and a mock bypass" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: scenario [09/26], the full workspace law audit, fails because `make audit`
+      reports 8 violations (for example ERR_PROSECUTOR_STRING_MATCHING_ASSERTION and
+      ERR_PROSECUTOR_MOCK_BYPASS), so the test repo breaks its own law. **a** is wrong: the
+      substrate cleans up after itself. **b** is wrong: the audit is local. **c** is wrong: the
+      PINs resolve. The JBC pin is old, but it's valid.
+    points: 1
+
+  - key: m4-ci-calls-tests
+    kind: single
+    domain: a4-using-products
+    prompt_md: "As of 2026-10-30, which product repo's CI runs the madhare-testing suite?"
+    choices:
+      - { key: a, text: "None. Only four active repos have workflows at all, and none of them calls madhare-testing" }
+      - { key: b, text: "conflux-engine, through ci.yml" }
+      - { key: c, text: "madhare-support, through forms.yml" }
+      - { key: d, text: "madhare-testing calls itself on every push" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: only conflux-engine, madhare-platform, madhare-support and madhare-web have
+      workflows, and no workflow mentions madhare-testing. **b** is wrong: ci.yml runs in-repo
+      vitest, lint, typecheck and gitleaks. **c** is wrong: forms.yml builds and tests
+      @madhare/ops in the product repo. **d** is wrong: madhare-testing has no workflows (404).
+    points: 1
+
+  - key: m4-isolated-harness
+    kind: single
+    domain: a4-using-products
+    prompt_md: "You want to run the JBC suite without disturbing the operator's `jbc` stack. What do you pass to make up, suite and down?"
+    choices:
+      - { key: a, text: "PROJECT=jbc and nothing else, since the harness isolates runs automatically" }
+      - { key: b, text: "A different PROFILE, so the tests use another suite" }
+      - { key: c, text: "Your own PROJECT name, PROFILE pointing at harness/projects/jbc.env, a free HARNESS_DB_PORT and your own HARNESS_VOLUMES_ROOT" }
+      - { key: d, text: "COMPOSE_PROJECT=jbc with KEEP=1" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: docs/harness.md describes an isolated copy as its own compose project and
+      port pointed at the jbc profile, and your own volume root keeps files in your scratch area.
+      **a** is wrong: PROJECT=jbc is the operator's stack, volume and port. **b** is wrong: you
+      need the jbc profile, and tests follow the profile's name. **d** is wrong: that names the
+      operator's compose project, and KEEP isn't a harness option.
+    points: 1
+
+  - key: m4-make-down-leaves
+    kind: single
+    domain: a4-using-products
+    prompt_md: "After `make down` for your harness stack, what is still on the machine, by design?"
+    choices:
+      - { key: a, text: "Nothing at all; the process requires temporary environments" }
+      - { key: b, text: "Your host volume directory, plus the shared mht-shared network, which you must not remove" }
+      - { key: c, text: "The running database container, kept for the next run" }
+      - { key: d, text: "The engine source code checked out on the host" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: "The host volume stays" (docs/harness.md), so you delete your own volume
+      directory. The shared network is created once and removed by nothing, because other stacks
+      use it. 273 leftover volumes show what happens when people skip that cleanup. **a** is wrong:
+      that's the process's intent, not the harness's behaviour. **c** is wrong: down removes the
+      containers and database. **d** is wrong: in engine mode the clone lives inside the image,
+      not on a host path.
+    points: 1
+
+  # ---------- Support, hours, test environments ----------
+  - key: m4-forms-edit
+    kind: single
+    domain: a4-using-products
+    prompt_md: "You need to add a field to madhare-support's Defect form. Where do you make the change?"
+    choices:
+      - { key: a, text: "In packages/ops/forms/case-forms.json, then regenerate with npm run forms; CI's forms:check fails on hand edits to the YAML" }
+      - { key: b, text: "Directly in .github/ISSUE_TEMPLATE/defect.yml" }
+      - { key: c, text: "In the org madharedev/.github repo, which overrides repo templates" }
+      - { key: d, text: "On the support portal at support.madhare.ai" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: "Edit the contract, not the YAML". The generated files say "Do not edit by
+      hand", and `forms:check` reports drift with exit 1. **b** is wrong: that edit fails CI.
+      **c** is wrong: it's the other way round. A repo's own templates hide the org defaults.
+      **d** is wrong: the portal is an intake channel, not the form's source.
+    points: 1
+
+  - key: m4-support-linkback
+    kind: single
+    domain: a4-using-products
+    prompt_md: "A support case needs a fix in conflux-api. What does the product issue have to contain?"
+    choices:
+      - { key: a, text: "A copy of the customer's full case text" }
+      - { key: b, text: "The line Support case: madharedev/madhare-support#<n> (MH-<id>), with a comment on the case linking back" }
+      - { key: c, text: "The sev label only; the board links them automatically" }
+      - { key: d, text: "Nothing; the case is closed and moved to the product repo" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: README line 24 requires that line in the product issue and a comment on the
+      case linking back. The case stays open until the customer outcome is delivered. **a** is
+      wrong: cases are internal by default and aren't copied. **c** is wrong: nothing links them
+      automatically. **d** is wrong: cases keep their MH- number for life and stay in
+      madhare-support.
+    points: 1
+
+  - key: m4-hours-hook-off
+    kind: single
+    domain: a4-using-products
+    prompt_md: "The process says hours are recorded on the task via the add-hours hook. Why does that record nothing on this fleet?"
+    choices:
+      - { key: a, text: "The hook only runs on Codex sessions" }
+      - { key: b, text: "The board has no Actual hours field" }
+      - { key: c, text: "Claude hooks are switched off fleet-wide with disableAllHooks: true, at Andrew's direction" }
+      - { key: d, text: "The hook writes to a database that's down" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: `/srv/conflux/claude/settings.json` line 20 sets `"disableAllHooks": true`,
+      which disables every hook. Andrew directed it, and it isn't to be reversed. **a** is wrong:
+      it's a Claude Code hook. **b** is wrong: board 72 has Actual hours, filled by
+      measure-issue-work.py. **d** is wrong: the hook never runs, so no write is attempted.
+    points: 1
+
+  - key: m4-release-form-missing
+    kind: single
+    domain: a4-using-products
+    prompt_md: "The process says releases start in madhare-support. What do you find when you try to open a release issue there?"
+    choices:
+      - { key: a, text: "A generated Release form, drift-checked by forms:check" }
+      - { key: b, text: "The org release.md, inherited from madharedev/.github" }
+      - { key: c, text: "A Release form in GitHub Projects, not in issues" }
+      - { key: d, text: "No release form: the repo's own four templates (config, defect, incident, support) hide the org defaults, and no copy was added" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: madhare-support's ISSUE_TEMPLATE holds four generated files, and a repo's
+      own folder replaces the org defaults, though the process (line 53) says it keeps a copy.
+      **a** is wrong: case-forms.json defines only Support request, Defect and Incident. **b** is
+      wrong: that inheritance happens only for repos without their own templates. **c** is wrong:
+      Projects don't provide issue forms.
+    points: 1
+
+  # ---------- Multi: choose two ----------
+  - key: m4-ready-tells
+    kind: multi
+    domain: a4-using-products
+    prompt_md: "The runtime's `/ready` returns `\"agents\":[]`, `\"providers\":{\"anthropic\":false,\"gemini\":false,\"openai\":false,\"stub\":true}` and `\"traceIngest\":false`. What does that tell you? Choose two."
+    choices:
+      - { key: a, text: "No agent is packaged, so any named agent gets AGT-001" }
+      - { key: b, text: "No provider has an API key, so only stub turns can run" }
+      - { key: c, text: "Traces are being posted to the platform ingest" }
+      - { key: d, text: "Anonymous callers must authenticate before running turns" }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right: an empty agents list means unknown-agent refusals, and only the
+      stub provider is available, since `/ready` shows which providers have a key, never the key.
+      **c** is wrong: traceIngest false means the local spool only. **d** is wrong: the runtime
+      hop has no user authentication; the 401 is on the API's `/version`.
+    points: 1
+
+  - key: m4-cannot-run
+    kind: multi
+    domain: a4-using-products
+    prompt_md: "Which of these can't you do with Conflux on the dev machine as of 2026-10-30? Choose two."
+    choices:
+      - { key: a, text: "Run a stub turn and get a trace file" }
+      - { key: b, text: "Check health of the API on 8792 and the runtime on 8793" }
+      - { key: c, text: "Run a turn as a named agent against a real model" }
+      - { key: d, text: "Dispatch a task through the gateway to the engine" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are right: the package ships no agents, no real provider call has ever been
+      made, and dispatch (`/internal/v1/runs`) isn't built (conflux-engine#87). **a** is wrong: a
+      stub turn works and writes a `<date>-<runId>.jsonl` trace. **b** is wrong: both health
+      checks return `"healthy":true` once started.
+    points: 1
+
+  - key: m4-rot-causes
+    kind: multi
+    domain: a4-using-products
+    prompt_md: "Which are real causes of madhare-testing suites failing today? Choose two."
+    choices:
+      - { key: a, text: "The verifier scans hard-coded /srv/work/dev/repos/... paths that no longer exist" }
+      - { key: b, text: "Docker isn't available on the dev machine" }
+      - { key: c, text: "rls/harness/rls.py clones a branch of the archived madhare-agents repo" }
+      - { key: d, text: "Every PIN file points at a commit that has been deleted" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: verifier/test.sh lines 116 and 123 scan missing paths (18/20),
+      and rls.py lines 12–13 clone `rls/madhare-agents-v0.1.0`, which no longer exists, crashing
+      surface and rls. **b** is wrong: the substrate and the JBC harness run in Docker fine.
+      **d** is wrong: the pins resolve. The JBC pin is old, but it's valid.
+    points: 1
+
+  - key: m4-test-env-reality
+    kind: multi
+    domain: a4-using-products
+    prompt_md: "Compare the process's \"temporary, portable test environment per epic\" with the harness today. Which statements are true? Choose two."
+    choices:
+      - { key: a, text: "Each epic has its own harness profile that Andrew can sign in to" }
+      - { key: b, text: "make down keeps the host volume by design, so leftover volume directories pile up unless each person deletes their own" }
+      - { key: c, text: "The harness deletes every trace of a run, including volumes" }
+      - { key: d, text: "The harness is per project (for example jbc), with no epic configuration" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: the host volume stays by design, leaving 1.5 GB of leftovers, and
+      profiles exist per project only. **a** is wrong: no epic profile or "sign in and run each
+      feature's command" setup exists (Target). **c** is wrong: it contradicts the documented
+      behaviour of `make down`.
+    points: 1
+
+  - key: m4-hours-reality
+    kind: multi
+    domain: a4-using-products
+    prompt_md: "Which statements about hours are true as of 2026-10-30? Choose two."
+    choices:
+      - { key: a, text: "There's no live time report: the state refresh prints time=UNKNOWN and its unit is failed" }
+      - { key: b, text: "The add-hours hook computes the union of overlapping work blocks" }
+      - { key: c, text: "Sabai's hours are fully captured in the Actual hours field of every task" }
+      - { key: d, text: "measure-issue-work.py --sync-board computes union-based Actual hours and writes them to the board, and only the coordination role should run it" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: mh-state-refresh reports time=UNKNOWN and is failed, and the
+      workspace's WORKFLOW.md defines Actual hours as a union, computed by that script at
+      check-ins. **b** is wrong: the hook added overlaps ("added, not unioned"), and it's
+      disabled anyway. **c** is wrong: Sabai's ledger stops at 10-17, and only one task has
+      Actual hours.
+    points: 1
+
+  - key: m4-tests-in-product-repos
+    kind: multi
+    domain: a4-using-products
+    prompt_md: "The process says \"No tests in product repos\". Which repos break that rule today? Choose two."
+    choices:
+      - { key: a, text: "madhare-testing" }
+      - { key: b, text: "conflux-engine, whose CI runs in-repo vitest specs" }
+      - { key: c, text: "madhare-support, whose CI runs node --test for @madhare/ops" }
+      - { key: d, text: "sabai-engine main" }
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** are right: conflux-engine has 29 spec/test files and runs them in ci.yml,
+      and madhare-support runs `npm test -w @madhare/ops` in forms.yml. **a** is wrong:
+      madhare-testing is the test repo, where tests belong. **d** is wrong: sabai-engine's main is
+      a single README commit.
+    points: 1
+
+  - key: m4-support-gaps
+    kind: multi
+    domain: a4-using-products
+    prompt_md: "Which are real gaps in madhare-support as of 2026-10-30? Choose two."
+    choices:
+      - { key: a, text: "Releases are meant to start there, but it has no release form" }
+      - { key: b, text: "Its board uses New → Triaged → … → Closed rather than the process's single status list" }
+      - { key: c, text: "Its issue form YAML is maintained by hand" }
+      - { key: d, text: "It has no CI at all" }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right: the four templates include no release form, and the board's
+      columns differ from Backlog → … → Done. **c** is wrong: the YAML is generated from
+      case-forms.json and drift-checked. **d** is wrong: forms.yml builds, tests and checks the
+      forms. It's one of only four repos with CI.
+    points: 1
+
+  - key: m4-safe-in-lab
+    kind: multi
+    domain: a4-using-products
+    prompt_md: "Which of these are safe to run in a lab? Choose two."
+    choices:
+      - { key: a, text: "measure-issue-work.py without flags, just to look at the numbers" }
+      - { key: b, text: "sabai run --subscription-cli with a small --run-cap-usd" }
+      - { key: c, text: "sabai run --synthetic --scenario success writing events to a fresh scratch directory" }
+      - { key: d, text: "sabai-db-migrate inventory, which reports database_contacted: false" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are right: synthetic runs make no provider call and write only the events
+      file you name, and inventory is offline (15/15 MATCH, no database contact). **a** is wrong:
+      even without --sync-board it writes an evidence JSON (line 216), which is shared state.
+      **b** is wrong: subscription-cli calls the model and writes audit rows to the client's Azure
+      database, whatever the cap.
+    points: 1

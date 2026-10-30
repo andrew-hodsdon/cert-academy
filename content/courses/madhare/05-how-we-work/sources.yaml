@@ -1,0 +1,385 @@
+sources:
+  # ---------- The process as written ----------
+  - slug: m5-process-file
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/bddb861bd834fdb92eeda574ef240dee4059cc4d/agents/AGENTS.md
+    title: "Mad Hare Operations (agents/AGENTS.md) at bddb861"
+    site: github.com/madharedev/madhare-support
+    published: 2026-10-29
+    tags: [process, releases, branches, merging, review, hours]
+    summary_md: |
+      The global process file. It says it "is **the** process" and wins over any repo file.
+      Defines roles (Claude Code plans and dispatches, Codex implements, local models judge,
+      Andrew operates), semver release levels, the release → epic → feature → three-task
+      structure, branch names, the single status field, merging and approval, the PR template,
+      cross-model review, test environments, docs audits and hours. Symlinked to
+      `/srv/conflux/AGENTS.md` and `/srv/conflux/codex/AGENTS.md`; unchanged since this commit
+      as of 2026-10-30.
+
+  - slug: m5-support-pr-65
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/pull/65
+    title: "madhare-support#65: Add the Mad Hare Operations process file"
+    site: github.com/madharedev/madhare-support
+    published: 2026-10-29
+    tags: [process, audit]
+    summary_md: |
+      The PR that merged the process file on 2026-10-29 at 15:52Z, about two minutes after it
+      was opened. Branch `chore/operations-process-file` (outside the scheme it defines), no
+      cross-model review section, hours "Not captured. Time capture starts with this process."
+
+  - slug: m5-org-templates
+    kind: repo
+    url: https://github.com/madharedev/.github/blob/c99d68197aa58f86411e4af4ebc229a2ff3837b8/.github/pull_request_template.md
+    title: "madharedev/.github PR template and issue templates at c99d681"
+    site: github.com/madharedev/.github
+    published: 2026-10-29
+    tags: [templates, pr, issues]
+    summary_md: |
+      The org PR template (What, Ran it, Cross-model review, Docs changed, Version, Hours,
+      Unverified) and issue templates (release, epic, feature, task, remainder, defect,
+      incident, support). Its header says it was copied from madhare-documentation
+      `templates/github/pull-request.md @ c64ec47`, so a second copy exists. The repository is
+      PRIVATE as of 2026-10-30 (`gh repo view madharedev/.github --json visibility`).
+
+  - slug: m5-github-default-health-files
+    kind: web
+    url: https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file
+    title: "Creating a default community health file"
+    site: docs.github.com
+    tags: [github, templates]
+    summary_md: |
+      GitHub's documentation for org-wide default issue and PR templates. Defaults come from a
+      **public** repository named `.github`, and a repo with its own `.github/ISSUE_TEMPLATE`
+      folder does not inherit them. Basis for the finding that the private `madharedev/.github`
+      templates are probably not applied as defaults.
+
+  - slug: m5-github-closing-keywords
+    kind: web
+    url: https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue
+    title: "Linking a pull request to an issue"
+    site: docs.github.com
+    tags: [github, issues, prs]
+    summary_md: |
+      Closing keywords ("Closes #n") only close the issue when the PR merges into the
+      repository's default branch. Explains why the release → epic → feature → task branch
+      stack never auto-closes its issues, and why conflux-api#80's tasks were closed by hand.
+
+  - slug: m5-semver
+    kind: web
+    url: https://semver.org/
+    title: "Semantic Versioning 2.0.0"
+    site: semver.org
+    tags: [versions]
+    summary_md: |
+      The versioning scheme the process uses for releases: MAJOR.MINOR.PATCH, with
+      pre-release labels such as `-dev` and `-rc.N`.
+
+  - slug: m5-gh-pr-view
+    kind: web
+    url: https://cli.github.com/manual/gh_pr_view
+    title: "gh pr view (GitHub CLI manual)"
+    site: cli.github.com
+    tags: [gh, lab]
+    summary_md: |
+      Reference for `gh pr view --json <fields>`, the read-only command the audit lab uses to
+      pull branch, base, merger, body, closing references, reviews and board items.
+
+  - slug: m5-gh-project
+    kind: web
+    url: https://cli.github.com/manual/gh_project_field-list
+    title: "gh project field-list (GitHub CLI manual)"
+    site: cli.github.com
+    tags: [gh, boards, lab]
+    summary_md: |
+      Reference for `gh project field-list` and the sibling `gh project item-list` and
+      `gh project view`, used read-only in the lab to compare board status sets and item states.
+
+  # ---------- The golden path ----------
+  - slug: m5-capi-epic-70
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/issues/70
+    title: "conflux-api#70: Epic: Operators dispatch coding agents from GitHub issues with cflx"
+    site: github.com/madharedev/conflux-api
+    published: 2026-10-29
+    tags: [golden-path, epic]
+    summary_md: |
+      The epic written from the org epic template: one outcome, a features table with command,
+      input and output schema, a test environment section ("TO BE WRITTEN by #73"),
+      dependencies, acceptance and stop conditions. Still OPEN on 2026-10-30, with its
+      acceptance boxes unticked.
+
+  - slug: m5-capi-feature-71
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/issues/71
+    title: "conflux-api#71: Feature: cflx run dispatch starts one coding agent per issue"
+    site: github.com/madharedev/conflux-api
+    published: 2026-10-29
+    tags: [golden-path, feature]
+    summary_md: |
+      The feature with exactly three task sub-issues: #72 code, #73 test (cross-model review
+      and Ran It), #74 docs. Closed by hand at 2026-10-30T06:44:58Z after the feature PR merged.
+
+  - slug: m5-capi-task-73
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/issues/73
+    title: "conflux-api#73: Task (test): cross-model review and Ran It for cflx run dispatch"
+    site: github.com/madharedev/conflux-api
+    published: 2026-10-29
+    tags: [golden-path, test-task]
+    summary_md: |
+      The test task. It names a reviewer "from a different model family than #72's author"
+      and a task branch `task/73-test`. No PR from that branch exists; the test work landed as
+      madhare-testing#401. Its body still reads "Actual hours: `TBD`" though the board records
+      0.85 h.
+
+  - slug: m5-capi-pr-80
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/pull/80
+    title: "conflux-api#80: feat(#71): cflx run dispatch starts one coding agent per issue"
+    site: github.com/madharedev/conflux-api
+    published: 2026-10-29
+    tags: [golden-path, feature-pr]
+    summary_md: |
+      The feature PR, `feat/71-cflx-run-dispatch` → `epic/70-cflx-run-dispatch`. Lists the task
+      PRs with heads and merges, a full Ran It (including the honest "Positive path with a live
+      engine: NOT RUN"), cross-model review (Claude author, Codex reviewer, six rounds, 25
+      findings), docs, and an hours roll-up of 4.25 h. The merge comment records the operator's
+      approval ("Calder merges", relayed by the hub) and that tasks were closed by hand.
+
+  - slug: m5-capi-pr-82
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/pull/82
+    title: "conflux-api#82: task(#72): cflx run dispatch over POST /v1/runs"
+    site: github.com/madharedev/conflux-api
+    published: 2026-10-29
+    tags: [golden-path, code-task]
+    summary_md: |
+      The code task PR, `task/72-code` → `feat/71-cflx-run-dispatch`, merged by Andrew on
+      2026-10-30T01:35Z. Holds the full Ran It log (positive, negative and regression checks)
+      and six "Cross-model review round" comments from Codex.
+
+  - slug: m5-capi-pr-83
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/pull/83
+    title: "conflux-api#83: task(#74): document cflx run dispatch"
+    site: github.com/madharedev/conflux-api
+    published: 2026-10-29
+    tags: [golden-path, docs-task]
+    summary_md: |
+      The docs task PR: new `docs/cli.md`, Built/Target marks in `docs/architecture.md`,
+      README and OpenAPI description changes, with its own Ran It (make check, Mermaid parse,
+      link check, gitleaks). Cross-model review delegated to #73.
+
+  - slug: m5-testing-pr-401
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/pull/401
+    title: "madhare-testing#401: feat(#71): conflux-api suite for cflx run dispatch"
+    site: github.com/madharedev/madhare-testing
+    published: 2026-10-29
+    tags: [golden-path, tests]
+    summary_md: |
+      The harness suite for feature #71, pinned to conflux-api `6518568`: 26 passed, 10 pending
+      (the live-engine scenarios). Branch `feat/71-conflux-api-suite` → `main`, merged by an
+      agent account.
+
+  - slug: m5-board-89
+    kind: repo
+    url: https://github.com/orgs/madharedev/projects/89
+    title: "GitHub Project 89: Conflux Product Release v1.0.0"
+    site: github.com/orgs/madharedev
+    tags: [boards]
+    summary_md: |
+      The Conflux v1.0.0 release board, 12 items. As of 2026-10-30, #71–#74 and PR #80 still
+      show **In review** although they were closed and merged at 06:44Z; Actual hours are set on
+      3 of 12 items (#72 2.6, #73 0.85, #74 0.8). Its status set has no `Ready`.
+
+  # ---------- Counter-examples and this week ----------
+  - slug: m5-jbc-pr-537
+    kind: repo
+    url: https://github.com/madharedev/jbc-site-plan-review-engine/pull/537
+    title: "jbc-site-plan-review-engine#537: fix(serve): recover only runs no live process owns"
+    site: github.com/madharedev/jbc-site-plan-review-engine
+    published: 2026-10-30
+    tags: [audit, merge-before-review]
+    summary_md: |
+      `task/536-code` → `main`, merged 10:50:07Z on 2026-10-30 with "Cross-model review: Not
+      yet." An approval review posted under the andrew-hodsdon account ends "Recorded by the hub
+      session (Claude Code)". At 11:11:49Z a Codex review returned REQUEST_CHANGES (post-merge),
+      with a major ownership-lifecycle finding in `serve/worker.py`.
+
+  - slug: m5-jbc-pr-532
+    kind: repo
+    url: https://github.com/madharedev/jbc-site-plan-review-engine/pull/532
+    title: "jbc-site-plan-review-engine#532: feat(deploy): one-command engine deploy path"
+    site: github.com/madharedev/jbc-site-plan-review-engine
+    published: 2026-10-30
+    tags: [audit, merge-before-review]
+    summary_md: |
+      Task branch merged straight to `main` on 2026-10-30 at 10:52Z with the cross-model review
+      "Not run yet", as part of the "merge everything to main" instruction.
+
+  - slug: m5-jbc-pr-538
+    kind: repo
+    url: https://github.com/madharedev/jbc-site-plan-review-engine/pull/538
+    title: "jbc-site-plan-review-engine#538: Merge the live engine build (92f14a0) to main"
+    site: github.com/madharedev/jbc-site-plan-review-engine
+    published: 2026-10-30
+    tags: [audit, merge-before-review]
+    summary_md: |
+      Branch `task/next-rev-20261030` (no issue number) merged to `main` at 10:36Z on
+      2026-10-30. Its body says the later commits had no cross-model review.
+
+  - slug: m5-caz-pr-33
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/pull/33
+    title: "code-a-zone#33: feat(#27): Trace page for a run in the Review Portal"
+    site: github.com/madharedev/code-a-zone
+    published: 2026-10-30
+    tags: [audit]
+    summary_md: |
+      Correct task → feature branches and hours, but merged two minutes after opening with the
+      cross-model review "Pending: Codex".
+
+  - slug: m5-caz-pr-36
+    kind: repo
+    url: https://github.com/madharedev/code-a-zone/pull/36
+    title: "code-a-zone#36: feat(#34): Review quality section first on the evaluations page"
+    site: github.com/madharedev/code-a-zone
+    published: 2026-10-30
+    tags: [audit]
+    summary_md: |
+      Full template sections, real Ran It against pilot evaluation rows, but cross-model review
+      "Not yet: to be requested from Codex" at merge. Says "Closes #34", yet no native closing
+      reference exists because the base is a feature branch.
+
+  - slug: m5-agents-pr-55
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/55
+    title: "conflux-agents#55: retire generated Claude hooks; manual session entry"
+    site: github.com/madharedev/conflux-agents
+    published: 2026-10-22
+    tags: [hooks, sessions, old-process]
+    summary_md: |
+      The 2026-10-22 PR that retired the generated Claude hooks and made session entry a
+      manual agent action. Uses the older workspace template (What / Ran it / Unverified /
+      Dependencies) and branch `task/54-…` → `story/32-…` (old scheme). No hours.
+
+  - slug: m5-agents-pr-85
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/85
+    title: "conflux-agents#85: dispatcher release branches are release/vX.Y.Z, not rls/"
+    site: github.com/madharedev/conflux-agents
+    tags: [branches, agents]
+    summary_md: |
+      Open fix: the installed dispatcher agent still encodes `rls/<release>` and an
+      `integration` branch, which contradicts the process file's `release/vX.Y.Z` scheme.
+
+  - slug: m5-testing-pr-415
+    kind: repo
+    url: https://github.com/madharedev/madhare-testing/pull/415
+    title: "madhare-testing#415: Qualify installed CAZ template renderer"
+    site: github.com/madharedev/madhare-testing
+    published: 2026-10-30
+    tags: [audit, branches]
+    summary_md: |
+      Open PR on `experiment/…` → `experiment/…` branches, with a "same-family review" noted in
+      place of a cross-model review. Shows the older workspace PR format still in use.
+
+  - slug: m5-web-pr-60
+    kind: repo
+    url: https://github.com/madharedev/madhare-web/pull/60
+    title: "madhare-web#60: fix(v1.0.1): launch fixes"
+    site: github.com/madharedev/madhare-web
+    published: 2026-10-30
+    tags: [audit, good-example]
+    summary_md: |
+      A second good example: full template, five Codex review rounds, 2.5 h recorded, native
+      close of #59, merged by Andrew.
+
+  - slug: m5-sabai-pr-130
+    kind: repo
+    url: https://github.com/madharedev/sabai-engine/pull/130
+    title: "sabai-engine#130: release: v1.0.0, live audited run in managed Azure PostgreSQL"
+    site: github.com/madharedev/sabai-engine
+    published: 2026-10-30
+    tags: [audit, good-example]
+    summary_md: |
+      Release PR `release/v1.0.0` → `main`, open, with a Codex review that returned BLOCK and
+      was fixed, 2.0 h recorded, native close of #122.
+
+  - slug: m5-hub-release-74
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/issues/74
+    title: "madhare-support#74: Release v1.1.0"
+    site: github.com/madharedev/madhare-support
+    published: 2026-10-29
+    tags: [releases, churn]
+    summary_md: |
+      Created on 2026-10-29 and closed "COMPLETED" at 2026-10-30T01:16Z without delivery, with
+      #75 (v1.2.0). Evidence of release-issue churn.
+
+  - slug: m5-support-issue-93
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/issues/93
+    title: "madhare-support#93: Rotate two exposed tokens"
+    site: github.com/madharedev/madhare-support
+    published: 2026-10-30
+    tags: [security, incident]
+    summary_md: |
+      Operator Request to rotate two exposed tokens (a database proxy credential on a command
+      line and a telemetry ingest token). Cited as the risk only; no values.
+
+  - slug: m5-support-issue-89
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/issues/89
+    title: "madhare-support#89: Production support board as the template; Ready and Actual hours on every board"
+    site: github.com/madharedev/madhare-support
+    published: 2026-10-30
+    tags: [boards, hours]
+    summary_md: |
+      Open request to add the missing `Ready` status and the Actual hours field to every
+      release board, the fix for the board-drift finding.
+
+  - slug: m5-support-issue-66
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/pull/66
+    title: "madhare-support#66 (PR): Add project state to the process"
+    site: github.com/madharedev/madhare-support
+    tags: [process, state]
+    summary_md: |
+      Open PR to bring the new per-project `state.json` layout under the process file.
+      Evidence that the new layout is Partial.
+
+  - slug: m5-support-reset-commit
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/commit/18fe06cabf258a3e7b6db5c5d604e2f541ac47f9
+    title: "madhare-support 18fe06c: reset current product identity to 0.1.0-dev.0"
+    site: github.com/madharedev/madhare-support
+    published: 2026-10-27
+    tags: [versions, timeline]
+    summary_md: |
+      The 2026-10-27 version reset, part of the crisis day in the timeline. About a dozen
+      "set version 1.0.0-dev" PRs followed on 10-29, several closed unmerged.
+
+  - slug: m5-agents-pr-86
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/86
+    title: "conflux-agents#86: Fleet entity personas"
+    site: github.com/madharedev/conflux-agents
+    tags: [personas, sessions]
+    summary_md: |
+      Open PR to version the fleet personas (Reeve, Calder, Rook, Bert, LaShonda, Kif,
+      Sabrina). Until it lands, personas are session names and output styles, not packaged
+      agents.
+
+  - slug: m5-doc-pr-50
+    kind: repo
+    url: https://github.com/madharedev/madhare-documentation/pull/50
+    title: "madhare-documentation#50: Doc site: MkDocs kit, sign-in, strict build"
+    site: github.com/madharedev/madhare-documentation
+    published: 2026-10-29
+    tags: [audit]
+    summary_md: |
+      Five cross-model review rounds, but branch `feat/docs-consolidated` with no issue number,
+      no native close and no hours. On board "Mad Hare Operations … v1.0.0" as Done.

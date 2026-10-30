@@ -1,0 +1,285 @@
+sources:
+  - slug: m3-ops-agents-md
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/blob/865da77acbc2b7eba46ed22d2ba722ff5a39b7a2/agents/AGENTS.md
+    title: "Mad Hare Operations (agents/AGENTS.md), the global process file"
+    authors: [Mad Hare]
+    site: github.com/madharedev/madhare-support
+    published: 2026-10-29
+    tags: [process, roster, cross-model-review]
+    summary_md: |
+      The global process. §Method (lines 9–11) says Claude Code plans and dispatches, Codex
+      implements, and local models are the judge and auditors. §Cross-model review (line 112)
+      says the reviewer is always the other model family and "the local judge breaks ties".
+      §Testing (line 141) is the only place Vera is named. Line 31 forbids deploying from a commit
+      that isn't pushed. Used in every lesson as the "as documented" side.
+
+  - slug: m3-ops-pr-65
+    kind: repo
+    url: https://github.com/madharedev/madhare-support/pull/65
+    title: "madhare-support PR #65: add the Mad Hare Operations process file"
+    authors: [Mad Hare]
+    site: github.com/madharedev/madhare-support
+    published: 2026-10-29
+    tags: [process]
+    summary_md: |
+      The PR that merged the global process file (commit `bddb861`) on 2026-10-29. It dates the
+      "new" process: everything in the agentd workspaces (10-20 to 10-22) predates it.
+
+  - slug: m3-ca-main-readme
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/b15c16210e93e312b97bc4a789be570068285d49/README.md
+    title: "conflux-agents main README (placement skeleton after the v1.1.0 reset)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [conflux-agents, definition-of-record]
+    summary_md: |
+      `main` at `b15c162` "intentionally contains no active agent implementations" and says
+      canonical agent records "live in the configured database". Evidence that the installed role
+      agents do not come from `main`.
+
+  - slug: m3-ca-team-core
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/f721fc0e9f2a30f9d91cc3509f5ef3e8da5f99de/teams/core.yaml
+    title: "conflux-agents teams/core.yaml at f721fc0 (PR #83 branch)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [conflux-core, team]
+    summary_md: |
+      The conflux-core team (team.v1): dispatcher/conflux-dispatcher, writer/doc-writer,
+      auditor/doc-auditor, tester/test-writer, tester/tester, coder/coder. This commit is the one
+      the install worktree has checked out (detached).
+
+  - slug: m3-ca-coder-agent
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/f721fc0e9f2a30f9d91cc3509f5ef3e8da5f99de/agents/coder/agent.yaml
+    title: "conflux-agents agents/coder/agent.yaml (agent.v1)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [agent-definition]
+    summary_md: |
+      A worked agent.v1 package: `model.prefer: opus`, `reasoning: high`, tools
+      `[filesystem, git, gh, shell]`, skill `code`, hooks `update-issues`, `add-hours`,
+      `cross-model-review`, and typed parameters. Siblings: `charter.md` (a Jinja template) and
+      `policy.yaml`.
+
+  - slug: m3-ca-coder-config
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/f721fc0e9f2a30f9d91cc3509f5ef3e8da5f99de/agents/coder/configs/coder.yaml
+    title: "conflux-agents agents/coder/configs/coder.yaml (agent-config.v1)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [agent-definition, bindings]
+    summary_md: |
+      The bindings that turn the generic coder into "Coder: typescript (nestjs)": language,
+      frameworks, `check_command: TMPDIR=/srv/work/dev/agentd make check`,
+      `review_branch: andrew/review`, and the update-issues status names `In Progress`,
+      `In Review`, `Done`. Evidence for the hard-wired NestJS coder and the status drift.
+
+  - slug: m3-ca-coder-policy
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/f721fc0e9f2a30f9d91cc3509f5ef3e8da5f99de/agents/coder/policy.yaml
+    title: "conflux-agents agents/coder/policy.yaml (policy.v1)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [policy, hooks]
+    summary_md: |
+      The coder's policy: read and write allowed, execute and network ask, destructive,
+      credential, external-message and spend denied, plus shell allow/ask/deny prefixes. It is
+      enforced only by the plugin's PreToolUse policy hook, which is inert while hooks are off.
+
+  - slug: m3-ca-install-doc
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/f721fc0e9f2a30f9d91cc3509f5ef3e8da5f99de/docs/install.md
+    title: "conflux-agents docs/install.md (install guide and status)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [install, hooks, codex]
+    summary_md: |
+      Install status per host: Claude Code plugins Built; Codex plugins Built but "the agent role
+      is copied by hand; the installer is Target (#72)"; Vertex render Target (#73). Lines 50–53:
+      plugin hooks, including the policy hook, are skipped while `disableAllHooks` is true, and
+      `CONFLUX_HOOKS=off` turns the Conflux hooks off.
+
+  - slug: m3-ca-generator
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/tree/f721fc0e9f2a30f9d91cc3509f5ef3e8da5f99de/libs/generator
+    title: "conflux-agents libs/generator (conflux-gen)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [generator, conflux-gen]
+    summary_md: |
+      The `conflux-gen` generator: `validate`, `render <agent>/<config>` and
+      `build <team> --out DIR [--check]`. Exit codes 0 ok, 1 refused (CFG-/POL- code), 2 drift.
+      Used in the lab in lesson 3.
+
+  - slug: m3-ca-cross-model-hook
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/blob/f721fc0e9f2a30f9d91cc3509f5ef3e8da5f99de/hooks/cross-model-review/cross_model_review.py
+    title: "conflux-agents hooks/cross-model-review/cross_model_review.py"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [cross-model-review, hooks]
+    summary_md: |
+      The automatic review hook. Line 26: `OTHER_FAMILY = {"claude": "codex", "codex": "claude",
+      "unknown": "codex"}`, so a Claude-authored PR is routed to Codex. It fires after a PR is
+      created, which never happens while hooks are disabled.
+
+  - slug: m3-ca-pr-83
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/83
+    title: "conflux-agents PR #83: role agent packages, conflux-gen, skills and hooks (open)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [conflux-core, unmerged]
+    summary_md: |
+      The open PR that holds the conflux-core source (branch `feat/74-conflux-agents-v1.0.0`).
+      Open as of 2026-10-30, yet its build output is what Claude and Codex load.
+
+  - slug: m3-ca-pr-85
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/85
+    title: "conflux-agents PR #85: dispatcher release branches are release/vX.Y.Z, not rls/ (open)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [branches, dispatcher]
+    summary_md: |
+      The fix for the installed dispatcher's old branch scheme (`rls/<release>`, `integration`).
+      Open and not installed as of 2026-10-30.
+
+  - slug: m3-ca-pr-86
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/86
+    title: "conflux-agents PR #86: Fleet entity personas (open)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [personas]
+    summary_md: |
+      Proposes versioning the personas (Reeve, Rook, Calder, Sabrina, Kif, LaShonda, Bert) in
+      conflux-agents. Open as of 2026-10-30; today the personas are Claude output styles and
+      session names.
+
+  - slug: m3-ca-pr-82
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/pull/82
+    title: "conflux-agents PR #82: Conflux role agents on Vertex AI (open)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [vertex, roles]
+    summary_md: |
+      A third file format for agents: `roles/<slug>/role.yaml` (board-operator, code-executor,
+      status-reporter) for a Vertex runtime. Open, Target.
+
+  - slug: m3-ca-issue-72
+    kind: repo
+    url: https://github.com/madharedev/conflux-agents/issues/72
+    title: "conflux-agents issue #72: package agents for the local Conflux runtime (epic, open)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-agents
+    tags: [install, codex]
+    summary_md: |
+      The Target that would replace hand-copying Codex agent tomls with an installer.
+
+  - slug: m3-ar-twin-readme
+    kind: repo
+    url: https://github.com/andrew-hodsdon/agent-runtime/blob/e9d46c2431759dfc87fbf93f05e24093ef421710/libs/harnesses/twin/README.md
+    title: "agent-runtime libs/harnesses/twin/README.md (twin-run harness)"
+    authors: [Andrew Hodsdon]
+    site: github.com/andrew-hodsdon/agent-runtime
+    tags: [judge, harness, local-models]
+    summary_md: |
+      The twin-run harness runs each prompt as a Claude Agent SDK arm and a Conflux arm and
+      labels the pair. Line 75: the blind judge is `claude-opus-5-5`. Line 93: the local Ollama
+      models are 0.6B–2B and "unqualified". Evidence that no local judge exists today.
+
+  - slug: m3-ar-agents-readme
+    kind: repo
+    url: https://github.com/andrew-hodsdon/agent-runtime/blob/e9d46c2431759dfc87fbf93f05e24093ef421710/libs/python/agents/README.md
+    title: "agent-runtime libs/python/agents/README.md"
+    authors: [Andrew Hodsdon]
+    site: github.com/andrew-hodsdon/agent-runtime
+    tags: [definition-of-record]
+    summary_md: |
+      "Legacy placement only… Agent definitions belong in the database as immutable versions",
+      with resolution and plugin export planned for a `libs/agents` library (Target).
+
+  - slug: m3-conflux-api-pr-80
+    kind: repo
+    url: https://github.com/madharedev/conflux-api/pull/80
+    title: "conflux-api PR #80: cflx run dispatch (merged)"
+    authors: [Mad Hare]
+    site: github.com/madharedev/conflux-api
+    tags: [cross-model-review, good-example]
+    summary_md: |
+      The worked example of the method done tightly: Claude authored, Codex
+      (`codex exec -s read-only`) reviewed over several rounds, fixes validated, hours recorded.
+      The one route that matches AGENTS.md and actually completed.
+
+  - slug: m3-claude-hooks-docs
+    kind: web
+    url: https://code.claude.com/docs/en/hooks
+    title: "Claude Code: Hooks reference"
+    authors: [Anthropic]
+    site: code.claude.com
+    tags: [hooks, claude-code]
+    summary_md: |
+      How PreToolUse, PostToolUse and SessionStart hooks run, and that a PreToolUse hook exiting
+      2 blocks the tool call. Explains why a default-deny PreToolUse hook blocks everything it does
+      not explicitly allow.
+
+  - slug: m3-claude-settings-docs
+    kind: web
+    url: https://code.claude.com/docs/en/settings
+    title: "Claude Code: Settings"
+    authors: [Anthropic]
+    site: code.claude.com
+    tags: [settings, claude-code]
+    summary_md: |
+      The settings file, including `disableAllHooks`, permission modes such as
+      `bypassPermissions`, `env`, `enabledPlugins` and `extraKnownMarketplaces`, and the
+      `CLAUDE_CONFIG_DIR` location.
+
+  - slug: m3-claude-memory-docs
+    kind: web
+    url: https://code.claude.com/docs/en/memory
+    title: "Claude Code: Manage memory (CLAUDE.md and @imports)"
+    authors: [Anthropic]
+    site: code.claude.com
+    tags: [claude-md, bootstrap]
+    summary_md: |
+      How Claude Code loads user and project CLAUDE.md files and resolves `@path` imports. This is
+      how `/srv/conflux/claude/CLAUDE.md`, a single `@/srv/conflux/AGENTS.md` line, pulls in the
+      global process.
+
+  - slug: m3-claude-plugins-docs
+    kind: web
+    url: https://code.claude.com/docs/en/plugins
+    title: "Claude Code: Plugins"
+    authors: [Anthropic]
+    site: code.claude.com
+    tags: [plugins, marketplaces, subagents]
+    summary_md: |
+      Plugins bundle subagents, skills and hooks and are installed from marketplaces, including a
+      local directory marketplace. The mechanism behind conflux-core and mh-ai.
+
+  - slug: m3-codex-agents-md-docs
+    kind: web
+    url: https://developers.openai.com/codex/guides/agents-md
+    title: "Codex: Custom instructions with AGENTS.md"
+    authors: [OpenAI]
+    site: developers.openai.com
+    tags: [codex, bootstrap]
+    summary_md: |
+      Codex reads a global `AGENTS.md` from `CODEX_HOME` and project `AGENTS.md` files. Our
+      `CODEX_HOME=/srv/conflux/codex` has `AGENTS.md` as a symlink to the global process.
+
+  - slug: m3-codex-config-docs
+    kind: web
+    url: https://developers.openai.com/codex/config-reference
+    title: "Codex: Configuration reference"
+    authors: [OpenAI]
+    site: developers.openai.com
+    tags: [codex, sandbox, approvals]
+    summary_md: |
+      `config.toml` keys including `model`, `model_reasoning_effort`, `sandbox_mode` and
+      `approval_policy`. Our Codex runs `danger-full-access` with `approval_policy = "never"`.
