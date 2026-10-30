@@ -185,15 +185,15 @@ questions:
     choices:
       - { key: a, text: "Run the processing in europe-west1, next to the data" }
       - { key: b, text: "Switch the bucket to the Archive storage class" }
-      - { key: c, text: "Aggregate the data where it lands and move only the much smaller results" }
-      - { key: d, text: "Order a Dedicated Interconnect between the two regions" }
-      - { key: e, text: "Move the bucket to Standard Network Service Tier" }
-    answer: [a, c]
+      - { key: c, text: "Order a Dedicated Interconnect between the two regions" }
+      - { key: d, text: "Move the bucket to Standard Network Service Tier" }
+      - { key: e, text: "Aggregate the data where it lands and move only the much smaller results" }
+    answer: [a, e]
     explanation_md: |
-      **a** and **c** are right: keeping compute near the data and moving only aggregated results
+      **a** and **e** are right: keeping compute near the data and moving only aggregated results
       cuts both inter-region egress and transfer time. **b** is wrong: Archive is for rarely read
-      data and adds retrieval fees to a daily job. **d** is wrong: Interconnect links on-premises
-      networks to Google, not two Google Cloud regions. **e** is wrong: network tiers apply to
+      data and adds retrieval fees to a daily job. **c** is wrong: Interconnect links on-premises
+      networks to Google, not two Google Cloud regions. **d** is wrong: network tiers apply to
       internet-facing traffic, not to copying data between Google Cloud regions.
     points: 1
   - key: s1-compliance-design-input
@@ -303,17 +303,17 @@ questions:
       normal in two regions. Managed instance group autoscaling is already configured and was tested
       at twice normal load. Which two actions should you take now? (Choose two.)
     choices:
-      - { key: a, text: "Forecast the peak footprint and request quota increases in both regions ahead of the launch" }
-      - { key: b, text: "Disable the autoscaler and pre-create ten times today's instances immediately" }
-      - { key: c, text: "Create Cloud Monitoring alerts on quota usage for the scaled resources" }
-      - { key: d, text: "Switch every instance to the largest machine type available" }
-      - { key: e, text: "Open a support case on launch day if scaling stops" }
-    answer: [a, c]
+      - { key: a, text: "Disable the autoscaler and pre-create ten times today's instances immediately" }
+      - { key: b, text: "Forecast the peak footprint and request quota increases in both regions ahead of the launch" }
+      - { key: c, text: "Switch every instance to the largest machine type available" }
+      - { key: d, text: "Open a support case on launch day if scaling stops" }
+      - { key: e, text: "Create Cloud Monitoring alerts on quota usage for the scaled resources" }
+    answer: [b, e]
     explanation_md: |
-      **a** and **c** are right: autoscaling stops at allocation quotas, increases can take time, and
-      alerts warn you before you hit a limit. **b** is wrong: three weeks of ten-fold capacity wastes
-      money and still needs the quota. **d** is wrong: vertical scaling hits machine-size limits,
-      still consumes vCPU quota and loses the elasticity of horizontal scaling. **e** is wrong: it
+      **b** and **e** are right: autoscaling stops at allocation quotas, increases can take time, and
+      alerts warn you before you hit a limit. **a** is wrong: three weeks of ten-fold capacity wastes
+      money and still needs the quota. **c** is wrong: vertical scaling hits machine-size limits,
+      still consumes vCPU quota and loses the elasticity of horizontal scaling. **d** is wrong: it
       reacts after customers are already affected.
     points: 1
   - key: s1-survive-region-outage
@@ -403,17 +403,17 @@ questions:
       page loads, mostly for images and scripts that rarely change. Which two design choices will reduce
       their latency the most with the least redesign? (Choose two.)
     choices:
-      - { key: a, text: "Serve through a global external Application Load Balancer with Cloud CDN enabled" }
-      - { key: b, text: "Switch the project to Standard Network Service Tier" }
-      - { key: c, text: "Keep Premium Network Service Tier so traffic enters Google's network near the user" }
-      - { key: d, text: "Move to larger VMs in us-central1" }
-      - { key: e, text: "Store the static assets in the Archive storage class" }
-    answer: [a, c]
+      - { key: a, text: "Switch the project to Standard Network Service Tier" }
+      - { key: b, text: "Move to larger VMs in us-central1" }
+      - { key: c, text: "Serve through a global external Application Load Balancer with Cloud CDN enabled" }
+      - { key: d, text: "Store the static assets in the Archive storage class" }
+      - { key: e, text: "Keep Premium Network Service Tier so traffic enters Google's network near the user" }
+    answer: [c, e]
     explanation_md: |
-      **a** and **c** are right: Cloud CDN caches static content at edge locations near users, and
+      **c** and **e** are right: Cloud CDN caches static content at edge locations near users, and
       Premium Tier carries the rest of the traffic on Google's backbone from the nearest edge.
-      **b** is wrong: Standard Tier routes over the public internet and doesn't support global load
-      balancing. **d** is wrong: the delay is distance, not server capacity. **e** is wrong: Archive
+      **a** is wrong: Standard Tier routes over the public internet and doesn't support global load
+      balancing. **b** is wrong: the delay is distance, not server capacity. **d** is wrong: Archive
       lowers storage cost for rarely read data and adds retrieval fees; it doesn't reduce latency.
     points: 1
   - key: s1-waf-pillars-recall
@@ -565,17 +565,17 @@ questions:
       the retention period ends. Which two choices meet the requirements at the lowest cost? (Choose
       two.)
     choices:
-      - { key: a, text: "A lifecycle rule moving objects older than one year to the Archive storage class" }
-      - { key: b, text: "Keeping all records in Standard storage permanently" }
-      - { key: c, text: "A bucket retention policy of ten years, locked with Bucket Lock" }
-      - { key: d, text: "Storing the records on Filestore" }
-      - { key: e, text: "Relying on IAM so that only administrators can delete objects" }
-    answer: [a, c]
+      - { key: a, text: "Keeping all records in Standard storage permanently" }
+      - { key: b, text: "Storing the records on Filestore" }
+      - { key: c, text: "Relying on IAM so that only administrators can delete objects" }
+      - { key: d, text: "A lifecycle rule moving objects older than one year to the Archive storage class" }
+      - { key: e, text: "A bucket retention policy of ten years, locked with Bucket Lock" }
+    answer: [d, e]
     explanation_md: |
-      **a** and **c** are right: Archive is the cheapest class for data read less than once a year,
+      **d** and **e** are right: Archive is the cheapest class for data read less than once a year,
       and a locked retention policy makes deletion or replacement impossible until the period ends.
-      **b** is wrong: Standard costs more for data that is rarely read. **d** is wrong: file storage
-      is far more expensive and offers no retention lock. **e** is wrong: administrators can still
+      **a** is wrong: Standard costs more for data that is rarely read. **b** is wrong: file storage
+      is far more expensive and offers no retention lock. **c** is wrong: administrators can still
       delete objects, so IAM alone doesn't meet the regulatory requirement.
     points: 1
   - key: s1-partner-interconnect-no-colo
@@ -645,16 +645,16 @@ questions:
       service in C. Address ranges in all three VPCs don't overlap. Which two options would let A
       reach the service in C? (Choose two.)
     choices:
-      - { key: a, text: "Create a direct VPC Network Peering between A and C" }
-      - { key: b, text: "Add a static route in B pointing to C, which will be shared with A automatically" }
-      - { key: c, text: "Publish the service in C with Private Service Connect and create an endpoint in A" }
-      - { key: d, text: "Switch VPC B to Standard Network Service Tier" }
+      - { key: a, text: "Add a static route in B pointing to C, which will be shared with A automatically" }
+      - { key: b, text: "Switch VPC B to Standard Network Service Tier" }
+      - { key: c, text: "Create a direct VPC Network Peering between A and C" }
+      - { key: d, text: "Publish the service in C with Private Service Connect and create an endpoint in A" }
       - { key: e, text: "Add Cloud NAT to VPC B" }
-    answer: [a, c]
+    answer: [c, d]
     explanation_md: |
-      **a** and **c** are right: VPC peering is not transitive, so A needs either its own peering with
-      C or a PSC endpoint to C's published service. **b** is wrong: routes learned through one peering
-      aren't passed on to another peer, so this doesn't make B a transit network. **d** is wrong:
+      **c** and **d** are right: VPC peering is not transitive, so A needs either its own peering with
+      C or a PSC endpoint to C's published service. **a** is wrong: routes learned through one peering
+      aren't passed on to another peer, so this doesn't make B a transit network. **b** is wrong:
       network tiers affect internet routing, not peering. **e** is wrong: Cloud NAT handles outbound
       internet access, not traffic between VPCs.
     points: 1
@@ -882,14 +882,14 @@ questions:
       databases. Which two practices should guide the wave plan? (Choose two.)
     choices:
       - { key: a, text: "Move tightly coupled applications and their databases together in the same wave" }
-      - { key: b, text: "Migrate the most business-critical system first to prove the platform" }
-      - { key: c, text: "Start with low-risk, low-dependency workloads as first movers" }
+      - { key: b, text: "Start with low-risk, low-dependency workloads as first movers" }
+      - { key: c, text: "Migrate the most business-critical system first to prove the platform" }
       - { key: d, text: "Move shared databases months before the applications that use them, over a high-latency VPN" }
       - { key: e, text: "Skip workload testing for applications that were only rehosted" }
-    answer: [a, c]
+    answer: [a, b]
     explanation_md: |
-      **a** and **c** are right: grouping by dependency avoids chatty traffic across the hybrid link,
-      and low-risk first movers let the team learn the process safely. **b** is wrong: the most
+      **a** and **b** are right: grouping by dependency avoids chatty traffic across the hybrid link,
+      and low-risk first movers let the team learn the process safely. **c** is wrong: the most
       critical system should move once the team has practice. **d** is wrong: splitting databases
       from their applications across a high-latency link degrades performance. **e** is wrong:
       rehosted workloads still need functional, performance and rollback testing.

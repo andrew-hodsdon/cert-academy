@@ -105,18 +105,18 @@ questions:
       (Choose two.)
     choices:
       - { key: a, text: "Record every moderation decision (asset reference, model and version, scores, threshold, outcome, reviewer) in BigQuery with a defined retention period." }
-      - { key: b, text: "Use Explainable AI feature attributions for the custom classifier, and route borderline or appealed items to a human reviewer." }
-      - { key: c, text: "Disable Data Access audit logs on the moderation project to reduce log volume and cost." }
+      - { key: b, text: "Disable Data Access audit logs on the moderation project to reduce log volume and cost." }
+      - { key: c, text: "Use Explainable AI feature attributions for the custom classifier, and route borderline or appealed items to a human reviewer." }
       - { key: d, text: "Delete flagged assets automatically as soon as the score passes the threshold, so harmful content is never served." }
       - { key: e, text: "Retrain the classifier nightly on the latest flags, overwriting the previous model version each time." }
-    answer: [a, b]
+    answer: [a, c]
     explanation_md: |
-      **a** and **b** are right. A durable decision record makes each outcome reconstructable
+      **a** and **c** are right. A durable decision record makes each outcome reconstructable
       for audit. Feature attributions explain the custom model's decisions, and human review
       covers disputed and borderline cases where pretrained and generative scores alone
       aren't an explanation.
 
-      - **c** is wrong. Removing audit logs reduces auditability, the opposite of the
+      - **b** is wrong. Removing audit logs reduces auditability, the opposite of the
         requirement.
       - **d** is wrong. Silent automatic deletion leaves nothing to audit or appeal.
         Quarantine plus a record is the safer pattern.
@@ -184,19 +184,19 @@ questions:
       hours. Which two changes best improve reliability while reducing operational burden?
       (Choose two.)
     choices:
-      - { key: a, text: "Move Prometheus metrics to Google Cloud Managed Service for Prometheus, keeping existing PromQL queries and dashboards." }
-      - { key: b, text: "Define SLOs for key user journeys and route alerting policies to on-call notification channels such as a paging tool." }
-      - { key: c, text: "Add more people to the alert email distribution list." }
-      - { key: d, text: "Run a larger self-managed Prometheus cluster with Thanos for long-term storage in every region." }
+      - { key: a, text: "Add more people to the alert email distribution list." }
+      - { key: b, text: "Move Prometheus metrics to Google Cloud Managed Service for Prometheus, keeping existing PromQL queries and dashboards." }
+      - { key: c, text: "Run a larger self-managed Prometheus cluster with Thanos for long-term storage in every region." }
+      - { key: d, text: "Define SLOs for key user journeys and route alerting policies to on-call notification channels such as a paging tool." }
       - { key: e, text: "Export all logs to Cloud Storage and review them weekly for errors." }
-    answer: [a, b]
+    answer: [b, d]
     explanation_md: |
-      **a** and **b** are right. Managed Service for Prometheus keeps the familiar
+      **b** and **d** are right. Managed Service for Prometheus keeps the familiar
       Prometheus model without running servers, and SLO-based alerts routed to on-call tools
       make sure someone acts promptly on user-visible problems.
 
-      - **c** is wrong. More email recipients doesn't fix ignored email alerts and adds noise.
-      - **d** is wrong. It increases the self-managed footprint, the opposite of reducing
+      - **a** is wrong. More email recipients doesn't fix ignored email alerts and adds noise.
+      - **c** is wrong. It increases the self-managed footprint, the opposite of reducing
         burden.
       - **e** is wrong. Weekly log review is retrospective and can't shorten outage detection.
     points: 1
@@ -233,21 +233,21 @@ questions:
       are rising and to forecast demand to inform content strategy, with minimal new
       infrastructure. Which two steps should you take? (Choose two.)
     choices:
-      - { key: a, text: "Write the extracted metadata to BigQuery tables that join to the existing viewing data." }
-      - { key: b, text: "Use BigQuery ML forecasting models and Looker dashboards on the joined data." }
-      - { key: c, text: "Copy the viewing data into Cloud SQL for MySQL so that analysts can use familiar SQL tools." }
-      - { key: d, text: "Store the metadata in Memorystore for Redis so that trend queries return quickly." }
-      - { key: e, text: "Load the metadata into Bigtable and query it with ad hoc SQL joins against viewing data." }
-    answer: [a, b]
+      - { key: a, text: "Copy the viewing data into Cloud SQL for MySQL so that analysts can use familiar SQL tools." }
+      - { key: b, text: "Store the metadata in Memorystore for Redis so that trend queries return quickly." }
+      - { key: c, text: "Write the extracted metadata to BigQuery tables that join to the existing viewing data." }
+      - { key: d, text: "Load the metadata into Bigtable and query it with ad hoc SQL joins against viewing data." }
+      - { key: e, text: "Use BigQuery ML forecasting models and Looker dashboards on the joined data." }
+    answer: [c, e]
     explanation_md: |
-      **a** and **b** are right. Keeping metadata beside the behaviour data in BigQuery
+      **c** and **e** are right. Keeping metadata beside the behaviour data in BigQuery
       avoids new silos, and BigQuery ML plus dashboards gives forecasts and insight in SQL
       with no new platform to run.
 
-      - **c** is wrong. Cloud SQL is an operational database, not an analytics warehouse for
+      - **a** is wrong. Cloud SQL is an operational database, not an analytics warehouse for
         large-scale aggregation, and copying data creates a silo.
-      - **d** is wrong. Memorystore is an in-memory cache, not an analytics store.
-      - **e** is wrong. Bigtable is a wide-column store for key-based access at scale. It
+      - **b** is wrong. Memorystore is an in-memory cache, not an analytics store.
+      - **d** is wrong. Bigtable is a wide-column store for key-based access at scale. It
         isn't designed for ad hoc relational joins.
     points: 1
   - key: cs-altostrat-archive-migration
@@ -335,18 +335,18 @@ questions:
       elements meet this requirement? (Choose two.)
     choices:
       - { key: a, text: "Write generated attributes, descriptions and images to a staging store with a pending status, and publish to the catalogue only on approval." }
-      - { key: b, text: "Build a review web app on Cloud Run, protected by Identity-Aware Proxy, that lets associates approve, reject or edit each suggestion." }
-      - { key: c, text: "Publish suggestions directly when the model's confidence is above 0.9 and review only the rest." }
-      - { key: d, text: "Send a weekly CSV of published changes to associates so they can report errors." }
+      - { key: b, text: "Publish suggestions directly when the model's confidence is above 0.9 and review only the rest." }
+      - { key: c, text: "Send a weekly CSV of published changes to associates so they can report errors." }
+      - { key: d, text: "Build a review web app on Cloud Run, protected by Identity-Aware Proxy, that lets associates approve, reject or edit each suggestion." }
       - { key: e, text: "Let the model overwrite catalogue fields and keep a backup table for rollback." }
-    answer: [a, b]
+    answer: [a, d]
     explanation_md: |
-      **a** and **b** are right. Separating generation from publication with a staging status
+      **a** and **d** are right. Separating generation from publication with a staging status
       and giving associates a secured UI to act on each item is exactly a human-in-the-loop
       control.
 
-      - **c** is wrong. Auto-publishing any subset skips the required human review.
-      - **d** is wrong. Reviewing after publication is too late, because customers have
+      - **b** is wrong. Auto-publishing any subset skips the required human review.
+      - **c** is wrong. Reviewing after publication is too late, because customers have
         already seen the content.
       - **e** is wrong. Rollback is remediation, not review before update.
     points: 1
@@ -410,22 +410,22 @@ questions:
       customer data securely and in line with industry regulations. Which two controls should
       you apply? (Choose two.)
     choices:
-      - { key: a, text: "Use Sensitive Data Protection to inspect and de-identify card numbers and other PII in transcripts before they're stored or logged." }
-      - { key: b, text: "Place the projects that hold customer data and the AI services in a VPC Service Controls perimeter." }
-      - { key: c, text: "Grant the analytics team the Owner role on the data project so they can audit access themselves." }
-      - { key: d, text: "Rely on Google's default encryption at rest as the complete PCI DSS control." }
-      - { key: e, text: "Disable Data Access audit logs on the data project so PII never appears in logs." }
-    answer: [a, b]
+      - { key: a, text: "Grant the analytics team the Owner role on the data project so they can audit access themselves." }
+      - { key: b, text: "Use Sensitive Data Protection to inspect and de-identify card numbers and other PII in transcripts before they're stored or logged." }
+      - { key: c, text: "Rely on Google's default encryption at rest as the complete PCI DSS control." }
+      - { key: d, text: "Disable Data Access audit logs on the data project so PII never appears in logs." }
+      - { key: e, text: "Place the projects that hold customer data and the AI services in a VPC Service Controls perimeter." }
+    answer: [b, e]
     explanation_md: |
-      **a** and **b** are right. De-identification keeps card numbers and PII out of stored
+      **b** and **e** are right. De-identification keeps card numbers and PII out of stored
       transcripts and analytics, which shrinks compliance scope. A service perimeter guards
       the remaining sensitive data against exfiltration, even by someone with stolen
       credentials.
 
-      - **c** is wrong. Owner is far beyond least privilege for analysts.
-      - **d** is wrong. Encryption at rest is necessary but is only one of many controls. It
+      - **a** is wrong. Owner is far beyond least privilege for analysts.
+      - **c** is wrong. Encryption at rest is necessary but is only one of many controls. It
         doesn't stop card data spreading into transcripts.
-      - **e** is wrong. Removing audit logs destroys the evidence compliance needs. Redact the
+      - **d** is wrong. Removing audit logs destroys the evidence compliance needs. Redact the
         data instead.
     points: 1
   - key: cs-cymbal-database-migration
@@ -534,7 +534,7 @@ questions:
     prompt_md: |
       **Case study: EHR Healthcare.** The colocation lease for one of EHR's data centres
       expires in five months. Its customer-facing web apps are already containerised on
-      Kubernetes, and its databases are MySQL and SQL Server. Which migration approach best
+      Kubernetes, and its relational databases are MySQL and SQL Server. Which migration approach best
       fits the deadline?
     choices:
       - { key: a, text: "Refactor each application into Cloud Run functions before moving anything." }
@@ -562,17 +562,17 @@ questions:
       high-performance, highly available connectivity, and EHR's colocation facility is in a
       metro with a Google Cloud Interconnect location. What should you recommend?
     choices:
-      - { key: a, text: "Redundant Dedicated Interconnect connections in separate edge availability domains, with HA VPN as an interim and backup path." }
-      - { key: b, text: "Expose the insurer systems on public IP addresses and restrict access with firewall rules on the colocation edge." }
+      - { key: a, text: "Expose the insurer systems on public IP addresses and restrict access with firewall rules on the colocation edge." }
+      - { key: b, text: "Redundant Dedicated Interconnect connections in separate edge availability domains, with HA VPN as an interim and backup path." }
       - { key: c, text: "A single Classic VPN tunnel with static routes." }
       - { key: d, text: "Migrate the insurer integrations to Compute Engine so that no hybrid link is needed." }
-    answer: [a]
+    answer: [b]
     explanation_md: |
-      **a** is right. Dedicated Interconnect gives private, high-bandwidth connectivity, and
+      **b** is right. Dedicated Interconnect gives private, high-bandwidth connectivity, and
       redundancy across edge availability domains supports high availability. HA VPN can
       carry traffic while the circuits are provisioned and back them up afterwards.
 
-      - **b** is wrong. Exposing health-related systems on the public internet fails the
+      - **a** is wrong. Exposing health-related systems on the public internet fails the
         "secure" requirement and gives no predictable performance.
       - **c** is wrong. A single tunnel is a single point of failure with limited throughput.
       - **d** is wrong. The case says there's no plan to move these integrations now.
@@ -585,18 +585,18 @@ questions:
       customer-facing system. The web tier runs on GKE and uses MySQL. Which two design
       choices most directly support this target? (Choose two.)
     choices:
-      - { key: a, text: "Run the web tier on regional GKE clusters that spread nodes across multiple zones." }
-      - { key: b, text: "Use Cloud SQL for MySQL in a high-availability (regional) configuration with automatic failover." }
-      - { key: c, text: "Run the web tier on one large zonal cluster with bigger nodes for headroom." }
-      - { key: d, text: "Put all customer-facing pods on Spot VM node pools to free budget for more replicas." }
+      - { key: a, text: "Run the web tier on one large zonal cluster with bigger nodes for headroom." }
+      - { key: b, text: "Put all customer-facing pods on Spot VM node pools to free budget for more replicas." }
+      - { key: c, text: "Run the web tier on regional GKE clusters that spread nodes across multiple zones." }
+      - { key: d, text: "Use Cloud SQL for MySQL in a high-availability (regional) configuration with automatic failover." }
       - { key: e, text: "Add a read replica in the same zone as the primary database and fail over to it by hand." }
-    answer: [a, b]
+    answer: [c, d]
     explanation_md: |
-      **a** and **b** are right. Both remove single-zone failure points, for compute and for
+      **c** and **d** are right. Both remove single-zone failure points, for compute and for
       the database, which is the minimum shape for a 99.9% commitment.
 
-      - **c** is wrong. Bigger nodes in one zone still fail together if the zone fails.
-      - **d** is wrong. Spot VMs can be preempted at any time, which is unsuitable for a
+      - **a** is wrong. Bigger nodes in one zone still fail together if the zone fails.
+      - **b** is wrong. Spot VMs can be preempted at any time, which is unsuitable for a
         customer-facing availability target.
       - **e** is wrong. A same-zone replica shares the zone's fate, and manual failover is slow.
     points: 1
@@ -726,21 +726,21 @@ questions:
       from provider data while staying compliant. Analysts must never see identifiable
       patient data. Which two steps should you take? (Choose two.)
     choices:
-      - { key: a, text: "Store clinical data in Cloud Healthcare API FHIR stores and export it to BigQuery for analytics." }
-      - { key: b, text: "De-identify the data (Cloud Healthcare API de-identification or Sensitive Data Protection) before analysts can query it, then use BigQuery ML for forecasts." }
-      - { key: c, text: "Grant analysts the Viewer role on the production project so they can query the source databases directly." }
-      - { key: d, text: "Copy production database snapshots to analysts' workstations for modelling." }
-      - { key: e, text: "Load the data into Memorystore so trend dashboards are fast." }
-    answer: [a, b]
+      - { key: a, text: "Grant analysts the Viewer role on the production project so they can query the source databases directly." }
+      - { key: b, text: "Copy production database snapshots to analysts' workstations for modelling." }
+      - { key: c, text: "Load the data into Memorystore so trend dashboards are fast." }
+      - { key: d, text: "Store clinical data in Cloud Healthcare API FHIR stores and export it to BigQuery for analytics." }
+      - { key: e, text: "De-identify the data (Cloud Healthcare API de-identification or Sensitive Data Protection) before analysts can query it, then use BigQuery ML for forecasts." }
+    answer: [d, e]
     explanation_md: |
-      **a** and **b** are right. FHIR stores with BigQuery export give a managed analytics
+      **d** and **e** are right. FHIR stores with BigQuery export give a managed analytics
       path. De-identification before analyst access keeps PHI out of their reach, and
       BigQuery ML adds predictions without a new platform.
 
-      - **c** is wrong. It exposes identifiable production data and mixes analytics load with
+      - **a** is wrong. It exposes identifiable production data and mixes analytics load with
         customer-facing databases.
-      - **d** is wrong. PHI on workstations is a major compliance and breach risk.
-      - **e** is wrong. Memorystore is a cache, not an analytics store, and it doesn't address
+      - **b** is wrong. PHI on workstations is a major compliance and breach risk.
+      - **c** is wrong. Memorystore is a cache, not an analytics store, and it doesn't address
         de-identification.
     points: 1
   - key: cs-ehr-consistent-environments
@@ -779,20 +779,20 @@ questions:
       convention. Which two controls should you apply? (Choose two.)
     choices:
       - { key: a, text: "Set the resource-locations organization policy on the EU folder so resources can be created only in EU locations." }
-      - { key: b, text: "Create the EU workloads in Assured Workloads with an EU data-boundary control package." }
-      - { key: c, text: "Store the data in a US multi-region bucket with default encryption." }
-      - { key: d, text: "Rely on IAM deny policies alone to keep data inside the EU." }
-      - { key: e, text: "Connect the EU and US VPCs with VPC Network Peering so that data can be processed anywhere." }
-    answer: [a, b]
+      - { key: b, text: "Store the data in a US multi-region bucket with default encryption." }
+      - { key: c, text: "Rely on IAM deny policies alone to keep data inside the EU." }
+      - { key: d, text: "Connect the EU and US VPCs with VPC Network Peering so that data can be processed anywhere." }
+      - { key: e, text: "Create the EU workloads in Assured Workloads with an EU data-boundary control package." }
+    answer: [a, e]
     explanation_md: |
-      **a** and **b** are right. The resource-locations constraint blocks creating resources
+      **a** and **e** are right. The resource-locations constraint blocks creating resources
       outside allowed locations, and Assured Workloads applies a compliance control package
       for EU data residency and access controls. Together they enforce residency by policy.
 
-      - **c** is wrong. A US multi-region places the data outside the EU, and encryption
+      - **b** is wrong. A US multi-region places the data outside the EU, and encryption
         doesn't change where it lives.
-      - **d** is wrong. IAM controls *who* can act, not *where* resources and data reside.
-      - **e** is wrong. Peering makes cross-region movement easier, which works against
+      - **c** is wrong. IAM controls *who* can act, not *where* resources and data reside.
+      - **d** is wrong. Peering makes cross-region movement easier, which works against
         residency.
     points: 1
   - key: cs-knightmotives-data-monetisation
@@ -851,17 +851,17 @@ questions:
       models and run millions of fault-tolerant driving simulations each week, at the lowest
       reasonable cost. Which two choices fit? (Choose two.)
     choices:
-      - { key: a, text: "Run simulation workers on GKE node pools that use Spot VMs, with checkpointing so preempted jobs resume." }
-      - { key: b, text: "Train models on GPU or TPU capacity through AI Hypercomputer and Agent Platform training jobs." }
-      - { key: c, text: "Train multi-day models in Cloud Run functions to avoid managing servers." }
+      - { key: a, text: "Train multi-day models in Cloud Run functions to avoid managing servers." }
+      - { key: b, text: "Run simulation workers on GKE node pools that use Spot VMs, with checkpointing so preempted jobs resume." }
+      - { key: c, text: "Train models on GPU or TPU capacity through AI Hypercomputer and Agent Platform training jobs." }
       - { key: d, text: "Run all simulations on on-demand standard VMs to avoid any preemption." }
       - { key: e, text: "Run training on the supply-chain mainframe during off-peak hours." }
-    answer: [a, b]
+    answer: [b, c]
     explanation_md: |
-      **a** and **b** are right. Spot VMs give deep discounts for fault-tolerant, checkpointed
+      **b** and **c** are right. Spot VMs give deep discounts for fault-tolerant, checkpointed
       batch work, and AI Hypercomputer GPUs and TPUs are built for large-scale model training.
 
-      - **c** is wrong. Cloud Run functions are for short, event-driven tasks, not multi-day
+      - **a** is wrong. Cloud Run functions are for short, event-driven tasks, not multi-day
         accelerator training.
       - **d** is wrong. Paying on-demand prices for work that tolerates preemption wastes
         money.
@@ -966,7 +966,7 @@ questions:
     points: 1
   - key: cs-knightmotives-crm-disposition
     kind: single
-    domain: s4-analyze-optimize
+    domain: s1-design-plan
     prompt_md: |
       **Case study: KnightMotives Automotive.** KnightMotives needs a comprehensive CRM to track
       customer interactions and personalise experiences. Its engineering capacity is already

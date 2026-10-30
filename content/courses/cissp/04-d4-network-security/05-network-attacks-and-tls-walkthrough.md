@@ -131,7 +131,7 @@ sequenceDiagram
   S->>C: {Certificate} chain for portal.example.com
   S->>C: {CertificateVerify} signature over the handshake transcript
   S->>C: {Finished} MAC over the transcript
-  Note over C: Validates chain to a trusted root, name, validity, revocation; verifies signature and Finished
+  Note over C: Validates chain to a trusted root, name, validity, revocation, then verifies signature and Finished
   C->>S: {Finished}
   C->>S: [Application data: HTTP request] under application traffic keys
 ```
