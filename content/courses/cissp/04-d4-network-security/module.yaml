@@ -1,0 +1,13 @@
+title: "Domain 4: Communication and Network Security"
+domain: d4-network-security
+summary_md: |
+  Domain 4 is 13% of the exam and covers the three outline objectives **4.1 Apply secure design
+  principles in network architectures**, **4.2 Secure network components** and **4.3 Implement
+  secure communication channels according to design**. Five lessons take you from the OSI and
+  TCP/IP models, IPv4/IPv6 and the attacks at each layer (4.1); through secure architecture —
+  segmentation, micro-segmentation, SDN, VPC, zero trust, edge, wireless, cellular, satellite and
+  CDNs (4.1); to network components — firewalls, IDS/IPS, proxies, NAC, transmission media and
+  endpoint security (4.2); secure channels — IPsec, TLS, voice/video/collaboration, remote access,
+  third-party connectivity and email authentication (4.3); and finally the common network attacks,
+  their defences and a step-by-step TLS 1.3 handshake (4.1–4.3). Think like an architect advising
+  the business: design out whole classes of attack before reaching for another box.

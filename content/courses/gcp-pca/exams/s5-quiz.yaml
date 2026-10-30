@@ -1,0 +1,588 @@
+slug: s5-quiz
+ordinal: 15
+title: "Section 5 quiz: Managing implementation"
+kind: quiz
+draw: 15
+time_limit_min: 30
+pass_pct: 80
+instructions_md: |
+  15 questions drawn at random from a bank of 26 on Section 5 (objectives 5.1–5.2): advising
+  development and operations teams, API management, testing, migration tooling, infrastructure as
+  code, and interacting with Google Cloud programmatically. 30 minutes. Questions marked
+  **Choose two** need both correct answers for the point.
+
+  Pick the option that meets every stated requirement with the least operational burden. Retake
+  until you hold 80% or more, then move on to the practice exams.
+questions:
+  - key: s5-apigee-partner-monetisation
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A retailer wants to expose its catalogue and order APIs to hundreds of external partners.
+      Partners must sign up through a self-service portal, receive credentials, and be billed for
+      usage above a free monthly allowance. The backends run on GKE and on-premises. Which solution
+      should the architect recommend?
+    choices:
+      - { key: a, text: "Apigee, with API products for the free and paid tiers, a developer portal and monetisation" }
+      - { key: b, text: "API Gateway in front of each backend, with API keys issued from the Google Cloud console" }
+      - { key: c, text: "Cloud Endpoints with ESPv2 sidecars on GKE and a custom billing service" }
+      - { key: d, text: "An external Application Load Balancer with Cloud Armor rate limiting per partner IP address" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: self-service developer portal, API products with quotas, and monetisation are
+      Apigee capabilities, and Apigee can front both GKE and on-premises backends.
+      **b** is wrong: API Gateway targets serverless backends and has no developer portal or
+      monetisation. **c** is wrong: Endpoints gives authentication and monitoring but no portal or
+      billing, so the team would build and run those itself. **d** is wrong: a load balancer with
+      Cloud Armor protects traffic but offers no partner onboarding, credentials or billing.
+    points: 1
+
+  - key: s5-api-gateway-serverless
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A startup runs three Cloud Run services. It needs to require API keys from its mobile app,
+      see per-key call metrics, and define the API in OpenAPI. It has no plans for a developer
+      portal and wants the lowest cost and operational effort. What should it use?
+    choices:
+      - { key: a, text: "Apigee with a single environment and a developer portal" }
+      - { key: b, text: "API Gateway configured from the OpenAPI spec, with Cloud Run as the backend" }
+      - { key: c, text: "Cloud Endpoints with ESPv2 deployed as a separate Cloud Run service it operates" }
+      - { key: d, text: "Identity-Aware Proxy in front of each Cloud Run service" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: API Gateway is fully managed for serverless backends, configured from OpenAPI,
+      supports API keys and reports usage, with pay-per-call pricing.
+      **a** is wrong: Apigee meets the need but costs and weighs far more than required. **c** is
+      wrong: Endpoints on Cloud Run works but means building and operating the ESPv2 proxy image,
+      more effort than API Gateway. **d** is wrong: IAP authenticates users with Google identities,
+      not apps with API keys, and does not provide API usage metrics per key.
+    points: 1
+
+  - key: s5-apigee-spike-arrest
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      Behind Apigee sits a legacy order service that fails when it receives more than about 150
+      requests per second. Partners have generous monthly quotas, and a few send short bursts that
+      take the service down. What should the API team add to the order proxy?
+    choices:
+      - { key: a, text: "A lower Quota policy on every API product so partners get fewer calls per month" }
+      - { key: b, text: "A VerifyAPIKey policy so that only registered partners can call the proxy" }
+      - { key: c, text: "A SpikeArrest policy set below 150 requests per second" }
+      - { key: d, text: "An XML-to-JSON mediation policy to reduce the payload size" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: SpikeArrest smooths bursts and caps the rate reaching the backend, which is
+      exactly the protection a fragile service needs, independent of each partner's allowance.
+      **a** is wrong: Quota limits volume over a business period (per month), not bursts per second,
+      and cutting allowances punishes partners without stopping a burst. **b** is wrong: the bursts
+      come from registered partners, so authentication does not help. **d** is wrong: payload format
+      does not change the request rate.
+    points: 1
+
+  - key: s5-apigee-hybrid-runtime
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A bank wants Apigee's policies, analytics and developer portal, but regulators require that
+      API traffic and payloads are processed only inside its own data centres. What should the
+      architect recommend?
+    choices:
+      - { key: a, text: "Apigee (Google-hosted) with VPC Service Controls around the Apigee project" }
+      - { key: b, text: "API Gateway with a backend reached over Cloud Interconnect" }
+      - { key: c, text: "Cloud Endpoints with ESPv2 running on Compute Engine in the nearest region" }
+      - { key: d, text: "Apigee hybrid, with the runtime plane on the bank's own Kubernetes clusters" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Apigee hybrid keeps the management plane in Google Cloud while the runtime plane,
+      which processes API traffic, runs on the customer's own Kubernetes, on premises.
+      **a** is wrong: VPC Service Controls limit data exfiltration but traffic is still processed in
+      Google Cloud. **b** is wrong: API Gateway runs in Google Cloud, and Interconnect only changes the
+      path to the backend. **c** is wrong: Compute Engine is in Google Cloud, not the bank's data
+      centres, and Endpoints lacks the portal.
+    points: 1
+
+  - key: s5-api-versioning-breaking
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      An API team must rename two fields and remove a third from its public `/v1/orders` resource.
+      Dozens of external clients call the API, and some update their code only twice a year. What is
+      the BEST approach?
+    choices:
+      - { key: a, text: "Publish the change as /v2/orders, keep /v1 running, and announce a deprecation period for /v1" }
+      - { key: b, text: "Make the change in /v1 and notify clients one week in advance" }
+      - { key: c, text: "Add a request header that switches /v1 between old and new field names" }
+      - { key: d, text: "Rename the fields in /v1 but return both old and new names indefinitely" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: renaming and removing fields are breaking changes, so Google's API design
+      guidance puts them in a new major version, running in parallel with the old one through a
+      published deprecation window.
+      **b** is wrong: it breaks clients who update twice a year. **c** is wrong: hidden behaviour
+      switches inside one version make the contract ambiguous and are not the documented practice.
+      **d** is wrong: it cannot express the removed field and leaves permanent duplication instead of
+      a clean versioned contract.
+    points: 1
+
+  - key: s5-load-test-distributed
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      Before a sales event, a team must prove its web tier sustains 40,000 requests per second within
+      its latency SLO. Its first test, run from a single Compute Engine VM, peaked at 6,000 requests
+      per second while the VM's CPU was at 100% and the web tier was mostly idle. What should the
+      architect advise?
+    choices:
+      - { key: a, text: "Use a larger machine type for the single load-generating VM" }
+      - { key: b, text: "Run distributed load generators, such as Locust workers on GKE, against a production-like staging environment" }
+      - { key: c, text: "Extrapolate from the 6,000 rps result using the web tier's CPU utilisation" }
+      - { key: d, text: "Run the unit test suite in parallel in Cloud Build to simulate load" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: the load generator was the bottleneck. Google's reference architecture runs
+      distributed Locust workers on GKE, scaling generation independently, against an environment
+      that mirrors production.
+      **a** is wrong: one larger VM is still a single bottleneck and may not reach 40,000 rps.
+      **c** is wrong: systems do not scale linearly; extrapolation misses queueing, connection and
+      quota limits. **d** is wrong: unit tests check code correctness, not throughput under
+      realistic traffic.
+    points: 1
+
+  - key: s5-integration-tests-emulators
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A team's service publishes to Pub/Sub and writes to Spanner. It wants integration tests to run
+      on every pull request in Cloud Build, without creating cloud resources or incurring Spanner
+      costs, and without changing application code between test and production. What should it do?
+    choices:
+      - { key: a, text: "Mock the client libraries in unit tests and skip integration testing" }
+      - { key: b, text: "Create a dedicated Spanner instance and Pub/Sub topics per pull request and delete them afterwards" }
+      - { key: c, text: "Start the Pub/Sub and Spanner emulators in a build step and set PUBSUB_EMULATOR_HOST and SPANNER_EMULATOR_HOST" }
+      - { key: d, text: "Point the tests at the production project using a read-only service account" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the emulators run locally in the build, and the client libraries detect the
+      emulator host variables, so the same code runs against them with no cloud resources.
+      **a** is wrong: mocks do not test the integration with the real APIs' behaviour. **b** is
+      wrong: it creates resources and Spanner cost on every pull request, which the requirement rules
+      out. **d** is wrong: testing against production is risky, and a read-only account could not
+      publish or write anyway.
+    points: 1
+
+  - key: s5-transfer-appliance-bandwidth
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A media archive of 600 TB must be in Cloud Storage within 30 days. The site's internet link
+      is 1 Gbps and only about half of it can be used for the transfer. Which approach meets the
+      deadline?
+    choices:
+      - { key: a, text: "Storage Transfer Service with on-premises transfer agents" }
+      - { key: b, text: "gcloud storage cp with parallel composite uploads from several servers" }
+      - { key: c, text: "Datastream from the archive file servers to Cloud Storage" }
+      - { key: d, text: "Transfer Appliance" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: 600 TB at 0.5 Gbps is about 600 × 8,000 Gb ÷ 0.5 Gbps ≈ 9.6 million seconds,
+      roughly 111 days, so only an offline transfer meets 30 days.
+      **a** and **b** are wrong: both are online and limited by the same 0.5 Gbps, so neither can
+      finish in time however they are tuned. **c** is wrong: Datastream is change data capture for
+      databases, not a file transfer tool.
+    points: 1
+
+  - key: s5-dms-mysql-minimal-downtime
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      EHR Healthcare must move a 2 TB on-premises MySQL database to Cloud SQL for MySQL. The
+      application can tolerate only a few minutes of downtime at cut-over. What should the team use?
+    choices:
+      - { key: a, text: "Database Migration Service with continuous replication, then promote the Cloud SQL instance at cut-over" }
+      - { key: b, text: "mysqldump to Cloud Storage, then import into Cloud SQL during a maintenance window" }
+      - { key: c, text: "Migrate to Virtual Machines to move the database server as a VM to Compute Engine" }
+      - { key: d, text: "Storage Transfer Service to copy the MySQL data directory to Cloud Storage" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Database Migration Service performs a homogeneous MySQL to Cloud SQL migration
+      with an initial dump and continuous replication, so cut-over is a short promotion.
+      **b** is wrong: a dump and import of 2 TB means hours of downtime. **c** is wrong: it rehosts the
+      server on Compute Engine rather than moving to Cloud SQL as required. **d** is wrong: copying raw
+      data files does not produce a consistent, running Cloud SQL database.
+    points: 1
+
+  - key: s5-datastream-cdc-bigquery
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      During a phased migration, an on-premises Oracle database will stay the system of record for
+      another year. Analysts need its changes available in BigQuery within minutes, without the
+      team managing replication servers. What should the architect recommend?
+    choices:
+      - { key: a, text: "A nightly export to CSV, copied with Storage Transfer Service and loaded with bq load" }
+      - { key: b, text: "Datastream change data capture from Oracle into BigQuery" }
+      - { key: c, text: "BigQuery Data Transfer Service scheduled every hour from Oracle" }
+      - { key: d, text: "Database Migration Service heterogeneous migration to AlloyDB, queried by BigQuery" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Datastream is serverless change data capture that streams Oracle changes into
+      BigQuery with low latency and no servers to run.
+      **a** is wrong: nightly batches do not meet "within minutes". **c** is wrong: BigQuery Data
+      Transfer Service runs scheduled batch transfers, not continuous change data capture, so an
+      hourly schedule still misses "within minutes".
+      **d** is wrong: it migrates the database to AlloyDB, but Oracle remains the system of record
+      for a year, so this does not keep BigQuery in sync with it.
+    points: 1
+
+  - key: s5-terraform-state-locking
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      Four platform engineers run Terraform from their laptops, each with a local state file. Last
+      week two applies collided and resources were duplicated. What should the architect recommend
+      FIRST?
+    choices:
+      - { key: a, text: "Commit the state files to the Git repository so everyone has the latest copy" }
+      - { key: b, text: "Switch to gcloud scripts, which do not need state" }
+      - { key: c, text: "Use a gcs backend in a versioned Cloud Storage bucket for shared state with locking, and run applies from a pipeline" }
+      - { key: d, text: "Give each engineer a separate project so their states never overlap" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a remote gcs backend gives one shared state with locking and history (via
+      object versioning), and running Terraform from a pipeline removes laptop applies altogether.
+      **a** is wrong: Git has no locking, merges corrupt state, and state may contain secrets.
+      **b** is wrong: imperative scripts lose declarative drift detection and make things worse.
+      **d** is wrong: it fragments the shared infrastructure instead of fixing how it is managed.
+    points: 1
+
+  - key: s5-deployment-manager-replacement
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A company still has templates in Cloud Deployment Manager. It wants a Google-managed
+      infrastructure-as-code service that runs Terraform for it, stores state and keeps a revision
+      history, so its small team does not run its own Terraform runners. What should it migrate to?
+    choices:
+      - { key: a, text: "Config Connector on a GKE cluster" }
+      - { key: b, text: "Deployment Manager with Jinja templates converted to Python templates" }
+      - { key: c, text: "Terraform run from engineers' Cloud Shell sessions" }
+      - { key: d, text: "Infrastructure Manager" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Infrastructure Manager is Google's managed Terraform service. It runs plan and
+      apply through Cloud Build, stores state and records revisions, and it is the replacement Google
+      names for Deployment Manager.
+      **a** is wrong: Config Connector manages resources as Kubernetes objects, which means running
+      a cluster and is not Terraform. **b** is wrong: Deployment Manager reached end of support on 31
+      March 2026. **c** is wrong: personal Cloud Shell sessions are unmanaged, unaudited runners.
+    points: 1
+
+  - key: s5-config-connector-gitops
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      Altostrat Media's platform team manages all workloads as Kubernetes manifests synchronised
+      from Git with Config Sync. It wants the Cloud Storage buckets and Pub/Sub topics each workload
+      needs to be declared in the same manifests and any manual drift corrected automatically. What
+      should it use?
+    choices:
+      - { key: a, text: "Config Connector" }
+      - { key: b, text: "Terraform run nightly by Cloud Scheduler" }
+      - { key: c, text: "gcloud commands in each container's start-up script" }
+      - { key: d, text: "Infrastructure Manager triggered from the Kubernetes deployment" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Config Connector exposes Google Cloud resources as Kubernetes custom
+      resources and continuously reconciles them, so they fit the existing GitOps flow and drift is
+      corrected.
+      **b** is wrong: it works, but it is a separate tool and workflow, and drift persists until the
+      next nightly run. **c** is wrong: imperative start-up scripts are not declarative, need broad
+      permissions in every pod and do not correct drift. **d** is wrong: Infrastructure Manager runs
+      Terraform outside Kubernetes and does not reconcile continuously.
+    points: 1
+
+  - key: s5-binary-authorization-trusted-images
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A security review finds that engineers occasionally deploy images built on their laptops to
+      the production GKE cluster. Policy says only images built by the company's Cloud Build
+      pipeline and scanned for vulnerabilities may run in production. What enforces this?
+    choices:
+      - { key: a, text: "An IAM deny policy that blocks container.deployments.create for engineers" }
+      - { key: b, text: "Binary Authorization on the production cluster, requiring attestations created by the pipeline" }
+      - { key: c, text: "Artifact Registry vulnerability scanning with email reports" }
+      - { key: d, text: "An organisation policy restricting which regions images can be stored in" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Binary Authorization enforces at deploy time that images carry the required
+      attestations (for example built by Cloud Build and scan passed); anything else is rejected.
+      **a** is wrong: it blocks people, not untrusted images. The pipeline could still deploy an
+      image that never went through it, and break-glass deployment becomes impossible. **c** is
+      wrong: scanning reports findings but does not stop a deployment. **d** is wrong: location
+      restrictions say nothing about who built an image.
+    points: 1
+
+  - key: s5-cloud-workstations-vpc
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A healthcare company wants developers to stop keeping source code on laptops. They need
+      browser-accessible development environments with persistent storage, a company-standard
+      toolchain image, and private access to test databases inside a VPC. What should the architect
+      recommend?
+    choices:
+      - { key: a, text: "Cloud Shell with a custom image configured for each developer" }
+      - { key: b, text: "Cloud Code installed on each developer's laptop with a VPN to the VPC" }
+      - { key: c, text: "Cloud Workstations with a custom container image in the company VPC" }
+      - { key: d, text: "A shared Compute Engine VM that all developers reach by SSH" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Cloud Workstations provides managed, persistent, browser-accessible development
+      environments from a defined image, running inside your VPC, so code stays off laptops.
+      **a** is wrong: Cloud Shell is a personal, ephemeral tool with a 5 GB home and weekly limits,
+      not placed in your VPC. **b** is wrong: code still lives on laptops. **d** is wrong: a shared VM
+      is unmanaged, weakly isolated between developers and a single point of failure.
+    points: 1
+
+  - key: s5-adc-local-and-prod
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      Developers run a Python service locally and deploy it to Cloud Run. They want the same code
+      to authenticate in both places without handling keys. How should the code obtain credentials?
+    choices:
+      - { key: a, text: "Load a service account key file path from an environment variable in both environments" }
+      - { key: b, text: "Store a service account key in Secret Manager and read it at start-up" }
+      - { key: c, text: "Use an API key restricted to the APIs the service calls" }
+      - { key: d, text: "Call the Cloud Client Libraries without explicit credentials, so Application Default Credentials uses gcloud user credentials locally and the attached service account on Cloud Run" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: ADC finds credentials from the environment. Locally, `gcloud auth
+      application-default login` supplies user credentials; on Cloud Run, the metadata server
+      supplies the attached service account. No keys are involved.
+      **a** and **b** are wrong: both still create and distribute long-lived service account keys,
+      which Google advises avoiding when an attached service account exists. **c** is wrong: API keys
+      identify a project, not a principal, and most Google Cloud APIs do not accept them for data
+      access.
+    points: 1
+
+  - key: s5-github-actions-wif
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      KnightMotives builds software with GitHub Actions and must deploy to Google Cloud. Security
+      forbids long-lived credentials stored outside Google Cloud. How should the pipeline
+      authenticate?
+    choices:
+      - { key: a, text: "Workload Identity Federation, exchanging the GitHub OIDC token for short-lived credentials of a deployment service account" }
+      - { key: b, text: "A service account key stored as an encrypted GitHub secret and rotated every 90 days" }
+      - { key: c, text: "An OAuth refresh token from an engineer's account stored in the pipeline" }
+      - { key: d, text: "An API key restricted to the Cloud Run Admin API" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Workload Identity Federation lets external workloads such as GitHub Actions
+      trade their own OIDC token for short-lived Google credentials, so nothing long-lived is stored.
+      **b** is wrong: a key in GitHub is still a long-lived credential outside Google Cloud, rotation
+      or not. **c** is wrong: it ties the pipeline to a person and is a long-lived credential.
+      **d** is wrong: API keys cannot authorise Cloud Run deployments and are not a principal.
+    points: 1
+
+  - key: s5-retry-backoff-429
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      A batch job calling a Google Cloud API in a tight loop intermittently receives HTTP 429 and
+      503 responses and then fails. The job's operations are idempotent. What should the developers
+      change?
+    choices:
+      - { key: a, text: "Retry immediately in a loop until the call succeeds" }
+      - { key: b, text: "Retry with truncated exponential backoff and jitter, using the Cloud Client Library's retry settings" }
+      - { key: c, text: "Switch from the client library to raw REST calls to avoid library overhead" }
+      - { key: d, text: "Spread the calls across several API keys to multiply the quota" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: 429 and 503 are transient; Google's guidance is truncated exponential backoff
+      with jitter for idempotent calls, which Cloud Client Libraries implement.
+      **a** is wrong: immediate retries add load and make throttling worse. **c** is wrong: the
+      library is not the cause, and raw calls lose built-in retries. **d** is wrong: quotas are
+      normally enforced per project, and trying to dodge them is not a fix; request a quota increase
+      if the steady-state need is higher.
+    points: 1
+
+  - key: s5-gcloud-storage-current-cli
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      An operations team is writing new scripts to copy and synchronise objects between Cloud
+      Storage buckets. Which command-line tool does Google currently recommend for this?
+    choices:
+      - { key: a, text: "gsutil" }
+      - { key: b, text: "bq" }
+      - { key: c, text: "gcloud storage" }
+      - { key: d, text: "kubectl cp" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: `gcloud storage` (for example `cp` and `rsync`) is the recommended Cloud
+      Storage CLI.
+      **a** is wrong: gsutil still works but Google documents it as a legacy tool; new scripts
+      should use gcloud storage. **b** is wrong: bq is the BigQuery tool. **d** is wrong: kubectl
+      cp copies files to and from Kubernetes pods, not between buckets.
+    points: 1
+
+  - key: s5-gemini-cloud-assist-troubleshoot
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      An operations team new to Google Cloud spends hours correlating logs, errors and alerts when a
+      Cloud Run service misbehaves. The architect wants to give them AI-assisted troubleshooting in
+      the console that can analyse those signals and suggest likely causes. What should they use?
+    choices:
+      - { key: a, text: "Gemini Code Assist in each engineer's IDE" }
+      - { key: b, text: "Error Reporting notifications sent to a chat channel" }
+      - { key: c, text: "A custom chatbot built on Gemini Enterprise Agent Platform reading exported logs" }
+      - { key: d, text: "Gemini Cloud Assist investigations" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Gemini Cloud Assist investigations analyse logs, errors and alerts in the
+      console and suggest causes, and can be triggered from alerting policies.
+      **a** is wrong: Gemini Code Assist helps developers write and understand code in the IDE, not
+      troubleshoot running services. **b** is wrong: Error Reporting groups errors but does not
+      analyse cross-signal causes. **c** is wrong: building a custom agent adds work when a managed
+      capability already exists.
+    points: 1
+
+  - key: s5-multi-emulator-limits
+    kind: multi
+    domain: s5-manage-implementation
+    prompt_md: |
+      A team plans to rely on the Google Cloud emulators for testing. Which two statements about the
+      Pub/Sub, Spanner and Bigtable emulators are true? **Choose two.**
+    choices:
+      - { key: a, text: "They enforce the same IAM permissions as the real services, so access tests are valid" }
+      - { key: b, text: "They are not suitable for performance or load testing" }
+      - { key: c, text: "Using them requires application code paths that differ from production" }
+      - { key: d, text: "Client libraries are pointed at them with environment variables such as PUBSUB_EMULATOR_HOST" }
+      - { key: e, text: "They persist data across restarts like a managed instance" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: the emulators are in-memory functional stand-ins, not
+      performance-representative, and client libraries switch to them through emulator host
+      environment variables.
+      **a** is wrong: the emulators do not enforce IAM. **c** is wrong: the point of the environment
+      variables is that code does not change. **e** is wrong: the emulators keep data in memory, so it
+      is lost when they stop.
+    points: 1
+
+  - key: s5-multi-repeatable-deployments
+    kind: multi
+    domain: s5-manage-implementation
+    prompt_md: |
+      EHR Healthcare's environments have drifted because changes were made by hand. The CIO wants
+      production deployments to be repeatable and auditable. Which two practices should the
+      architect recommend? **Choose two.**
+    choices:
+      - { key: a, text: "Define infrastructure in Terraform modules, with plan and apply run from a pipeline and changes reviewed in Git" }
+      - { key: b, text: "Rebuild the container image separately for each environment from the same commit" }
+      - { key: c, text: "Promote the same image digest from staging to production through a Cloud Deploy pipeline with an approval" }
+      - { key: d, text: "Give the operations team Owner on production so fixes are never blocked" }
+      - { key: e, text: "Document each console change in a shared spreadsheet" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: declarative IaC run from a pipeline makes infrastructure
+      repeatable and its history auditable, and promoting one tested artifact through Cloud Deploy
+      with approvals makes application releases repeatable and recorded.
+      **b** is wrong: rebuilding per environment means production may run something different from
+      what was tested. **d** is wrong: broad Owner access violates least privilege and encourages
+      more manual changes. **e** is wrong: manual records are neither repeatable nor reliable.
+    points: 1
+
+  - key: s5-multi-api-key-restrictions
+    kind: multi
+    domain: s5-manage-implementation
+    prompt_md: |
+      A mobile app uses an API key to call the Maps APIs. Which two actions follow Google's best
+      practices for this key? **Choose two.**
+    choices:
+      - { key: a, text: "Use the same key for the mobile app and the backend servers to simplify rotation" }
+      - { key: b, text: "Treat the key as proof of the user's identity in the backend" }
+      - { key: c, text: "Restrict the key to only the Maps APIs the app calls" }
+      - { key: d, text: "Leave the key unrestricted so new features work without changes" }
+      - { key: e, text: "Add an application restriction so only the company's signed Android and iOS apps can use it" }
+    answer: [c, e]
+    explanation_md: |
+      **c** and **e** are right: Google recommends API restrictions (which APIs a key may call) and
+      application restrictions (which referrers, IPs or apps may use it) on every key.
+      **a** is wrong: separate keys per application limit blast radius and allow different
+      restrictions. **b** is wrong: an API key identifies a project, not a user. **d** is wrong:
+      unrestricted keys can be abused if extracted from the app.
+    points: 1
+
+  - key: s5-multi-migration-tools
+    kind: multi
+    domain: s5-manage-implementation
+    prompt_md: |
+      Cymbal Retail is leaving a data centre. It will rehost 300 VMware VMs on Compute Engine and
+      move its SQL Server databases to Cloud SQL with minimal downtime. Which two tools should the
+      architect recommend for these moves? **Choose two.**
+    choices:
+      - { key: a, text: "Migrate to Virtual Machines" }
+      - { key: b, text: "Transfer Appliance" }
+      - { key: c, text: "BigQuery Data Transfer Service" }
+      - { key: d, text: "Database Migration Service" }
+      - { key: e, text: "Migrate to Containers" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: Migrate to Virtual Machines rehosts VMware VMs onto Compute Engine
+      with test clones, and Database Migration Service migrates SQL Server to Cloud SQL with
+      continuous replication.
+      **b** is wrong: Transfer Appliance moves bulk data offline, not running VMs or live databases.
+      **c** is wrong: it loads data into BigQuery, not Cloud SQL. **e** is wrong: it converts VMs to
+      containers (replatforming), but the requirement is to rehost on Compute Engine.
+    points: 1
+
+  - key: s5-multi-testing-pipeline
+    kind: multi
+    domain: s5-manage-implementation
+    prompt_md: |
+      Developers complain that bugs reach staging and that performance problems are found only after
+      launch. Which two changes to their testing approach should the architect recommend?
+      **Choose two.**
+    choices:
+      - { key: a, text: "Run unit tests weekly in a dedicated QA environment" }
+      - { key: b, text: "Run fast automated unit tests in Cloud Build on every commit, failing the build on any failure" }
+      - { key: c, text: "Run load tests against a production-sized staging environment before each major release" }
+      - { key: d, text: "Replace integration tests with more unit tests that mock every dependency" }
+      - { key: e, text: "Run load tests directly against production during business hours" }
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** are right: automated tests on every commit that stop the pipeline catch bugs
+      early (DORA's test automation findings), and load tests against a production-like environment
+      find performance problems before users do.
+      **a** is wrong: weekly runs find bugs late. **d** is wrong: mocks cannot reveal integration
+      faults. **e** is wrong: load testing production at peak hours risks the very outage it should
+      prevent.
+    points: 1
+
+  - key: s5-multi-cloud-shell-facts
+    kind: multi
+    domain: s5-manage-implementation
+    prompt_md: |
+      An administrator wants to use Cloud Shell for routine tasks. Which two statements about Cloud
+      Shell are true? **Choose two.**
+    choices:
+      - { key: a, text: "It runs inside a VPC of the administrator's choice" }
+      - { key: b, text: "Its $HOME directory is 5 GB of persistent storage" }
+      - { key: c, text: "Software installed outside $HOME persists between sessions" }
+      - { key: d, text: "It is suitable for long-running background jobs that run for days" }
+      - { key: e, text: "It comes pre-authenticated as the signed-in user, with gcloud, kubectl and Terraform installed" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are right: Cloud Shell provides 5 GB of persistent home storage and is
+      pre-authenticated with the common tools installed.
+      **a** is wrong: Cloud Shell is not placed in your VPC; Cloud Workstations is the option for
+      that. **c** is wrong: the VM is ephemeral and only $HOME persists. **d** is wrong: sessions end
+      after inactivity and usage is limited by a weekly quota.
+    points: 1

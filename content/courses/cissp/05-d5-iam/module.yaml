@@ -1,0 +1,13 @@
+title: "Domain 5: Identity and Access Management"
+domain: d5-iam
+summary_md: |
+  Who (or what) is asking, how sure you are of it, what they may do, and how that changes over
+  time. This module covers all six objectives of CISSP Domain 5 (13% of the exam): controlling
+  physical and logical access to information, systems, devices, facilities, applications and
+  services (5.1); designing identification and authentication, including MFA, passwordless,
+  biometrics, session and credential management, SSO and just-in-time access (5.2); federating
+  identity on-premises, in the cloud and across hybrid estates (5.3); authorization models and
+  policy enforcement with PDPs and PEPs (5.4); the identity and access provisioning lifecycle,
+  from joiner to leaver, with access reviews, privilege escalation and service accounts (5.5);
+  and the authentication systems the exam names: OpenID Connect and OAuth, SAML, Kerberos,
+  RADIUS and TACACS+ (5.6).

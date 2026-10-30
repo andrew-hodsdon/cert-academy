@@ -1,0 +1,15 @@
+sources:
+  - slug: isc2-cissp-outline
+    kind: standard
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline"
+    site: ISC2
+    summary_md: |
+      The official outline (effective 15 April 2024): the eight domains, their weights and objectives. A new outline takes effect 15 April 2027.
+  - slug: isc2-cissp-cat
+    kind: web
+    url: https://www.isc2.org/certifications/cissp/cissp-cat
+    title: "CISSP Computerized Adaptive Testing"
+    site: ISC2
+    summary_md: |
+      How the CAT exam works: 100–150 items, 3 hours, 25 unscored pretest items, no going back.

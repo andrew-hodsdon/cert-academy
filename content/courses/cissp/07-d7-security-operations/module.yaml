@@ -1,0 +1,17 @@
+title: "Domain 7: Security Operations"
+domain: d7-security-operations
+summary_md: |
+  Security Operations is 13% of the CISSP exam and is the day-to-day work of keeping the
+  organization running safely: watching, responding, recovering and protecting people. This
+  module covers every objective in the 2024 outline: **7.1** understand and comply with
+  investigations (evidence, chain of custody, forensics, reporting); **7.2** conduct logging and
+  monitoring (SIEM, SOAR, UEBA, threat intelligence and hunting, egress monitoring); **7.3**
+  configuration management; **7.4** foundational security operations concepts (need to know,
+  least privilege, separation of duties, privileged account management, job rotation, SLAs);
+  **7.5** resource protection (media management and protection); **7.6** incident management;
+  **7.7** detective and preventive measures (firewalls, IDS/IPS, allow and deny lists,
+  sandboxing, honeypots, anti-malware, ML and AI tools); **7.8** patch and vulnerability
+  management; **7.9** change management; **7.10** recovery strategies; **7.11** disaster
+  recovery processes; **7.12** testing the DR plan; **7.13** business continuity planning and
+  exercises; **7.14** physical security; and **7.15** personnel safety and security (travel,
+  awareness, emergency management, duress).

@@ -1,0 +1,1066 @@
+slug: d3-quiz
+ordinal: 13
+title: "Domain 3 quiz: Security Architecture and Engineering"
+kind: quiz
+draw: 25
+time_limit_min: 35
+pass_pct: 80
+instructions_md: |
+  25 questions drawn at random from a bank of 52 covering objectives 3.1–3.10, 35 minutes, closed book.
+  Most questions have one answer; questions marked "Choose two." need both correct options for the
+  point. Answer as a security adviser to the business: people's safety first, design before tools, and
+  the most complete answer wins. Retake until you hold 80% or more, then read every explanation,
+  including the ones you got right.
+questions:
+  # ---------- 3.1 Secure design principles ----------
+  - key: d3-fail-safe-egress-door
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A research lab protects its stairwell doors with electronic badge locks. The stairwells are the
+      building's fire-evacuation routes. The facilities manager asks how the locks should behave if the
+      fire alarm triggers or building power is lost. What should you advise?
+    choices:
+      - { key: a, text: "Fail secure, so that intruders cannot use the confusion of an alarm to enter the lab" }
+      - { key: b, text: "Fail secure, with a guard posted at each stairwell to unlock doors manually" }
+      - { key: c, text: "Fail safe, so the doors unlock and people can evacuate" }
+      - { key: d, text: "Fail to the last known state, keeping locked doors locked and open doors open" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: these doors are on egress routes, and human safety always outranks asset protection,
+      so they must fail safe (unlock). **a** protects assets at the cost of lives. **b** relies on a guard
+      reaching every door during a fire, which is unreliable and still leaves people trapped in the
+      meantime. **d** is not a recognised safe design: a door that happens to be locked would trap people.
+    points: 1
+
+  - key: d3-zero-trust-replace-flat-vpn
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      Remote staff connect through a VPN that, once established, gives them access to the whole internal
+      network. After a contractor's laptop was used to move laterally to the finance servers, the CISO
+      wants to adopt zero trust. Which change BEST reflects zero trust principles?
+    choices:
+      - { key: a, text: "Authenticate and authorise each request to each application using identity and device posture, through an enforcement point in front of every resource" }
+      - { key: b, text: "Require a longer VPN pre-shared key and rotate it every 30 days" }
+      - { key: c, text: "Move the finance servers to a separate VLAN that VPN users can reach only after logging in once" }
+      - { key: d, text: "Add a second VPN concentrator so contractors and employees use different gateways" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: zero trust (NIST SP 800-207) removes implicit trust based on network location and
+      grants access per session, per resource, using dynamic policy such as identity and device posture.
+      **b** strengthens the tunnel but still grants broad network trust once connected. **c** is useful
+      segmentation, but a single login that then unlocks the VLAN is still location-based trust. **d**
+      separates populations but leaves each with flat, implicit access.
+    points: 1
+
+  - key: d3-segregation-of-duties-vendor-payments
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      An internal audit finds that one accounts-payable clerk can create a new supplier record and also
+      approve payments to it. Which design principle is MOST directly violated?
+    choices:
+      - { key: a, text: "Least privilege" }
+      - { key: b, text: "Segregation of duties" }
+      - { key: c, text: "Defence in depth" }
+      - { key: d, text: "Secure defaults" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: segregation of duties stops one person completing a sensitive task end to end;
+      creating a supplier and approving payment to it is the textbook fraud path. **a** is related (the
+      clerk may have more rights than needed), but the specific failure is that two conflicting duties
+      sit with one person. **c** concerns layered controls, not role conflict. **d** concerns the initial
+      configuration state of a system.
+    points: 1
+
+  - key: d3-shared-responsibility-iaas-patching
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A company runs its web servers on virtual machines from an IaaS provider. A critical vulnerability
+      is announced in the Linux kernel used in the company's VM images. Who is responsible for patching it?
+    choices:
+      - { key: a, text: "The provider, because it owns the physical hosts the VMs run on" }
+      - { key: b, text: "The provider, because kernel vulnerabilities fall under hypervisor security" }
+      - { key: c, text: "The customer, because the guest operating system is the customer's responsibility in IaaS" }
+      - { key: d, text: "Both equally, under a joint patching agreement that the shared responsibility model requires" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: in IaaS the customer owns the guest OS, middleware, applications and data; the
+      provider owns the hypervisor, hardware and facility. **a** confuses owning the hardware with owning
+      the software running in the guest. **b** is wrong because the vulnerable kernel is in the customer's
+      guest image, not the provider's hypervisor. **d** describes no standard model: responsibilities are
+      divided by layer, not shared equally.
+    points: 1
+
+  - key: d3-sase-distributed-branches
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A retailer has 400 small stores and a mostly remote head-office staff. All internet traffic is
+      backhauled to a central data-centre firewall, causing slow SaaS access, and each store runs its own
+      ageing firewall appliance. Leadership wants consistent security policy and better performance without
+      more on-site hardware. Which architecture BEST fits?
+    choices:
+      - { key: a, text: "Replace each store firewall with a newer next-generation appliance managed centrally" }
+      - { key: b, text: "Secure access service edge (SASE), delivering SD-WAN with cloud-hosted web gateway, CASB, ZTNA and firewall services near users" }
+      - { key: c, text: "Add bandwidth to the data-centre links so backhauled traffic is faster" }
+      - { key: d, text: "Allow stores to reach SaaS directly with no inspection, since the SaaS providers secure their own platforms" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: SASE converges networking and security functions into a cloud service enforced at
+      the edge close to users, giving consistent policy and removing backhaul. **a** keeps per-site
+      hardware, which leadership wants to avoid, and does nothing for remote staff. **c** treats the
+      symptom and keeps the latency of hair-pinning. **d** removes the organisation's own controls and
+      misreads shared responsibility: the customer still owns access and data protection in SaaS.
+    points: 1
+
+  - key: d3-privacy-by-design-signup
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      A product team is designing a loyalty app's sign-up flow and wants to apply privacy by design. Which
+      two design choices BEST reflect that principle? Choose two.
+    choices:
+      - { key: a, text: "Collect only an \"over 18\" flag rather than the full date of birth" }
+      - { key: b, text: "Collect all profile fields now in case marketing needs them later, but encrypt them" }
+      - { key: c, text: "Publish a detailed privacy policy and require users to accept it before sign-up" }
+      - { key: d, text: "Make marketing sharing off by default, with an explicit opt-in" }
+      - { key: e, text: "Keep full sign-up data indefinitely so that analytics remain consistent" }
+    answer: [a, d]
+    explanation_md: |
+      **a** (data minimisation) and **d** (privacy as the default setting) are core privacy-by-design
+      principles, reflected in GDPR Article 25 "data protection by design and by default". **b** violates
+      minimisation; encrypting unnecessary data doesn't make collecting it necessary. **c** is a notice,
+      not a design; privacy by design embeds protection rather than relying on policy acceptance. **e**
+      violates storage limitation and the end-to-end lifecycle principle.
+    points: 1
+
+  # ---------- 3.10 Information system lifecycle ----------
+  - key: d3-lifecycle-validation-gap
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A new claims system passed every test case derived from its requirements document. In production,
+      claims handlers find it cannot process the joint-policy claims that make up a third of their work,
+      because the requirement was never written down. Which lifecycle activity would have caught this?
+    choices:
+      - { key: a, text: "Verification" }
+      - { key: b, text: "Integration testing" }
+      - { key: c, text: "Unit testing" }
+      - { key: d, text: "Validation" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: validation checks that the system meets the stakeholders' real need ("did we build
+      the right thing?"), so it catches a missing requirement. **a** verification checks the system against
+      its specification ("did we build it right?") and passed, because the spec was incomplete. **b**
+      tests interfaces between components against the design. **c** tests individual units against their
+      own specifications. Neither can find a requirement nobody wrote.
+    points: 1
+
+  - key: d3-lifecycle-security-involvement-start
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      The CIO is planning a new customer-data platform and asks when the security team should first be
+      involved. What is the BEST answer?
+    choices:
+      - { key: a, text: "At initiation, when stakeholder needs and requirements are being defined" }
+      - { key: b, text: "During architecture design, once functional requirements are signed off" }
+      - { key: c, text: "During verification and validation, to run penetration tests" }
+      - { key: d, text: "Before transition, to grant authorisation to operate" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: security requirements must be captured with the other stakeholder needs, when
+      changes are cheapest and security can shape the whole design (NIST SP 800-160). **b** is late:
+      signed-off requirements without security ones force redesign or bolt-on controls. **c** finds
+      problems after they are built, at the highest cost to fix. **d** is the latest possible point and
+      turns security into a gate rather than a design input.
+    points: 1
+
+  - key: d3-lifecycle-disposal-actions
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      An HR system is being retired after its data has been migrated to a new platform. Which two actions
+      are MOST important in the retirement and disposal stage? Choose two.
+    choices:
+      - { key: a, text: "Leave the old servers powered on for a year in case the migration missed something" }
+      - { key: b, text: "Sanitise or destroy the old storage media according to the data's classification" }
+      - { key: c, text: "Run a final vulnerability scan of the old system" }
+      - { key: d, text: "Update the old system's patch baseline" }
+      - { key: e, text: "Revoke the old system's service accounts, credentials and certificates" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** close the two main risks of disposal: data remaining on media, and live credentials
+      or certificates that attackers could reuse. **a** leaves an unmaintained system holding sensitive
+      data; any retention need should be met by a controlled archive, not a running server. **c** and
+      **d** are operations-stage activities and add nothing once the system is being decommissioned.
+    points: 1
+
+  # ---------- 3.2 Security models ----------
+  - key: d3-blp-star-property
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      In a multilevel system, a process running at SECRET attempts to append a summary to a file labelled
+      CONFIDENTIAL, and the system blocks it. Which rule caused the block?
+    choices:
+      - { key: a, text: "Bell-LaPadula *-property" }
+      - { key: b, text: "Bell-LaPadula simple security property" }
+      - { key: c, text: "Biba * integrity property" }
+      - { key: d, text: "Biba simple integrity property" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: the Bell-LaPadula *-property forbids writing down, so a SECRET subject cannot write
+      to a CONFIDENTIAL object; this stops leaks through Trojan horses. **b** forbids reading up, which is
+      not the operation here. **c** forbids writing *up* to higher integrity, the opposite direction, and
+      uses integrity rather than classification labels. **d** forbids reading lower-integrity data.
+    points: 1
+
+  - key: d3-biba-no-read-down
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A manufacturing system's calibration engine must not base its calculations on unvalidated readings
+      from a hobbyist sensor feed, though it may publish results that the feed's dashboard reads. Which
+      model rule describes this requirement?
+    choices:
+      - { key: a, text: "Bell-LaPadula simple security property: no read up" }
+      - { key: b, text: "Biba * integrity property: no write up" }
+      - { key: c, text: "Biba simple integrity property: no read down" }
+      - { key: d, text: "Brewer-Nash conflict-of-interest rule" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Biba protects integrity, and its simple integrity property stops a high-integrity
+      subject reading lower-integrity data, which would contaminate it. **a** is a confidentiality rule
+      about classified data. **b** stops a low-integrity subject writing to a high-integrity object; here
+      the concern is what the trusted engine reads. **d** governs access between competing clients'
+      datasets, not data quality.
+    points: 1
+
+  - key: d3-clark-wilson-access-triple
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A bank's design requires that tellers can change account balances only through the approved posting
+      application, never by editing the database directly, and that a nightly reconciliation confirms the
+      balances are consistent. Which model does this design follow?
+    choices:
+      - { key: a, text: "Biba, because it protects integrity" }
+      - { key: b, text: "Graham-Denning, because it defines how rights are granted" }
+      - { key: c, text: "Bell-LaPadula, because balances are confidential" }
+      - { key: d, text: "Clark-Wilson, using transformation procedures and an integrity verification procedure" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Clark-Wilson's access triple (user → transformation procedure → constrained data
+      item) forces changes through well-formed transactions, and the reconciliation is an integrity
+      verification procedure. **a** Biba is integrity-focused but uses integrity levels, not mediated
+      programs and verification procedures. **b** Graham-Denning describes creating and deleting subjects,
+      objects and rights. **c** Bell-LaPadula is about confidentiality and says nothing about how data may
+      be changed.
+    points: 1
+
+  - key: d3-brewer-nash-consultancy
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      An accounting firm audits two rival airlines. Its system must allow any partner to start on either
+      airline, but once a partner opens files for one airline, they must be blocked from the other airline's
+      files while still being able to work on a hotel chain. Which model fits BEST?
+    choices:
+      - { key: a, text: "Bell-LaPadula with airline-specific categories" }
+      - { key: b, text: "Brewer-Nash (Chinese Wall)" }
+      - { key: c, text: "Take-Grant" }
+      - { key: d, text: "Clark-Wilson" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Brewer-Nash grants access dynamically based on what the subject has already accessed
+      within a conflict-of-interest class; the hotel chain is in a different class, so it stays open.
+      **a** uses static labels assigned in advance; it cannot model "whichever you touch first". **c**
+      describes how rights propagate in a graph. **d** enforces well-formed transactions for integrity,
+      not conflicts of interest.
+    points: 1
+
+  - key: d3-take-grant-rights-propagation
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      An analyst models users and files as nodes in a directed graph, with edges labelled by rights, and
+      asks whether a junior developer could ever end up with write access to the payroll file through a
+      chain of delegations. Which model is the analyst using?
+    choices:
+      - { key: a, text: "Take-Grant" }
+      - { key: b, text: "Noninterference" }
+      - { key: c, text: "Lattice-based access control" }
+      - { key: d, text: "Biba" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Take-Grant represents subjects and objects as a directed graph with take, grant,
+      create and remove rules, and is used to analyse how rights can propagate. **b** noninterference is
+      about high-level actions having no observable effect at low levels. **c** lattice-based control
+      orders security levels and categories; it does not model delegation chains. **d** Biba sets integrity
+      read and write rules.
+    points: 1
+
+  - key: d3-blp-properties-choose-two
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      Which two rules belong to the Bell-LaPadula model? Choose two.
+    choices:
+      - { key: a, text: "A subject may not read an object at a higher classification" }
+      - { key: b, text: "A subject may not invoke a subject at a higher integrity level" }
+      - { key: c, text: "A subject may not write to an object at a lower classification" }
+      - { key: d, text: "A subject may not read an object at a lower integrity level" }
+      - { key: e, text: "Constrained data items may be changed only by transformation procedures" }
+    answer: [a, c]
+    explanation_md: |
+      **a** (simple security property, no read up) and **c** (*-property, no write down) are Bell-LaPadula's
+      mandatory rules. **b** is Biba's invocation property. **d** is Biba's simple integrity property (no
+      read down). **e** is a Clark-Wilson rule.
+    points: 1
+
+  # ---------- 3.3 Control selection ----------
+  - key: d3-control-selection-categorise-first
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A government agency is building a new benefits-claims system. The project manager wants to start
+      buying security products now to keep to schedule. Under the NIST Risk Management Framework, what
+      should happen FIRST?
+    choices:
+      - { key: a, text: "Select the high baseline from SP 800-53B to be safe, then tailor it later" }
+      - { key: b, text: "Categorise the system by the impact of a loss of confidentiality, integrity and availability" }
+      - { key: c, text: "Run a penetration test on the prototype" }
+      - { key: d, text: "Ask the authorising official to accept the risk of an accelerated schedule" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: in the RMF, categorisation (after preparation) drives baseline selection; you cannot
+      choose proportionate controls until you know the impact levels. **a** picks controls before knowing
+      the need, likely over-spending and still requiring tailoring. **c** tests controls that haven't been
+      selected yet. **d** asks management to accept a risk that hasn't been assessed, which is not
+      informed risk acceptance.
+    points: 1
+
+  - key: d3-compensating-control-legacy
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      The selected baseline requires multifactor authentication for all administrative access, but a
+      critical legacy laboratory instrument supports only a local password and cannot be replaced for
+      two years. What is the BEST approach?
+    choices:
+      - { key: a, text: "Remove the control from the baseline because it does not apply to the instrument" }
+      - { key: b, text: "Disconnect the instrument from the network until it can be replaced" }
+      - { key: c, text: "Document a compensating control, such as admin access only via an MFA-protected jump host on an isolated segment, and record the residual risk" }
+      - { key: d, text: "Leave the instrument as is, since legacy systems are exempt from baselines" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: tailoring allows a compensating control that provides comparable protection when a
+      baseline control is infeasible, documented with the residual risk for the authorising official.
+      **a** misuses scoping; the requirement does apply, it just can't be met directly. **b** may stop a
+      critical business function, which is disproportionate when a compensating control exists. **d** is
+      wrong; there is no automatic legacy exemption, and it ignores the risk.
+    points: 1
+
+  - key: d3-fips-199-high-water-mark
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A system is rated LOW impact for confidentiality, MODERATE for integrity and HIGH for availability.
+      Using the high-water mark approach, which control baseline should be the starting point?
+    choices:
+      - { key: a, text: "High" }
+      - { key: b, text: "Moderate, the average of the three ratings" }
+      - { key: c, text: "Low for confidentiality controls, moderate for integrity controls, high for availability controls" }
+      - { key: d, text: "Low, then raised for any control the assessor finds missing" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: under FIPS 199 and FIPS 200, the overall system category is the highest of the three
+      impact levels (the high-water mark), and that selects the SP 800-53B baseline, which is then
+      tailored. **b** averages, which would under-protect availability. **c** sounds precise, but
+      baselines are selected for the system as a whole, not per objective. **d** starts too low and relies
+      on assessment to fix design gaps.
+    points: 1
+
+  # ---------- 3.4 Security capabilities of information systems ----------
+  - key: d3-reference-monitor-properties
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      Which set of properties must a reference monitor implementation have?
+    choices:
+      - { key: a, text: "Encrypted, logged and redundant" }
+      - { key: b, text: "Discretionary, mandatory and role-based" }
+      - { key: c, text: "Hardware-based, open source and certified at EAL7" }
+      - { key: d, text: "Tamper-proof, always invoked and small enough to be verified" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: the reference monitor must be tamper-proof, invoked for every access (complete
+      mediation) and verifiable, which in practice means small. **a** lists useful operational qualities
+      but not the defining ones. **b** lists access control models the monitor might enforce, not
+      properties it must have. **c** lists implementation choices that are neither necessary nor
+      sufficient.
+    points: 1
+
+  - key: d3-tpm-sealing-measured-boot
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A laptop fleet uses full-disk encryption. The security architect wants the decryption key released
+      only if the firmware and bootloader have not been tampered with. Which capability provides this?
+    choices:
+      - { key: a, text: "An HSM in the data centre that holds every laptop's disk key" }
+      - { key: b, text: "TPM sealing of the key to platform configuration register values recorded during measured boot" }
+      - { key: c, text: "Address space layout randomisation in the operating system" }
+      - { key: d, text: "A BIOS password set on every laptop" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: the TPM records hashes of each boot component in PCRs, and a sealed key is released
+      only when those PCR values match the expected state. **a** stores keys centrally but has no view of
+      each laptop's boot integrity. **c** hardens running processes against memory exploits; it does
+      nothing at boot. **d** stops casual configuration changes but does not detect a modified bootloader.
+    points: 1
+
+  - key: d3-hsm-fips-140-3-tamper-response
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A certificate authority needs its root signing key held in a device that will actively detect a
+      physical intrusion and zeroise the key. Which FIPS 140-3 security level is the MINIMUM that requires
+      tamper response?
+    choices:
+      - { key: a, text: "Level 1" }
+      - { key: b, text: "Level 2" }
+      - { key: c, text: "Level 3" }
+      - { key: d, text: "Level 4" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Level 3 adds tamper detection and response, including zeroising critical security
+      parameters on intrusion. **a** Level 1 has no physical security requirements beyond production-grade
+      parts. **b** Level 2 requires tamper **evidence** (seals, coatings), which shows tampering after the
+      fact but does not respond. **d** Level 4 also has tamper response and adds protection against
+      environmental attacks, but it is not the minimum level that provides tamper response.
+    points: 1
+
+  - key: d3-memory-protection-controls
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      An attacker exploits a buffer overflow to place shellcode in a stack buffer and jump to it using a
+      hard-coded address. Which two memory protection features MOST directly defeat this technique?
+      Choose two.
+    choices:
+      - { key: a, text: "Full-disk encryption" }
+      - { key: b, text: "Data execution prevention (non-executable stack)" }
+      - { key: c, text: "Protection rings separating kernel and user mode" }
+      - { key: d, text: "Address space layout randomisation" }
+      - { key: e, text: "TPM remote attestation" }
+    answer: [b, d]
+    explanation_md: |
+      **b** stops code from executing in data regions such as the stack, and **d** makes target addresses
+      unpredictable so the hard-coded jump misses. **a** protects data at rest, not running memory. **c**
+      separates privilege levels but does not stop code running in a user process's own stack. **e**
+      reports boot-time state to a verifier and doesn't affect runtime memory exploits.
+    points: 1
+
+  - key: d3-common-criteria-eal-meaning
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A procurement team is choosing between two firewall products. Product X is certified at EAL4 against
+      a security target that omits VPN functions. Product Y is certified at EAL2 against the firewall
+      protection profile that includes the VPN functions the team requires. Which statement is MOST
+      accurate?
+    choices:
+      - { key: a, text: "The EAL measures assurance in the evaluation, not functionality, so Y's evaluated claims may fit the requirement better" }
+      - { key: b, text: "X is more secure in every respect because EAL4 is higher than EAL2" }
+      - { key: c, text: "Neither can be used, because only EAL7 products are suitable for perimeter devices" }
+      - { key: d, text: "The EAL applies to the vendor's development company, not to the product" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: an EAL describes how rigorously the claims were evaluated; what is claimed is in the
+      security target or protection profile. X's evaluation says nothing about the VPN features you need.
+      **b** confuses assurance with functionality. **c** is wrong; EAL7 is rare and not a general
+      requirement. **d** is wrong; the target of evaluation is the product in a defined configuration.
+    points: 1
+
+  # ---------- 3.5 Vulnerabilities of architectures ----------
+  - key: d3-inference-polyinstantiation
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      In a multilevel shipping database, an UNCLASSIFIED user queries a cargo record and receives "access
+      denied" for one field. From the denial alone the user deduces that the cargo is classified military
+      equipment. Which control would BEST prevent this?
+    choices:
+      - { key: a, text: "Aggregation limits on the number of records a user may retrieve" }
+      - { key: b, text: "Polyinstantiation, so the UNCLASSIFIED user sees a plausible cover record" }
+      - { key: c, text: "Encrypting the field at rest" }
+      - { key: d, text: "Increasing database audit logging" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: this is an inference problem, and polyinstantiation stores a separate low-level
+      version of the record so the denial itself doesn't reveal anything. **a** addresses aggregation
+      (combining many items), not deduction from a single response. **c** protects stored data but the
+      leak comes from the access decision's visible behaviour. **d** detects after the fact; the user
+      has already inferred the secret.
+    points: 1
+
+  - key: d3-ics-first-step-segmentation
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A water utility discovers that its SCADA controllers share a flat network with office PCs. The PLCs
+      run unsupported firmware and the vendor says patches require a plant shutdown. What should the
+      security manager recommend FIRST?
+    choices:
+      - { key: a, text: "Run an authenticated active vulnerability scan against all PLCs during normal operation" }
+      - { key: b, text: "Schedule an emergency shutdown to patch every PLC this week" }
+      - { key: c, text: "Segment the OT network from IT with a DMZ and strict allow-listed flows, and monitor it passively" }
+      - { key: d, text: "Install endpoint antivirus agents on the PLCs" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: OT priorities are safety and availability, so the first step is segmentation and
+      passive monitoring, which reduce exposure without touching fragile controllers (NIST SP 800-82r3).
+      **a** active scans can crash PLCs and disrupt a safety-critical process. **b** may be needed later
+      but an unplanned shutdown of water treatment carries its own safety risk, and patching doesn't fix
+      the flat network. **d** PLCs generally cannot run general-purpose endpoint agents.
+    points: 1
+
+  - key: d3-container-shared-kernel
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A team plans to run a payment-processing container and an untrusted customer-supplied plug-in
+      container on the same host. Why should the security architect push back?
+    choices:
+      - { key: a, text: "Containers cannot use encrypted network connections" }
+      - { key: b, text: "Containers cannot be scanned for vulnerabilities" }
+      - { key: c, text: "Containers always run as root" }
+      - { key: d, text: "Containers share the host OS kernel, so a kernel exploit in one can compromise the other" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: unlike VMs, containers share the host kernel, so NIST SP 800-190 advises grouping
+      containers of different sensitivity onto separate hosts. **a** is false; containers routinely use
+      TLS and mutual TLS. **b** is false; image scanning is a standard pipeline control. **c** is false;
+      running as root is a common misconfiguration, not an inherent property, and can be prevented.
+    points: 1
+
+  - key: d3-iot-camera-mitigations
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      A hotel has 250 IP cameras, many still using factory passwords, and they share the guest Wi-Fi
+      network. Which two actions would MOST reduce the risk? Choose two.
+    choices:
+      - { key: a, text: "Change the default credentials to unique, strong passwords" }
+      - { key: b, text: "Enable the cameras' built-in motion alerts" }
+      - { key: c, text: "Move the cameras to an isolated network segment allowing only flows to the video recorder" }
+      - { key: d, text: "Increase the video recording resolution" }
+      - { key: e, text: "Hide the cameras' Wi-Fi SSID" }
+    answer: [a, c]
+    explanation_md: |
+      **a** fixes the most exploited IoT weakness (weak, default credentials, top of the OWASP IoT list)
+      and **c** limits who can reach the devices and what they can reach if compromised. **b** and **d**
+      change how the cameras work as cameras, not their security. **e** hiding an SSID is trivially
+      defeated and does nothing about default passwords or the shared guest network.
+    points: 1
+
+  - key: d3-serverless-overprivileged-role
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A serverless function that resizes uploaded images was compromised through a malicious file. The
+      attacker then deleted data in several unrelated storage buckets. Which design weakness MOST enabled
+      the damage?
+    choices:
+      - { key: a, text: "The function ran on servers the customer did not patch" }
+      - { key: b, text: "The function's execution role had broad permissions beyond the one bucket it needed" }
+      - { key: c, text: "The function's code was not compiled to a native binary" }
+      - { key: d, text: "The provider's hypervisor isolated functions too weakly" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: over-privileged function permissions turned a single-function compromise into wide
+      data loss; least-privilege roles per function are a key serverless control (OWASP Serverless Top
+      10). **a** in serverless the provider patches the underlying servers. **c** compilation has no
+      bearing on authorisation. **d** the attacker used the function's own legitimate permissions, not a
+      tenant-isolation break.
+    points: 1
+
+  - key: d3-virtualisation-risks-choose-two
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      A company consolidates 200 servers onto a type 1 hypervisor cluster. Which two risks are specific to
+      this virtualised architecture and should be addressed in its design? Choose two.
+    choices:
+      - { key: a, text: "Users choosing weak passwords for their email accounts" }
+      - { key: b, text: "Phishing emails delivered to staff" }
+      - { key: c, text: "VM escape, where a compromised guest attacks the hypervisor and other guests" }
+      - { key: d, text: "Loss of paper records in the archive room" }
+      - { key: e, text: "VM sprawl, where unmanaged and unpatched VMs accumulate" }
+    answer: [c, e]
+    explanation_md: |
+      **c** and **e** are virtualisation-specific risks named in NIST SP 800-125: escape breaks guest
+      isolation, and sprawl leaves forgotten, vulnerable VMs. **a** and **b** are real risks but exist
+      regardless of virtualisation. **d** is a physical records risk unrelated to the server architecture.
+    points: 1
+
+  - key: d3-edge-computing-node-trust
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A logistics firm deploys hundreds of edge nodes in roadside cabinets to process vehicle-sensor data
+      locally. The nodes are physically accessible and often lose their connection to the central
+      management system. Which control BEST addresses the risk that a node is tampered with?
+    choices:
+      - { key: a, text: "Send all sensor data to the central cloud instead and decommission the edge nodes" }
+      - { key: b, text: "Rely on the cabinet's padlock as the only protection" }
+      - { key: c, text: "Hardware root of trust with secure boot and encrypted local storage on each node" }
+      - { key: d, text: "Daily manual inspections of every cabinet" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: secure boot anchored in a hardware root of trust detects modified software, and
+      encryption protects local data if a node is stolen, both working even while disconnected. **a**
+      removes the business benefit (latency, bandwidth) the edge design exists to provide. **b** is a
+      single, weak physical layer. **d** is costly, slow and still misses tampering between visits.
+    points: 1
+
+  # ---------- 3.6 Cryptographic solutions ----------
+  - key: d3-symmetric-key-count
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      Thirty field offices must each be able to communicate privately with every other office using only
+      symmetric encryption, with a unique key for each pair. How many keys are needed?
+    choices:
+      - { key: a, text: "30" }
+      - { key: b, text: "60" }
+      - { key: c, text: "900" }
+      - { key: d, text: "435" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: n(n − 1)/2 = 30 × 29 / 2 = 435. **a** would be one key per office, which doesn't
+      give pair-wise privacy. **b** is 2n, the number of keys if each office had an asymmetric key pair.
+      **c** is n², which double-counts each pair and includes each office with itself.
+    points: 1
+
+  - key: d3-non-repudiation-signature
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A trading platform needs proof that a client placed a particular order, strong enough that the
+      client cannot later deny it. Which mechanism provides this?
+    choices:
+      - { key: a, text: "An HMAC computed with a key shared between the client and the platform" }
+      - { key: b, text: "A digital signature made with the client's private key" }
+      - { key: c, text: "Encrypting the order with the platform's public key" }
+      - { key: d, text: "A SHA-256 hash of the order stored by the platform" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: only the client holds the private signing key, so a valid signature binds the order
+      to the client. **a** proves integrity between the two parties, but either could have created the
+      HMAC, so the client can deny it. **c** gives confidentiality; anyone can encrypt with a public key.
+      **d** proves the order hasn't changed since hashing but says nothing about who created it.
+    points: 1
+
+  - key: d3-encrypt-with-recipient-public-key
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      Priya wants to email a contract to Sam so that only Sam can read it. They have exchanged
+      certificates. Which key should Priya's mail client use to protect the message's symmetric session
+      key?
+    choices:
+      - { key: a, text: "Sam's public key" }
+      - { key: b, text: "Sam's private key" }
+      - { key: c, text: "Priya's private key" }
+      - { key: d, text: "Priya's public key" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: wrapping the session key with Sam's public key means only Sam's private key can
+      unwrap it. **b** Priya never has Sam's private key. **c** Priya's private key creates signatures;
+      anything "encrypted" with it can be opened by anyone with her public key. **d** would let only Priya
+      decrypt it.
+    points: 1
+
+  - key: d3-ocsp-stapling
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A large public website wants browsers to get timely certificate revocation status without each
+      browser downloading a large CRL or querying the CA directly, which also exposes users' browsing
+      to the CA. What should the site enable?
+    choices:
+      - { key: a, text: "Certificate pinning in every browser" }
+      - { key: b, text: "A longer certificate validity period" }
+      - { key: c, text: "OCSP stapling" }
+      - { key: d, text: "Publishing the CRL more often" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: with OCSP stapling the server fetches a signed, time-stamped OCSP response and
+      attaches it to the TLS handshake, so clients get fresh status without contacting the CA. **a**
+      restricts which certificates are accepted but doesn't convey revocation, and site operators can't
+      configure every browser. **b** makes revocation more important, not easier. **d** keeps the large
+      download and the client-to-CA lookups.
+    points: 1
+
+  - key: d3-key-escrow-encryption-not-signing
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      Legal requires that the company can recover encrypted business files if an employee leaves. Each
+      employee also has a separate key pair for signing approvals. What is the BEST key recovery design?
+    choices:
+      - { key: a, text: "Escrow both the encryption and signing private keys so either can be recovered" }
+      - { key: b, text: "Escrow neither key; require employees to decrypt their files before leaving" }
+      - { key: c, text: "Escrow only the signing key, since approvals have legal weight" }
+      - { key: d, text: "Escrow only the encryption key; keep the signing key under the employee's sole control" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: escrowing encryption keys meets the recovery requirement, while signing keys must
+      stay under sole control to preserve non-repudiation. **a** lets the escrow holder sign as the
+      employee, destroying non-repudiation. **b** fails when an employee leaves suddenly or is
+      uncooperative. **c** both fails the recovery requirement and undermines the signatures it claims to
+      protect.
+    points: 1
+
+  - key: d3-hsm-master-key-dual-control
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      A payments company wants to ensure that no single administrator can retrieve or use the HSM master
+      key on their own. Which two practices achieve this? Choose two.
+    choices:
+      - { key: a, text: "Store a backup of the master key in the administrator's password manager" }
+      - { key: b, text: "Split knowledge: divide the key into shares held by different custodians (M of N)" }
+      - { key: c, text: "Rotate the master key every week" }
+      - { key: d, text: "Use a longer key length for the master key" }
+      - { key: e, text: "Dual control: require two authorised people to act together to load or use the key" }
+    answer: [b, e]
+    explanation_md: |
+      **b** ensures no one person knows the whole key and **e** ensures no one person can perform the
+      operation alone, the two practices SP 800-57 names for this purpose. **a** puts the whole key in one
+      person's hands. **c** limits exposure over time but doesn't stop one person using the current key.
+      **d** strengthens the key cryptographically but does nothing about insider control.
+    points: 1
+
+  - key: d3-ecb-pattern-leak
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      An auditor notices that an encrypted database column shows identical ciphertext wherever the
+      plaintext value is the same, even though AES-256 is used. What is the MOST likely cause?
+    choices:
+      - { key: a, text: "The data is encrypted in ECB mode" }
+      - { key: b, text: "The key is too short for AES" }
+      - { key: c, text: "AES-256 has been broken by frequency analysis" }
+      - { key: d, text: "The database is using GCM mode with random nonces" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: ECB encrypts each block independently, so identical plaintext blocks under the same
+      key always produce identical ciphertext. **b** AES-256 already uses the longest standard key; key
+      length doesn't cause this. **c** AES is not broken; the leak is from the mode of operation. **d**
+      GCM with random nonces gives different ciphertext each time, which is the fix, not the cause.
+    points: 1
+
+  - key: d3-harvest-now-decrypt-later
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A defence contractor exchanges design data over TLS using RSA key exchange. The data must remain
+      confidential for 25 years. Which threat should drive an architecture change, and what change?
+    choices:
+      - { key: a, text: "Grover's algorithm breaking AES-256; switch to 3DES" }
+      - { key: b, text: "Harvest now, decrypt later; adopt a hybrid key exchange that includes a post-quantum KEM such as ML-KEM" }
+      - { key: c, text: "Birthday attacks on SHA-256; switch to MD5" }
+      - { key: d, text: "Quantum computers breaking all symmetric ciphers; stop using encryption and move to a private network" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: traffic recorded today could be decrypted once a large quantum computer runs Shor's
+      algorithm against RSA, so long-lived secrets need post-quantum key establishment now (FIPS 203,
+      ML-KEM). **a** Grover only roughly halves symmetric strength, leaving AES-256 strong; 3DES is weaker
+      and disallowed. **c** SHA-256 is not the weak link, and MD5 is broken. **d** quantum computing does
+      not break all symmetric ciphers, and dropping encryption is never the answer.
+    points: 1
+
+  # ---------- 3.7 Cryptanalytic attacks ----------
+  - key: d3-known-plaintext-attack
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      An attacker knows every encrypted status message from a device begins with the fixed header
+      "STATUS-REPORT-V2", and has captured many ciphertexts. They use the header and the matching
+      ciphertext bytes to recover the key. What kind of attack is this?
+    choices:
+      - { key: a, text: "Ciphertext-only attack" }
+      - { key: b, text: "Chosen-ciphertext attack" }
+      - { key: c, text: "Brute-force attack" }
+      - { key: d, text: "Known-plaintext attack" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: the attacker has pairs of known plaintext (the header) and corresponding ciphertext.
+      **a** would mean the attacker has only ciphertext, with no plaintext knowledge. **b** requires the
+      attacker to get chosen ciphertexts decrypted, which isn't described. **c** tries every key without
+      exploiting plaintext knowledge.
+    points: 1
+
+  - key: d3-birthday-attack-digest-length
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A legacy document-signing system uses a 128-bit hash. Roughly how many hash computations would an
+      attacker need to find two documents with the same digest?
+    choices:
+      - { key: a, text: "About 2^64, because of the birthday paradox" }
+      - { key: b, text: "About 2^128, because the digest is 128 bits" }
+      - { key: c, text: "About 2^127, half of the digest space" }
+      - { key: d, text: "About 2^32, because hashes are not keyed" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: collisions are expected after about 2^(n/2) attempts, so 2^64 for a 128-bit digest.
+      **b** is the work for finding a preimage of a specific digest, not any collision. **c** is the
+      average brute-force effort for a 128-bit key, not a collision search. **d** has no basis; being
+      unkeyed doesn't reduce the birthday bound further.
+    points: 1
+
+  - key: d3-password-hash-cracking-defences
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      An attacker steals a database of unsalted SHA-256 password hashes and cracks most of them within
+      hours using rainbow tables and GPUs. Which two changes would MOST effectively slow future offline
+      cracking? Choose two.
+    choices:
+      - { key: a, text: "Switch to SHA-512 with no other changes" }
+      - { key: b, text: "Encrypt the hashes with a key stored in the same database" }
+      - { key: c, text: "Add a unique random salt to each password before hashing" }
+      - { key: d, text: "Use a deliberately slow password-hashing function such as Argon2, bcrypt or PBKDF2" }
+      - { key: e, text: "Force users to change their passwords every 30 days" }
+    answer: [c, d]
+    explanation_md: |
+      **c** defeats precomputed rainbow tables and forces each hash to be attacked separately, and **d**
+      makes every guess costly. **a** is still a fast, unsalted hash; GPUs compute it nearly as quickly.
+      **b** fails as soon as the attacker who stole the database also has the key next to it. **e**
+      doesn't slow cracking of the stolen hashes and tends to produce weaker, predictable passwords.
+    points: 1
+
+  - key: d3-timing-side-channel-fix
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      Researchers show that an API's token comparison returns slightly faster when the first byte is wrong,
+      letting them recover a valid token byte by byte over the network. What is the BEST fix?
+    choices:
+      - { key: a, text: "Increase the token length from 128 to 256 bits" }
+      - { key: b, text: "Use a constant-time comparison function" }
+      - { key: c, text: "Encrypt the API traffic with TLS 1.3" }
+      - { key: d, text: "Move the API behind a web application firewall" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: this is a timing side channel; constant-time comparison removes the
+      data-dependent timing leak. **a** a longer token still leaks one byte at a time through timing.
+      **c** protects the content in transit but the timing of responses is still observable. **d** a WAF
+      can't see or normalise how long the back-end comparison takes.
+    points: 1
+
+  - key: d3-pass-the-hash
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      After compromising a help-desk workstation, an attacker extracts the NTLM hash of a domain
+      administrator who had recently logged in, and uses it to authenticate to a file server without
+      ever learning the password. Which attack is this, and which control would have done MOST to
+      prevent it?
+    choices:
+      - { key: a, text: "Kerberoasting; long service-account passwords" }
+      - { key: b, text: "Golden ticket; resetting the krbtgt account twice" }
+      - { key: c, text: "Pass the hash; tiered administration so domain admins never log on to workstations" }
+      - { key: d, text: "Brute force; account lockout after five failed attempts" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: reusing an NTLM hash to authenticate is pass the hash, and tiered admin models keep
+      privileged credentials off lower-trust machines where they can be harvested. **a** Kerberoasting
+      cracks service tickets offline for SPN accounts. **b** a golden ticket forges TGTs with the krbtgt
+      hash. **d** no guessing occurred, so lockout would never trigger.
+    points: 1
+
+  - key: d3-kerberoasting
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A penetration tester using an ordinary domain account requests Kerberos service tickets for several
+      service accounts, then cracks one ticket offline to reveal the SQL service account's password. Which
+      control BEST reduces this risk?
+    choices:
+      - { key: a, text: "Shorter Kerberos ticket lifetimes" }
+      - { key: b, text: "Disabling NTLM across the domain" }
+      - { key: c, text: "Requiring MFA for interactive workstation logons" }
+      - { key: d, text: "Long, random service-account passwords, ideally group managed service accounts" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Kerberoasting works because service tickets are encrypted with the service
+      account's password-derived key; long random or automatically managed passwords make offline
+      cracking impractical. **a** the attacker cracks offline, so ticket lifetime doesn't matter. **b**
+      helps against pass the hash and relay attacks, not Kerberos ticket cracking. **c** protects
+      interactive logons but any authenticated user can still request service tickets.
+    points: 1
+
+  - key: d3-ransomware-preparedness
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      A hospital's board asks which two measures would MOST improve its ability to withstand a ransomware
+      attack on clinical systems. Choose two.
+    choices:
+      - { key: a, text: "Maintain offline or immutable backups and regularly test restoring from them" }
+      - { key: b, text: "Pre-purchase cryptocurrency so a ransom can be paid quickly" }
+      - { key: c, text: "Increase the AES key length used for file encryption on servers" }
+      - { key: d, text: "Rely on the antivirus vendor's ransomware guarantee" }
+      - { key: e, text: "Segment the network and require MFA for remote and privileged access" }
+    answer: [a, e]
+    explanation_md: |
+      **a** makes recovery possible without paying and **e** limits initial access and spread, both top
+      recommendations in the CISA #StopRansomware Guide. **b** plans to pay rather than to be resilient;
+      paying is a senior management and legal decision and doesn't guarantee recovery. **c** doesn't
+      stop an attacker encrypting the data again with their own key. **d** transfers a little financial
+      risk but does nothing for patient safety or recovery time.
+    points: 1
+
+  # ---------- 3.8 / 3.9 Site and facility design and controls ----------
+  - key: d3-pre-action-sprinkler
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      Building code requires a water-based sprinkler system in a new data centre. The operations director
+      is worried about accidental discharge on equipment. Which system BEST balances code compliance with
+      that concern?
+    choices:
+      - { key: a, text: "Pre-action" }
+      - { key: b, text: "Wet pipe" }
+      - { key: c, text: "Deluge" }
+      - { key: d, text: "Dry pipe" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: pre-action pipes stay dry until a detector triggers, and water is released only when
+      a head also opens, so a single fault doesn't flood equipment. **b** wet pipe holds water in the pipes
+      at all times, so a damaged head discharges immediately. **c** deluge opens every head at once,
+      suitable for high-hazard industrial areas, never IT rooms. **d** dry pipe is designed for freezing
+      environments and discharges once any head opens, with no detector interlock.
+    points: 1
+
+  - key: d3-fire-class-c-electrical
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A fire starts inside an energised power distribution unit in a server room. Using the US
+      classification, which class of fire is this, and what kind of agent is appropriate?
+    choices:
+      - { key: a, text: "Class A; water" }
+      - { key: b, text: "Class C; a non-conductive agent such as CO₂ or a clean agent" }
+      - { key: c, text: "Class D; dry powder" }
+      - { key: d, text: "Class K; wet chemical" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: energised electrical equipment is Class C and needs a non-conductive agent.
+      **a** Class A covers ordinary combustibles, and water on live equipment risks electrocution. **c**
+      Class D is combustible metals. **d** Class K is cooking oils and fats.
+    points: 1
+
+  - key: d3-cpted-natural-access-control
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      An architect designs a new office campus with landscaping, low walls and paved paths that steer
+      every visitor naturally towards a single staffed reception entrance. Which CPTED strategy is this?
+    choices:
+      - { key: a, text: "Natural surveillance" }
+      - { key: b, text: "Territorial reinforcement" }
+      - { key: c, text: "Natural access control" }
+      - { key: d, text: "Maintenance" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: natural access control uses physical design to guide people to controlled entry
+      points. **a** natural surveillance is about sightlines and visibility, such as lighting and glass.
+      **b** territorial reinforcement signals ownership through boundaries and signage. **d** maintenance
+      shows a space is cared for and watched. The landscaping here supports others too, but its stated
+      purpose, channelling visitors, is access control.
+    points: 1
+
+  - key: d3-power-brownout
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      During a summer heatwave, the utility supplies a data centre at reduced voltage for several hours.
+      What is this condition called?
+    choices:
+      - { key: a, text: "Sag" }
+      - { key: b, text: "Blackout" }
+      - { key: c, text: "Surge" }
+      - { key: d, text: "Brownout" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: a brownout is a prolonged period of low voltage. **a** a sag is a momentary drop.
+      **b** a blackout is a prolonged complete loss of power. **c** a surge is prolonged high voltage.
+    points: 1
+
+  - key: d3-humidity-extremes
+    kind: multi
+    domain: d3-security-architecture
+    prompt_md: |
+      Which two problems are MOST directly caused by humidity outside the recommended range in a server
+      room? Choose two.
+    choices:
+      - { key: a, text: "Electromagnetic interference on unshielded cables" }
+      - { key: b, text: "Electrostatic discharge when the air is too dry" }
+      - { key: c, text: "Voltage sags from the utility" }
+      - { key: d, text: "Condensation and corrosion when the air is too humid" }
+      - { key: e, text: "Tailgating through the server room door" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are the two humidity risks: dry air promotes static discharge that damages
+      components, and humid air leads to condensation and corrosion. **a** EMI comes from nearby electrical
+      sources, not humidity. **c** sags are a power-supply problem. **e** tailgating is a physical access
+      problem.
+    points: 1
+
+  - key: d3-evidence-storage-chain-of-custody
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A security team is designing a room to hold seized laptops and drives for internal investigations
+      that may end in court. Which requirement is MOST important for this room?
+    choices:
+      - { key: a, text: "Restricted, logged access with documented chain of custody for every item moved in or out" }
+      - { key: b, text: "Located next to the main server room for convenient analysis" }
+      - { key: c, text: "Open to all IT staff so evidence can be examined quickly" }
+      - { key: d, text: "Shared with the backup-tape library to reduce cost" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: evidence is only admissible if its integrity can be shown, which requires restricted
+      access and an unbroken chain of custody. **b** proximity to servers adds nothing to evidentiary
+      integrity. **c** broad access breaks the chain of custody. **d** mixing evidence with routine media
+      widens access and confuses custody records.
+    points: 1
+
+  - key: d3-gas-suppression-occupied-space
+    kind: single
+    domain: d3-security-architecture
+    prompt_md: |
+      A company is choosing gaseous fire suppression for a data hall where engineers often work. Which
+      option is LEAST appropriate for this occupied space?
+    choices:
+      - { key: a, text: "An inert-gas blend such as IG-541 with pre-discharge alarms" }
+      - { key: b, text: "HFC-227ea (FM-200) designed to concentrations safe for occupied spaces" }
+      - { key: c, text: "A total-flooding carbon dioxide system" }
+      - { key: d, text: "FK-5-1-12 clean agent with an evacuation delay" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: CO₂ at extinguishing concentrations is lethal, so total-flooding CO₂ is reserved for
+      unoccupied spaces with strict lock-out procedures; people's safety comes first. **a**, **b** and
+      **d** are clean agents or inert blends designed for occupied IT spaces when used at the correct
+      concentration with alarms and evacuation delays.
+    points: 1

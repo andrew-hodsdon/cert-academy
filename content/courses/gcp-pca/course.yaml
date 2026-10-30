@@ -1,0 +1,29 @@
+slug: gcp-pca
+ordinal: 2
+title: "Google Cloud Professional Cloud Architect"
+subtitle: "Design, build and run Google Cloud solutions, with the four official case studies"
+level: advanced
+estimated_hours: 60
+status: published
+readiness: { pct: 80, window: 3 }
+domains:
+  - { key: s1-design-plan, title: "1. Designing and planning a cloud solution architecture", weight: 25 }
+  - { key: s2-manage-provision, title: "2. Managing and provisioning a solution infrastructure", weight: 17.5 }
+  - { key: s3-security-compliance, title: "3. Designing for security and compliance", weight: 17.5 }
+  - { key: s4-analyze-optimize, title: "4. Analyzing and optimizing technical and business processes", weight: 15 }
+  - { key: s5-manage-implementation, title: "5. Managing implementation", weight: 12.5 }
+  - { key: s6-operations-excellence, title: "6. Ensuring solution and operations excellence", weight: 12.5 }
+summary_md: |
+  Prep for the Google Cloud Professional Cloud Architect exam, built on the current exam guide
+  (case studies v6.1: **Altostrat Media, Cymbal Retail, EHR Healthcare, KnightMotives Automotive**).
+  Older case studies (Mountkirk Games, TerramEarth, Helicopter Racing League, Dress4Win) are retired.
+
+  One module per exam section, then a module that walks each case study the way the exam
+  does. Take each section quiz until you hold 80%, then the full practice exam. You are
+  **exam-ready** when your last three full practice exams average 80% or more.
+exam_facts_md: |
+  - **Format:** 50–60 multiple choice and multiple select questions, 2 hours, online or at a test centre.
+  - **Case studies:** each exam uses 2 of the 4; they make up roughly 20–30% of the questions.
+  - **Weights:** §1 ~25% · §2 ~17.5% · §3 ~17.5% · §4 ~15% · §5 ~12.5% · §6 ~12.5%.
+  - **Cost:** $200 plus tax. Valid 2 years; renewal exam is 25 questions in 1 hour on one case study.
+  - **Guide:** https://cloud.google.com/learn/certification/cloud-architect

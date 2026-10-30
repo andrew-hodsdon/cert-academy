@@ -1,0 +1,564 @@
+sources:
+  - slug: cs-exam-guide
+    kind: vendor_docs
+    url: https://services.google.com/fh/files/misc/professional_cloud_architect_exam_guide_english.pdf
+    title: "Professional Cloud Architect certification exam guide"
+    site: Google Cloud
+    tags: [exam-guide, case-studies]
+    summary_md: |
+      The official outline (sections 1–6) and the list of the four v6.1 case studies. It says
+      case-study questions give extra context for choosing answers and that the Well-Architected
+      Framework runs through every section. Used by every lesson in this module.
+  - slug: cs-cert-page
+    kind: vendor_docs
+    url: https://cloud.google.com/learn/certification/cloud-architect
+    title: "Professional Cloud Architect certification"
+    site: Google Cloud
+    tags: [exam-format, case-studies]
+    summary_md: |
+      The certification page: format, length, price, renewal and links to the current case
+      studies. Second source for the exam facts in lesson 1.
+  - slug: cs-altostrat-pdf
+    kind: vendor_docs
+    url: https://services.google.com/fh/files/misc/v6.1_pca_altostrat_media_case_study_english.pdf
+    title: "Altostrat Media case study (v6.1)"
+    site: Google Cloud
+    tags: [case-study, altostrat]
+    summary_md: |
+      The official Altostrat Media case. Lesson 2 summarises it in our own words; read the PDF
+      itself before the exam.
+  - slug: cs-cymbal-pdf
+    kind: vendor_docs
+    url: https://services.google.com/fh/files/misc/v6.1_pca_cymbal_retail_case_study_english.pdf
+    title: "Cymbal Retail case study (v6.1)"
+    site: Google Cloud
+    tags: [case-study, cymbal]
+    summary_md: |
+      The official Cymbal Retail case. Lesson 3 summarises it in our own words.
+  - slug: cs-ehr-pdf
+    kind: vendor_docs
+    url: https://services.google.com/fh/files/misc/v6.1_pca_ehr_healthcare_case_study_english.pdf
+    title: "EHR Healthcare case study (v6.1)"
+    site: Google Cloud
+    tags: [case-study, ehr]
+    summary_md: |
+      The official EHR Healthcare case. Lesson 4 summarises it in our own words.
+  - slug: cs-knightmotives-pdf
+    kind: vendor_docs
+    url: https://services.google.com/fh/files/misc/v6.1_pca_knightmotives_automotive_case_study_english.pdf
+    title: "KnightMotives Automotive case study (v6.1)"
+    site: Google Cloud
+    tags: [case-study, knightmotives]
+    summary_md: |
+      The official KnightMotives Automotive case. Lesson 5 summarises it in our own words.
+  - slug: cs-well-architected
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/framework
+    title: "Google Cloud Well-Architected Framework"
+    site: Google Cloud
+    tags: [well-architected, design]
+    summary_md: |
+      The six pillars (operational excellence, security, reliability, performance, cost,
+      sustainability). Lesson 1 uses it as the tie-breaker lens for case questions.
+  - slug: cs-hybrid-patterns
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/hybrid-multicloud-patterns
+    title: "Build hybrid and multicloud architectures using Google Cloud"
+    site: Google Cloud
+    tags: [hybrid, migration, architecture]
+    summary_md: |
+      Hybrid and multicloud patterns (tiered hybrid, edge hybrid, gated ingress/egress) and
+      the advice to migrate incrementally. Used for the hybrid parts of every case.
+  - slug: cs-interconnect
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/interconnect/concepts/overview
+    title: "Cloud Interconnect overview"
+    site: Google Cloud
+    tags: [networking, hybrid, interconnect]
+    summary_md: |
+      Dedicated and Partner Interconnect: private, high-bandwidth links that do not traverse
+      the public internet, with documented topologies for 99.9% and 99.99% availability.
+  - slug: cs-ha-vpn
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/vpn/concepts/overview
+    title: "Cloud VPN overview"
+    site: Google Cloud
+    tags: [networking, hybrid, vpn]
+    summary_md: |
+      HA VPN (99.99% SLA with two interfaces and tunnels) and its per-tunnel throughput; the
+      encrypted, lower-bandwidth alternative or backup to Interconnect.
+  - slug: cs-storage-classes
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/storage-classes
+    title: "Cloud Storage storage classes"
+    site: Google Cloud
+    tags: [storage, cost]
+    summary_md: |
+      Standard, Nearline, Coldline and Archive, with minimum storage durations and retrieval
+      fees. Basis for the media-cost questions.
+  - slug: cs-autoclass
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/autoclass
+    title: "Cloud Storage Autoclass"
+    site: Google Cloud
+    tags: [storage, cost, autoclass]
+    summary_md: |
+      Autoclass moves each object between storage classes based on its own access pattern,
+      without early-deletion or retrieval charges for the transitions it manages. The answer
+      for unpredictable access patterns.
+  - slug: cs-storage-transfer
+    kind: vendor_docs
+    url: https://cloud.google.com/storage-transfer/docs/overview
+    title: "Storage Transfer Service overview"
+    site: Google Cloud
+    tags: [migration, storage]
+    summary_md: |
+      Managed, scheduled, incremental and verified transfers into Cloud Storage, including
+      from on-premises file systems through transfer agents.
+  - slug: cs-gke-fleet
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/fleet-management/docs
+    title: "Fleet management overview"
+    site: Google Cloud
+    tags: [gke, fleet, hybrid]
+    summary_md: |
+      Fleets group GKE clusters (in Google Cloud and on-premises) for consistent configuration
+      (Config Sync), policy (Policy Controller) and access (Connect gateway).
+  - slug: cs-distributed-cloud
+    kind: vendor_docs
+    url: https://cloud.google.com/distributed-cloud/docs
+    title: "Google Distributed Cloud documentation"
+    site: Google Cloud
+    tags: [hybrid, edge, kubernetes]
+    summary_md: |
+      Google-managed Kubernetes on your own hardware or at the edge (software-only and
+      connected options). Used for on-premises Kubernetes at Altostrat and plants at
+      KnightMotives.
+  - slug: cs-config-sync
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview
+    title: "Config Sync overview"
+    site: Google Cloud
+    tags: [gitops, gke, configuration]
+    summary_md: |
+      GitOps: clusters continuously reconcile to configuration held in Git, which removes the
+      configuration drift EHR blames for outages.
+  - slug: cs-cloud-deploy
+    kind: vendor_docs
+    url: https://cloud.google.com/deploy/docs/overview
+    title: "Cloud Deploy overview"
+    site: Google Cloud
+    tags: [ci-cd, delivery]
+    summary_md: |
+      Managed continuous delivery with promotion through targets, approvals, canary and
+      rollback, for GKE, Cloud Run and fleet-registered clusters.
+  - slug: cs-cloud-build
+    kind: vendor_docs
+    url: https://cloud.google.com/build/docs/overview
+    title: "Cloud Build overview"
+    site: Google Cloud
+    tags: [ci-cd, build]
+    summary_md: |
+      Serverless build service that produces container images into Artifact Registry; the CI
+      half of the centralised pipelines in the Altostrat and EHR lessons.
+  - slug: cs-binauthz
+    kind: vendor_docs
+    url: https://cloud.google.com/binary-authorization/docs/overview
+    title: "Binary Authorization overview"
+    site: Google Cloud
+    tags: [supply-chain, security]
+    summary_md: |
+      Deploy-time policy that admits only signed, attested images to GKE and Cloud Run.
+  - slug: cs-gke-regional
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/docs/concepts/regional-clusters
+    title: "GKE regional clusters"
+    site: Google Cloud
+    tags: [gke, availability]
+    summary_md: |
+      Regional clusters replicate the control plane and nodes across zones, so a zone outage
+      does not take the workload down. Used for EHR's 99.9% requirement.
+  - slug: cs-cloud-sql-ha
+    kind: vendor_docs
+    url: https://cloud.google.com/sql/docs/mysql/high-availability
+    title: "Cloud SQL high availability"
+    site: Google Cloud
+    tags: [database, availability]
+    summary_md: |
+      Regional (HA) Cloud SQL instances with a standby in another zone and automatic failover.
+  - slug: cs-dms
+    kind: vendor_docs
+    url: https://cloud.google.com/database-migration/docs
+    title: "Database Migration Service documentation"
+    site: Google Cloud
+    tags: [migration, database]
+    summary_md: |
+      Managed migration of MySQL, PostgreSQL and SQL Server into Cloud SQL (and more), with
+      continuous replication for a short cutover.
+  - slug: cs-memorystore
+    kind: vendor_docs
+    url: https://cloud.google.com/memorystore/docs/redis/memorystore-for-redis-overview
+    title: "Memorystore for Redis overview"
+    site: Google Cloud
+    tags: [database, cache]
+    summary_md: |
+      Fully managed Redis; the like-for-like target for the Redis caches at Cymbal and EHR.
+  - slug: cs-firestore-mongodb
+    kind: vendor_docs
+    url: https://cloud.google.com/firestore/mongodb-compatibility/docs/overview
+    title: "Firestore with MongoDB compatibility"
+    site: Google Cloud
+    tags: [database, mongodb]
+    summary_md: |
+      A managed, serverless document database that speaks the MongoDB API; one managed target
+      for the MongoDB workloads (MongoDB Atlas from the Marketplace is the other).
+  - slug: cs-migration-center
+    kind: vendor_docs
+    url: https://cloud.google.com/migration-center/docs/migration-center-overview
+    title: "Migration Center overview"
+    site: Google Cloud
+    tags: [migration, assessment]
+    summary_md: |
+      Discovery, assessment, TCO and migration planning for on-premises estates. The first
+      step of a migration plan in every case.
+  - slug: cs-observability
+    kind: vendor_docs
+    url: https://cloud.google.com/stackdriver/docs
+    title: "Google Cloud Observability documentation"
+    site: Google Cloud
+    tags: [observability, monitoring, logging]
+    summary_md: |
+      Cloud Monitoring, Cloud Logging, alerting policies, notification channels and SLO
+      monitoring. Answers the "alerts by email are ignored" pain point in two cases.
+  - slug: cs-managed-prometheus
+    kind: vendor_docs
+    url: https://cloud.google.com/stackdriver/docs/managed-prometheus
+    title: "Google Cloud Managed Service for Prometheus"
+    site: Google Cloud
+    tags: [observability, prometheus]
+    summary_md: |
+      Managed, global Prometheus storage and PromQL querying that keeps existing Prometheus
+      exporters and Grafana dashboards working.
+  - slug: cs-log-buckets
+    kind: vendor_docs
+    url: https://cloud.google.com/logging/docs/routing/overview
+    title: "Routing and storage overview (Cloud Logging)"
+    site: Google Cloud
+    tags: [logging, retention, compliance]
+    summary_md: |
+      Sinks (including aggregated sinks at organization or folder level), log buckets with
+      custom retention, and locked buckets for compliance retention.
+  - slug: cs-model-armor
+    kind: vendor_docs
+    url: https://cloud.google.com/security-command-center/docs/model-armor-overview
+    title: "Model Armor overview"
+    site: Google Cloud
+    tags: [ai-security, llm]
+    summary_md: |
+      Screens LLM prompts and responses for prompt injection, jailbreaks, harmful content,
+      sensitive data and malicious URLs, independent of the model used.
+  - slug: cs-sdp
+    kind: vendor_docs
+    url: https://cloud.google.com/sensitive-data-protection/docs/sensitive-data-protection-overview
+    title: "Sensitive Data Protection overview"
+    site: Google Cloud
+    tags: [dlp, pii, compliance]
+    summary_md: |
+      Discovery, inspection and de-identification (masking, tokenisation) of PII, card numbers
+      and health data in storage, transcripts and logs.
+  - slug: cs-vpc-sc
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc-service-controls/docs/overview
+    title: "VPC Service Controls overview"
+    site: Google Cloud
+    tags: [security, exfiltration]
+    summary_md: |
+      Service perimeters around Google-managed services (BigQuery, Cloud Storage, AI services)
+      that block data exfiltration even by holders of valid credentials.
+  - slug: cs-cmek
+    kind: vendor_docs
+    url: https://cloud.google.com/kms/docs/cmek
+    title: "Customer-managed encryption keys (CMEK)"
+    site: Google Cloud
+    tags: [encryption, kms]
+    summary_md: |
+      Cloud KMS keys you control, used by Google services to encrypt your data; part of the
+      sovereignty and compliance answers.
+  - slug: cs-assured-workloads
+    kind: vendor_docs
+    url: https://cloud.google.com/assured-workloads/docs/overview
+    title: "Assured Workloads overview"
+    site: Google Cloud
+    tags: [compliance, sovereignty, eu]
+    summary_md: |
+      Folders with compliance control packages (data residency, personnel access, key
+      controls), including EU data-boundary and healthcare packages.
+  - slug: cs-resource-locations
+    kind: vendor_docs
+    url: https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations
+    title: "Restricting resource locations"
+    site: Google Cloud
+    tags: [org-policy, residency]
+    summary_md: |
+      The resource-locations organization policy constraint, which limits where location-based
+      resources can be created (for example, EU only).
+  - slug: cs-hipaa
+    kind: vendor_docs
+    url: https://cloud.google.com/security/compliance/hipaa
+    title: "HIPAA compliance on Google Cloud"
+    site: Google Cloud
+    tags: [compliance, healthcare, hipaa]
+    summary_md: |
+      Google's Business Associate Agreement and the list of covered products; the customer
+      remains responsible for configuring them compliantly (shared responsibility).
+  - slug: cs-healthcare-api
+    kind: vendor_docs
+    url: https://cloud.google.com/healthcare-api/docs/introduction
+    title: "Cloud Healthcare API overview"
+    site: Google Cloud
+    tags: [healthcare, fhir, hl7]
+    summary_md: |
+      Managed FHIR, HL7v2 and DICOM stores, de-identification, and streaming export to
+      BigQuery. Core of the EHR integration and analytics design.
+  - slug: cs-apigee
+    kind: vendor_docs
+    url: https://cloud.google.com/apigee/docs/api-platform/get-started/what-apigee
+    title: "What is Apigee?"
+    site: Google Cloud
+    tags: [api-management, integration]
+    summary_md: |
+      API management: proxies in front of backends (including legacy systems), security,
+      quotas, analytics and a developer portal for onboarding partners.
+  - slug: cs-cloud-identity-ad
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/identity/federating-gcp-with-active-directory-introduction
+    title: "Federating Google Cloud with Active Directory"
+    site: Google Cloud
+    tags: [identity, active-directory, sso]
+    summary_md: |
+      Reference pattern: Google Cloud Directory Sync provisions users and groups from AD into
+      Cloud Identity, and SAML single sign-on authenticates against AD FS or Entra ID.
+  - slug: cs-managed-ad
+    kind: vendor_docs
+    url: https://cloud.google.com/managed-microsoft-ad/docs/overview
+    title: "Managed Service for Microsoft Active Directory"
+    site: Google Cloud
+    tags: [identity, active-directory]
+    summary_md: |
+      Google-managed AD domain controllers for AD-dependent workloads in the cloud. Distinct
+      from federating console sign-in, which is the usual exam trap.
+  - slug: cs-gemini-models
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/models
+    title: "Google models on Agent Platform (Gemini, Imagen and others)"
+    site: Google Cloud
+    tags: [gen-ai, gemini, imagen]
+    summary_md: |
+      The managed Gemini (multimodal text, image, audio, video input) and Imagen models, plus
+      Model Garden. Basis for summarisation, attribute generation and image work.
+  - slug: cs-structured-output
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/control-generated-output
+    title: "Structured output (controlled generation)"
+    site: Google Cloud
+    tags: [gen-ai, gemini, schema]
+    summary_md: |
+      Constrains Gemini responses to a supplied JSON schema or enum, which keeps generated
+      attributes inside Cymbal's catalogue structure.
+  - slug: cs-imagen-editing
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview
+    title: "Imagen on Agent Platform overview"
+    site: Google Cloud
+    tags: [gen-ai, imagen, image-editing]
+    summary_md: |
+      Image generation and editing (mask-based inpainting and outpainting, background
+      replacement, product image editing). The answer to Cymbal's image requirement.
+  - slug: cs-batch-prediction
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/batch-prediction-gemini
+    title: "Batch inference with Gemini"
+    site: Google Cloud
+    tags: [gen-ai, batch, cost]
+    summary_md: |
+      Asynchronous, large-volume Gemini requests from Cloud Storage or BigQuery at a lower
+      price than online requests; fits a catalogue backfill.
+  - slug: cs-agent-builder
+    kind: vendor_docs
+    url: https://cloud.google.com/products/agent-builder
+    title: "Agent Builder"
+    site: Google Cloud
+    tags: [gen-ai, agents, search]
+    summary_md: |
+      Building grounded conversational agents and enterprise search over your own content
+      without managing model infrastructure. Used for Altostrat's support assistant.
+  - slug: cs-conversational-agents
+    kind: vendor_docs
+    url: https://cloud.google.com/dialogflow/cx/docs
+    title: "Conversational Agents (Dialogflow CX) documentation"
+    site: Google Cloud
+    tags: [gen-ai, chatbot, voice]
+    summary_md: |
+      Generative and flow-based virtual agents for web, app and telephony channels, with tools
+      and webhooks to call back-end systems and hand off to human agents.
+  - slug: cs-search-commerce
+    kind: vendor_docs
+    url: https://cloud.google.com/retail/docs/overview
+    title: "Search for commerce overview"
+    site: Google Cloud
+    tags: [retail, search, discovery-ai]
+    summary_md: |
+      Google's Discovery AI for retail: catalogue ingestion, natural-language product search,
+      browse and recommendations tuned on user events. The answer to Cymbal's discovery need.
+  - slug: cs-video-intelligence
+    kind: vendor_docs
+    url: https://cloud.google.com/video-intelligence/docs/feature-explicit-content-detection
+    title: "Video Intelligence API: explicit content detection"
+    site: Google Cloud
+    tags: [ai-api, video, moderation]
+    summary_md: |
+      Frame-level likelihood scores for explicit content; a pretrained moderation signal for
+      Altostrat alongside label, shot and text detection.
+  - slug: cs-speech-to-text
+    kind: vendor_docs
+    url: https://cloud.google.com/speech-to-text/docs
+    title: "Speech-to-Text documentation"
+    site: Google Cloud
+    tags: [ai-api, audio, transcription]
+    summary_md: |
+      Transcription for podcasts and broadcasts, with timestamps and diarisation; feeds
+      summarisation, search and metadata extraction.
+  - slug: cs-explainable-ai
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/docs/explainable-ai/overview
+    title: "Explainable AI overview"
+    site: Google Cloud
+    tags: [responsible-ai, explainability]
+    summary_md: |
+      Feature attributions and example-based explanations for custom models; part of the
+      auditable, explainable moderation requirement.
+  - slug: cs-safety-filters
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters
+    title: "Configure safety filters (Gemini)"
+    site: Google Cloud
+    tags: [responsible-ai, safety]
+    summary_md: |
+      Configurable harm-category thresholds and the safety ratings returned with each Gemini
+      response, which can be logged as evidence for moderation decisions.
+  - slug: cs-bigquery-ml
+    kind: vendor_docs
+    url: https://cloud.google.com/bigquery/docs/bqml-introduction
+    title: "Introduction to BigQuery ML"
+    site: Google Cloud
+    tags: [analytics, ml, bigquery]
+    summary_md: |
+      Training and running models (including forecasting and calls to Gemini) in SQL inside
+      BigQuery; the low-ops answer for trend and prediction requirements.
+  - slug: cs-bigquery-sharing
+    kind: vendor_docs
+    url: https://cloud.google.com/bigquery/docs/analytics-hub-introduction
+    title: "BigQuery sharing (formerly Analytics Hub)"
+    site: Google Cloud
+    tags: [data-sharing, monetization, clean-rooms]
+    summary_md: |
+      Publish datasets as listings that subscribers query in place, and data clean rooms with
+      analysis rules; the data-monetisation pattern for KnightMotives.
+  - slug: cs-dataplex
+    kind: vendor_docs
+    url: https://cloud.google.com/dataplex/docs/introduction
+    title: "Dataplex Universal Catalog overview"
+    site: Google Cloud
+    tags: [governance, catalog, data-quality]
+    summary_md: |
+      Central catalogue, lineage, data quality and governance across BigQuery and Cloud
+      Storage; the cure for siloed corporate data.
+  - slug: cs-ai-hypercomputer
+    kind: vendor_docs
+    url: https://cloud.google.com/ai-hypercomputer/docs
+    title: "AI Hypercomputer documentation"
+    site: Google Cloud
+    tags: [ml, gpu, tpu, training]
+    summary_md: |
+      Google's integrated GPU/TPU, storage, networking and orchestration stack for large-scale
+      training and serving, with flexible consumption models.
+  - slug: cs-spot-vms
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/docs/instances/spot
+    title: "Spot VMs"
+    site: Google Cloud
+    tags: [compute, cost]
+    summary_md: |
+      Deeply discounted, preemptible capacity for fault-tolerant batch work such as
+      checkpointed simulation runs.
+  - slug: cs-pubsub
+    kind: vendor_docs
+    url: https://cloud.google.com/pubsub/docs/overview
+    title: "Pub/Sub overview"
+    site: Google Cloud
+    tags: [messaging, events, ingestion]
+    summary_md: |
+      Global asynchronous messaging with dead-letter topics and retries; the backbone for
+      event-driven ingestion in the Cymbal, EHR and KnightMotives designs.
+  - slug: cs-dataflow
+    kind: vendor_docs
+    url: https://cloud.google.com/dataflow/docs/overview
+    title: "Dataflow overview"
+    site: Google Cloud
+    tags: [data-processing, streaming, batch]
+    summary_md: |
+      Managed Apache Beam for batch and streaming pipelines with autoscaling; replaces
+      hand-run ETL batches.
+  - slug: cs-security-operations
+    kind: vendor_docs
+    url: https://cloud.google.com/security/products/security-operations
+    title: "Google Security Operations"
+    site: Google Cloud
+    tags: [security, siem, soar, incident-response]
+    summary_md: |
+      Cloud SIEM and SOAR that ingests cloud and on-premises telemetry, with detection rules
+      and response playbooks. The incident-response answer for KnightMotives.
+  - slug: cs-scc
+    kind: vendor_docs
+    url: https://cloud.google.com/security-command-center/docs/security-command-center-overview
+    title: "Security Command Center overview"
+    site: Google Cloud
+    tags: [security, posture]
+    summary_md: |
+      Posture management, misconfiguration and vulnerability findings, and threat detection
+      across a Google Cloud organization.
+  - slug: cs-cloud-armor
+    kind: vendor_docs
+    url: https://cloud.google.com/armor/docs/cloud-armor-overview
+    title: "Google Cloud Armor overview"
+    site: Google Cloud
+    tags: [security, waf, ddos]
+    summary_md: |
+      WAF and DDoS protection at the edge of the global external Application Load Balancer.
+  - slug: cs-cloud-cdn
+    kind: vendor_docs
+    url: https://cloud.google.com/cdn/docs/overview
+    title: "Cloud CDN overview"
+    site: Google Cloud
+    tags: [networking, latency]
+    summary_md: |
+      Caches content at Google's edge behind the global external Application Load Balancer,
+      cutting latency for distant users (EHR's "reduce latency to all customers").
+  - slug: cs-ncc
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/overview
+    title: "Network Connectivity Center overview"
+    site: Google Cloud
+    tags: [networking, hybrid, hub-and-spoke]
+    summary_md: |
+      Hub-and-spoke connectivity that ties Interconnect, VPN and VPC spokes together; fits
+      KnightMotives' many plants and HQ.
+  - slug: cs-iap
+    kind: vendor_docs
+    url: https://cloud.google.com/iap/docs/concepts-overview
+    title: "Identity-Aware Proxy overview"
+    site: Google Cloud
+    tags: [security, access]
+    summary_md: |
+      Identity- and context-based access to internal web apps without a VPN; protects
+      Cymbal's human-review UI.

@@ -1,0 +1,13 @@
+title: "Domain 6: Security Assessment and Testing"
+domain: d6-assessment-testing
+summary_md: |
+  Domain 6 (12% of the exam) asks whether you can prove that controls work, not just that they
+  exist. You will design assessment, test and audit strategies and choose between internal,
+  external and third-party audits across on-premises, cloud and hybrid estates (**6.1**, **6.5**);
+  pick and run the right control test, from vulnerability scans and penetration tests to log
+  review, synthetic transactions, code review, misuse cases, coverage analysis, interface testing,
+  breach and attack simulation and compliance checks (**6.2**); collect security process data
+  such as KPIs and KRIs, account management, management review, backup verification, training and
+  DR/BC results (**6.3**); and analyse and report results, including remediation, exception
+  handling and ethical disclosure (**6.4**). Throughout, think like the adviser who must give
+  management an honest, evidence-backed view of risk.

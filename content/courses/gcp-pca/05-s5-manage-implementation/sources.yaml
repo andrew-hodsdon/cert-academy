@@ -1,0 +1,534 @@
+sources:
+  - slug: s5-pca-exam-guide
+    kind: standard
+    url: https://services.google.com/fh/files/misc/professional_cloud_architect_exam_guide_english.pdf
+    title: "Professional Cloud Architect Certification Exam Guide"
+    authors: [Google Cloud]
+    site: Google Cloud
+    tags: [pca, outline]
+    summary_md: |
+      The official outline. Section 5 (~12.5%) has two objectives: 5.1 advising development and
+      operations teams (application and infrastructure deployment, API management such as Apigee,
+      load/unit/integration testing frameworks, data and system migration tooling, Gemini Cloud
+      Assist) and 5.2 interacting with Google Cloud programmatically (Cloud Shell Editor, Cloud
+      Code, Cloud Shell Terminal, SDKs such as gcloud, gsutil and bq, emulators for Bigtable,
+      Spanner, Pub/Sub and Firestore, IaC and Terraform, API access best practices, client
+      libraries). All three lessons map to it.
+
+  # Lesson 1: development teams, APIs, testing, migration tooling, Gemini
+  - slug: s5-apigee-overview
+    kind: product_docs
+    url: https://cloud.google.com/apigee/docs/api-platform/get-started/what-apigee
+    title: "What is Apigee?"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [apigee, api-management]
+    summary_md: |
+      Apigee is Google's full-lifecycle API management platform: API proxies in front of backends,
+      policies for security (API keys, OAuth), traffic management, mediation, analytics, a
+      developer portal, API products and monetisation. Deployable as Apigee (SaaS) or Apigee hybrid
+      (runtime on your own Kubernetes). Lesson 1.
+  - slug: s5-api-gateway-overview
+    kind: product_docs
+    url: https://cloud.google.com/api-gateway/docs/about-api-gateway
+    title: "About API Gateway"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [api-gateway, serverless]
+    summary_md: |
+      API Gateway is a fully managed gateway for serverless backends (Cloud Run, Cloud Run
+      functions, App Engine), configured from an OpenAPI spec, with authentication (API keys,
+      JWT, service accounts) and monitoring. Lesson 1 contrasts it with Apigee.
+  - slug: s5-endpoints-choose
+    kind: product_docs
+    url: https://cloud.google.com/endpoints/docs/choose-endpoints-option
+    title: "Choosing an Endpoints option"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-endpoints, esp]
+    summary_md: |
+      Explains Cloud Endpoints with the Extensible Service Proxy (ESPv2) for OpenAPI and gRPC
+      backends on GKE, Compute Engine and serverless. Used in lesson 1 as the third, lighter API
+      management option alongside Apigee and API Gateway.
+  - slug: s5-apigee-traffic-policies
+    kind: product_docs
+    url: https://cloud.google.com/apigee/docs/api-platform/develop/comparing-quota-spike-arrest-and-concurrent-rate-limit-policies
+    title: "Comparing Quota and SpikeArrest policies"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [apigee, quota, spike-arrest]
+    summary_md: |
+      Quota counts requests per app or developer over a business period (for example per month,
+      tied to an API product); SpikeArrest smooths sudden traffic bursts to protect backends.
+      Lesson 1's worked example relies on this distinction.
+  - slug: s5-google-api-design-guide
+    kind: vendor_docs
+    url: https://cloud.google.com/apis/design
+    title: "API design guide"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [api-design, rest, grpc]
+    summary_md: |
+      Google's own guide to resource-oriented API design: resources and standard methods, naming,
+      errors, versioning (major version in the path) and backwards compatibility. Lesson 1.
+  - slug: s5-google-aip
+    kind: standard
+    url: https://google.aip.dev/
+    title: "API Improvement Proposals (AIP)"
+    authors: [Google]
+    site: google.aip.dev
+    tags: [api-design, versioning, pagination]
+    summary_md: |
+      The AIPs are the numbered design rules behind Google APIs (resource names, pagination,
+      long-running operations, field masks, versioning). Second source for lesson 1's API design
+      practices and lesson 3's pagination and field-mask advice.
+  - slug: s5-dms-overview
+    kind: product_docs
+    url: https://cloud.google.com/database-migration/docs/overview
+    title: "Database Migration Service overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [migration, database, dms]
+    summary_md: |
+      Database Migration Service performs homogeneous migrations (MySQL, PostgreSQL, SQL Server to
+      Cloud SQL; PostgreSQL to AlloyDB) with continuous replication for minimal downtime, and
+      heterogeneous migrations (for example Oracle to PostgreSQL) with conversion workspaces.
+      Lesson 1 migration tooling table.
+  - slug: s5-storage-transfer-overview
+    kind: product_docs
+    url: https://cloud.google.com/storage-transfer/docs/overview
+    title: "Storage Transfer Service overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [migration, storage-transfer]
+    summary_md: |
+      Managed, schedulable transfers into Cloud Storage from other clouds, HTTP sources, and
+      on-premises file systems (using agents). Lesson 1 migration tooling table.
+  - slug: s5-transfer-appliance-overview
+    kind: product_docs
+    url: https://cloud.google.com/transfer-appliance/docs/4.0/overview
+    title: "Transfer Appliance overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [migration, offline-transfer]
+    summary_md: |
+      A Google-owned physical storage device shipped to your site for offline transfer of large
+      datasets when network bandwidth would make an online transfer too slow. Lesson 1.
+  - slug: s5-migrate-to-vms
+    kind: product_docs
+    url: https://cloud.google.com/migrate/virtual-machines/docs/5.0/migrate/migrate-vms
+    title: "Migrate to Virtual Machines: migrating VMs"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [migration, compute-engine, lift-and-shift]
+    summary_md: |
+      Migrate to Virtual Machines moves VMs from VMware, AWS and Azure to Compute Engine with
+      test clones before cut-over. Lesson 1 migration tooling table.
+  - slug: s5-migration-center
+    kind: product_docs
+    url: https://cloud.google.com/migration-center/docs/migration-center-overview
+    title: "Migration Center overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [migration, discovery, tco]
+    summary_md: |
+      Migration Center is the hub for discovery and assessment: asset inventory, utilisation data,
+      total-cost estimates and migration planning. Lesson 1 places it first in the migration flow.
+  - slug: s5-datastream-overview
+    kind: product_docs
+    url: https://cloud.google.com/datastream/docs/overview
+    title: "Datastream overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cdc, replication, bigquery]
+    summary_md: |
+      Serverless change data capture from MySQL, PostgreSQL, Oracle and SQL Server sources into
+      BigQuery, Cloud Storage and other destinations. Lesson 1, for keeping analytics in sync
+      during and after migration.
+  - slug: s5-migration-getting-started
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/migration-to-gcp-getting-started
+    title: "Migrate to Google Cloud: Get started"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [migration, assess-plan-deploy-optimize]
+    summary_md: |
+      Google's migration framework (assess, plan, deploy, optimise) and the migration types
+      (rehost, replatform, refactor, rearchitect, rebuild, repurchase). Second source for lesson 1's
+      migration tooling section.
+  - slug: s5-gemini-cloud-assist
+    kind: product_docs
+    url: https://cloud.google.com/gemini/docs/cloud-assist/overview
+    title: "Gemini Cloud Assist overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [gemini, cloud-assist, ai-ops]
+    summary_md: |
+      Gemini Cloud Assist is the AI collaborator in the Google Cloud console for designing
+      (Application Design Center, generating gcloud/kubectl/Terraform), operating, troubleshooting
+      (AI-driven investigations from logs, errors and alerts) and cost optimisation. Its output
+      should be reviewed before it is applied. Lessons 1 and 3.
+  - slug: s5-gemini-code-assist
+    kind: product_docs
+    url: https://developers.google.com/gemini-code-assist/docs/overview
+    title: "Gemini Code Assist overview"
+    authors: [Google]
+    site: Google for Developers
+    tags: [gemini, code-assist, ide]
+    summary_md: |
+      Gemini Code Assist provides code completion, generation, explanation and chat inside IDEs
+      (VS Code, JetBrains), Cloud Shell Editor and Cloud Workstations; the Enterprise edition can be
+      customised with an organisation's private code bases. Lessons 1 and 3.
+  - slug: s5-cloud-build-overview
+    kind: product_docs
+    url: https://cloud.google.com/build/docs/overview
+    title: "Cloud Build overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [ci, cloud-build]
+    summary_md: |
+      Cloud Build runs builds as a series of container steps defined in cloudbuild.yaml, started
+      by triggers on source changes, with private pools for builds that must reach private
+      networks. Lessons 1 (where tests run) and 2 (CI pipeline).
+  - slug: s5-dora-test-automation
+    kind: web
+    url: https://dora.dev/capabilities/test-automation/
+    title: "DORA capabilities: Test automation"
+    authors: [DORA]
+    site: dora.dev
+    tags: [testing, devops, dora]
+    summary_md: |
+      DORA's research on test automation: fast, reliable automated tests run on every commit,
+      developers own the tests, and failing tests stop the pipeline. Second source for lesson 1's
+      testing framework section.
+  - slug: s5-distributed-load-testing
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/distributed-load-testing-using-gke
+    title: "Distributed load testing using Google Kubernetes Engine"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [load-testing, locust, gke]
+    summary_md: |
+      Reference architecture that runs Locust master and worker pods on GKE to generate
+      distributed load against a target service. Lesson 1 (load testing).
+  - slug: s5-locust-docs
+    kind: repo
+    url: https://docs.locust.io/en/stable/
+    title: "Locust documentation"
+    authors: [Locust contributors]
+    site: locust.io
+    tags: [load-testing, open-source]
+    summary_md: |
+      Locust defines user behaviour in Python and scales out with a distributed master/worker mode.
+      Independent second source for lesson 1's load-testing material.
+
+  # Lesson 2: operations teams, IaC, CI/CD, release patterns
+  - slug: s5-terraform-overview
+    kind: product_docs
+    url: https://cloud.google.com/docs/terraform/terraform-overview
+    title: "Terraform on Google Cloud"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [terraform, iac]
+    summary_md: |
+      Google's overview of using Terraform with the Google provider: declarative configuration,
+      plan and apply, state, and modules. Lessons 2 and 3.
+  - slug: s5-terraform-best-practices
+    kind: vendor_docs
+    url: https://cloud.google.com/docs/terraform/best-practices/general-style-structure
+    title: "Best practices for general style and structure (Terraform)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [terraform, modules, best-practices]
+    summary_md: |
+      Google's Terraform guidance: standard module structure, separate root configurations per
+      environment, remote state, pinned provider versions, and avoiding manual changes. Lesson 2.
+  - slug: s5-terraform-state-gcs
+    kind: product_docs
+    url: https://cloud.google.com/docs/terraform/resource-management/store-state
+    title: "Store Terraform state in a Cloud Storage bucket"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [terraform, state, gcs]
+    summary_md: |
+      How to keep Terraform state in a versioned Cloud Storage bucket so teams share one state with
+      locking and history. Lesson 2 worked example.
+  - slug: s5-hashicorp-gcs-backend
+    kind: product_docs
+    url: https://developer.hashicorp.com/terraform/language/backend/gcs
+    title: "Terraform backend: gcs"
+    authors: [HashiCorp]
+    site: HashiCorp Developer
+    tags: [terraform, state, locking]
+    summary_md: |
+      HashiCorp's own documentation of the gcs backend, which stores state in Cloud Storage and
+      supports state locking. Independent second source for lesson 2's state guidance.
+  - slug: s5-infrastructure-manager
+    kind: product_docs
+    url: https://cloud.google.com/infrastructure-manager/docs/overview
+    title: "Infrastructure Manager overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [terraform, infrastructure-manager, iac]
+    summary_md: |
+      Infrastructure Manager is Google's managed service for running Terraform: it stores state,
+      runs plan/apply through Cloud Build with a service account, and records revisions. Lesson 2.
+  - slug: s5-deployment-manager-deprecation
+    kind: product_docs
+    url: https://cloud.google.com/deployment-manager/docs/deprecations
+    title: "Deployment Manager deprecation"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [deployment-manager, deprecated]
+    summary_md: |
+      Cloud Deployment Manager reached end of support on 31 March 2026; Google directs users to
+      Infrastructure Manager or another IaC tool. Lesson 2 exam-trap callout.
+  - slug: s5-config-connector
+    kind: product_docs
+    url: https://cloud.google.com/config-connector/docs/overview
+    title: "Config Connector overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [config-connector, kubernetes, krm]
+    summary_md: |
+      Config Connector is a Kubernetes add-on that manages Google Cloud resources as Kubernetes
+      custom resources, reconciling them continuously. Lesson 2 (IaC for Kubernetes-centric teams).
+  - slug: s5-cloud-deploy-overview
+    kind: product_docs
+    url: https://cloud.google.com/deploy/docs/overview
+    title: "Cloud Deploy overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cd, cloud-deploy]
+    summary_md: |
+      Cloud Deploy is a managed continuous delivery service for GKE, Cloud Run and other targets:
+      delivery pipelines, targets, releases, rollouts, promotion with approvals, and rollback.
+      Lesson 2.
+  - slug: s5-artifact-registry
+    kind: product_docs
+    url: https://cloud.google.com/artifact-registry/docs/overview
+    title: "Artifact Registry overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [artifact-registry, containers]
+    summary_md: |
+      Artifact Registry stores container images and language packages in regional or multi-regional
+      repositories with IAM. It replaces Container Registry. Lesson 2.
+  - slug: s5-binary-authorization
+    kind: product_docs
+    url: https://cloud.google.com/binary-authorization/docs/overview
+    title: "Binary Authorization overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [supply-chain, binary-authorization]
+    summary_md: |
+      Binary Authorization enforces deploy-time policy on GKE and Cloud Run so only images with
+      required attestations (for example "built by Cloud Build", "passed vulnerability scan") can
+      run. Lesson 2.
+  - slug: s5-app-deployment-strategies
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/application-deployment-and-testing-strategies
+    title: "Application deployment and testing strategies"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [deployment, canary, blue-green, ab-testing]
+    summary_md: |
+      Google's comparison of recreate, rolling, blue/green, canary, A/B and shadow deployment and
+      testing patterns, with their rollback speed, cost and risk. Lesson 2.
+  - slug: s5-dora-continuous-delivery
+    kind: web
+    url: https://dora.dev/capabilities/continuous-delivery/
+    title: "DORA capabilities: Continuous delivery"
+    authors: [DORA]
+    site: dora.dev
+    tags: [cd, devops]
+    summary_md: |
+      DORA's research on continuous delivery: keep software deployable at all times, automate the
+      deployment pipeline, small batches. Second source for lesson 2's CI/CD section.
+
+  # Lesson 3: programmatic access
+  - slug: s5-gcloud-cli
+    kind: product_docs
+    url: https://cloud.google.com/sdk/gcloud
+    title: "gcloud CLI overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [gcloud, cli]
+    summary_md: |
+      The gcloud CLI: command groups, release levels (GA, beta, alpha), configurations and
+      properties, output formatting and filtering, and scripting use. Lesson 3.
+  - slug: s5-gsutil-legacy
+    kind: product_docs
+    url: https://cloud.google.com/storage/docs/gsutil
+    title: "gsutil tool"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [gsutil, gcloud-storage]
+    summary_md: |
+      Marks gsutil as a legacy Cloud Storage CLI and recommends gcloud storage commands instead.
+      Lesson 3.
+  - slug: s5-bq-cli
+    kind: product_docs
+    url: https://cloud.google.com/bigquery/docs/bq-command-line-tool
+    title: "Use the bq tool"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [bq, bigquery, cli]
+    summary_md: |
+      The bq command-line tool for BigQuery: query, load, extract, mk, ls and dry runs. Lesson 3.
+  - slug: s5-cloud-shell-how
+    kind: product_docs
+    url: https://cloud.google.com/shell/docs/how-cloud-shell-works
+    title: "How Cloud Shell works"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-shell]
+    summary_md: |
+      Cloud Shell is a browser-based, ephemeral VM with the Cloud SDK and common tools
+      pre-installed, authenticated as the signed-in user, with a persistent $HOME. Lesson 3.
+  - slug: s5-cloud-shell-limits
+    kind: product_docs
+    url: https://cloud.google.com/shell/docs/quotas-limits
+    title: "Cloud Shell quotas and limits"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-shell, limits]
+    summary_md: |
+      Default weekly quota of 50 hours, 5 GB persistent $HOME, and $HOME deleted after 120 days
+      without access. Points long-running or VPC-attached developer environments to Cloud
+      Workstations. Lesson 3.
+  - slug: s5-cloud-code
+    kind: product_docs
+    url: https://cloud.google.com/code/docs
+    title: "Cloud Code documentation"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-code, ide, skaffold]
+    summary_md: |
+      Cloud Code plugins for VS Code, JetBrains IDEs and Cloud Shell Editor: develop, run and debug
+      Kubernetes and Cloud Run apps locally (via Skaffold and a local Cloud Run emulator), browse
+      APIs and Secret Manager, and use Gemini Code Assist. Lesson 3.
+  - slug: s5-cloud-run-local-testing
+    kind: product_docs
+    url: https://cloud.google.com/run/docs/testing/local
+    title: "Test a Cloud Run service locally"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-run, local-testing, cloud-code]
+    summary_md: |
+      Options for running a Cloud Run service on a workstation: Cloud Code's Cloud Run emulator,
+      gcloud, or Docker. Second source for lesson 3's Cloud Code section and lesson 1's
+      shift-left testing.
+  - slug: s5-client-libraries
+    kind: product_docs
+    url: https://cloud.google.com/apis/docs/client-libraries-explained
+    title: "Client libraries explained"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [client-libraries, apis]
+    summary_md: |
+      Distinguishes Cloud Client Libraries (idiomatic, recommended), Google API Client Libraries
+      (generated, for APIs without a Cloud Client Library) and calling REST/gRPC directly. Lesson 3.
+  - slug: s5-adc
+    kind: product_docs
+    url: https://cloud.google.com/docs/authentication/application-default-credentials
+    title: "How Application Default Credentials works"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [adc, authentication]
+    summary_md: |
+      ADC's search order: GOOGLE_APPLICATION_CREDENTIALS, then the gcloud user credentials from
+      `gcloud auth application-default login`, then the attached service account from the metadata
+      server. Lesson 3.
+  - slug: s5-sa-key-best-practices
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys
+    title: "Best practices for managing service account keys"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [iam, service-accounts, keys]
+    summary_md: |
+      Avoid service account keys where an alternative exists (attached service accounts, workload
+      identity federation, impersonation); if keys are unavoidable, rotate them and never commit them.
+      Lesson 3.
+  - slug: s5-workload-identity-federation
+    kind: product_docs
+    url: https://cloud.google.com/iam/docs/workload-identity-federation
+    title: "Workload Identity Federation"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [iam, federation, ci]
+    summary_md: |
+      Lets workloads outside Google Cloud (other clouds, GitHub Actions, on-premises) exchange their
+      own identity tokens for short-lived Google credentials, removing the need for keys. Lesson 3.
+  - slug: s5-api-keys-best-practices
+    kind: vendor_docs
+    url: https://cloud.google.com/docs/authentication/api-keys-best-practices
+    title: "Best practices for managing API keys"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [api-keys]
+    summary_md: |
+      API keys identify a project, not a principal; restrict each key to specific APIs and
+      application origins, and do not embed unrestricted keys in code. Lesson 3.
+  - slug: s5-retry-strategy
+    kind: product_docs
+    url: https://cloud.google.com/storage/docs/retry-strategy
+    title: "Retry strategy (Cloud Storage)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [retries, backoff]
+    summary_md: |
+      Retry transient errors (408, 429, 5xx) with truncated exponential backoff and jitter, and only
+      retry idempotent operations safely. Lesson 3.
+  - slug: s5-gcloud-emulators
+    kind: product_docs
+    url: https://cloud.google.com/sdk/gcloud/reference/beta/emulators
+    title: "gcloud beta emulators reference"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [emulators, gcloud]
+    summary_md: |
+      The gcloud command group that starts local emulators for Bigtable, Datastore, Firestore,
+      Pub/Sub and Spanner, and prints the environment variables that point client libraries at them.
+      Lesson 3.
+  - slug: s5-pubsub-emulator
+    kind: product_docs
+    url: https://cloud.google.com/pubsub/docs/emulator
+    title: "Testing apps locally with the Pub/Sub emulator"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [emulators, pubsub]
+    summary_md: |
+      Starting the emulator, setting PUBSUB_EMULATOR_HOST with `env-init`, and the emulator's
+      limits (no IAM, not for production, some features unsupported). Lesson 3.
+  - slug: s5-spanner-emulator
+    kind: product_docs
+    url: https://cloud.google.com/spanner/docs/emulator
+    title: "Emulate Spanner locally"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [emulators, spanner]
+    summary_md: |
+      The in-memory Spanner emulator (gcloud or Docker), SPANNER_EMULATOR_HOST, and its limits
+      (not for performance testing, data not persisted). Lesson 3.
+  - slug: s5-bigtable-emulator
+    kind: product_docs
+    url: https://cloud.google.com/bigtable/docs/emulator
+    title: "Test using the Bigtable emulator"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [emulators, bigtable]
+    summary_md: |
+      The in-memory Bigtable emulator and BIGTABLE_EMULATOR_HOST; not suitable for performance or
+      production. Lesson 3.
+  - slug: s5-firestore-emulator
+    kind: product_docs
+    url: https://cloud.google.com/firestore/docs/emulator
+    title: "Connect to the Firestore emulator"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [emulators, firestore]
+    summary_md: |
+      Running the Firestore emulator through gcloud or the Firebase Local Emulator Suite and
+      pointing clients at it with FIRESTORE_EMULATOR_HOST. Lesson 3.

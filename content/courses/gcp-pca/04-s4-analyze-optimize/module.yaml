@@ -1,0 +1,17 @@
+title: "Section 4: Analyzing and optimizing technical and business processes"
+domain: s4-analyze-optimize
+summary_md: |
+  About 15% of the exam. Covers **4.1 Analyzing and defining technical processes** (SDLC, CI/CD,
+  troubleshooting and root cause analysis, testing and validation of software and infrastructure,
+  service catalog and provisioning, disaster recovery) and **4.2 Analyzing and defining business
+  processes** (stakeholder management, change management, team assessment and skills readiness,
+  decision-making, customer success management, cost and resource optimisation with CapEx/OpEx,
+  and business continuity).
+
+  Lesson 1 teaches the 4.1 technical processes, including RTO/RPO and the cold, warm and hot DR
+  patterns. Lesson 2 teaches the 4.2 business processes and FinOps on Google Cloud (CUDs, SUDs,
+  Spot VMs, the rightsizing recommender, budgets and billing export to BigQuery). Lesson 3 works a
+  full DR design, comparing three patterns on cost and risk. Lesson 4 covers resilience and
+  business continuity: DR testing, game days, incident response, and blameless post-mortems.
+  Section 4 questions are rarely about a single product; they test whether you pick the process
+  that meets the business requirement at the lowest cost and operational burden.

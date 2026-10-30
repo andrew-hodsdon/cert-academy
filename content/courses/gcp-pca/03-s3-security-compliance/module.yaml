@@ -1,0 +1,16 @@
+title: "Section 3: Designing for security and compliance"
+domain: s3-security-compliance
+summary_md: |
+  Section 3 is about 17.5% of the Professional Cloud Architect exam, and security requirements turn
+  up in almost every case-study question too. This module covers both objectives in the current
+  guide. **3.1 Designing for security:** IAM and the resource hierarchy (organisations, folders,
+  projects, roles, service accounts, organisation policies), separation of duties, data security
+  (default encryption, customer-managed keys in Cloud KMS, Cloud HSM and Cloud EKM, Secret Manager),
+  security controls (audit logs, VPC Service Controls, context-aware access, hierarchical firewall
+  policies), secure remote access (Identity-Aware Proxy, service account impersonation, Chrome
+  Enterprise Premium, Workload Identity Federation), software supply chain security, and securing AI
+  (Model Armor, Sensitive Data Protection, secure model deployment). **3.2 Designing for
+  compliance:** legislation and regulation (health record privacy, children's privacy, data privacy,
+  ownership and sovereignty), commercial data such as card data and PII, industry certifications such
+  as SOC 2, and audits including logs. Read the five lessons in order, then take the Section 3 quiz
+  until you hold 80%.

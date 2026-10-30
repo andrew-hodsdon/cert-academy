@@ -1,0 +1,1060 @@
+slug: d7-quiz
+ordinal: 17
+title: "Domain 7 quiz: Security Operations"
+kind: quiz
+draw: 25
+time_limit_min: 35
+pass_pct: 80
+instructions_md: |
+  25 questions drawn at random from a bank of 52 covering every Domain 7 objective (7.1–7.15),
+  with a 35-minute clock. Most questions have one answer; questions marked "Choose two." need
+  both correct choices to score. Answer as a security leader advising the business: people's
+  safety first, due care before tools, the most complete answer wins.
+
+  Pass mark 80%. Retake until you hold it, then move on to the full practice exams.
+questions:
+  # ---------- 7.1 Investigations ----------
+  - key: d7-order-of-volatility-first
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An incident responder arrives at a running Linux server suspected of hosting fileless
+      malware that injects itself into legitimate processes. Management wants evidence that can
+      support prosecution. Which data should the responder collect **FIRST**?
+    choices:
+      - { key: a, text: "A bit-for-bit image of the system disk through a write blocker" }
+      - { key: b, text: "Firewall and proxy logs from the central log server" }
+      - { key: c, text: "The contents of RAM, with the process list and network connections" }
+      - { key: d, text: "The most recent backup tapes from the off-site vault" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: by the order of volatility (RFC 3227), memory and the process and
+      connection tables are lost first, and fileless malware lives only there.
+      **a** is wrong as a first step: the disk persists and can be imaged after memory is
+      captured, and it may not even contain the malware. **b** is wrong: remote logs are less
+      volatile and sit on a separate system. **d** is wrong: archival media is the least volatile
+      source and would not show current memory-resident malware.
+    points: 1
+  - key: d7-write-blocker-purpose
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A forensic analyst connects a seized laptop drive to her workstation through a hardware
+      write blocker before imaging it. What does the write blocker achieve?
+    choices:
+      - { key: a, text: "It prevents the act of reading the drive from altering the original evidence" }
+      - { key: b, text: "It proves who had custody of the drive since it was seized" }
+      - { key: c, text: "It decrypts the drive so that the image can be examined" }
+      - { key: d, text: "It recovers deleted files and slack space during imaging" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a write blocker allows reads but blocks writes, so mounting or imaging the
+      drive cannot change its contents (NIST SP 800-86).
+      **b** is wrong: custody is shown by the chain-of-custody record, not by a hardware device.
+      **c** is wrong: write blockers do nothing to encryption. **d** is wrong: capturing deleted
+      files and slack space is a property of a bit-for-bit image, not of the write blocker.
+    points: 1
+  - key: d7-chain-of-custody-gap
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An investigator images a suspect's laptop, records matching SHA-256 hashes for the original
+      and the image, then leaves the laptop in an unlocked office overnight before logging it into
+      the evidence room. Defense counsel later challenges the evidence. What is the **MOST**
+      significant weakness?
+    choices:
+      - { key: a, text: "SHA-256 is too weak to prove the image matches the original" }
+      - { key: b, text: "The image should have been a logical file copy rather than a bit-for-bit copy" }
+      - { key: c, text: "The investigator should have powered the laptop on to confirm it still worked" }
+      - { key: d, text: "There is a gap in the chain of custody for the original evidence" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: nobody can account for who had access to the original overnight, so its
+      integrity and authenticity can be attacked even though the hashes matched at imaging time.
+      **a** is wrong: SHA-256 is a current, strong hash for integrity verification. **b** is wrong:
+      a bit-for-bit image is the correct method; a file copy misses deleted and unallocated data.
+      **c** is wrong: powering on the original could alter it and would make matters worse.
+    points: 1
+  - key: d7-business-records-exception
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      In a civil case, opposing counsel objects that the company's firewall logs are hearsay.
+      The logs are generated automatically and retained as part of routine operations. Which
+      principle **BEST** supports admitting them?
+    choices:
+      - { key: a, text: "The parol evidence rule" }
+      - { key: b, text: "The business records exception" }
+      - { key: c, text: "The best evidence rule" }
+      - { key: d, text: "Locard's exchange principle" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: records made in the regular course of business, such as routine automated
+      logs, are a recognized exception to the hearsay rule (US Federal Rules of Evidence).
+      **a** is wrong: the parol evidence rule concerns written agreements and oral side terms.
+      **c** is wrong: the best evidence rule is about producing originals of writings, not hearsay.
+      **d** is wrong: Locard's principle is an investigative idea (every contact leaves a trace),
+      not a rule of admissibility.
+    points: 1
+  - key: d7-forensic-integrity-practices
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      A security team is building its forensic acquisition procedure for workstations that may be
+      used in disciplinary or criminal proceedings. Which practices **BEST** preserve the integrity
+      of the evidence? **Choose two.**
+    choices:
+      - { key: a, text: "Hash the original media and the forensic image and record both values" }
+      - { key: b, text: "Run a full antivirus scan on the original drive to identify malware quickly" }
+      - { key: c, text: "Perform all examination on a verified working copy, never the original" }
+      - { key: d, text: "Boot the suspect workstation normally to see what the user saw" }
+      - { key: e, text: "Copy the user's documents folder to a USB stick for quick review" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: hashes prove the image is identical and unchanged, and working
+      only on copies keeps the original pristine (NIST SP 800-86, ISO/IEC 27037).
+      **b** is wrong: scanning the original writes metadata and may quarantine or delete files,
+      altering evidence. **d** is wrong: booting changes timestamps, logs and swap. **e** is wrong:
+      a logical file copy misses deleted and unallocated data and alters access times.
+    points: 1
+
+  # ---------- 7.2 Logging and monitoring ----------
+  - key: d7-admin-log-tampering
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      Internal audit suspects a domain administrator of fraud. Every relevant audit log is stored
+      only on servers he administers. What should the CISO implement to **BEST** ensure future
+      logs can be trusted?
+    choices:
+      - { key: a, text: "Increase the logging verbosity on the domain controllers" }
+      - { key: b, text: "Require the administrator to sign a statement that he will not edit logs" }
+      - { key: c, text: "Rotate logs daily and keep 90 days locally" }
+      - { key: d, text: "Forward logs in real time to a protected central store the administrator cannot modify" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: central, write-protected log storage with separation of duties means the
+      person being monitored can't alter the record (NIST SP 800-92, ISO/IEC 27002 8.15).
+      **a** is wrong: more detail doesn't help if the administrator can still delete it. **b** is
+      wrong: an attestation is not a technical or separation control. **c** is wrong: logs remain
+      on systems he controls, so rotation changes retention, not integrity.
+    points: 1
+  - key: d7-soar-playbooks
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A SOC's SIEM correlates events well, but analysts can triage only a fraction of the alerts,
+      and each analyst handles phishing reports differently. Which capability **BEST** addresses
+      both problems?
+    choices:
+      - { key: a, text: "SOAR with playbooks that automate enrichment and standard response steps" }
+      - { key: b, text: "A second SIEM to split the alert load" }
+      - { key: c, text: "A network-based IDS on the internet link" }
+      - { key: d, text: "Longer log retention in the SIEM" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: SOAR orchestrates and automates repeatable steps through playbooks, cutting
+      manual workload and making response consistent.
+      **b** is wrong: a second SIEM doubles cost and still leaves manual, inconsistent handling.
+      **c** is wrong: another IDS adds alerts rather than handling them. **d** is wrong: retention
+      helps investigations but does nothing for triage volume or consistency.
+    points: 1
+  - key: d7-ueba-valid-credentials
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An attacker used a contractor's valid VPN credentials for three weeks, logging in at 03:00
+      and downloading far more data than the contractor ever had. No signature-based alert fired.
+      Which control would **MOST** likely have detected this activity?
+    choices:
+      - { key: a, text: "A deny list of known-malicious IP addresses" }
+      - { key: b, text: "An updated antivirus signature set on the file servers" }
+      - { key: c, text: "User and entity behavior analytics (UEBA)" }
+      - { key: d, text: "A stateful packet-filtering firewall" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: UEBA baselines each user's normal hours, systems and data volumes and flags
+      deviations, which is exactly what valid-credential misuse looks like.
+      **a** is wrong: the attacker's IP was not necessarily known-bad. **b** is wrong: no malware
+      was involved; the activity used legitimate access. **d** is wrong: a stateful firewall
+      allows established VPN sessions and does not evaluate user behavior.
+    points: 1
+  - key: d7-threat-hunting-proactive
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An intelligence report says a group targeting your sector moves laterally with remote
+      PowerShell. Your SIEM shows no related alerts. The SOC manager wants to know whether the
+      group is already inside. What activity is this?
+    choices:
+      - { key: a, text: "Vulnerability scanning" }
+      - { key: b, text: "Hypothesis-driven threat hunting" }
+      - { key: c, text: "Penetration testing" }
+      - { key: d, text: "Continuous monitoring and tuning" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: threat hunting assumes compromise and proactively searches, starting from a
+      hypothesis (here an ATT&CK-style technique) rather than waiting for an alert.
+      **a** is wrong: vulnerability scanning finds weaknesses, not adversary activity. **c** is
+      wrong: a penetration test simulates an attacker rather than searching for a real one.
+      **d** is wrong: monitoring waits for alerts, and tuning adjusts detections; neither is an
+      active search.
+    points: 1
+  - key: d7-log-integrity-controls
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      Investigators could not build a timeline after a breach: server timestamps disagreed by up
+      to 11 minutes, and some logs had been edited. Which measures **BEST** prevent these problems
+      next time? **Choose two.**
+    choices:
+      - { key: a, text: "Raise clipping levels so fewer events are logged" }
+      - { key: b, text: "Synchronize every device's clock to trusted NTP sources" }
+      - { key: c, text: "Store logs locally with longer rotation periods" }
+      - { key: d, text: "Send logs to append-only (WORM) central storage" }
+      - { key: e, text: "Encrypt the network link between servers and users" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: synchronized time makes events from different systems
+      correlatable, and append-only central storage protects integrity (NIST SP 800-92).
+      **a** is wrong: clipping levels reduce noise in alerting, not timing or tampering. **c** is
+      wrong: local logs remain editable by anyone who compromises the server. **e** is wrong:
+      encrypting user traffic does not protect logs or fix clocks.
+    points: 1
+
+  # ---------- 7.3 Configuration management ----------
+  - key: d7-baseline-definition
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      Which term describes the documented, approved configuration of a system at a point in time,
+      used as the reference for builds and for detecting unauthorized changes?
+    choices:
+      - { key: a, text: "Security baseline" }
+      - { key: b, text: "Change request" }
+      - { key: c, text: "Service level agreement" }
+      - { key: d, text: "Risk register" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a baseline is the approved configuration that systems are built to and
+      compared against (NIST SP 800-53 CM-2, SP 800-128).
+      **b** is wrong: a change request asks to move from one approved state to another. **c** is
+      wrong: an SLA defines service levels, not configurations. **d** is wrong: a risk register
+      records risks and their treatment.
+    points: 1
+  - key: d7-config-drift
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A cloud team runs 600 virtual machines. Audits keep finding servers whose settings no longer
+      match the hardened standard because administrators made manual fixes. What should the
+      security manager recommend as the **BEST** long-term solution?
+    choices:
+      - { key: a, text: "Quarterly manual reviews of each server against a checklist" }
+      - { key: b, text: "Removing all administrative access to the servers" }
+      - { key: c, text: "Disciplinary action for administrators who make manual changes" }
+      - { key: d, text: "Build from approved templates and use automated desired-state tools that detect and correct drift" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: provisioning from approved baselines plus automated enforcement and drift
+      detection scales to hundreds of systems and keeps them in a known state (NIST SP 800-128).
+      **a** is wrong: manual quarterly checks are slow and leave long windows of drift. **b** is
+      wrong: removing all admin access stops legitimate operations. **c** is wrong: discipline
+      without a process fix doesn't detect or correct drift.
+    points: 1
+
+  # ---------- 7.4 Foundational security operations concepts ----------
+  - key: d7-need-to-know-clearance
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A senior engineer holds a Top Secret clearance but is refused access to a Secret folder for
+      a project she isn't assigned to. Which principle is being applied?
+    choices:
+      - { key: a, text: "Separation of duties" }
+      - { key: b, text: "Job rotation" }
+      - { key: c, text: "Need to know" }
+      - { key: d, text: "Two-person control" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: need to know requires a job-related reason to access specific information,
+      regardless of clearance level.
+      **a** is wrong: separation of duties splits a task among people; it isn't about one
+      person's access to a folder. **b** is wrong: job rotation moves people between roles. **d**
+      is wrong: two-person control needs two people to act together on one action.
+    points: 1
+  - key: d7-sod-payments
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An accounts-payable clerk can create a new vendor and approve payments to it. What is the
+      **BEST** control to prevent fraud by a single employee?
+    choices:
+      - { key: a, text: "Separate vendor creation from payment approval so different people perform them" }
+      - { key: b, text: "Require the clerk to take a two-week mandatory vacation each year" }
+      - { key: c, text: "Log every payment the clerk approves" }
+      - { key: d, text: "Rotate the clerk to another department every two years" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: separation of duties prevents one person from completing the whole
+      fraudulent transaction (NIST SP 800-53 AC-5, ISO/IEC 27002 5.3).
+      **b** and **d** are wrong as the BEST answer: mandatory vacation and job rotation help
+      **detect** fraud after it happens; they don't prevent it. **c** is wrong: logging is
+      detective and depends on someone reviewing it.
+    points: 1
+  - key: d7-mandatory-vacation-detective
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A bank requires staff in sensitive roles to take ten consecutive days off each year while
+      someone else performs their duties. What is the **PRIMARY** security purpose of this policy?
+    choices:
+      - { key: a, text: "To reduce the impact of a single point of failure in staffing" }
+      - { key: b, text: "To detect fraud that requires the employee's daily presence to conceal" }
+      - { key: c, text: "To enforce least privilege on the employee's accounts" }
+      - { key: d, text: "To prevent collusion between two employees" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: mandatory vacation is a detective control; when another person performs the
+      duties, schemes that need constant concealment tend to surface.
+      **a** is wrong: cross-training is a side benefit, not the primary security purpose. **c** is
+      wrong: the policy doesn't change the employee's permissions. **d** is wrong: it does not stop
+      collusion; colluding employees can cover for one another.
+    points: 1
+  - key: d7-privileged-access-controls
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      A company is redesigning administration of its cloud tenant after a breach of a permanently
+      privileged account. Which controls **BEST** reduce the risk from privileged accounts?
+      **Choose two.**
+    choices:
+      - { key: a, text: "One shared administrator account so actions are easier to coordinate" }
+      - { key: b, text: "Just-in-time, time-bound elevation through a privileged access management tool" }
+      - { key: c, text: "Permanent global administrator rights for all help-desk staff" }
+      - { key: d, text: "Allowing administrators to read email from their admin account for convenience" }
+      - { key: e, text: "Recording privileged sessions and reviewing privileged activity regularly" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are right: JIT elevation limits how long privilege exists, and session
+      recording plus review provides accountability (NIST SP 800-53 AC-6, ISO/IEC 27002 8.2).
+      **a** is wrong: shared accounts destroy individual accountability. **c** is wrong: it
+      violates least privilege. **d** is wrong: using admin accounts for email exposes high
+      privilege to phishing.
+    points: 1
+  - key: d7-sla-provider
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A company is outsourcing its email platform. The business needs the provider to restore
+      service within four hours of an outage and to report security incidents within 24 hours,
+      with service credits if it fails. Where should these requirements be specified?
+    choices:
+      - { key: a, text: "The company's acceptable use policy" }
+      - { key: b, text: "A memorandum of understanding with no penalties" }
+      - { key: c, text: "The provider's marketing documentation" }
+      - { key: d, text: "A service level agreement in the contract" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: an SLA defines measurable service levels, reporting obligations and
+      penalties or credits, and is enforceable as part of the contract.
+      **a** is wrong: an AUP governs the company's own users, not the provider. **b** is wrong:
+      an MOU is typically less formal and the requirement is for enforceable credits. **c** is
+      wrong: marketing material creates no binding obligation.
+    points: 1
+
+  # ---------- 7.5 Resource protection ----------
+  - key: d7-media-highest-classification
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A removable drive was used to move a Confidential file and later only Public files. How
+      should it be classified and handled?
+    choices:
+      - { key: a, text: "As Public, because it now contains only Public files" }
+      - { key: b, text: "As Internal, the midpoint between the two levels" }
+      - { key: c, text: "As Confidential, the highest classification of data it has held, until it is sanitized" }
+      - { key: d, text: "As unclassified, because removable media is not covered by classification policy" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: media is handled at the level of the most sensitive data it has ever held,
+      because remnants may remain, until it is properly sanitized.
+      **a** is wrong: deleting or overwriting files may leave recoverable Confidential data. **b**
+      is wrong: there is no averaging in classification. **d** is wrong: removable media is
+      squarely within media protection policy (NIST SP 800-53 MP family).
+    points: 1
+  - key: d7-backup-media-transit
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      Each week an employee drives backup tapes containing customer data to an off-site vault in
+      his own car. What is the **BEST** improvement?
+    choices:
+      - { key: a, text: "Encrypt the tapes and use a bonded courier with tamper-evident containers and custody records" }
+      - { key: b, text: "Keep the tapes on site to avoid transport risk" }
+      - { key: c, text: "Have two employees ride together in the car" }
+      - { key: d, text: "Label the tapes clearly with the customer data they contain" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: it protects confidentiality if a tape is lost (encryption) and provides
+      accountability during transit (courier, sealed containers, custody log).
+      **b** is wrong: off-site copies are essential for recovery; removing them trades one risk for
+      a worse one. **c** is wrong: two people reduce some risk but tapes remain unencrypted and
+      untracked. **d** is wrong: labels identifying contents make tapes a more attractive target;
+      classification labels are fine, content descriptions are not.
+    points: 1
+  - key: d7-media-reuse-sanitize
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      Hard drives from a server that processed regulated health data will be reused in a
+      general-purpose test lab. What must happen before reuse?
+    choices:
+      - { key: a, text: "Delete the partitions and reformat the drives" }
+      - { key: b, text: "Sanitize the drives using a method appropriate to their classification, such as purging" }
+      - { key: c, text: "Label the drives with the lab's classification level" }
+      - { key: d, text: "Physically destroy the drives, since media can never be reused" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: moving media to a lower-trust environment requires sanitization matched to
+      the data's sensitivity; purging defeats laboratory recovery.
+      **a** is wrong: reformatting leaves data recoverable. **c** is wrong: relabeling doesn't
+      remove the data. **d** is wrong: destruction is acceptable but not mandatory; properly purged
+      media can be reused.
+    points: 1
+
+  # ---------- 7.6 Incident management ----------
+  - key: d7-law-enforcement-decision
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      During an investigation, the incident team finds evidence that a former employee stole
+      trade secrets. Who should decide whether to involve law enforcement?
+    choices:
+      - { key: a, text: "The incident responder who found the evidence" }
+      - { key: b, text: "Senior management, advised by legal counsel" }
+      - { key: c, text: "The SOC shift lead, to save time" }
+      - { key: d, text: "The IT operations manager responsible for the affected systems" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: involving law enforcement has business consequences (publicity, loss of
+      control, seized systems), so it is a senior management decision with legal advice.
+      **a**, **c** and **d** are wrong: technical staff and operational managers lack the
+      authority to accept those business and legal consequences; their role is to preserve evidence
+      and escalate.
+    points: 1
+  - key: d7-remediation-root-cause
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      After a web server compromise has been contained and the server restored, the team patches
+      the vulnerable plug-in that let the attacker in and adds a WAF rule. In the ISC2 incident
+      management steps, which step is this?
+    choices:
+      - { key: a, text: "Mitigation" }
+      - { key: b, text: "Recovery" }
+      - { key: c, text: "Remediation" }
+      - { key: d, text: "Reporting" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: remediation addresses the root cause so the incident can't recur.
+      **a** is wrong: mitigation limits damage (containment) during the incident. **b** is wrong:
+      recovery restores the system to operation, which already happened. **d** is wrong: reporting
+      informs stakeholders and authorities.
+    points: 1
+  - key: d7-lessons-learned-purpose
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      Two weeks after a ransomware incident, the CISO convenes the responders, IT and business
+      owners. What is the **PRIMARY** purpose of this meeting?
+    choices:
+      - { key: a, text: "To identify which employee caused the incident so they can be disciplined" }
+      - { key: b, text: "To close the incident ticket in the case management system" }
+      - { key: c, text: "To calculate the ransom that would have been demanded" }
+      - { key: d, text: "To improve the response plan, controls and training based on what happened" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: lessons learned feed improvements back into preparation, controls and
+      training, completing the incident management cycle.
+      **a** is wrong: reviews should be blameless; seeking someone to punish discourages honest
+      reporting. **b** is wrong: closing a ticket is administrative. **c** is wrong: it is not the
+      purpose of a post-incident review.
+    points: 1
+  - key: d7-mitigation-actions
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      Ransomware is actively encrypting files on a shared drive from a single compromised
+      workstation. Which actions belong to the **mitigation** step and should happen now?
+      **Choose two.**
+    choices:
+      - { key: a, text: "Isolate the compromised workstation from the network" }
+      - { key: b, text: "Hold the lessons-learned meeting" }
+      - { key: c, text: "Restore the shared drive from last night's backup immediately" }
+      - { key: d, text: "Disable the compromised user account" }
+      - { key: e, text: "Redesign the email filtering architecture" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: isolating the host and disabling the account contain the incident
+      and limit damage, which is mitigation.
+      **b** is wrong: lessons learned come at the end. **c** is wrong: restoring before containment
+      lets the ransomware re-encrypt the restored data. **e** is wrong: architecture changes belong
+      to remediation after the root cause is known.
+    points: 1
+
+  # ---------- 7.7 Detective and preventive measures ----------
+  - key: d7-anomaly-zero-day
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A company worries about zero-day exploits for which no signatures exist. Which IDS detection
+      method is **MOST** likely to detect them, and what is its usual trade-off?
+    choices:
+      - { key: a, text: "Signature-based; it needs frequent updates" }
+      - { key: b, text: "Signature-based; it produces many false negatives on known attacks" }
+      - { key: c, text: "Anomaly-based; it tends to produce more false positives" }
+      - { key: d, text: "Anomaly-based; it cannot be used on host systems" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: anomaly (behavior) based detection compares against a baseline, so it can
+      flag novel attacks, at the cost of more false positives (NIST SP 800-94).
+      **a** and **b** are wrong: signature-based detection needs a known pattern, so it misses
+      zero-days; and it is good, not poor, at known attacks. **d** is wrong: host-based systems can
+      use anomaly detection.
+    points: 1
+  - key: d7-ips-false-positive-impact
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A company replaces its passive IDS with an inline IPS in front of its order-processing
+      application. Which new risk must the change board weigh?
+    choices:
+      - { key: a, text: "A false positive will now block legitimate customer traffic" }
+      - { key: b, text: "The IPS can no longer see encrypted traffic that the IDS could see" }
+      - { key: c, text: "Signature updates are no longer possible inline" }
+      - { key: d, text: "Alerts will no longer be sent to the SIEM" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: an IPS sits inline and acts on its detections, so a false positive becomes a
+      self-inflicted outage.
+      **b** is wrong: both see the same traffic; encryption limits each equally unless decrypted.
+      **c** is wrong: IPS signatures are routinely updated. **d** is wrong: an IPS still alerts and
+      forwards to the SIEM.
+    points: 1
+  - key: d7-honeypot-entrapment
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      The SOC wants to deploy a honeypot. Legal counsel is concerned about the evidence being
+      usable. Which design is **MOST** likely to be challenged as entrapment?
+    choices:
+      - { key: a, text: "A decoy server with no legitimate users that logs all connections" }
+      - { key: b, text: "Fake credentials planted in a file share that alert when used" }
+      - { key: c, text: "A decoy database placed in a segment attackers would reach after a breach" }
+      - { key: d, text: "Posting on a hacker forum inviting people to break into the decoy for a reward" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: actively inducing someone to commit a crime they might not otherwise commit
+      is entrapment, which can make evidence unusable.
+      **a**, **b** and **c** are wrong: each simply makes an attractive target or honeytoken
+      available to someone already intent on attacking, which is enticement and is generally
+      acceptable.
+    points: 1
+  - key: d7-allow-list-kiosk
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A hospital runs 200 fixed-function patient check-in kiosks that only ever need to run one
+      application. Which control **BEST** prevents malware from executing on them?
+    choices:
+      - { key: a, text: "A deny list of known malware hashes" }
+      - { key: b, text: "Application allow-listing that permits only the approved check-in application" }
+      - { key: c, text: "A honeypot on the kiosk network" }
+      - { key: d, text: "Weekly full antivirus scans" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: allow-listing blocks anything not explicitly approved, and fixed-function
+      systems make the list easy to maintain (NIST SP 800-83).
+      **a** is wrong: a deny list misses new malware. **c** is wrong: a honeypot detects
+      attackers; it doesn't prevent execution on kiosks. **d** is wrong: weekly scans are
+      detective and slow.
+    points: 1
+  - key: d7-ml-tool-limitations
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      The CISO is evaluating a machine-learning-based detection product for the SOC. Which are
+      realistic limitations she should plan for? **Choose two.**
+    choices:
+      - { key: a, text: "It can only detect attacks for which a signature has been published" }
+      - { key: b, text: "It must be replaced whenever the vendor releases a new version" }
+      - { key: c, text: "Adversaries may evade it or poison the data it learns from" }
+      - { key: d, text: "It cannot be integrated with a SIEM" }
+      - { key: e, text: "Its accuracy depends on representative training data and it can drift over time" }
+    answer: [c, e]
+    explanation_md: |
+      **c** and **e** are right: ML models can be evaded or poisoned, and their output depends on
+      training data quality and degrades as the environment changes, so they need monitoring and
+      human oversight.
+      **a** is wrong: that describes signature-based tools; ML aims to detect novel patterns.
+      **b** is wrong: there's no such inherent requirement. **d** is wrong: ML tools commonly feed
+      SIEM and SOAR platforms.
+    points: 1
+
+  # ---------- 7.8 Patch and vulnerability management ----------
+  - key: d7-patch-prioritization
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      The team can patch only one of these this week. Which should be prioritized?
+    choices:
+      - { key: a, text: "A CVSS 7.5 flaw on the internet-facing VPN appliance, listed in the CISA Known Exploited Vulnerabilities catalog" }
+      - { key: b, text: "A CVSS 9.8 flaw on an isolated lab server with no network connection" }
+      - { key: c, text: "A CVSS 8.1 flaw on an internal print server with no known exploit" }
+      - { key: d, text: "A CVSS 5.3 flaw on the marketing team's intranet page" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: risk-based prioritization weighs active exploitation, exposure and asset
+      criticality, not just severity; an exploited flaw on an internet-facing access device is the
+      greatest risk (NIST SP 800-40 Rev. 4, CISA KEV).
+      **b** is wrong: the highest score, but isolation makes exploitation unlikely. **c** is wrong:
+      internal and unexploited. **d** is wrong: low severity and low criticality.
+    points: 1
+  - key: d7-unpatchable-legacy
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A manufacturing controller runs an unsupported operating system that the vendor will not
+      certify for patches. Replacing it will take 18 months. What should the security manager do?
+    choices:
+      - { key: a, text: "Apply the operating system patches anyway and accept the vendor support risk" }
+      - { key: b, text: "Ignore the vulnerability because the system is inside the plant" }
+      - { key: c, text: "Disconnect the controller and halt production until it is replaced" }
+      - { key: d, text: "Isolate it on a segmented network, restrict access, monitor it closely and record the risk acceptance by the owner" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: when patching isn't possible, compensating controls reduce the risk, and the
+      asset owner formally accepts what remains.
+      **a** is wrong: uncertified patches could break a safety-relevant system. **b** is wrong:
+      ignoring a known risk is not due care. **c** is wrong: halting production for 18 months is
+      disproportionate when compensating controls exist.
+    points: 1
+  - key: d7-patch-deployment-steps
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      A critical security patch for the company's ERP database has been released. No exploitation
+      has been reported yet. Which steps should happen **before** it is deployed to production?
+      **Choose two.**
+    choices:
+      - { key: a, text: "Disable antivirus on the database servers to speed installation" }
+      - { key: b, text: "Deploy to every server simultaneously to minimize the exposure window" }
+      - { key: c, text: "Test the patch in a staging environment that resembles production" }
+      - { key: d, text: "Skip the change process because security patches are pre-approved by default" }
+      - { key: e, text: "Submit it through change management with a rollback plan" }
+    answer: [c, e]
+    explanation_md: |
+      **c** and **e** are right: testing catches breakage before it reaches production, and change
+      management provides approval, scheduling and a rollback plan.
+      **a** is wrong: weakening defenses isn't needed and adds risk. **b** is wrong: big-bang
+      deployment of an untested patch risks a full outage; staged rollout is safer. **d** is wrong:
+      even standard or pre-approved changes are recorded; nothing is automatically exempt.
+    points: 1
+
+  # ---------- 7.9 Change management ----------
+  - key: d7-emergency-change
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      At 03:00 an engineer changes a firewall rule to stop an active attack, without CAB approval.
+      What should happen next?
+    choices:
+      - { key: a, text: "Reverse the change at 09:00 so it can go through the normal process" }
+      - { key: b, text: "Document the change and submit it for retroactive review and approval through change management" }
+      - { key: c, text: "Nothing, because emergency changes are exempt from change management" }
+      - { key: d, text: "Discipline the engineer for bypassing the CAB" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: emergency changes are allowed to stop harm but must be documented and
+      reviewed afterwards, and the baseline updated.
+      **a** is wrong: reversing it would reopen the attack. **c** is wrong: emergency does not
+      mean unrecorded. **d** is wrong: the engineer followed a legitimate emergency path; the
+      process expects retroactive review.
+    points: 1
+  - key: d7-rollback-plan
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An approved database upgrade fails midway through the maintenance window and the
+      application is down. Which change-management element should already exist to handle this?
+    choices:
+      - { key: a, text: "A tested rollback (back-out) plan" }
+      - { key: b, text: "A post-incident lessons-learned report" }
+      - { key: c, text: "A vulnerability scan of the database" }
+      - { key: d, text: "A service level agreement with the database vendor" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: every change should include a back-out plan to restore the previous state
+      if implementation fails.
+      **b** is wrong: a lessons-learned report comes after the event and doesn't restore service.
+      **c** is wrong: a scan finds vulnerabilities, not a way back. **d** is wrong: a vendor SLA
+      doesn't define how to undo this change.
+    points: 1
+
+  # ---------- 7.10 Recovery strategies ----------
+  - key: d7-incremental-restore
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A server has a full backup each Sunday night and an incremental backup every other night.
+      It fails on Thursday morning. What is needed to restore it to Wednesday night's state?
+    choices:
+      - { key: a, text: "Sunday's full backup only" }
+      - { key: b, text: "Sunday's full and Wednesday's incremental only" }
+      - { key: c, text: "Wednesday's incremental only" }
+      - { key: d, text: "Sunday's full, then the Monday, Tuesday and Wednesday incrementals in order" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: each incremental holds only changes since the previous backup, so every one
+      since the full is needed, in sequence.
+      **a** is wrong: it loses three days of changes. **b** is wrong: that would work for a
+      **differential**, which holds all changes since the last full. **c** is wrong: an incremental
+      can't be restored without the full backup it builds on.
+    points: 1
+  - key: d7-rpo-replication
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      The BIA sets a 15-minute recovery point objective for the trading database. Backups are
+      taken nightly and restored within two hours. What does this mean?
+    choices:
+      - { key: a, text: "The RPO is met because the restore is fast" }
+      - { key: b, text: "The RTO is not met, so the site strategy must change" }
+      - { key: c, text: "The RPO is not met; replication or log shipping is needed to limit data loss to 15 minutes" }
+      - { key: d, text: "The RPO is met if the backups are stored off-site" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: RPO is the maximum tolerable data loss; nightly backups could lose up to 24
+      hours, so more frequent copies (replication, remote journaling) are needed (NIST SP 800-34).
+      **a** is wrong: restore speed relates to RTO, not RPO. **b** is wrong: no RTO was given;
+      the problem described is data loss. **d** is wrong: location doesn't change how much data
+      is lost between backups.
+    points: 1
+  - key: d7-raid-not-backup
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A small firm stores its files on a RAID 1 array and says it does not need backups. What is
+      the **MOST** important flaw in this reasoning?
+    choices:
+      - { key: a, text: "RAID 1 faithfully mirrors deletions, corruption and ransomware encryption to both disks" }
+      - { key: b, text: "RAID 1 provides no protection if a single disk fails" }
+      - { key: c, text: "RAID 1 needs at least four disks to provide redundancy" }
+      - { key: d, text: "RAID 1 stripes data without parity, so it has no redundancy" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: RAID protects against disk failure, not against logical damage; every
+      change is written to both mirrors, so a separate (ideally immutable) backup is still needed.
+      **b** is wrong: RAID 1 does survive a single disk failure. **c** is wrong: RAID 1 needs two
+      disks. **d** is wrong: that describes RAID 0.
+    points: 1
+  - key: d7-hot-site-short-mtd
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An online payments service has a maximum tolerable downtime of four hours. Which recovery
+      site strategy is the **MOST** appropriate?
+    choices:
+      - { key: a, text: "A cold site with power and space only" }
+      - { key: b, text: "A reciprocal agreement with a competitor" }
+      - { key: c, text: "A warm site where data must be restored from tape" }
+      - { key: d, text: "A hot site with current replicated data" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: a hot site with near-current data can take over within hours, inside a
+      four-hour MTD.
+      **a** is wrong: a cold site takes weeks. **b** is wrong: reciprocal agreements are hard to
+      enforce, may lack capacity and are unsuitable for a fast, sensitive service. **c** is
+      wrong: restoring from tape at a warm site typically takes days.
+    points: 1
+  - key: d7-ransomware-resilient-backups
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      After a peer company lost its backups to ransomware, the board asks how to make backups
+      resilient. Which measures **BEST** meet this goal? **Choose two.**
+    choices:
+      - { key: a, text: "Synchronous replication of production volumes to a second array" }
+      - { key: b, text: "An immutable or offline (air-gapped) backup copy" }
+      - { key: c, text: "Upgrading the file servers from RAID 5 to RAID 6" }
+      - { key: d, text: "Snapshots stored on the same array as production data" }
+      - { key: e, text: "Regular test restores that prove backups can be recovered" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are right: an immutable or offline copy can't be encrypted by malware with
+      network access, and tested restores prove recovery works (NIST SP 800-209, SP 800-53 CP-9).
+      **a** is wrong: replication copies the encryption too. **c** is wrong: RAID protects against
+      disk failure, not ransomware. **d** is wrong: snapshots on the same array can be deleted or
+      lost with it.
+    points: 1
+
+  # ---------- 7.11 Disaster recovery processes ----------
+  - key: d7-return-least-critical-first
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      The primary data center has been repaired after a flood, and operations are running at the
+      hot site. Which functions should move back to the primary site **FIRST**?
+    choices:
+      - { key: a, text: "The most critical functions, so they benefit from the repaired facility" }
+      - { key: b, text: "All functions at once, to minimize the time spent split across sites" }
+      - { key: c, text: "The least critical functions, to prove the primary site before moving critical work" }
+      - { key: d, text: "Whichever functions the IT team finds easiest to migrate" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: moving the least critical work first tests the repaired site while critical
+      functions stay safe at the alternate.
+      **a** is wrong: if the primary site still has problems, the most important work is hit
+      first. **b** is wrong: a big-bang move risks everything at once. **d** is wrong: the order
+      should follow business criticality, not convenience.
+    points: 1
+  - key: d7-dr-communications
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A regional disaster takes down the head office, including the email and VoIP systems. The DR
+      plan relies on email to notify staff. What should the plan have included?
+    choices:
+      - { key: a, text: "A larger email server cluster at the head office" }
+      - { key: b, text: "Multiple communication methods, including out-of-band options such as call trees and mass notification" }
+      - { key: c, text: "A policy that staff check email hourly during disasters" }
+      - { key: d, text: "A press release template for the media" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: DR communications need redundant, independent channels because the primary
+      ones may be part of the disaster.
+      **a** is wrong: a cluster in the same failed location fails with it. **c** is wrong: staff
+      can't check a system that's down. **d** is wrong: media communications matter but don't
+      reach staff.
+    points: 1
+  - key: d7-declare-disaster-authority
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      In a recent outage, two hours were lost because nobody was sure whether to invoke the DR
+      plan, and the CIO was on a flight. What is the **BEST** fix?
+    choices:
+      - { key: a, text: "Allow any IT engineer to fail over whenever they think it is needed" }
+      - { key: b, text: "Wait for the CIO in future, since only the CIO understands the business impact" }
+      - { key: c, text: "Fail over automatically on every outage" }
+      - { key: d, text: "Define declaration criteria in the plan and name the authority with trained alternates" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: predefined criteria and named, trained alternates allow a timely, authorized
+      decision even when key people are absent.
+      **a** is wrong: uncontrolled failover can cause outages and cost. **b** is wrong: depending
+      on one person is a single point of failure. **c** is wrong: many outages are brief and
+      failing over can be more disruptive than waiting.
+    points: 1
+
+  # ---------- 7.12 Testing DR plans ----------
+  - key: d7-parallel-test
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      Management wants proof that the hot site can actually process real transactions, but will
+      not accept any interruption to production. Which DR test fits?
+    choices:
+      - { key: a, text: "Walkthrough" }
+      - { key: b, text: "Parallel test" }
+      - { key: c, text: "Full interruption test" }
+      - { key: d, text: "Read-through" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a parallel test brings up systems at the alternate site and processes real
+      data while production keeps running.
+      **a** and **d** are wrong: they are discussion-based and prove nothing about systems actually
+      working. **c** is wrong: a full interruption shuts down production, which management
+      ruled out.
+    points: 1
+  - key: d7-full-interruption-precondition
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An operations director proposes a full interruption test of the DR plan next month. The plan
+      has never been tested. What should the security manager recommend?
+    choices:
+      - { key: a, text: "Proceed, because a full interruption test is the only meaningful test" }
+      - { key: b, text: "Proceed, but only on a weekend without informing stakeholders" }
+      - { key: c, text: "First run less disruptive tests successfully, then seek senior management approval for a full interruption test" }
+      - { key: d, text: "Never run full interruption tests, as they are too risky" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a full interruption test can itself cause a disaster, so it should follow
+      successful read-through, walkthrough, simulation and parallel tests and needs senior
+      management approval.
+      **a** is wrong: an untested plan should not be proven by risking production. **b** is
+      wrong: stakeholders must be informed of tests. **d** is wrong: full interruption tests are
+      legitimate when justified, approved and preceded by other tests.
+    points: 1
+  - key: d7-dr-tests-activate-systems
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      Which DR test types actually bring up systems at the alternate site? **Choose two.**
+    choices:
+      - { key: a, text: "Parallel" }
+      - { key: b, text: "Read-through / tabletop" }
+      - { key: c, text: "Walkthrough" }
+      - { key: d, text: "Full interruption" }
+      - { key: e, text: "Checklist review" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: a parallel test runs the alternate site alongside production, and a
+      full interruption test moves production to it.
+      **b**, **c** and **e** are wrong: they are discussion- or document-based tests (checklist is
+      another name for read-through) that don't activate systems.
+    points: 1
+
+  # ---------- 7.13 BC planning and exercises ----------
+  - key: d7-bcp-not-maintained
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      During a real outage, the BCP's contact list was two years out of date and referenced a
+      department that had been merged. What was the **MOST** likely root cause?
+    choices:
+      - { key: a, text: "The plan was not maintained and exercised after organizational changes" }
+      - { key: b, text: "The BIA overstated recovery time objectives" }
+      - { key: c, text: "The alternate site was a warm site instead of a hot site" }
+      - { key: d, text: "The incident response team lacked forensic tools" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: plan maintenance and regular exercises (ISO 22301) keep contacts and
+      structures current; a read-through would have caught this.
+      **b** is wrong: RTO values don't affect a contact list. **c** is wrong: site type is a
+      different problem. **d** is wrong: forensics is unrelated to continuity plan accuracy.
+    points: 1
+  - key: d7-tabletop-exercise
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      Department heads gather in a conference room. A facilitator describes a pandemic scenario in
+      stages and each participant explains what their team would do. No systems are touched. What
+      type of exercise is this?
+    choices:
+      - { key: a, text: "Full-scale exercise" }
+      - { key: b, text: "Functional exercise" }
+      - { key: c, text: "Parallel test" }
+      - { key: d, text: "Tabletop exercise" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: a facilitated, discussion-based walk through a scenario is a tabletop
+      exercise (NIST SP 800-84).
+      **a** is wrong: full-scale exercises deploy real people and resources. **b** is wrong:
+      functional exercises perform tasks in a simulated operational environment. **c** is wrong:
+      a parallel test brings up systems at the alternate site.
+    points: 1
+
+  # ---------- 7.14 Physical security ----------
+  - key: d7-fail-safe-egress
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      The badge-controlled doors on a data center's only emergency exit route lose power during a
+      fire. How should they behave?
+    choices:
+      - { key: a, text: "Fail secure, to protect the equipment inside" }
+      - { key: b, text: "Fail safe (unlock), to allow people to escape" }
+      - { key: c, text: "Stay in their last state until power returns" }
+      - { key: d, text: "Lock and trigger an alarm to the guard desk" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: life safety comes first, so doors on egress routes fail safe.
+      **a** is wrong: protecting equipment at the expense of people is never the right priority.
+      **c** is wrong: a locked door staying locked traps people. **d** is wrong: an alarm doesn't
+      help people who can't get out.
+    points: 1
+  - key: d7-tailgating-controls
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      Staff routinely hold the badge-controlled door to the operations floor open for colleagues
+      and visitors. Which controls **BEST** address this? **Choose two.**
+    choices:
+      - { key: a, text: "Install an access control vestibule (mantrap) at the entrance" }
+      - { key: b, text: "Increase the height of the perimeter fence" }
+      - { key: c, text: "Add more exterior lighting in the parking lot" }
+      - { key: d, text: "Train staff to challenge or report tailgating and require visitors to be escorted" }
+      - { key: e, text: "Replace the badge readers with PIN pads" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: a mantrap physically allows one person per authentication, and
+      awareness plus escort rules address the human behavior.
+      **b** and **c** are wrong: they are perimeter controls that don't affect an interior door.
+      **e** is wrong: changing the authentication factor does nothing if the door is held open.
+    points: 1
+
+  # ---------- 7.15 Personnel safety and security ----------
+  - key: d7-mfa-fatigue-response
+    kind: multi
+    domain: d7-security-operations
+    prompt_md: |
+      An employee received dozens of push notifications at 02:00 and approved one to make them
+      stop. Investigation shows her password had been phished. Which measures **BEST** reduce
+      this risk? **Choose two.**
+    choices:
+      - { key: a, text: "Increase the password length requirement" }
+      - { key: b, text: "Enable number matching or move to phishing-resistant MFA such as FIDO2" }
+      - { key: c, text: "Disable MFA for out-of-hours logins to reduce prompts" }
+      - { key: d, text: "Train users to deny and report unexpected MFA prompts" }
+      - { key: e, text: "Send push prompts by SMS instead of an app" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: number matching or FIDO2 stops blind approvals, and awareness of
+      two-factor authentication fatigue teaches users to deny and report (an outline topic in
+      7.15).
+      **a** is wrong: the password was already stolen; length doesn't help. **c** is wrong: it
+      removes a control. **e** is wrong: SMS is weaker and still allows approval of attacker
+      sessions.
+    points: 1
+  - key: d7-duress-code
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      A guard at a vault facility is forced at gunpoint to open the vault door. Which control lets
+      him comply while silently summoning help?
+    choices:
+      - { key: a, text: "A duress code that opens the door and triggers a silent alarm" }
+      - { key: b, text: "A two-person rule for opening the vault" }
+      - { key: c, text: "CCTV recording of the vault entrance" }
+      - { key: d, text: "A policy that guards must refuse to open the vault under any circumstances" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a duress code appears to work normally while alerting security, protecting
+      the guard's life and summoning a response.
+      **b** is wrong: it may force the attacker to threaten two people and doesn't alert anyone.
+      **c** is wrong: recording helps afterwards but summons no help. **d** is wrong: it puts the
+      guard's life at risk; safety comes first.
+    points: 1
+  - key: d7-travel-loaner-device
+    kind: single
+    domain: d7-security-operations
+    prompt_md: |
+      An executive is travelling to a country where border officials may inspect devices and hotel
+      rooms are not secure. What should the security team recommend?
+    choices:
+      - { key: a, text: "Take the usual laptop with all files, protected by a strong password" }
+      - { key: b, text: "Leave the laptop in the hotel safe when out of the room" }
+      - { key: c, text: "Take a clean loaner device with full-disk encryption and minimal data, use a VPN and wipe it on return" }
+      - { key: d, text: "Use only hotel Wi-Fi, because it is managed by the hotel" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: minimal data limits exposure if the device is inspected or stolen; encryption
+      and VPN protect data at rest and in transit; wiping on return removes implanted threats
+      (NIST SP 800-46).
+      **a** is wrong: carrying all files maximizes exposure. **b** is wrong: hotel safes are not
+      secure against staff or determined attackers. **d** is wrong: hotel networks should be
+      treated as hostile.
+    points: 1

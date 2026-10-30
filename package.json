@@ -1,0 +1,45 @@
+{
+  "name": "cert-academy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cert Academy: certification prep courses, question banks and timed practice exams.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0 -p 3310",
+    "build": "next build",
+    "start": "next start -H 0.0.0.0 -p 3310",
+    "typecheck": "tsc --noEmit",
+    "load": "node --env-file-if-exists=.env.local scripts/load-course.mjs"
+  },
+  "dependencies": {
+    "@headlessui/react": "2.2.10",
+    "@heroicons/react": "2.2.0",
+    "@madhare/web-themes": "file:vendor/madhare-web-themes-0.1.0-dev.0.tgz",
+    "@madhare/web-ui": "file:vendor/madhare-web-ui-0.1.0-dev.0.tgz",
+    "clsx": "2.1.1",
+    "gray-matter": "4.0.3",
+    "highlight.js": "11.12.0",
+    "katex": "0.19.1",
+    "mermaid": "12.2.0",
+    "next": "16.4.1",
+    "pg": "8.16.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-markdown": "10.1.0",
+    "rehype-highlight": "7.0.2",
+    "rehype-katex": "7.0.1",
+    "rehype-raw": "7.0.0",
+    "rehype-sanitize": "6.0.0",
+    "remark-gfm": "4.0.1",
+    "remark-math": "6.0.0",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.5",
+    "@types/pg": "8.15.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "6.0.2"
+  }
+}

@@ -1,0 +1,13 @@
+slug: full-practice
+ordinal: 1
+title: "Full practice exam (55 questions, 2 hours)"
+kind: practice
+draw: 55
+time_limit_min: 120
+pass_pct: 80
+instructions_md: |
+  55 questions drawn at random from every section bank, weighted like the real exam, with a
+  2-hour clock. Case-study questions are mixed in, as on the real exam; keep the case studies
+  open in another tab. Questions you have seen least are drawn first.
+
+  This exam counts toward readiness: **average 80% or more over your last three to be exam-ready.**

@@ -1,0 +1,1147 @@
+slug: d4-quiz
+ordinal: 14
+title: "Domain 4 quiz: Communication and Network Security"
+kind: quiz
+draw: 25
+time_limit_min: 35
+pass_pct: 80
+instructions_md: |
+  25 questions drawn at random from a 52-question bank covering objectives 4.1–4.3, with a
+  35-minute clock. Most questions have one answer; those marked **Choose two.** need both correct
+  options selected to score. Answer as a security adviser to the business: the most complete,
+  risk-based answer wins over the quickest technical fix.
+
+  Retake until you hold 80% or more, then move on. Questions you have seen least are drawn first.
+questions:
+  # ---------------------------------------------------------------- 4.1 Secure network architecture
+  - key: d4-arp-poisoning-layer
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      Users on one floor report intermittent drops on intranet sessions. A workstation's ARP cache
+      shows the default gateway's IP address mapped to the MAC address of a colleague's laptop. At
+      which OSI layer is this attack operating, so that controls can be placed correctly?
+    choices:
+      - { key: a, text: "Layer 3, network, because IP addresses are involved" }
+      - { key: b, text: "Layer 2, data link, because forged ARP replies corrupt IP-to-MAC mappings on the local segment" }
+      - { key: c, text: "Layer 4, transport, because sessions are being dropped" }
+      - { key: d, text: "Layer 1, physical, because the laptop must be on the same cable run" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: ARP poisoning forges ARP replies on the local broadcast domain so frames meant
+      for the gateway reach the attacker's MAC. It's a data-link (layer 2) attack, defended on the
+      access switch with Dynamic ARP Inspection and 802.1X.
+      **a** is wrong: ARP *references* IP addresses, but the attack never routes and layer-3 devices
+      such as routers and perimeter firewalls never see it. **c** is wrong: dropped sessions are a
+      symptom of imperfect man-in-the-middle forwarding, not a transport-layer attack. **d** is
+      wrong: the attacker needs to be on the same broadcast domain (VLAN), not the same physical
+      cable, and no physical-layer signal is being tampered with.
+    points: 1
+
+  - key: d4-control-layer-sqli
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      An online retailer is suffering SQL injection attempts against its HTTPS checkout page. The
+      developers need six weeks to fix the code. Which control can block the attacks in the meantime?
+    choices:
+      - { key: a, text: "A web application firewall in front of the site that terminates TLS and inspects HTTP requests" }
+      - { key: b, text: "A stateless packet filter that allows only TCP 443 to the web server" }
+      - { key: c, text: "A stateful inspection firewall that tracks the TCP handshake for each session" }
+      - { key: d, text: "A network IDS on a SPAN port outside the TLS termination point" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: SQL injection lives in the HTTP payload (layer 7), and inside TLS. A WAF that
+      terminates TLS can read the request and block injection patterns, which is "virtual patching"
+      until the code is fixed.
+      **b** is wrong: a packet filter reads only addresses and ports, and the attack arrives on an
+      allowed port. **c** is wrong: stateful inspection adds connection tracking (layers 3–4) but still
+      doesn't parse application content. **d** is wrong twice over: an IDS only alerts, and outside
+      TLS termination it sees only ciphertext.
+    points: 1
+
+  - key: d4-rfc1918-source-at-edge
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      The internet-facing router logs inbound packets whose source address is 10.14.2.77. The
+      company uses 10.0.0.0/8 internally but has no business partners connecting over the internet
+      with private addresses. What should the network team do?
+    choices:
+      - { key: a, text: "Allow the packets, because 10.0.0.0/8 is the company's own internal range" }
+      - { key: b, text: "Add a NAT rule so the replies reach the sender correctly" }
+      - { key: c, text: "Drop them with an anti-spoofing ingress filter, because RFC 1918 addresses are never routed on the internet" }
+      - { key: d, text: "Forward them to the DMZ so the IDS can analyse them before deciding" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: 10.0.0.0/8 is an RFC 1918 private range and can't legitimately arrive from the
+      internet, so the source is forged. Anti-spoofing ingress filtering (BCP 38 style) drops
+      internal and private sources at the edge.
+      **a** is wrong: trusting a packet because it *claims* an internal address is exactly what
+      spoofing exploits. **b** is wrong: NAT translates addresses and doesn't validate them, and replies
+      would go to whichever internal host owns the forged address. **d** is wrong: deliberately
+      forwarding known-spoofed traffic inward increases exposure. Drop and log it at the edge.
+    points: 1
+
+  - key: d4-ipv6-dual-stack-blind-spot
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A penetration test shows that the corporate laptops have IPv6 enabled by default and are
+      communicating with each other over IPv6. The firewall rules and IDS signatures cover only IPv4.
+      What should the security manager do FIRST?
+    choices:
+      - { key: a, text: "Replace the IDS with a vendor that supports IPv6 natively" }
+      - { key: b, text: "Ignore it, because IPv6 mandates IPsec and the traffic is therefore encrypted" }
+      - { key: c, text: "Move all laptops to IPv6-only so a single protocol is monitored" }
+      - { key: d, text: "Bring IPv6 under the same policy: filter and monitor it equivalently, or disable it where it isn't needed" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: a dual-stack host has two attack surfaces. The first step is a policy decision
+      to control IPv6 like IPv4 (rules, monitoring, RA Guard) or disable it where it has no business
+      need. That closes the blind spot without a procurement cycle.
+      **a** is wrong as a *first* step: buying a product before deciding policy, and possibly
+      unnecessary if the existing tools can be configured. **b** is wrong: IPsec support is a SHOULD in
+      current IPv6 node requirements, and nothing is encrypted without configured security
+      associations. **c** is wrong: a disruptive migration doesn't address the immediate gap and isn't
+      what the finding asks for.
+    points: 1
+
+  - key: d4-ipv6-rogue-router-advert
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      On an IPv6-enabled office VLAN, a malicious host begins sending router advertisements so that
+      other hosts adopt it as their default gateway. Which switch feature is designed to stop this?
+    choices:
+      - { key: a, text: "RA Guard, which drops router advertisements from ports not authorised to send them" }
+      - { key: b, text: "Dynamic ARP Inspection, which validates ARP replies against the DHCP binding table" }
+      - { key: c, text: "Port security limiting each port to two MAC addresses" }
+      - { key: d, text: "Spanning Tree BPDU Guard on every access port" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: RA Guard (RFC 6105) blocks router advertisements on host-facing ports, the IPv6
+      counterpart of DHCP snooping.
+      **b** is wrong: IPv6 doesn't use ARP. Neighbor Discovery replaces it, so DAI never sees these
+      messages. **c** is wrong: the attacker uses one legitimate MAC, so MAC limits don't affect RA
+      messages. **d** is wrong: BPDU Guard stops spanning-tree manipulation by rogue switches, not
+      ICMPv6 router advertisements.
+    points: 1
+
+  - key: d4-anycast-nearest-node
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A DNS provider announces the same IP address from 40 data centres worldwide so that each
+      client's queries reach the topologically closest site, spreading DDoS load across all of them.
+      Which delivery method is this?
+    choices:
+      - { key: a, text: "Multicast" }
+      - { key: b, text: "Anycast" }
+      - { key: c, text: "Broadcast" }
+      - { key: d, text: "Unicast with round-robin DNS" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: anycast announces one address from many locations, and routing delivers each
+      packet to the nearest one. That gives low latency and spreads attack traffic across sites.
+      **a** is wrong: multicast delivers one stream to every *subscribed* receiver, not to one nearest
+      node. **c** is wrong: broadcast reaches every host on a local segment and isn't routed across the
+      internet (and IPv6 has no broadcast at all). **d** is wrong: round-robin DNS hands out
+      *different* addresses in turn, while here one address is shared.
+    points: 1
+
+  - key: d4-mpls-not-encrypted
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A bank links its branches over a carrier's MPLS service. A new regulation requires that
+      customer data be kept confidential while crossing any network the bank doesn't control. The
+      carrier says MPLS keeps the bank's traffic separate from other customers. What should the bank do?
+    choices:
+      - { key: a, text: "Accept the carrier's statement, since MPLS label switching isolates customers" }
+      - { key: b, text: "Ask the carrier to assign the bank a dedicated MPLS label range" }
+      - { key: c, text: "Replace MPLS with internet broadband, which is cheaper" }
+      - { key: d, text: "Encrypt traffic across the MPLS cloud, for example with IPsec tunnels between branch gateways" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: MPLS gives logical separation but **no encryption**, so the carrier and anyone who
+      compromises its network can read the traffic. IPsec (ESP, tunnel mode) between the bank's
+      gateways meets the confidentiality requirement on any underlying transport.
+      **a** is wrong: separation isn't confidentiality, and the regulation asks for confidentiality.
+      **b** is wrong: label ranges change routing, not who can read the data. **c** is wrong: changing
+      transport doesn't add encryption, and the internet is even less trusted.
+    points: 1
+
+  - key: d4-iscsi-converged-storage
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A company is moving its SAN to iSCSI over the existing Ethernet and IP infrastructure. Which
+      approach BEST addresses the security implications of this converged protocol?
+    choices:
+      - { key: a, text: "Place iSCSI on a dedicated, isolated storage network or VLAN, and use CHAP authentication with IPsec where traffic crosses shared links" }
+      - { key: b, text: "Rely on the fact that iSCSI uses non-routable layer-2 framing" }
+      - { key: c, text: "Allow iSCSI through the perimeter firewall so storage can be reached from anywhere" }
+      - { key: d, text: "Use NAT between servers and storage to hide the storage addresses" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: iSCSI carries SCSI commands over TCP/IP, so it inherits IP network risks. Isolate
+      it, authenticate initiators (CHAP), and encrypt with IPsec where it can't be isolated.
+      **b** is wrong: that describes **FCoE**, which runs directly on Ethernet. iSCSI runs over IP and
+      **is** routable. **c** is wrong: exposing block storage widely breaks least privilege. **d** is
+      wrong: NAT hides addresses but authenticates and protects nothing.
+    points: 1
+
+  - key: d4-east-west-microsegmentation
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      After a web server was compromised, ransomware spread from server to server inside the data
+      centre. The perimeter NGFW and IPS logged nothing unusual. Which architectural change BEST
+      limits this in future?
+    choices:
+      - { key: a, text: "Add a second perimeter firewall from a different vendor for defence in depth" }
+      - { key: b, text: "Increase the perimeter IPS signature update frequency to hourly" }
+      - { key: c, text: "Micro-segment the data centre so east-west traffic between workloads is filtered by distributed enforcement points" }
+      - { key: d, text: "Move all servers into a single large VLAN to simplify monitoring" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the spread was **east-west** and never crossed the north-south perimeter.
+      Micro-segmentation with host, hypervisor or sidecar enforcement allows only required flows
+      between workloads, which shrinks the blast radius.
+      **a** and **b** are wrong: both strengthen the perimeter, which this traffic never crossed.
+      **d** is wrong: a single flat VLAN makes lateral movement *easier*.
+    points: 1
+
+  - key: d4-vlan-double-tagging
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      An assessor demonstrates sending frames with two 802.1Q tags from an access port in VLAN 1,
+      so that the outer tag is stripped at the trunk and the frame is delivered into the finance VLAN.
+      Which configuration change MOST directly prevents this?
+    choices:
+      - { key: a, text: "Enable port security with a maximum of one MAC address per port" }
+      - { key: b, text: "Enable DHCP snooping on all access VLANs" }
+      - { key: c, text: "Disable CDP/LLDP on access ports" }
+      - { key: d, text: "Set trunk native VLANs to an unused VLAN (or tag the native VLAN) and keep user ports out of the native VLAN" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: double tagging works because the first switch strips the outer tag that matches
+      the trunk's **native VLAN**, and the inner tag then carries the frame into the target VLAN. An
+      unused native VLAN (or native-VLAN tagging) with no user ports breaks the attack.
+      **a** is wrong: one MAC is enough for this attack. **b** is wrong: DHCP snooping stops rogue
+      DHCP servers, not tag manipulation. **c** is wrong: disabling discovery protocols reduces
+      information leakage but doesn't stop tagged frames being forwarded.
+    points: 1
+
+  - key: d4-out-of-band-management
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      An operator wants to make sure administrators can still reach routers and firewalls during a
+      production network outage, and that device management interfaces aren't reachable from user
+      networks. Which design meets both requirements?
+    choices:
+      - { key: a, text: "An out-of-band management network (separate physical network or console servers) dedicated to device administration" }
+      - { key: b, text: "In-band management over SSH from any internal subnet" }
+      - { key: c, text: "A management VLAN carried on the production trunks with no ACLs" }
+      - { key: d, text: "SNMPv1 read-write communities restricted to a strong community string" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: out-of-band management is physically separate, so it survives production
+      outages and keeps management interfaces off user-reachable networks.
+      **b** is wrong: in-band management fails when production fails, and "any internal subnet"
+      exposes the interfaces. **c** is wrong: it still depends on production links, and without
+      ACLs it isn't isolated. **d** is wrong: SNMPv1 sends community strings in clear text and solves
+      neither requirement.
+    points: 1
+
+  - key: d4-zero-trust-pep
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      In a NIST SP 800-207 zero trust architecture, which component sits in the data path and actually
+      enables, monitors and terminates the connection between a subject and an enterprise resource?
+    choices:
+      - { key: a, text: "Policy engine" }
+      - { key: b, text: "Policy administrator" }
+      - { key: c, text: "Policy enforcement point" }
+      - { key: d, text: "Identity provider" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the **policy enforcement point** (a gateway, proxy or agent) sits in the data path
+      and allows or blocks traffic as instructed.
+      **a** is wrong: the policy engine *decides*, using its trust algorithm. **b** is wrong: the policy
+      administrator *carries out* the decision by instructing the PEP. Together, PE and PA form the
+      decision point, not the enforcement point. **d** is wrong: the IdP is a data source feeding the
+      decision.
+    points: 1
+
+  - key: d4-zero-trust-tenet
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A CIO says, "Our new zero trust programme means we can stop worrying about anyone already on
+      the corporate LAN, because they passed the perimeter VPN." How should the security architect
+      respond?
+    choices:
+      - { key: a, text: "Agree, because zero trust is mainly about stronger VPN authentication" }
+      - { key: b, text: "Disagree: zero trust grants no implicit trust from network location; each request is authenticated and authorised per session against dynamic policy" }
+      - { key: c, text: "Agree, provided the LAN uses WPA3-Enterprise" }
+      - { key: d, text: "Disagree, because zero trust requires removing all firewalls" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: the core tenet of SP 800-207 is that network location confers no trust. Access is
+      decided per session, using identity, device posture and context.
+      **a** is wrong: it describes perimeter thinking, the model zero trust replaces. **c** is wrong:
+      strong Wi-Fi authentication controls joining the network, not what you can reach once there.
+      **d** is wrong: zero trust still uses firewalls and gateways as enforcement points. It changes
+      how they decide, not whether they exist.
+    points: 1
+
+  - key: d4-sdn-controller-risk
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A data centre is adopting software-defined networking, with a central controller programming
+      all switches through southbound APIs. Which risk should the security architect treat as the
+      HIGHEST priority in the design?
+    choices:
+      - { key: a, text: "Increased cabling complexity at the access layer" }
+      - { key: b, text: "Loss of VLAN support on the switches" }
+      - { key: c, text: "Higher broadcast traffic between virtual machines" }
+      - { key: d, text: "Compromise or failure of the controller, which could reroute, mirror or drop traffic network-wide" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: SDN centralises the control plane, so the controller is both a single point of
+      failure and a crown-jewel target. Harden it, make it redundant, authenticate its northbound and
+      southbound APIs with TLS, and isolate its management.
+      **a** is wrong: SDN changes control, not cabling. **b** is wrong: SDN supports VLANs and overlays.
+      **c** is wrong: SDN doesn't inherently increase broadcasts, and central control often reduces
+      them.
+    points: 1
+
+  - key: d4-vpc-shared-responsibility
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A database in a company's virtual private cloud was exposed because a security group allowed
+      inbound 5432/tcp from 0.0.0.0/0. Management asks whether the cloud provider is at fault. Which
+      statement is correct?
+    choices:
+      - { key: a, text: "The provider is at fault, because VPCs are isolated by default" }
+      - { key: b, text: "The provider is at fault, because it should block database ports automatically" }
+      - { key: c, text: "The customer is responsible: the provider isolates VPCs from each other, but the customer configures which traffic its own rules allow" }
+      - { key: d, text: "Responsibility can't be determined without a penetration test of the provider" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: under shared responsibility, the provider secures the underlying infrastructure
+      and isolation between tenants. The customer owns its security groups, network ACLs and routes.
+      Opening 5432 to the world was a customer configuration decision.
+      **a** is wrong: default isolation was deliberately overridden by the rule. **b** is wrong:
+      providers don't second-guess customer rules. **d** is wrong: the cause is already known (a
+      customer rule), and you don't need a test of the provider to assign it.
+    points: 1
+
+  - key: d4-cdn-origin-bypass
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A company put its website behind a CDN for DDoS protection, but attackers flooded the origin
+      server directly using its public IP address, which they found in old DNS records. What is the
+      BEST corrective action?
+    choices:
+      - { key: a, text: "Increase the CDN cache time-to-live" }
+      - { key: b, text: "Restrict the origin to accept traffic only from the CDN (allow-list or authenticated origin pulls), and move it to a new address" }
+      - { key: c, text: "Turn off TLS at the CDN so the origin handles encryption" }
+      - { key: d, text: "Add more web servers behind the origin's load balancer" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: CDN protection only works if traffic can't bypass it. Lock the origin to CDN
+      sources (or require authenticated origin pulls) and change the exposed address.
+      **a** is wrong: caching doesn't stop traffic sent straight to the origin. **c** is wrong: it
+      weakens confidentiality and does nothing about the bypass. **d** is wrong: adding capacity is an
+      expensive partial fix that leaves the bypass open.
+    points: 1
+
+  - key: d4-wpa3-sae
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A small office uses a Wi-Fi passphrase. After learning that an attacker can capture a WPA2
+      handshake and crack the passphrase offline, the owner wants a replacement that resists offline
+      dictionary attacks and provides forward secrecy, without deploying a RADIUS server. What
+      should they choose?
+    choices:
+      - { key: a, text: "WPA2-Personal with a longer passphrase and TKIP" }
+      - { key: b, text: "WEP with 128-bit keys" }
+      - { key: c, text: "Wi-Fi Enhanced Open (OWE)" }
+      - { key: d, text: "WPA3-Personal, which uses SAE (Simultaneous Authentication of Equals)" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: SAE replaces the WPA2 pre-shared-key handshake, so a captured exchange can't be
+      attacked offline, and each session gets forward secrecy. No RADIUS server is needed.
+      **a** is wrong: a longer passphrase only slows cracking, and TKIP is deprecated. **b** is wrong:
+      WEP is broken regardless of key length. **c** is wrong: OWE encrypts *open* networks with no
+      password at all, so it gives no access control for an office network.
+    points: 1
+
+  - key: d4-wifi-enterprise-accountability
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      Staff at a retail chain keep sharing the store Wi-Fi passphrase with friends, and the company
+      can't tell who connected or revoke one person's access. Which change BEST addresses this?
+    choices:
+      - { key: a, text: "WPA3-Enterprise with 802.1X/EAP and a RADIUS server, giving each user individual credentials" }
+      - { key: b, text: "Change the WPA2-Personal passphrase monthly" }
+      - { key: c, text: "Hide the SSID so outsiders can't see the network" }
+      - { key: d, text: "Enable MAC address filtering on the access points" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Enterprise mode authenticates each user individually, so access can be logged
+      and revoked per person.
+      **b** is wrong: rotation reduces exposure, but it's still one shared secret with no accountability.
+      **c** is wrong: hidden SSIDs are trivially discovered from probe traffic. **d** is wrong: MAC
+      addresses are easily spoofed, and allow-lists are hard to manage.
+    points: 1
+
+  - key: d4-bluesnarfing
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      An executive's phone was left discoverable at a conference. Later, its contacts and calendar
+      appeared on a leak site, with no sign the attacker sent messages or controlled the phone.
+      Which Bluetooth attack does this MOST likely describe?
+    choices:
+      - { key: a, text: "Bluejacking" }
+      - { key: b, text: "Bluebugging" }
+      - { key: c, text: "Bluesnarfing" }
+      - { key: d, text: "Evil twin" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: **bluesnarfing** is unauthorised *theft of data* (contacts, calendar, messages)
+      over Bluetooth.
+      **a** is wrong: bluejacking sends *unsolicited messages*. It's annoying but steals nothing.
+      **b** is wrong: bluebugging takes *control* of the device (calls, commands), which didn't happen
+      here. **d** is wrong: an evil twin is a rogue Wi-Fi access point, not a Bluetooth attack.
+    points: 1
+
+  - key: d4-5g-suci-imsi-catcher
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A security team worries about fake base stations ("IMSI catchers") tracking executives' phones.
+      Which feature of 5G specifically reduces passive capture of the subscriber's permanent identity?
+    choices:
+      - { key: a, text: "Network slicing" }
+      - { key: b, text: "Concealment of the permanent identifier (SUPI) as an encrypted SUCI" }
+      - { key: c, text: "Higher radio frequencies with shorter range" }
+      - { key: d, text: "Mandatory end-to-end encryption between handsets" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: 5G (3GPP TS 33.501) sends the subscriber permanent identifier only in concealed
+      form (SUCI), encrypted with the home network's public key, which defeats passive IMSI catching.
+      **a** is wrong: slicing creates logical networks on shared infrastructure and doesn't hide
+      identities. **c** is wrong: range isn't a security control, and lower bands are still used.
+      **d** is wrong: cellular encryption protects the radio link to the network, not handset to
+      handset.
+    points: 1
+
+  - key: d4-jitter-voice-quality
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      After a new firewall was installed, VoIP calls have choppy audio even though average latency and
+      bandwidth utilisation look normal. Which performance metric should the network team examine
+      MOST closely?
+    choices:
+      - { key: a, text: "Throughput" }
+      - { key: b, text: "Bandwidth" }
+      - { key: c, text: "Signal-to-noise ratio" }
+      - { key: d, text: "Jitter" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: jitter, the *variation* in packet delay, causes choppy real-time audio even when
+      *average* latency is fine. Inspection queues on a new firewall commonly introduce it. QoS and
+      prioritising voice fix it.
+      **a** and **b** are wrong: utilisation and capacity look normal, and voice needs little
+      bandwidth. **c** is wrong: SNR describes analogue or radio signal quality on a medium, not
+      queuing behaviour in a firewall.
+    points: 1
+
+  - key: d4-evil-twin-defences
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      Employees at a branch have been connecting to an attacker's access point broadcasting the
+      corporate SSID, which captures their credentials. Which two measures BEST address this?
+      **Choose two.**
+    choices:
+      - { key: a, text: "Deploy a wireless IDS to detect and alert on rogue and look-alike access points" }
+      - { key: b, text: "Hide the corporate SSID" }
+      - { key: c, text: "Use WPA3-Enterprise with EAP-TLS and configure clients to validate the RADIUS server certificate" }
+      - { key: d, text: "Increase AP transmit power so the real AP is always stronger" }
+      - { key: e, text: "Enable WPS for easier client set-up" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right. A wireless IDS (NIST SP 800-153) detects rogue and evil-twin APs.
+      EAP-TLS with server-certificate validation means clients refuse to authenticate to an AP that
+      can't prove it's the real network, and certificates can't be phished like passwords.
+      **b** is wrong: the attacker already knows the SSID, and hidden SSIDs make clients probe for it
+      everywhere. **d** is wrong: an attacker can simply sit closer, and the network still doesn't
+      authenticate itself. **e** is wrong: WPS weakens security (PIN brute force).
+    points: 1
+
+  - key: d4-physical-segmentation-examples
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      A utility is separating its safety-critical control network from corporate IT. The design
+      review asks which of the proposed controls are forms of **physical** segmentation.
+      **Choose two.**
+    choices:
+      - { key: a, text: "VLANs on the shared core switches" }
+      - { key: b, text: "An air gap with no network connection between the two environments" }
+      - { key: c, text: "Virtual routing and forwarding instances on the shared routers" }
+      - { key: d, text: "A dedicated out-of-band management network on separate hardware for the control systems" }
+      - { key: e, text: "A VXLAN overlay per control zone" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: an air gap and a separate out-of-band network on its own hardware are
+      both physical separation. The outline lists in-band, out-of-band and air-gapped under physical
+      segmentation.
+      **a**, **c** and **e** are wrong: VLANs, VRF and VXLAN overlays are **logical** segmentation on
+      shared hardware. They're useful, but a misconfiguration or device compromise can cross them.
+    points: 1
+
+  - key: d4-ipv6-security-implications
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      A network team is planning an IPv6 rollout. Which two statements about IPv6 are accurate and
+      relevant to the security design? **Choose two.**
+    choices:
+      - { key: a, text: "IPv6 has no broadcast; multicast and Neighbor Discovery replace broadcast and ARP" }
+      - { key: b, text: "IPv6 traffic is always encrypted because IPsec is mandatory" }
+      - { key: c, text: "Tunnelling mechanisms such as Teredo can carry IPv6 inside IPv4 UDP and bypass IPv4-only controls" }
+      - { key: d, text: "Routers fragment IPv6 packets more aggressively than IPv4 routers" }
+      - { key: e, text: "NAT is required in IPv6 and provides its security boundary" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right. IPv6 replaces broadcast with multicast, and ARP with ICMPv6 Neighbor
+      Discovery, so ARP-era controls must be replaced (RA Guard, ND inspection). Tunnels like Teredo
+      and 6to4 can carry IPv6 past IPv4-only filtering.
+      **b** is wrong: IPsec is a SHOULD in current node requirements, and encryption needs configured
+      SAs. **d** is wrong: IPv6 routers **don't** fragment; only the source host does. **e** is wrong:
+      IPv6's address space removes the need for NAT, and NAT was never a security control anyway.
+    points: 1
+
+  # ---------------------------------------------------------------- 4.2 Secure network components
+  - key: d4-stateful-vs-stateless-ack
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      During a test, crafted TCP packets with only the ACK flag set reach internal hosts on port 80,
+      even though no connection was ever established. The edge device is a router ACL that permits
+      TCP to port 80. Which replacement would have dropped these packets?
+    choices:
+      - { key: a, text: "A circuit-level gateway that doesn't inspect payload" }
+      - { key: b, text: "A second router ACL with the same rules" }
+      - { key: c, text: "A stateful inspection firewall that tracks connection state" }
+      - { key: d, text: "A network IDS on a SPAN port" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a stateful firewall keeps a state table and drops an ACK that doesn't belong to
+      an established connection. A stateless ACL judges each packet alone.
+      **a** is wrong: a circuit-level gateway is a session-layer relay (such as SOCKS) that clients
+      must be configured to use. It's not a drop-in edge filter for inbound traffic, and dropping
+      out-of-state packets is the defining feature of stateful inspection. **b** is wrong: duplicating a stateless filter keeps the same blind spot. **d** is
+      wrong: a passive IDS may alert but can't drop anything.
+    points: 1
+
+  - key: d4-dmz-public-server
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A company will host a public web server and an inbound mail relay. Which placement BEST limits
+      the damage if either server is compromised?
+    choices:
+      - { key: a, text: "On the internal LAN, behind the perimeter firewall, with port forwarding" }
+      - { key: b, text: "In a screened subnet (DMZ) between an external and an internal firewall, with only required flows allowed inward" }
+      - { key: c, text: "Directly on the internet with host firewalls only" }
+      - { key: d, text: "On the same VLAN as the database servers so latency is lowest" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a screened subnet isolates internet-facing servers. A compromise lands the
+      attacker in the DMZ, and the internal firewall still controls every path inward.
+      **a** is wrong: a compromised server would already be on the internal LAN. **c** is wrong: host
+      firewalls alone give no network layer of defence in depth. **d** is wrong: it puts exposed
+      servers next to the most sensitive data.
+    points: 1
+
+  - key: d4-egress-filtering-purpose
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      An auditor recommends that the firewall allow outbound SMTP only from the mail server, and
+      outbound web traffic only from the proxy. What is the PRIMARY security benefit of this egress
+      filtering?
+    choices:
+      - { key: a, text: "It improves the performance of outbound web browsing" }
+      - { key: b, text: "It prevents inbound port scanning of the mail server" }
+      - { key: c, text: "It removes the need for antimalware on workstations" }
+      - { key: d, text: "It limits malware command-and-control, spam relaying and data exfiltration from compromised internal hosts" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: egress rules stop compromised hosts talking directly to the internet, so C2
+      channels, spam bots and exfiltration must pass through monitored chokepoints, or fail.
+      **a** is wrong: performance isn't the purpose and may not change. **b** is wrong: egress rules
+      govern *outbound* traffic, while inbound scanning is an ingress matter. **c** is wrong: egress
+      filtering is one layer and doesn't replace endpoint protection.
+    points: 1
+
+  - key: d4-ids-not-ips-availability
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A trading firm wants to detect lateral movement between internal servers. The head of trading
+      insists that no security tool may ever block or delay trading traffic. Which deployment BEST
+      fits?
+    choices:
+      - { key: a, text: "A network IDS fed from a tap or SPAN port, alerting to the SOC" }
+      - { key: b, text: "An inline IPS in blocking mode on the trading segment" }
+      - { key: c, text: "An application proxy that all trading traffic must traverse" }
+      - { key: d, text: "No monitoring of the trading segment at all" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a passive IDS sees a copy of the traffic, so it can't block or delay
+      production, and it still detects lateral movement.
+      **b** is wrong: an inline IPS can drop false positives and adds a failure point in the path.
+      **c** is wrong: a proxy sits in the path and adds latency. **d** is wrong: it abandons detection
+      entirely, which isn't a risk-balanced answer when a non-intrusive option exists.
+    points: 1
+
+  - key: d4-anomaly-detection-zero-day
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      Threat intelligence warns of a new attack technique for which no signatures yet exist. Which
+      detection method is MOST likely to spot it?
+    choices:
+      - { key: a, text: "Signature-based detection with daily updates" }
+      - { key: b, text: "A stateless packet filter" }
+      - { key: c, text: "Anomaly (behaviour-based) detection against a learned baseline" }
+      - { key: d, text: "Port-based firewall logging" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: anomaly detection flags deviations from normal behaviour, so it can catch novel
+      attacks. The cost is more false positives.
+      **a** is wrong: signature detection needs a known pattern, so a zero-day produces false
+      negatives until a signature ships. **b** and **d** are wrong: neither is a detection method. They
+      filter or record by address and port and can't recognise attack behaviour.
+    points: 1
+
+  - key: d4-encrypted-traffic-hids
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      Most internal application traffic is now TLS 1.3 end to end, and the network IDS rarely
+      alerts. Management asks how to restore detection without breaking end-to-end encryption between
+      services. What is the BEST recommendation?
+    choices:
+      - { key: a, text: "Downgrade services to TLS 1.2 with static RSA so the IDS can decrypt with the server keys" }
+      - { key: b, text: "Tune the NIDS signatures to be more sensitive" }
+      - { key: c, text: "Replace TLS with IPsec transport mode so the IDS can read payloads" }
+      - { key: d, text: "Deploy host-based detection (HIDS/EDR) on the servers, where traffic is visible after decryption" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: host-based sensors see data after decryption and observe process behaviour, so
+      detection is restored while encryption stays intact.
+      **a** is wrong: it deliberately weakens security (no forward secrecy, deprecated configuration).
+      **b** is wrong: no amount of tuning lets a NIDS read ciphertext. **c** is wrong: ESP encrypts
+      payloads too, so the IDS would still see ciphertext.
+    points: 1
+
+  - key: d4-reverse-proxy-role
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      An architect wants a device in front of several internal web servers that terminates TLS,
+      balances load, hides the servers' addresses from internet clients and can host WAF rules.
+      Which component is this?
+    choices:
+      - { key: a, text: "Reverse proxy" }
+      - { key: b, text: "Forward proxy" }
+      - { key: c, text: "Circuit-level gateway" }
+      - { key: d, text: "Network access control appliance" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a reverse proxy represents *servers* to inbound clients, and terminating TLS,
+      load balancing, hiding topology and WAF functions are its classic roles.
+      **b** is wrong: a forward proxy represents *clients* going out (URL filtering, caching). **c** is
+      wrong: a circuit-level gateway relays sessions without application awareness, so it can't host
+      WAF rules. **d** is wrong: NAC controls device admission to the network, not inbound web traffic.
+    points: 1
+
+  - key: d4-8021x-authenticator
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      In an IEEE 802.1X deployment, a laptop connects to a switch port, and the switch relays EAP
+      messages to a RADIUS server, which validates the laptop's certificate. What role does the
+      **switch** play?
+    choices:
+      - { key: a, text: "Supplicant" }
+      - { key: b, text: "Authentication server" }
+      - { key: c, text: "Authenticator" }
+      - { key: d, text: "Policy engine" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the switch (or wireless AP) is the **authenticator**. It passes only EAP until
+      the authentication server approves, then opens the port.
+      **a** is wrong: the supplicant is the laptop's 802.1X client. **b** is wrong: the RADIUS server
+      is the authentication server. **d** is wrong: "policy engine" is a zero trust (SP 800-207) term,
+      not an 802.1X role.
+    points: 1
+
+  - key: d4-nac-quarantine-vlan
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A hospital wants laptops that authenticate successfully but are missing critical patches to be
+      placed automatically in a network where they can reach only the patch server. Which mechanism
+      achieves this?
+    choices:
+      - { key: a, text: "Static port security with sticky MAC addresses" }
+      - { key: b, text: "NAC posture assessment with the RADIUS server returning a quarantine/remediation VLAN assignment" }
+      - { key: c, text: "A host-based firewall rule on each laptop" }
+      - { key: d, text: "DHCP snooping with option 82" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: NAC checks posture, and through 802.1X/RADIUS it can return a VLAN assignment
+      (RFC 3580) that puts non-compliant devices in a remediation network until they're patched.
+      **a** is wrong: port security checks MAC addresses, not patch level. **c** is wrong: a
+      host-based rule is controlled by the possibly non-compliant host and doesn't change its network
+      placement. **d** is wrong: DHCP snooping blocks rogue DHCP servers and doesn't assess posture.
+    points: 1
+
+  - key: d4-fibre-emi-tapping
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A manufacturer must run a network link 400 metres across a factory floor full of large electric
+      motors. The link carries sensitive design data, and management is concerned about both
+      interference and covert tapping. Which medium is MOST appropriate?
+    choices:
+      - { key: a, text: "Unshielded twisted pair (Cat 6) with repeaters" }
+      - { key: b, text: "Shielded twisted pair (Cat 6A)" }
+      - { key: c, text: "Coaxial cable" }
+      - { key: d, text: "Fibre-optic cable" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: fibre is immune to EMI, emits no electrical signal to intercept, is hard to tap
+      without detection and easily covers 400 m.
+      **a** is wrong: UTP suffers from EMI, exceeds its ~100 m segment length and is easy to tap.
+      **b** is wrong: STP resists EMI better but still has the distance limit and is tappable.
+      **c** is wrong: coax is shielded, but it's still copper and can be tapped, so it doesn't match
+      fibre on either requirement.
+    points: 1
+
+  - key: d4-end-of-support-router
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      The core routers will reach vendor end of support in nine months, after which no security
+      patches will be issued. Budget for replacement hasn't been approved. What should the security
+      manager do FIRST?
+    choices:
+      - { key: a, text: "Document the risk and present it to management with options and costs, so the business can decide on replacement or formally accept the risk" }
+      - { key: b, text: "Buy third-party extended support immediately using the security budget" }
+      - { key: c, text: "Disable all management interfaces on the routers" }
+      - { key: d, text: "Wait until a vulnerability is published, then respond" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: warranty and support are part of *operation of infrastructure*. The security
+      manager's role is to make the risk visible to the owners in business terms, with options, so
+      management decides before support lapses.
+      **b** is wrong: it's a unilateral spending decision that may be fine as an *option*, but it
+      bypasses the business decision. **c** is wrong: it breaks operations and doesn't address unpatched
+      code. **d** is wrong: it's reactive and ignores a known, dated risk.
+    points: 1
+
+  - key: d4-redundant-power
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      A data-centre review finds that each core switch has a single power supply on one circuit, and
+      a 30-second utility outage last month took the network down. Which two measures BEST improve
+      availability? **Choose two.**
+    choices:
+      - { key: a, text: "Dual power supplies in each switch, fed from separate circuits or PDUs" }
+      - { key: b, text: "A surge protector on each rack" }
+      - { key: c, text: "An extended hardware warranty with next-business-day replacement" }
+      - { key: d, text: "A UPS to ride through short outages, backed by a generator for longer ones" }
+      - { key: e, text: "More frequent configuration backups" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: redundant power supplies on independent feeds remove the single point
+      of failure, and a UPS plus generator covers both short and extended utility loss
+      (SP 800-53 PE-9, PE-11).
+      **b** is wrong: surge protection guards against spikes, not outages. **c** is wrong: a warranty
+      helps after hardware fails, and NBD replacement doesn't prevent a power outage. **e** is wrong:
+      backups help recovery but don't keep the switches powered.
+    points: 1
+
+  - key: d4-ngfw-capabilities
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      A company is replacing a traditional stateful firewall with a next-generation firewall. Which
+      two capabilities does an NGFW typically add beyond stateful inspection? **Choose two.**
+    choices:
+      - { key: a, text: "Identification of applications regardless of the port they use" }
+      - { key: b, text: "Tracking TCP connection state for return traffic" }
+      - { key: c, text: "Filtering on source and destination IP address" }
+      - { key: d, text: "Policies based on user identity, with integrated intrusion prevention" }
+      - { key: e, text: "Network address translation" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: application awareness (layer 7, independent of port) and
+      user-identity-based rules with integrated IPS are what make a firewall "next-generation".
+      **b**, **c** and **e** are wrong: connection tracking, IP filtering and NAT are all capabilities
+      the traditional stateful firewall already had.
+    points: 1
+
+  # ---------------------------------------------------------------- 4.3 Secure communication channels
+  - key: d4-esp-transport-mode
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      Two application servers in the same data centre must exchange data with confidentiality,
+      integrity and anti-replay protection. Operations wants the original source and destination IP
+      addresses to stay visible for troubleshooting. Which IPsec configuration fits?
+    choices:
+      - { key: a, text: "AH in tunnel mode" }
+      - { key: b, text: "AH in transport mode" }
+      - { key: c, text: "ESP in transport mode" }
+      - { key: d, text: "ESP in tunnel mode" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: ESP provides confidentiality, integrity and anti-replay. Transport mode
+      protects the payload and keeps the original IP header, which suits host-to-host use.
+      **a** and **b** are wrong: AH gives no confidentiality. **d** is wrong: tunnel mode wraps the
+      whole original packet in a new header, which hides the original addresses and is meant for
+      gateway-to-gateway links.
+    points: 1
+
+  - key: d4-ah-breaks-nat
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A partner's IPsec connection works from its head office but fails from a branch behind a NAT
+      router. The partner uses AH. Why does it fail?
+    choices:
+      - { key: a, text: "AH encrypts the IP header, and NAT can't read the destination address" }
+      - { key: b, text: "AH's integrity check covers immutable IP header fields, including addresses, so NAT's address rewrite makes verification fail" }
+      - { key: c, text: "AH uses TCP port 500, which NAT devices block" }
+      - { key: d, text: "AH requires tunnel mode, which NAT doesn't support" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: AH authenticates immutable outer-header fields. NAT changes the address, so the
+      integrity check fails at the receiver. ESP with NAT traversal (UDP 4500) is the fix.
+      **a** is wrong: AH encrypts nothing. **c** is wrong: IKE uses **UDP** 500, and AH itself is IP
+      protocol 51, not a port. **d** is wrong: AH works in both modes, and the failure is about
+      integrity coverage, not mode.
+    points: 1
+
+  - key: d4-split-tunnel-risk
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      Remote staff use a VPN configured for split tunnelling: corporate traffic goes through the
+      tunnel, and internet traffic goes directly out of the home connection. What is the MAIN security
+      concern with this configuration?
+    choices:
+      - { key: a, text: "The endpoint is simultaneously exposed to the untrusted internet and connected to the corporate network, bypassing corporate inspection, so it can become a bridge for attackers" }
+      - { key: b, text: "Corporate traffic is no longer encrypted" }
+      - { key: c, text: "Split tunnelling disables multifactor authentication" }
+      - { key: d, text: "The VPN must use AH instead of ESP" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: with split tunnelling, internet traffic skips corporate web filtering and
+      monitoring while the same device holds a live tunnel inward (NIST SP 800-46r2). Disable it
+      where risk demands, or compensate with strong endpoint and cloud security controls.
+      **b** is wrong: corporate-bound traffic still goes through the encrypted tunnel. **c** is wrong:
+      tunnelling mode is unrelated to authentication. **d** is wrong: the tunnelling mode doesn't
+      dictate the IPsec protocol.
+    points: 1
+
+  - key: d4-tacacs-device-admin
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A network team wants centralised authentication for administrators logging into routers and
+      switches, with per-command authorisation, separate accounting, and protection of the whole
+      AAA message body in transit. Which protocol BEST fits?
+    choices:
+      - { key: a, text: "RADIUS" }
+      - { key: b, text: "LDAP simple bind" }
+      - { key: c, text: "TACACS+" }
+      - { key: d, text: "PAP" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: TACACS+ (TCP 49) separates authentication, authorisation and accounting,
+      supports per-command authorisation for device administration and obfuscates the entire packet
+      body.
+      **a** is wrong: RADIUS hides only the password attribute and combines authentication with
+      authorisation. It fits network access, not fine-grained device admin. **b** is wrong: a simple
+      bind can send credentials in clear and has no command authorisation. **d** is wrong: PAP sends
+      passwords in clear text.
+    points: 1
+
+  - key: d4-srtp-media-protection
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A company has configured SIP over TLS (port 5061) for its IP phones. An assessor can still
+      reconstruct call audio from a packet capture. What must be added?
+    choices:
+      - { key: a, text: "SIP over UDP 5060 instead of TLS" }
+      - { key: b, text: "SRTP to encrypt and authenticate the media streams" }
+      - { key: c, text: "A larger voice VLAN" }
+      - { key: d, text: "H.323 gatekeepers" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: SIP is only the *signalling*. The audio travels separately over RTP, and SRTP
+      (RFC 3711) protects it. Secure voice needs both SIP over TLS and SRTP.
+      **a** is wrong: it removes the signalling protection that already exists. **c** is wrong: VLAN
+      size doesn't encrypt anything. **d** is wrong: H.323 is a different signalling suite and doesn't
+      encrypt RTP media by itself.
+    points: 1
+
+  - key: d4-dmarc-alignment
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A company publishes valid SPF and DKIM records, yet partners still receive phishing emails whose
+      visible From header shows the CEO's address at the company's domain. Which control should the
+      company add?
+    choices:
+      - { key: a, text: "A second SPF record listing more mail servers" }
+      - { key: b, text: "S/MIME encryption on all outbound mail" }
+      - { key: c, text: "STARTTLS on the company's inbound mail server" }
+      - { key: d, text: "DMARC, requiring SPF or DKIM to align with the visible From domain, with a quarantine or reject policy" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: SPF checks the envelope sender, and DKIM proves *some* domain signed. Neither
+      ties authentication to the visible From header. DMARC requires alignment with it and tells
+      receivers to quarantine or reject failures.
+      **a** is wrong: a domain may publish only **one** SPF record, and SPF still ignores the header
+      From. **b** is wrong: encryption protects confidentiality, while recipients' receivers still accept
+      spoofed unsigned mail. **c** is wrong: STARTTLS encrypts transport to your own server and doesn't
+      affect forged mail sent to partners.
+    points: 1
+
+  - key: d4-spf-envelope
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A receiving mail server looks up a TXT record for the sender's domain to check whether the IP
+      address that delivered the message is authorised to send for the **envelope** (MAIL FROM)
+      domain. Which mechanism is this?
+    choices:
+      - { key: a, text: "SPF" }
+      - { key: b, text: "DKIM" }
+      - { key: c, text: "DMARC" }
+      - { key: d, text: "MTA-STS" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: SPF (RFC 7208) publishes the hosts authorised to send for a domain, and
+      receivers check the connecting IP against the envelope sender's record.
+      **b** is wrong: DKIM verifies a cryptographic signature with a public key in DNS and doesn't
+      check the sending IP. **c** is wrong: DMARC builds on SPF and DKIM results and adds alignment
+      and policy. **d** is wrong: MTA-STS tells senders to require TLS to a domain and has nothing to
+      do with sender authorisation.
+    points: 1
+
+  - key: d4-third-party-vendor-access
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      A building-management vendor asks for a permanent site-to-site VPN into the university network
+      so its engineers can support HVAC controllers "like all our other customers". What should the
+      security manager do FIRST?
+    choices:
+      - { key: a, text: "Configure the VPN with IKEv2 and certificate authentication" }
+      - { key: b, text: "Reject all vendor remote support permanently" }
+      - { key: c, text: "Establish a documented agreement (such as an interconnection security agreement) defining scope, security requirements, monitoring and termination before designing least-privilege access" }
+      - { key: d, text: "Give the vendor a shared administrator account on the jump host" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: governance comes before technology. NIST SP 800-47r1 calls for an agreed,
+      documented interconnection (ISA, MOU/contract) covering responsibilities, requirements, incident
+      notification and termination. The design then follows least privilege (brokered, per-user,
+      time-boxed access to the BMS segment only).
+      **a** is wrong: it jumps to implementation and accepts a broad network-to-network tunnel. **b** is
+      wrong: it's not a business-enabling answer when a controlled option exists. **d** is wrong: shared
+      accounts destroy accountability.
+    points: 1
+
+  - key: d4-tls13-forward-secrecy
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      An attacker has recorded months of a company's encrypted HTTPS traffic and has now stolen the
+      web server's private key. The server supports only TLS 1.3. What can the attacker decrypt?
+    choices:
+      - { key: a, text: "All recorded sessions, because the private key decrypts the session keys" }
+      - { key: b, text: "None of the recorded sessions, because TLS 1.3 uses only ephemeral (EC)DHE key exchange, providing forward secrecy" }
+      - { key: c, text: "Only sessions that used 0-RTT early data" }
+      - { key: d, text: "Only sessions that used AES-128 rather than AES-256" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: TLS 1.3 removed static RSA key transport. Each session's keys come from ephemeral
+      Diffie-Hellman values that are discarded, and the long-term key only *signs* (CertificateVerify),
+      so stealing it later doesn't reveal past session keys. With it, the attacker could impersonate
+      the server going forward.
+      **a** is wrong: that describes TLS 1.2 with static RSA key exchange. **c** is wrong: 0-RTT's risk
+      is *replay*, and early data is still derived from ephemeral or resumption secrets, not the
+      certificate key. **d** is wrong: key length doesn't change forward secrecy.
+    points: 1
+
+  - key: d4-tls13-certificateverify
+    kind: single
+    domain: d4-network-security
+    prompt_md: |
+      In a TLS 1.3 handshake, which message proves the server possesses the private key for its
+      certificate and also protects the negotiated parameters against downgrade, by signing the
+      handshake transcript?
+    choices:
+      - { key: a, text: "ServerHello" }
+      - { key: b, text: "Certificate" }
+      - { key: c, text: "EncryptedExtensions" }
+      - { key: d, text: "CertificateVerify" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: CertificateVerify is a signature, made with the server's private key, over a hash
+      of the whole handshake so far. It proves possession of the key and that nobody altered the
+      negotiation.
+      **a** is wrong: ServerHello chooses parameters and sends the key share, but it carries no proof
+      of key possession. **b** is wrong: the Certificate message only presents the chain, which anyone
+      could copy. **c** is wrong: EncryptedExtensions carries remaining parameters and no signature.
+    points: 1
+
+  - key: d4-syn-flood-mitigations
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      A web server's connection backlog keeps filling with half-open connections from thousands of
+      spoofed sources, and legitimate users are refused. Which two measures MOST directly mitigate this?
+      **Choose two.**
+    choices:
+      - { key: a, text: "Enable SYN cookies on the server or load balancer" }
+      - { key: b, text: "Increase the TCP retransmission timeout" }
+      - { key: c, text: "Use an upstream DDoS scrubbing service or SYN proxy that completes handshakes before passing connections on" }
+      - { key: d, text: "Switch the web application to UDP" }
+      - { key: e, text: "Disable TLS to reduce server CPU load" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: SYN cookies avoid storing state for half-open connections (RFC 4987),
+      and a SYN proxy or scrubbing service absorbs the flood and passes on only completed handshakes.
+      **b** is wrong: longer timeouts keep half-open entries around *longer*, which makes it worse.
+      **d** is wrong: it's impractical for HTTPS and just invites UDP floods. **e** is wrong: TLS isn't
+      involved until after the TCP handshake, and disabling it sacrifices confidentiality.
+    points: 1
+
+  - key: d4-amplification-defences
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      An ISP's security team wants to reduce its customers' role in DNS and NTP reflection/amplification
+      attacks against third parties. Which two measures address the root causes on the ISP's own
+      network? **Choose two.**
+    choices:
+      - { key: a, text: "Increase DNS cache TTLs on customer resolvers" }
+      - { key: b, text: "Implement BCP 38 ingress filtering so customer networks can't send packets with spoofed source addresses" }
+      - { key: c, text: "Deploy DNSSEC signing for the ISP's zones" }
+      - { key: d, text: "Identify and close open recursive resolvers and NTP monlist responders on customer networks" }
+      - { key: e, text: "Block all inbound ICMP" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: reflection needs spoofed sources (stopped by BCP 38, RFC 2827) and open
+      reflectors (open resolvers per RFC 5358, NTP monlist).
+      **a** is wrong: TTLs affect caching, not reflection. **c** is wrong: DNSSEC gives integrity, and
+      its larger signed responses can actually *increase* amplification from open resolvers.
+      **e** is wrong: these attacks use UDP, not ICMP, and blocking all ICMP breaks path MTU discovery.
+    points: 1
+
+  - key: d4-remote-admin-controls
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      Network engineers need to administer routers and firewalls while working from home. Which two
+      controls BEST secure these network administrative functions? **Choose two.**
+    choices:
+      - { key: a, text: "Expose SSH on each device's internet-facing interface with a strong password" }
+      - { key: b, text: "Require engineers to connect through a hardened jump host in a management zone, with session recording" }
+      - { key: c, text: "Use Telnet over the VPN, since the tunnel is already encrypted" }
+      - { key: d, text: "Require multifactor authentication for the VPN and the jump host, with TACACS+ for per-command authorisation on devices" }
+      - { key: e, text: "Share one administrator account so access is easy to revoke" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: a jump host concentrates, monitors and records privileged access, and
+      MFA plus TACACS+ gives strong, individually accountable, finely authorised admin sessions
+      (NIST SP 800-46r2, SP 800-53 AC-17).
+      **a** is wrong: it exposes management interfaces to the internet. **c** is wrong: Telnet is clear
+      text from the VPN concentrator inward, and you should use SSH. **e** is wrong: shared accounts
+      destroy accountability, and revoking one account locks everyone out.
+    points: 1
+
+  - key: d4-video-conference-controls
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      Board meetings are moving to a cloud video-conferencing platform. Recently, an uninvited person
+      joined a sensitive call. Which two controls BEST reduce the risk for these meetings?
+      **Choose two.**
+    choices:
+      - { key: a, text: "Allow all participants to share their screens by default" }
+      - { key: b, text: "Publish meeting links on the intranet calendar so attendees can find them easily" }
+      - { key: c, text: "Use the same recurring meeting ID for every board meeting" }
+      - { key: d, text: "Require authenticated participants or a waiting room with host admission, plus per-meeting passcodes" }
+      - { key: e, text: "Enable end-to-end encryption for board meetings, accepting that some features such as cloud recording may be unavailable" }
+    answer: [d, e]
+    explanation_md: |
+      **d** and **e** are right: authentication or waiting rooms with passcodes stop uninvited joiners,
+      and end-to-end encryption keeps content confidential even from the platform, which is a
+      reasonable trade-off for board-level sensitivity.
+      **b** is wrong: wider publication of links increases exposure. **a** is wrong: default
+      screen-sharing for everyone invites disruption and data leakage. **c** is wrong: a static
+      meeting ID, once leaked, gives access to every future meeting.
+    points: 1
+
+  - key: d4-tls13-hardening-changes
+    kind: multi
+    domain: d4-network-security
+    prompt_md: |
+      An architect is justifying a policy that internet-facing services must prefer TLS 1.3 and
+      accept nothing older than TLS 1.2. Which two statements about TLS 1.3 correctly support the
+      policy? **Choose two.**
+    choices:
+      - { key: a, text: "It allows only AEAD cipher suites, removing CBC-mode and RC4 suites" }
+      - { key: b, text: "It completes a full handshake in one round trip, with everything after ServerHello encrypted" }
+      - { key: c, text: "It encrypts the server name (SNI) in every ClientHello by default" }
+      - { key: d, text: "It makes 0-RTT early data safe against replay for all request types" }
+      - { key: e, text: "It keeps static RSA key exchange for compatibility with older clients" }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right: RFC 8446 restricts suites to AEAD (for example AES-GCM and
+      ChaCha20-Poly1305) and cuts the full handshake to one round trip, encrypting EncryptedExtensions,
+      Certificate, CertificateVerify and Finished.
+      **c** is wrong: SNI is sent in clear in a standard ClientHello. Hiding it needs the separate
+      Encrypted Client Hello extension. **d** is wrong: RFC 8446 warns that 0-RTT data **can** be
+      replayed, so it should be limited to idempotent requests. **e** is wrong: TLS 1.3 *removed*
+      static RSA key exchange, which is why it always provides forward secrecy.
+    points: 1

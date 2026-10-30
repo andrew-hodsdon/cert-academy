@@ -1,0 +1,681 @@
+sources:
+  - slug: s2-vpc-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc/docs/vpc
+    title: "VPC networks"
+    site: Google Cloud Documentation
+    tags: [vpc, networking]
+    summary_md: |
+      VPCs are global and subnets regional. Covers auto versus custom mode and dynamic routing mode. Cited by lesson 01-network-topologies.
+  - slug: s2-shared-vpc
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc/docs/shared-vpc
+    title: "Shared VPC"
+    site: Google Cloud Documentation
+    tags: [vpc, shared-vpc]
+    summary_md: |
+      Host and service projects in one organization, central network administration, and the networkUser role on subnets. Cited by lesson 01-network-topologies.
+  - slug: s2-vpc-peering
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc/docs/vpc-peering
+    title: "VPC Network Peering"
+    site: Google Cloud Documentation
+    tags: [vpc, peering]
+    summary_md: |
+      Peering is non-transitive, needs non-overlapping ranges, works across organizations, and keeps administration separate. Cited by lesson 01-network-topologies.
+  - slug: s2-ncc
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/network-connectivity-center/concepts/overview
+    title: "NCC overview"
+    site: Google Cloud Documentation
+    tags: [ncc, hybrid]
+    summary_md: |
+      NCC hub and spokes: VPC spokes for full-mesh VPC connectivity, and hybrid spokes with site-to-site data transfer. Cited by lesson 01-network-topologies.
+  - slug: s2-psc
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc/docs/private-service-connect
+    title: "Private Service Connect"
+    site: Google Cloud Documentation
+    tags: [psc, private-access]
+    summary_md: |
+      PSC endpoints and service attachments for private, overlapping-IP-tolerant consumption of Google APIs and producer services. Cited by lesson 01-network-topologies.
+  - slug: s2-private-google-access
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc/docs/private-google-access
+    title: "Private Google Access"
+    site: Google Cloud Documentation
+    tags: [private-access]
+    summary_md: |
+      Per-subnet access to Google APIs for VMs without external IPs, plus the private and restricted VIP options for on-premises hosts. Cited by lesson 01-network-topologies.
+  - slug: s2-hybrid-choose
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/how-to/choose-product
+    title: "Choosing a Network Connectivity product"
+    site: Google Cloud Documentation
+    tags: [hybrid, interconnect, vpn]
+    summary_md: |
+      Google's decision guide across Dedicated and Partner Interconnect, Cross-Cloud Interconnect and HA VPN. Confirms circuit sizes and the 50 Mbps–50 Gbps VLAN attachment range. Cited by lesson 01-network-topologies.
+  - slug: s2-interconnect
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/interconnect/concepts/overview
+    title: "Cloud Interconnect overview"
+    site: Google Cloud Documentation
+    tags: [interconnect]
+    summary_md: |
+      Dedicated and Partner Interconnect, the redundancy topologies behind the 99.9% and 99.99% SLAs, and encryption options (MACsec, HA VPN over Interconnect). Cited by lesson 01-network-topologies.
+  - slug: s2-ha-vpn
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/vpn/concepts/topologies
+    title: "HA VPN topologies"
+    site: Google Cloud Documentation
+    tags: [vpn]
+    summary_md: |
+      HA VPN topologies required for the 99.99% SLA, and per-tunnel bandwidth limits. Cited by lesson 01-network-topologies.
+  - slug: s2-cloud-router
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/router/concepts/overview
+    title: "Cloud Router overview"
+    site: Google Cloud Documentation
+    tags: [cloud-router, bgp]
+    summary_md: |
+      BGP dynamic routing for VPN and Interconnect, with custom route advertisements. Cited by lesson 01-network-topologies.
+  - slug: s2-cross-cloud-interconnect
+    kind: vendor_docs
+    url: https://cloud.google.com/network-connectivity/docs/interconnect/concepts/cci-overview
+    title: "Cross-Cloud Interconnect overview"
+    site: Google Cloud Documentation
+    tags: [multicloud, interconnect]
+    summary_md: |
+      Dedicated physical links between Google Cloud and other clouds such as AWS, Azure, OCI and Alibaba. Cited by lesson 01-network-topologies.
+  - slug: s2-lb-choose
+    kind: vendor_docs
+    url: https://cloud.google.com/load-balancing/docs/choosing-load-balancer
+    title: "Choose a load balancer"
+    site: Google Cloud Documentation
+    tags: [load-balancing]
+    summary_md: |
+      Decision tree for Application versus proxy versus passthrough Network Load Balancers, external versus internal, global versus regional. Cited by lesson 01-network-topologies.
+  - slug: s2-lb-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/load-balancing/docs/load-balancing-overview
+    title: "Cloud Load Balancing overview"
+    site: Google Cloud Documentation
+    tags: [load-balancing]
+    summary_md: |
+      Load balancer types and features: client IP preservation, Cloud Armor and CDN support, serverless NEGs. Cited by lesson 01-network-topologies.
+  - slug: s2-cloud-nat
+    kind: vendor_docs
+    url: https://cloud.google.com/nat/docs/overview
+    title: "Cloud NAT overview"
+    site: Google Cloud Documentation
+    tags: [nat, egress]
+    summary_md: |
+      Managed outbound NAT for private VMs and GKE nodes, configured on Cloud Router, with no unsolicited inbound connections. Public versus Private NAT. Cited by lesson 01-network-topologies.
+  - slug: s2-firewall-policies
+    kind: vendor_docs
+    url: https://cloud.google.com/firewall/docs/firewall-policies-overview
+    title: "Firewall policies and rules"
+    site: Google Cloud Documentation
+    tags: [firewall]
+    summary_md: |
+      Hierarchical, global and regional network firewall policies, evaluation order, and goto_next. Cited by lesson 01-network-topologies.
+  - slug: s2-cloud-ngfw
+    kind: vendor_docs
+    url: https://cloud.google.com/firewall/docs/about-firewalls
+    title: "Cloud NGFW overview"
+    site: Google Cloud Documentation
+    tags: [firewall, ips]
+    summary_md: |
+      Cloud NGFW Essentials, Standard and Enterprise tiers, secure tags, and intrusion prevention through firewall endpoints. Cited by lesson 01-network-topologies.
+  - slug: s2-cloud-armor
+    kind: vendor_docs
+    url: https://cloud.google.com/armor/docs/cloud-armor-overview
+    title: "Cloud Armor overview"
+    site: Google Cloud Documentation
+    tags: [waf, ddos]
+    summary_md: |
+      WAF, rate limiting, IP and geo rules, and adaptive protection on external load balancers. Cited by lesson 01-network-topologies.
+  - slug: s2-cloud-ids
+    kind: vendor_docs
+    url: https://cloud.google.com/intrusion-detection-system/docs/overview
+    title: "Cloud IDS overview"
+    site: Google Cloud Documentation
+    tags: [ids]
+    summary_md: |
+      Packet-mirroring-based network threat detection. It alerts and does not block. Cited by lesson 01-network-topologies.
+  - slug: s2-hybrid-multicloud-patterns
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/hybrid-multicloud-patterns-and-practices
+    title: "Hybrid and multicloud architecture patterns"
+    site: Google Cloud Documentation
+    tags: [hybrid, multicloud, architecture]
+    summary_md: |
+      Architecture Center patterns for hybrid and multicloud: meshed, gated, handover and others. Cited by lesson 01-network-topologies.
+  - slug: s2-gcs-storage-classes
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/storage-classes
+    title: "Storage classes"
+    site: Google Cloud Documentation
+    tags: [cloud-storage]
+    summary_md: |
+      Standard, Nearline, Coldline and Archive, their minimum storage durations and retrieval fees. All have millisecond access. Cited by lesson 02-storage-systems.
+  - slug: s2-gcs-locations
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/locations
+    title: "Bucket locations"
+    site: Google Cloud Documentation
+    tags: [cloud-storage]
+    summary_md: |
+      Region, dual-region and multi-region buckets. Turbo replication gives 15-minute replication for dual-regions. Cited by lesson 02-storage-systems.
+  - slug: s2-gcs-lifecycle
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/lifecycle
+    title: "Object Lifecycle Management"
+    site: Google Cloud Documentation
+    tags: [cloud-storage, lifecycle]
+    summary_md: |
+      Lifecycle actions and conditions (age, createdBefore, numNewerVersions, isLive and more). Cited by lesson 02-storage-systems.
+  - slug: s2-gcs-autoclass
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/autoclass
+    title: "Autoclass"
+    site: Google Cloud Documentation
+    tags: [cloud-storage, lifecycle]
+    summary_md: |
+      Automatic per-object class transitions based on access, for unknown access patterns. Cited by lesson 02-storage-systems.
+  - slug: s2-gcs-bucket-lock
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/bucket-lock
+    title: "Bucket Lock"
+    site: Google Cloud Documentation
+    tags: [cloud-storage, retention]
+    summary_md: |
+      Retention policies and irreversible Bucket Lock for WORM compliance. Cited by lesson 02-storage-systems.
+  - slug: s2-gcs-versioning
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/object-versioning
+    title: "Object Versioning"
+    site: Google Cloud Documentation
+    tags: [cloud-storage, protection]
+    summary_md: |
+      Noncurrent versions retained on overwrite and delete. Cited by lesson 02-storage-systems.
+  - slug: s2-gcs-soft-delete
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/soft-delete
+    title: "Soft delete overview"
+    site: Google Cloud Documentation
+    tags: [cloud-storage, protection]
+    summary_md: |
+      Deleted objects are restorable for a retention window, 7 days by default. Cited by lesson 02-storage-systems.
+  - slug: s2-gcs-uniform-access
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/uniform-bucket-level-access
+    title: "Uniform bucket-level access"
+    site: Google Cloud Documentation
+    tags: [cloud-storage, iam]
+    summary_md: |
+      IAM-only bucket access, with ACLs disabled. Cited by lesson 02-storage-systems.
+  - slug: s2-disks
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/docs/disks
+    title: "Choose a disk type"
+    site: Google Cloud Documentation
+    tags: [block-storage]
+    summary_md: |
+      Persistent Disk, Hyperdisk and Local SSD compared. Zonal versus regional disks. Cited by lesson 02-storage-systems.
+  - slug: s2-hyperdisk
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/docs/disks/hyperdisks
+    title: "Google Cloud Hyperdisk overview"
+    site: Google Cloud Documentation
+    tags: [block-storage]
+    summary_md: |
+      Hyperdisk types with IOPS and throughput provisioned separately from capacity, and storage pools. Cited by lesson 02-storage-systems.
+  - slug: s2-filestore
+    kind: vendor_docs
+    url: https://cloud.google.com/filestore/docs/overview
+    title: "Filestore overview"
+    site: Google Cloud Documentation
+    tags: [file-storage]
+    summary_md: |
+      Managed NFS file shares and their service tiers. Cited by lesson 02-storage-systems.
+  - slug: s2-backup-dr
+    kind: vendor_docs
+    url: https://cloud.google.com/backup-disaster-recovery/docs/concepts/backup-dr
+    title: "Backup and DR overview"
+    site: Google Cloud Documentation
+    tags: [backup]
+    summary_md: |
+      Centralised backup plans and immutable backup vaults across Google Cloud workloads. Cited by lesson 02-storage-systems.
+  - slug: s2-cloud-sql-ha
+    kind: vendor_docs
+    url: https://cloud.google.com/sql/docs/mysql/high-availability
+    title: "About high availability"
+    site: Google Cloud Documentation
+    tags: [cloud-sql, ha]
+    summary_md: |
+      Regional HA with a standby in another zone, synchronous replication and automatic failover. Cited by lesson 02-storage-systems.
+  - slug: s2-cloud-sql-backups
+    kind: vendor_docs
+    url: https://cloud.google.com/sql/docs/mysql/backup-recovery/backups
+    title: "Cloud SQL backups overview"
+    site: Google Cloud Documentation
+    tags: [cloud-sql, backup]
+    summary_md: |
+      Automated and on-demand backups, and point-in-time recovery. Cited by lesson 02-storage-systems.
+  - slug: s2-spanner
+    kind: vendor_docs
+    url: https://cloud.google.com/spanner/docs/instance-configurations
+    title: "Regional, dual-region, and multi-region configurations"
+    site: Google Cloud Documentation
+    tags: [spanner]
+    summary_md: |
+      Regional, dual-region and multi-region Spanner configurations and their availability. Cited by lesson 02-storage-systems.
+  - slug: s2-bigtable
+    kind: vendor_docs
+    url: https://cloud.google.com/bigtable/docs/overview
+    title: "Bigtable overview"
+    site: Google Cloud Documentation
+    tags: [bigtable]
+    summary_md: |
+      Wide-column NoSQL with low latency and high throughput, node scaling, replication and backups. Cited by lesson 02-storage-systems.
+  - slug: s2-bigquery-time-travel
+    kind: vendor_docs
+    url: https://cloud.google.com/bigquery/docs/time-travel
+    title: "Data retention with time travel and fail-safe"
+    site: Google Cloud Documentation
+    tags: [bigquery, retention]
+    summary_md: |
+      A configurable time-travel window (seven days by default) plus a fail-safe period. Cited by lesson 02-storage-systems.
+  - slug: s2-storage-transfer
+    kind: vendor_docs
+    url: https://cloud.google.com/storage-transfer/docs/overview
+    title: "Storage Transfer Service"
+    site: Google Cloud Documentation
+    tags: [transfer]
+    summary_md: |
+      Managed, scheduled transfers from clouds, URLs and on-premises file systems (with agents). Cited by lesson 02-storage-systems.
+  - slug: s2-transfer-large-datasets
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/migration-to-google-cloud-transferring-your-large-datasets
+    title: "Migrate to Google Cloud: Transfer your large datasets"
+    site: Google Cloud Documentation
+    tags: [transfer, migration]
+    summary_md: |
+      Transfer time estimates, and choosing between online transfer and Transfer Appliance. Cited by lesson 02-storage-systems.
+  - slug: s2-instance-templates
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/docs/instance-templates
+    title: "Instance templates"
+    site: Google Cloud Documentation
+    tags: [compute-engine]
+    summary_md: |
+      Immutable VM definitions used by MIGs. Cited by lesson 03-compute-systems.
+  - slug: s2-mig
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/docs/instance-groups
+    title: "Instance groups"
+    site: Google Cloud Documentation
+    tags: [compute-engine, mig]
+    summary_md: |
+      Managed instance groups: autohealing, regional MIGs, rolling and canary updates, and stateful MIGs. Cited by lesson 03-compute-systems.
+  - slug: s2-autoscaler
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/docs/autoscaler
+    title: "Autoscaling groups of instances"
+    site: Google Cloud Documentation
+    tags: [compute-engine, autoscaling]
+    summary_md: |
+      Autoscaling signals: CPU, load-balancer capacity, Monitoring metrics, schedules and predictive autoscaling. Cited by lesson 03-compute-systems.
+  - slug: s2-spot-vms
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/docs/instances/spot
+    title: "Spot VMs"
+    site: Google Cloud Documentation
+    tags: [compute-engine, spot]
+    summary_md: |
+      Spot pricing (up to 91% off), preemption behaviour and notice, no SLA, and suitable workloads. Cited by lesson 03-compute-systems.
+  - slug: s2-gke-modes
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/docs/concepts/choose-cluster-mode
+    title: "About GKE modes of operation"
+    site: Google Cloud Documentation
+    tags: [gke]
+    summary_md: |
+      Autopilot versus Standard: responsibilities, billing and enforced defaults. Cited by lesson 03-compute-systems.
+  - slug: s2-gke-node-pools
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools
+    title: "About node pools"
+    site: Google Cloud Documentation
+    tags: [gke]
+    summary_md: |
+      Node pools with distinct configurations, and taints for workload separation. Cited by lesson 03-compute-systems.
+  - slug: s2-gke-autoscaling
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler
+    title: "About GKE cluster autoscaling"
+    site: Google Cloud Documentation
+    tags: [gke, autoscaling]
+    summary_md: |
+      Cluster autoscaler and node auto-provisioning behaviour. Cited by lesson 03-compute-systems.
+  - slug: s2-gke-vpc-native
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips
+    title: "VPC-native clusters"
+    site: Google Cloud Documentation
+    tags: [gke, networking]
+    summary_md: |
+      Alias-IP-based VPC-native clusters, with secondary ranges for Pods and Services. Cited by lesson 03-compute-systems.
+  - slug: s2-gke-fleets
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/fleet-management/docs
+    title: "Fleet management overview"
+    site: Google Cloud Documentation
+    tags: [gke, hybrid]
+    summary_md: |
+      Fleets for multi-cluster and hybrid management with consistent policy. Cited by lesson 03-compute-systems.
+  - slug: s2-cloud-run
+    kind: vendor_docs
+    url: https://cloud.google.com/run/docs/overview/what-is-cloud-run
+    title: "What is Cloud Run"
+    site: Google Cloud Documentation
+    tags: [serverless, cloud-run]
+    summary_md: |
+      Cloud Run services, jobs and functions. Scale to zero and request-based scaling. Cited by lesson 03-compute-systems.
+  - slug: s2-cloud-run-direct-vpc
+    kind: vendor_docs
+    url: https://cloud.google.com/run/docs/configuring/vpc-direct-vpc
+    title: "Direct VPC with a VPC network"
+    site: Google Cloud Documentation
+    tags: [serverless, networking]
+    summary_md: |
+      Direct VPC egress for Cloud Run without a connector. Cited by lesson 03-compute-systems.
+  - slug: s2-cloud-run-functions
+    kind: vendor_docs
+    url: https://cloud.google.com/run/docs/functions/comparison
+    title: "Compare Cloud Run functions"
+    site: Google Cloud Documentation
+    tags: [serverless]
+    summary_md: |
+      Cloud Run functions as the successor to Cloud Functions. Cited by lesson 03-compute-systems.
+  - slug: s2-gcve
+    kind: vendor_docs
+    url: https://cloud.google.com/vmware-engine/docs/overview
+    title: "Google Cloud VMware Engine overview"
+    site: Google Cloud Documentation
+    tags: [vmware, migration]
+    summary_md: |
+      Dedicated VMware private clouds on Google Cloud, and their network connectivity to VPCs. Cited by lesson 03-compute-systems.
+  - slug: s2-vm-manager-patch
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/vm-manager/docs/patch
+    title: "About Patch"
+    site: Google Cloud Documentation
+    tags: [patching]
+    summary_md: |
+      OS patch jobs, recurring patch deployments and compliance reporting. Cited by lesson 03-compute-systems.
+  - slug: s2-terraform
+    kind: vendor_docs
+    url: https://cloud.google.com/docs/terraform/terraform-overview
+    title: "Overview of Terraform on Google Cloud"
+    site: Google Cloud Documentation
+    tags: [iac, terraform]
+    summary_md: |
+      Terraform with the Google provider, and state management best practices. Cited by lesson 03-compute-systems.
+  - slug: s2-infra-manager
+    kind: vendor_docs
+    url: https://cloud.google.com/infrastructure-manager/docs/overview
+    title: "Infrastructure Manager overview"
+    site: Google Cloud Documentation
+    tags: [iac]
+    summary_md: |
+      Managed Terraform deployments on Google Cloud, the successor path from Deployment Manager (end of support March 31, 2026). Cited by lesson 03-compute-systems.
+  - slug: s2-agent-platform-intro
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/vertex-ai/docs/start/introduction-unified-platform
+    title: "Introduction to machine learning on Gemini Enterprise Agent Platform"
+    site: Google Cloud Documentation
+    tags: [agent-platform, mlops]
+    summary_md: |
+      The ML lifecycle on Gemini Enterprise Agent Platform, and component names (Pipelines, Model Registry, Feature Store, Training, Experiments). Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-agent-platform-overview
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/overview
+    title: "Agent Platform overview"
+    site: Google Cloud Documentation
+    tags: [agent-platform, agents]
+    summary_md: |
+      Agent Platform build, scale, govern and optimize components: ADK, Agent Studio, Agent Garden, Agent Runtime, Memory Bank, Agent Gateway, Model Armor, Model Garden. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-pipelines
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/docs/pipelines/introduction
+    title: "Introduction to Gemini Enterprise Agent Platform Pipelines"
+    site: Google Cloud Documentation
+    tags: [agent-platform, pipelines]
+    summary_md: |
+      Serverless ML pipelines defined with the KFP SDK or TFX, with lineage in ML Metadata. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-mlops-arch
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning
+    title: "MLOps: Continuous delivery and automation pipelines in machine learning"
+    site: Google Cloud Documentation
+    tags: [mlops, architecture]
+    summary_md: |
+      MLOps maturity levels 0, 1 and 2: continuous training, then CI/CD of pipelines. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-model-registry
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/docs/model-registry/introduction
+    title: "Introduction to Model Registry"
+    site: Google Cloud Documentation
+    tags: [agent-platform, registry]
+    summary_md: |
+      Model versions, aliases, evaluation, deployment, and registering BigQuery ML models. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-feature-store
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/docs/featurestore/latest/overview
+    title: "About Feature Store on Gemini Enterprise Agent Platform"
+    site: Google Cloud Documentation
+    tags: [agent-platform, features]
+    summary_md: |
+      Feature Store with a BigQuery offline store and online serving to avoid training-serving skew. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-custom-training
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/docs/training/overview
+    title: "Serverless training overview"
+    site: Google Cloud Documentation
+    tags: [agent-platform, training]
+    summary_md: |
+      Serverless custom training with prebuilt or custom containers, distributed training and accelerators. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-inference
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/docs/predictions/overview
+    title: "Overview of getting inferences on Agent Platform"
+    site: Google Cloud Documentation
+    tags: [agent-platform, serving]
+    summary_md: |
+      Online inference on endpoints, with traffic splitting, versus batch inference. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-model-monitoring
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/docs/model-monitoring/overview
+    title: "Introduction to Model Monitoring"
+    site: Google Cloud Documentation
+    tags: [agent-platform, monitoring]
+    summary_md: |
+      Detection of training-serving skew and inference drift, with alerts. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-bigquery-ml
+    kind: vendor_docs
+    url: https://cloud.google.com/bigquery/docs/bqml-introduction
+    title: "Introduction to ML in BigQuery"
+    site: Google Cloud Documentation
+    tags: [bigquery, ml]
+    summary_md: |
+      Create and run models with SQL inside BigQuery. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-dataflow-ml
+    kind: vendor_docs
+    url: https://cloud.google.com/dataflow/docs/machine-learning
+    title: "Dataflow ML"
+    site: Google Cloud Documentation
+    tags: [dataflow, ml]
+    summary_md: |
+      Dataflow for ML preprocessing and RunInference. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-ai-hypercomputer
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/ai-hypercomputer/docs/overview
+    title: "AI Hypercomputer overview"
+    site: Google Cloud Documentation
+    tags: [ai-hypercomputer, gpu, tpu]
+    summary_md: |
+      AI Hypercomputer layers (hardware, open software, consumption) and options: Spot, Flex-start, reservations, Dynamic Workload Scheduler. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-tpu-intro
+    kind: vendor_docs
+    url: https://cloud.google.com/tpu/docs/intro-to-tpu
+    title: "Introduction to Cloud TPU"
+    site: Google Cloud Documentation
+    tags: [tpu]
+    summary_md: |
+      TPU architecture, strengths for large matrix workloads, and slices. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-gpus
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/docs/gpus
+    title: "GPU machine types"
+    site: Google Cloud Documentation
+    tags: [gpu]
+    summary_md: |
+      GPU machine families on Compute Engine. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-cloud-run-gpu
+    kind: vendor_docs
+    url: https://cloud.google.com/run/docs/configuring/services/gpu
+    title: "GPU support for services"
+    site: Google Cloud Documentation
+    tags: [serverless, gpu]
+    summary_md: |
+      GPU-backed Cloud Run services for serverless inference. Cited by lesson 04-agent-platform-ml-workflows.
+  - slug: s2-vision-api
+    kind: vendor_docs
+    url: https://cloud.google.com/vision/docs/features-list
+    title: "Features list"
+    site: Google Cloud Documentation
+    tags: [ai-apis, vision]
+    summary_md: |
+      Vision API features: labels, OCR, SafeSearch, logos, landmarks, faces, objects. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-video-intelligence
+    kind: vendor_docs
+    url: https://cloud.google.com/video-intelligence/docs/features
+    title: "Features"
+    site: Google Cloud Documentation
+    tags: [ai-apis, video]
+    summary_md: |
+      Video Intelligence features: shot detection, labels, explicit content, object tracking, text, transcription. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-speech-to-text
+    kind: vendor_docs
+    url: https://cloud.google.com/speech-to-text/docs/speech-to-text-requests
+    title: "Cloud Speech-to-Text overview"
+    site: Google Cloud Documentation
+    tags: [ai-apis, audio]
+    summary_md: |
+      Speech-to-Text models, and batch and streaming recognition. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-text-to-speech
+    kind: vendor_docs
+    url: https://cloud.google.com/text-to-speech/docs/basics
+    title: "Cloud Text-to-Speech basics"
+    site: Google Cloud Documentation
+    tags: [ai-apis, audio]
+    summary_md: |
+      Text-to-Speech voices and SSML. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-translation
+    kind: vendor_docs
+    url: https://cloud.google.com/translate/docs/overview
+    title: "Google translation offerings"
+    site: Google Cloud Documentation
+    tags: [ai-apis, translation]
+    summary_md: |
+      Cloud Translation Basic and Advanced, glossaries and document translation. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-natural-language
+    kind: vendor_docs
+    url: https://cloud.google.com/natural-language/docs/basics
+    title: "Natural Language API Basics"
+    site: Google Cloud Documentation
+    tags: [ai-apis, language]
+    summary_md: |
+      Entity, sentiment, classification and moderation analysis of text. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-document-ai
+    kind: vendor_docs
+    url: https://cloud.google.com/document-ai/docs/overview
+    title: "Document AI overview"
+    site: Google Cloud Documentation
+    tags: [ai-apis, documents]
+    summary_md: |
+      Document AI processors: OCR, Form Parser, specialized processors, Custom Extractor. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-imagen
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview
+    title: "Generate and edit images on Vertex AI"
+    site: Google Cloud Documentation
+    tags: [generative-ai, image]
+    summary_md: |
+      Image generation and editing with Imagen. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-ai-search
+    kind: vendor_docs
+    url: https://cloud.google.com/generative-ai-app-builder/docs/introduction
+    title: "Agent Search"
+    site: Google Cloud Documentation
+    tags: [ai-apis, search]
+    summary_md: |
+      Agent Search, being renamed from Vertex AI Search (earlier names: Enterprise Search, AI Applications, Agent Builder), for search, recommendations and RAG. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-conversational-agents
+    kind: vendor_docs
+    url: https://cloud.google.com/dialogflow/cx/docs/basics
+    title: "Flow-based agent basics"
+    site: Google Cloud Documentation
+    tags: [ai-apis, conversation]
+    summary_md: |
+      Dialogflow CX flow-based conversational agents. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-model-garden
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/model-garden/explore-models
+    title: "Overview of Model Garden"
+    site: Google Cloud Documentation
+    tags: [generative-ai, model-garden]
+    summary_md: |
+      Model Garden catalogue of first-party, partner and open models, with deployment options. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-grounding
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview
+    title: "Grounding overview"
+    site: Google Cloud Documentation
+    tags: [generative-ai, grounding]
+    summary_md: |
+      Grounding with Google Search and with your own data. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-rag-engine
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/rag-engine/rag-overview
+    title: "RAG Engine on Gemini Enterprise Agent Platform overview"
+    site: Google Cloud Documentation
+    tags: [generative-ai, rag]
+    summary_md: |
+      RAG Engine for connecting private data corpora to models. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-gemini-enterprise
+    kind: vendor_docs
+    url: https://cloud.google.com/gemini-enterprise/docs
+    title: "What is Gemini Enterprise?"
+    site: Google Cloud Documentation
+    tags: [gemini-enterprise, agents]
+    summary_md: |
+      Gemini Enterprise for employees: connectors to company data, prebuilt and custom agents, agent gallery. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-notebooklm-enterprise
+    kind: vendor_docs
+    url: https://cloud.google.com/gemini/enterprise/notebooklm-enterprise/docs/overview
+    title: "What is Gemini Notebook Enterprise?"
+    site: Google Cloud Documentation
+    tags: [gemini-enterprise, notebooklm]
+    summary_md: |
+      NotebookLM Enterprise (docs title: Gemini Notebook Enterprise): source-grounded notebooks, audio overviews, CMEK, VPC-SC and US/EU residency. Cited by lesson 05-prebuilt-ai-solutions.
+  - slug: s2-model-armor
+    kind: vendor_docs
+    url: https://cloud.google.com/model-armor/overview
+    title: "Model Armor overview"
+    site: Google Cloud Documentation
+    tags: [security, generative-ai]
+    summary_md: |
+      Prompt and response screening: prompt injection and jailbreak, Sensitive Data Protection, malicious URLs, responsible AI filters with confidence levels. Cited by lesson 05-prebuilt-ai-solutions.

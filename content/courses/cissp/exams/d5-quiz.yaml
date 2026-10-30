@@ -1,0 +1,1252 @@
+slug: d5-quiz
+ordinal: 15
+title: "Domain 5 quiz: Identity and Access Management"
+kind: quiz
+draw: 25
+time_limit_min: 35
+pass_pct: 80
+instructions_md: |
+  25 questions drawn at random from a 52-question bank covering all six Domain 5 objectives
+  (5.1–5.6), with a 35-minute clock. Most questions have one best answer; questions marked
+  **Choose two.** need both correct selections to score. Answer as a security leader advising the
+  business: policy before tools, people's safety first, the most complete answer wins.
+
+  Pass mark 80%. Every answer has an explanation, including why each wrong option is wrong — read
+  them, then retake until you hold 80% or better.
+questions:
+  # ---------------------------------------------------------------- 5.1 physical and logical access
+  - key: d5-shared-account-accountability
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An operations team of six shares one administrator account, `ops-admin`, on a payments
+      server. Its password is strong, rotated monthly and stored in a vault. After a fraudulent
+      configuration change, investigators find the change was made by `ops-admin`. Which security
+      property has the shared account **MOST** undermined?
+    choices:
+      - { key: a, text: "Accountability, because the logs cannot attribute the action to one person" }
+      - { key: b, text: "Confidentiality, because six people know the password" }
+      - { key: c, text: "Availability, because the account could be locked out by any of the six" }
+      - { key: d, text: "Authorization, because the account has more rights than any one person needs" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** Accountability needs actions tied to a uniquely identified, authenticated
+      individual. A shared account identifies a group, so the change cannot be attributed — even
+      though the password itself is well managed.
+
+      - **b** — Sharing a secret among an authorised team does weaken it somewhat, but the scenario's
+        harm is that no one can be held responsible for the change.
+      - **c** — Lockout is a minor availability concern and not what the investigation exposed.
+      - **d** — Over-privilege may also exist, but nothing in the scenario says the account had excess
+        rights; the failure exposed is attribution.
+    points: 1
+
+  - key: d5-acl-vs-capability
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      In a new microservice platform, each request carries a signed token issued to the calling
+      service that lists the resources and operations that service may use. The resources check the
+      token rather than keeping their own permission lists. Which access control structure does this
+      design use?
+    choices:
+      - { key: a, text: "Access control list attached to each resource" }
+      - { key: b, text: "Mandatory access control lattice" }
+      - { key: c, text: "Capability list held by the subject" }
+      - { key: d, text: "Content-dependent access control" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** A capability is a row of the access control matrix carried by the subject:
+      "this subject may do these operations on these objects". A token presented with each request is
+      a capability.
+
+      - **a** — An ACL is stored with the object (a column of the matrix); here the resources keep no
+        lists of their own.
+      - **b** — MAC compares labels and clearances; nothing here involves classification labels.
+      - **d** — Content-dependent control decides based on the data's content (such as a database view
+        hiding a salary column), not on a token's list of rights.
+    points: 1
+
+  - key: d5-need-to-know-cleared
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An intelligence analyst holds a Top Secret clearance and works on counter-narcotics cases. She
+      asks the records officer for a Top Secret file about a counter-terrorism operation she is not
+      assigned to, saying her clearance covers it. What principle should the records officer apply?
+    choices:
+      - { key: a, text: "Separation of duties, because she would be both requester and reader" }
+      - { key: b, text: "Need to know, because clearance alone does not justify access to every item at that level" }
+      - { key: c, text: "Least privilege, because she should be downgraded to Secret for this request" }
+      - { key: d, text: "Defence in depth, because a second approver should be added to all Top Secret requests" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** Clearance makes her *eligible* for Top Secret information; **need to know**
+      requires that her current duties actually require this specific file. They do not.
+
+      - **a** — Separation of duties splits a sensitive process between people; requesting and reading
+        a file is not such a process.
+      - **c** — Least privilege is related, but downgrading her clearance is not the principle at
+        stake; she keeps her clearance and is simply denied this item.
+      - **d** — Adding approvers is a control choice, not the principle that decides this request.
+    points: 1
+
+  - key: d5-mantrap-tailgating
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      Camera reviews show staff at a colocation facility regularly hold the badge-controlled door to
+      the data hall open for colleagues and delivery staff who follow them in. Management wants a
+      control that ensures one person passes per authentication. What is the **BEST** control?
+    choices:
+      - { key: a, text: "Add a second badge reader on the inside of the door to log exits" }
+      - { key: b, text: "Increase the resolution of the cameras covering the door" }
+      - { key: c, text: "Require a PIN as well as the badge at the existing door" }
+      - { key: d, text: "Install an access control vestibule (mantrap) with interlocking doors" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** A mantrap lets only one person through per authentication — the second door
+      will not open until the first has closed — which directly prevents tailgating and piggybacking.
+
+      - **a** — Exit logging improves records (anti-passback) but does not stop someone following an
+        authorised person in.
+      - **b** — Better cameras are detective; they record tailgating but do not prevent it.
+      - **c** — A PIN strengthens authentication of the badge holder but does nothing about the people
+        who walk in behind them.
+    points: 1
+
+  - key: d5-fail-safe-exit-doors
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A security engineer proposes that the electromagnetic locks on a building's emergency exit
+      doors stay locked during a power failure to prevent theft from the equipment store next to the
+      exits. Local fire code requires free egress. What should the security manager decide?
+    choices:
+      - { key: a, text: "Approve fail-secure locks and post a guard at the exits during outages" }
+      - { key: b, text: "Approve fail-secure locks because asset protection is the purpose of the lock" }
+      - { key: c, text: "Require fail-safe locks on the exits and protect the store with its own controls" }
+      - { key: d, text: "Remove the locks from the exit doors entirely and rely on alarms" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** Life safety comes first: exit doors must unlock (fail safe) so people can leave
+      in an emergency, as code requires. The theft risk is handled by securing the store itself — a
+      locked cage or room, alarms, cameras.
+
+      - **a** — A guard cannot guarantee free egress in a fire or for every exit; locking people in
+        remains unacceptable.
+      - **b** — Asset protection never outranks people's safety, and it would breach the fire code.
+      - **d** — Fail-safe locks keep exits controlled during normal operation; removing them gives up
+        security unnecessarily.
+    points: 1
+
+  - key: d5-identification-vs-authentication
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      To use a self-service kiosk, a warehouse worker types his employee number, which is printed on
+      his badge and on every payslip. Which step of the access control process has he completed?
+    choices:
+      - { key: a, text: "Authentication with something he knows" }
+      - { key: b, text: "Authorization" }
+      - { key: c, text: "Accountability" }
+      - { key: d, text: "Identification" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** Typing an employee number is a *claim* of identity. It is not a secret, so it
+      proves nothing — that is identification.
+
+      - **a** — Authentication needs proof such as a secret, a token or a biometric; a widely printed
+        number is not "something you know" in the security sense.
+      - **b** — Authorization decides what an authenticated identity may do; it comes later.
+      - **c** — Accountability (auditing) records and reviews actions; it depends on identification and
+        authentication having happened first.
+    points: 1
+
+  - key: d5-accountability-requirements
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      A hospital wants to be able to show which individual opened a patient's electronic record and
+      when. Which **TWO** controls are required for that? **Choose two.**
+    choices:
+      - { key: a, text: "A unique account for each clinician instead of shared ward logins" }
+      - { key: b, text: "Encryption of the records database at rest" }
+      - { key: c, text: "Role-based permissions so only clinical roles can open records" }
+      - { key: d, text: "Audit logging of record access that is retained and reviewed" }
+      - { key: e, text: "A longer password policy for the shared ward accounts" }
+    answer: [a, d]
+    explanation_md: |
+      **a and d are correct.** Accountability needs unique identification (so an action maps to one
+      person) and an audit trail of what each identity did, which someone reviews.
+
+      - **b** — Encryption at rest protects confidentiality of stored data; it records nothing about who
+        read what.
+      - **c** — RBAC limits *who may* open records, which is good authorization, but does not show *who
+        did*.
+      - **e** — A stronger password on a shared account still identifies a group, not a person.
+    points: 1
+
+  # ---------------------------------------------------------------- 5.2 identification and authentication
+  - key: d5-password-plus-question-mfa
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An online bank's login asks for a password, then a memorable word, then the answer to "the
+      name of your first school". The bank advertises this as three-factor authentication. How should
+      a security assessor describe it?
+    choices:
+      - { key: a, text: "Single-factor authentication, because all three are something you know" }
+      - { key: b, text: "Multi-factor authentication, because there are three separate prompts" }
+      - { key: c, text: "Two-factor authentication, because the school question is a biographical attribute" }
+      - { key: d, text: "Risk-based authentication, because the questions vary by session" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** Factors are counted by *type*, not by number of prompts. A password, a
+      memorable word and a knowledge-based answer are all Type 1 (something you know).
+
+      - **b** — Three prompts of the same type are still one factor.
+      - **c** — A biographical answer is still a known (and often researchable) fact — something you
+        know, not a separate factor type.
+      - **d** — Risk-based authentication uses context signals to decide when to step up; nothing
+        here evaluates risk.
+    points: 1
+
+  - key: d5-far-calculation
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      During acceptance testing of a face-recognition door reader, testers make 1,500 impostor
+      attempts and 800 genuine attempts at the planned threshold. Six impostors are let in and 24
+      genuine users are refused. What is the false acceptance rate, and what type of error is it?
+    choices:
+      - { key: a, text: "0.4%, a Type II error" }
+      - { key: b, text: "3.0%, a Type I error" }
+      - { key: c, text: "0.4%, a Type I error" }
+      - { key: d, text: "0.75%, a Type II error" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** FAR = false accepts ÷ impostor attempts = 6 ÷ 1,500 = 0.4%. Accepting an
+      impostor is a **Type II** error.
+
+      - **b** — 3.0% is the false *rejection* rate (24 ÷ 800), which is a Type I error — the right
+        numbers for the wrong question.
+      - **c** — The rate is right but the type is wrong: Type I is a false rejection.
+      - **d** — 0.75% divides 6 by 800 (genuine attempts); FAR must be divided by impostor attempts.
+    points: 1
+
+  - key: d5-cer-compare
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A security manager is comparing three fingerprint readers for a research lab. Vendor A quotes
+      an FRR of 0.1%, vendor B a FAR of 0.01%, and vendor C a crossover error rate of 0.9% versus
+      1.6% and 2.2% measured for A and B by an independent lab. Which metric should drive the
+      comparison of overall accuracy, and which product does it favour?
+    choices:
+      - { key: a, text: "FAR, favouring vendor B, because security matters more than usability" }
+      - { key: b, text: "FRR, favouring vendor A, because user rejection drives support costs" }
+      - { key: c, text: "CER, favouring vendor C, because it has the lowest crossover error rate" }
+      - { key: d, text: "CER, favouring vendor B, because it has the highest crossover error rate" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** Each vendor can quote a flattering FAR or FRR by moving the threshold. The
+      **crossover error rate** (where FAR = FRR) is a single, threshold-independent measure of overall
+      accuracy; **lower is better**, so vendor C wins.
+
+      - **a** — A single low FAR may come with an unusable FRR; it is not a fair comparison.
+      - **b** — Likewise, a low FRR alone may hide a dangerous FAR.
+      - **d** — A higher CER means a *less* accurate system.
+    points: 1
+
+  - key: d5-phishing-resistant-authenticators
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      Attackers used an adversary-in-the-middle phishing kit to capture employees' passwords and
+      relay their authenticator-app codes in real time. The CISO wants authenticators that stop this
+      attack. Which **TWO** options meet the requirement? **Choose two.**
+    choices:
+      - { key: a, text: "FIDO2/WebAuthn security keys or passkeys" }
+      - { key: b, text: "Push notifications with number matching" }
+      - { key: c, text: "One-time codes sent by SMS" }
+      - { key: d, text: "PIV smart cards using certificate-based (mutual TLS) authentication" }
+      - { key: e, text: "TOTP codes with a shorter 15-second time step" }
+    answer: [a, d]
+    explanation_md: |
+      **a and d are correct.** Both are phishing-resistant: FIDO2 signatures are bound to the genuine
+      site's origin, and certificate-based smart-card authentication is bound to the TLS session with
+      the real server. A proxy cannot relay either to the real site.
+
+      - **b** — Number matching reduces MFA fatigue, but a user on a phishing page can still be shown
+        and approve the number the proxy relays.
+      - **c** — SMS codes can be relayed like app codes and are also exposed to SIM swap; NIST treats
+        them as restricted.
+      - **e** — A shorter window narrows but does not close real-time relay, which takes seconds.
+    points: 1
+
+  - key: d5-nist-password-policy
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      A company is aligning its password policy for accounts that still use passwords alone with
+      NIST SP 800-63B-4. Which **TWO** changes align with that guidance? **Choose two.**
+    choices:
+      - { key: a, text: "Require a change every 90 days" }
+      - { key: b, text: "Screen new passwords against a list of breached and commonly used values" }
+      - { key: c, text: "Require at least one upper-case letter, one digit and one symbol" }
+      - { key: d, text: "Require a minimum length of 15 characters and permit long passphrases" }
+      - { key: e, text: "Add a password hint field to reduce help-desk resets" }
+    answer: [b, d]
+    explanation_md: |
+      **b and d are correct.** SP 800-63B-4 favours length (15 characters minimum when a password is
+      the only factor), permits long passphrases, and requires checking candidates against a blocklist
+      of compromised and common values.
+
+      - **a** — NIST says not to require periodic changes; change only on evidence of compromise.
+        Forced rotation produces predictable patterns.
+      - **c** — NIST says not to impose composition rules; they add little strength and much
+        frustration.
+      - **e** — Hints leak information to attackers and are not permitted.
+    points: 1
+
+  - key: d5-passkey-properties
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      A retailer plans to replace customer passwords with passkeys. The board asks what the main
+      security benefits are. Which **TWO** statements are accurate? **Choose two.**
+    choices:
+      - { key: a, text: "The customer's fingerprint is sent to the retailer for matching, so it cannot be phished" }
+      - { key: b, text: "The retailer stores only a public key, so a database breach yields nothing reusable for login" }
+      - { key: c, text: "Passkeys eliminate the need for any account recovery process" }
+      - { key: d, text: "The credential is bound to the retailer's domain, so a look-alike phishing site cannot use it" }
+      - { key: e, text: "Passkeys are a form of single-factor something-you-know authentication" }
+    answer: [b, d]
+    explanation_md: |
+      **b and d are correct.** Passkeys are public-key credentials: the server stores only the public
+      key, and the private key signs challenges scoped to the relying party's domain (origin
+      binding), which defeats phishing.
+
+      - **a** — The biometric is matched locally to unlock the private key; it never leaves the device.
+      - **c** — Customers still lose devices; recovery remains necessary and must be protected.
+      - **e** — A passkey combines possession of the device or key with a local biometric or PIN; it is
+        multi-factor, not knowledge-only.
+    points: 1
+
+  - key: d5-session-hijack-controls
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      Penetration testers stole a session cookie from a staff web portal via a script injection flaw
+      and reused it for two days after the user had logged out. Besides fixing the injection flaw,
+      which **TWO** session controls would most reduce this risk? **Choose two.**
+    choices:
+      - { key: a, text: "Set the HttpOnly and Secure flags on the session cookie" }
+      - { key: b, text: "Increase the minimum password length for portal users" }
+      - { key: c, text: "Invalidate sessions server-side at logout and enforce idle and absolute timeouts" }
+      - { key: d, text: "Delete the cookie from the browser when the user clicks log out" }
+      - { key: e, text: "Add a CAPTCHA to the login page" }
+    answer: [a, c]
+    explanation_md: |
+      **a and c are correct.** HttpOnly stops scripts reading the cookie (and Secure keeps it off
+      plain HTTP). Server-side invalidation and timeouts make a stolen ID worthless after logout or
+      after a short period.
+
+      - **b** — The attacker never needed the password; they used the session.
+      - **d** — Deleting the client's copy does nothing to the attacker's copy if the server still
+        honours the session ID.
+      - **e** — A CAPTCHA slows automated login attempts; it does not affect stolen sessions.
+    points: 1
+
+  - key: d5-session-fixation
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A web application issues a session ID to anonymous visitors and keeps the same ID after they
+      log in. A tester shows that a victim tricked into using a session ID chosen by the attacker
+      gives the attacker an authenticated session. What is the **BEST** fix?
+    choices:
+      - { key: a, text: "Lengthen the session ID to 256 bits of entropy" }
+      - { key: b, text: "Issue a new session ID at login and after any privilege change" }
+      - { key: c, text: "Shorten the session idle timeout to five minutes" }
+      - { key: d, text: "Bind the session to the client's IP address" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** This is session fixation. Regenerating the session ID on authentication means
+      any ID the attacker planted is worthless once the victim logs in.
+
+      - **a** — Entropy stops guessing; here the attacker does not guess, they supply the ID.
+      - **c** — A short timeout narrows the window but the attack still works within it.
+      - **d** — IP binding breaks legitimate mobile and NAT users and is weak against attackers on the
+        same network; it does not address the root cause.
+    points: 1
+
+  - key: d5-sms-otp-restricted
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A payroll provider sends one-time codes by SMS as its second factor. NIST SP 800-63B-4
+      classifies SMS and voice OTP as a *restricted* authenticator. What is the main reason?
+    choices:
+      - { key: a, text: "SMS codes are too short to resist brute force" }
+      - { key: b, text: "SMS messages are encrypted end to end, which prevents audit" }
+      - { key: c, text: "The phone number can be redirected through SIM swap or number porting, so possession is not assured" }
+      - { key: d, text: "SMS codes are time-based and require synchronised clocks" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** The factor relies on the phone number, which attackers can take over through
+      SIM swapping, porting or telecom network weaknesses — so receiving the code does not reliably
+      prove possession of the subscriber's device.
+
+      - **a** — Brute force is controlled by throttling and short validity; length is not the
+        restriction's rationale.
+      - **b** — SMS is not end-to-end encrypted; and encryption would not prevent audit.
+      - **d** — SMS codes are typically server-generated random values; clock sync is a TOTP matter.
+    points: 1
+
+  - key: d5-aal3-admins
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An agency is choosing authentication for administrators of its identity provider, where a
+      compromise would expose every federated application. Using NIST SP 800-63B-4, which
+      requirement **BEST** fits?
+    choices:
+      - { key: a, text: "AAL1 with a long passphrase and account lockout" }
+      - { key: b, text: "AAL2 with a password and an SMS one-time code" }
+      - { key: c, text: "AAL2 with push approval on a managed phone" }
+      - { key: d, text: "AAL3: a phishing-resistant authenticator with a non-exportable key, such as a hardware security key, plus a second factor" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** The impact of compromise is severe and widespread, so the highest assurance
+      level applies. AAL3 requires a phishing-resistant, hardware-bound (non-exportable) key along
+      with a second factor.
+
+      - **a** — AAL1 can be single-factor; far too weak for the crown-jewel admin role.
+      - **b** — SMS is a restricted authenticator and not phishing-resistant.
+      - **c** — Push is vulnerable to fatigue and real-time relay; it meets AAL2 at best.
+    points: 1
+
+  - key: d5-sso-primary-risk
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A company moves 60 applications behind a single sign-on identity provider. What new risk should
+      the security manager address **FIRST**?
+    choices:
+      - { key: a, text: "Users will have to remember more passwords" }
+      - { key: b, text: "The identity provider becomes a single point of compromise and failure for all 60 applications" }
+      - { key: c, text: "Applications can no longer keep their own audit logs" }
+      - { key: d, text: "Federation protocols cannot carry group memberships" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** SSO concentrates risk: one stolen IdP session or admin account opens every
+      application, and an IdP outage blocks them all. It needs the strongest authentication (ideally
+      phishing-resistant MFA), hardened administration and high availability.
+
+      - **a** — SSO reduces the number of passwords users hold; that is one of its benefits.
+      - **c** — Applications still log their own activity; SSO adds central sign-in logs.
+      - **d** — SAML attribute statements and OIDC claims routinely carry groups.
+    points: 1
+
+  # ---------------------------------------------------------------- 5.3 / 5.6 federation, SAML, OAuth, OIDC
+  - key: d5-oauth-not-authentication
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A developer builds "Sign in with ExampleSocial" by requesting an OAuth 2.0 access token for the
+      user's profile and treating any valid access token as proof the user has logged in. What should
+      the security architect require instead?
+    choices:
+      - { key: a, text: "Use the implicit grant so the token arrives faster" }
+      - { key: b, text: "Encrypt the access token before storing it in the session" }
+      - { key: c, text: "Request a longer-lived refresh token to avoid repeated logins" }
+      - { key: d, text: "Use OpenID Connect and validate the ID token's signature, issuer, audience and expiry" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** OAuth 2.0 is delegated *authorization*: an access token says the bearer may
+      call an API, not who the user is or that the token was issued to this application. OpenID
+      Connect adds the ID token, which is meant for authentication and is audience-restricted to the
+      client.
+
+      - **a** — The implicit grant is deprecated by RFC 9700 and does not fix the authentication flaw.
+      - **b** — Encrypting storage protects the token at rest but does not make it proof of identity.
+      - **c** — Refresh tokens extend access; they do not address the misuse.
+    points: 1
+
+  - key: d5-saml-audience-restriction
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An attacker who operates a low-value SaaS application that trusts the same corporate IdP
+      captures valid SAML assertions sent to it and replays them to the company's HR system. Which
+      check by the HR system's service provider stops this?
+    choices:
+      - { key: a, text: "Verifying that the assertion's audience restriction names the HR system" }
+      - { key: b, text: "Checking that the assertion contains an attribute statement" }
+      - { key: c, text: "Requiring the assertion to arrive by HTTP POST binding" }
+      - { key: d, text: "Confirming the user's password with the IdP a second time" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** The audience restriction condition names the SP the assertion was issued for.
+      An assertion for the low-value app names that app, so the HR SP must reject it. Signature and
+      validity-time checks complete the picture.
+
+      - **b** — Attribute statements carry user data; their presence says nothing about who the
+        assertion was meant for.
+      - **c** — The binding is how the assertion is transported; the attacker can POST it too.
+      - **d** — The SP never sees passwords in SAML; that is the point of federation.
+    points: 1
+
+  - key: d5-oauth-roles
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A user lets a budgeting app read her transaction history from her bank's API without giving
+      the app her bank password. The bank's login and consent server issues the app a token, and the
+      bank's transactions API accepts it. In OAuth 2.0 terms, what is the budgeting app?
+    choices:
+      - { key: a, text: "Resource owner" }
+      - { key: b, text: "Authorization server" }
+      - { key: c, text: "Client" }
+      - { key: d, text: "Resource server" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** The client is the application requesting access on the resource owner's
+      behalf.
+
+      - **a** — The resource owner is the user who owns the transaction data and grants consent.
+      - **b** — The authorization server is the bank's login and consent server that issues tokens.
+      - **d** — The resource server is the bank's transactions API that accepts the token.
+    points: 1
+
+  - key: d5-spa-oauth-flow
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A team is building a browser-based single-page application that calls the company's APIs on the
+      user's behalf. They plan to use the OAuth implicit grant because the app cannot keep a client
+      secret. What should the security architect recommend?
+    choices:
+      - { key: a, text: "Use the implicit grant but shorten access token lifetime to five minutes" }
+      - { key: b, text: "Use the authorization code grant with PKCE" }
+      - { key: c, text: "Use the resource owner password credentials grant so the app controls the login form" }
+      - { key: d, text: "Use the client credentials grant with a secret embedded in the JavaScript" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** RFC 9700 recommends authorization code with PKCE for all clients, including
+      public ones that cannot hold a secret. PKCE ensures only the app that started the flow can
+      redeem the code.
+
+      - **a** — The implicit grant returns tokens in the URL fragment, where they can leak; RFC 9700
+        says not to use it, regardless of lifetime.
+      - **c** — The password grant exposes the user's password to the client and is also deprecated.
+      - **d** — Client credentials is for machine-to-machine with no user, and a secret in browser
+        JavaScript is public.
+    points: 1
+
+  - key: d5-federation-due-diligence
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A manufacturer will let 30 distributors sign into its ordering portal with their own corporate
+      identity providers. What should the security manager do **FIRST**?
+    choices:
+      - { key: a, text: "Deploy a SAML service provider module on the portal" }
+      - { key: b, text: "Issue each distributor's staff local portal accounts as a fallback" }
+      - { key: c, text: "Establish federation agreements that set the partners' minimum proofing and MFA assurance, incident notification and deprovisioning duties" }
+      - { key: d, text: "Map partner group names to portal administrator roles" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** Federation means trusting someone else's authentication and lifecycle. Due
+      diligence and an agreement on assurance levels, incident reporting and leaver handling come
+      before any technology is deployed.
+
+      - **a** — The protocol choice is implementation; it should follow the trust decision.
+      - **b** — Local accounts duplicate lifecycles and defeat the point of federation.
+      - **d** — Granting admin rights from partner-asserted groups is dangerous, and authorization
+        mapping comes after the trust framework anyway.
+    points: 1
+
+  - key: d5-hybrid-outage-resilience
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A company's cloud productivity suite is federated to an on-premises federation server. During a
+      data-centre power failure, nobody can sign in to the cloud suite. Which hybrid identity pattern
+      would **BEST** have kept cloud sign-in working during the outage?
+    choices:
+      - { key: a, text: "Pass-through authentication with agents in the same data centre" }
+      - { key: b, text: "Adding a second federation server in the same data centre" }
+      - { key: c, text: "Just-in-time provisioning from SAML assertions" }
+      - { key: d, text: "Password hash synchronisation, so the cloud identity service can authenticate users itself" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** With password hash synchronisation the cloud service holds what it needs to
+      authenticate users without contacting on-premises systems, so an on-prem outage does not block
+      cloud sign-in. Many organisations keep it as a fallback even when federated.
+
+      - **a** — Pass-through authentication still depends on on-prem agents being reachable.
+      - **b** — A second server in the same failed data centre fails too.
+      - **c** — JIT provisioning creates accounts at first login; it does not authenticate anyone.
+    points: 1
+
+  - key: d5-jit-provisioning-leavers
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A SaaS application creates user accounts just-in-time from SAML attributes on first login. An
+      audit finds hundreds of SaaS accounts for people who left the company, some still holding API
+      keys. What is the **BEST** long-term fix?
+    choices:
+      - { key: a, text: "Automate deprovisioning from the identity source to the SaaS app, for example with SCIM" }
+      - { key: b, text: "Shorten SAML assertion validity to two minutes" }
+      - { key: c, text: "Switch from SAML to OpenID Connect" }
+      - { key: d, text: "Require MFA at the SaaS application's own login page" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** JIT provisioning can create but never delete. A provisioning channel such as
+      SCIM pushes leaver events from the authoritative identity source so accounts — and their API
+      keys — are disabled when people leave.
+
+      - **b** — Assertion lifetime affects replay windows, not account lifecycle; API keys bypass SAML
+        entirely.
+      - **c** — OIDC has the same gap; the protocol is not the problem.
+      - **d** — MFA does not remove leavers' accounts or their keys.
+    points: 1
+
+  - key: d5-oidc-aud-claim
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An application receives an OpenID Connect ID token. Which claim must it check matches its own
+      client identifier so that it does not accept a token issued to a different application?
+    choices:
+      - { key: a, text: "`sub`" }
+      - { key: b, text: "`aud`" }
+      - { key: c, text: "`iss`" }
+      - { key: d, text: "`nonce`" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** `aud` (audience) names the client the token was issued for; a relying party
+      must reject tokens whose audience is not itself.
+
+      - **a** — `sub` identifies the user at the issuer.
+      - **c** — `iss` identifies the OpenID Provider; it must also be checked, but it does not stop a
+        token for another client of the same provider.
+      - **d** — `nonce` ties the token to the authentication request to prevent replay; it does not
+        name the intended client.
+    points: 1
+
+  - key: d5-saml-sp-validation
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      A code review of a service provider's SAML handling finds it extracts the NameID and logs the
+      user in without further checks. Which **TWO** validations must be added? **Choose two.**
+    choices:
+      - { key: a, text: "Verify the XML signature covers the assertion and was made by the trusted IdP's key" }
+      - { key: b, text: "Check the user's password against the local database" }
+      - { key: c, text: "Enforce the assertion's validity conditions (NotBefore / NotOnOrAfter)" }
+      - { key: d, text: "Check the OAuth scopes in the assertion" }
+      - { key: e, text: "Confirm the browser's cookie domain matches the IdP's domain" }
+    answer: [a, c]
+    explanation_md: |
+      **a and c are correct.** Without signature verification anyone can forge an assertion (and a
+      signature that covers only part of the document allows XML signature wrapping); without
+      validity-time checks old assertions can be replayed. Audience checks belong on the same list.
+
+      - **b** — SAML exists so the SP does not handle passwords; the IdP authenticated the user.
+      - **d** — OAuth scopes are not part of SAML assertions.
+      - **e** — Cookie domains differ between IdP and SP by design and say nothing about assertion
+        integrity.
+    points: 1
+
+  - key: d5-ropc-grant
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A vendor's mobile app asks users for their corporate username and password, then exchanges
+      them directly with the company's authorization server for tokens. The vendor says this "keeps
+      the experience inside the app". How should the security architect respond?
+    choices:
+      - { key: a, text: "Accept it if the app stores the password in the device's secure enclave" }
+      - { key: b, text: "Accept it if the vendor signs a non-disclosure agreement" }
+      - { key: c, text: "Reject it: the password grant exposes credentials to the client and bypasses MFA and phishing protections; require authorization code with PKCE via the system browser" }
+      - { key: d, text: "Reject it and require SAML instead, because OAuth is not suitable for mobile apps" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** This is the resource owner password credentials grant, which RFC 9700 says not
+      to use: the client handles the user's password, cannot support the IdP's MFA or phishing
+      resistance, and trains users to type corporate passwords into third-party apps.
+
+      - **a** — Secure storage does not change that a third party collects the password.
+      - **b** — Contracts do not fix the technical exposure.
+      - **d** — OAuth with authorization code and PKCE is the recommended pattern for native apps;
+        SAML is browser-oriented.
+    points: 1
+
+  # ---------------------------------------------------------------- 5.4 authorization mechanisms
+  - key: d5-dac-trojan-horse
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      On a research file server, each scientist sets permissions on the folders they create. Malware
+      run by one scientist copies her folders, and every folder shared with her, to a public share.
+      Which access control model's inherent weakness does this illustrate?
+    choices:
+      - { key: a, text: "Mandatory access control" }
+      - { key: b, text: "Rule-based access control" }
+      - { key: c, text: "Attribute-based access control" }
+      - { key: d, text: "Discretionary access control" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** In DAC, owners set permissions and any program running as a user inherits all
+      of that user's rights, so a Trojan horse can copy whatever she can read to wherever she can
+      write.
+
+      - **a** — MAC labels data and prevents users and their programs from writing it to lower
+        classifications, which is exactly the protection missing here.
+      - **b** — Rule-based control applies global rules (time, port, address); owners setting folder
+        permissions is not that.
+      - **c** — ABAC evaluates attributes against central policy; owners are not setting it here.
+    points: 1
+
+  - key: d5-mac-labels
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A defence contractor's system labels every document Unclassified, Confidential, Secret or Top
+      Secret with project compartments. Users receive clearances, and neither users nor document
+      authors can change a label or grant access to others. Which model is in use?
+    choices:
+      - { key: a, text: "Mandatory access control" }
+      - { key: b, text: "Discretionary access control" }
+      - { key: c, text: "Role-based access control" }
+      - { key: d, text: "Risk-based access control" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** System-enforced comparison of subject clearances against object labels and
+      compartments, which owners cannot override, is MAC.
+
+      - **b** — In DAC, the owner could share at will; here owners cannot.
+      - **c** — RBAC grants via job roles, not classification labels and clearances.
+      - **d** — Risk-based control uses real-time risk signals; nothing here is computed per request.
+    points: 1
+
+  - key: d5-rbac-turnover
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A hospital chain employs 9,000 staff in about 40 well-defined job functions, with high turnover
+      among nurses and porters. Access is granted user by user today, and audits find inconsistencies.
+      Which model would **BEST** simplify administration?
+    choices:
+      - { key: a, text: "Discretionary access control, letting each ward manager share as needed" }
+      - { key: b, text: "Mandatory access control with clearances for every employee" }
+      - { key: c, text: "Rule-based access control on the network firewalls" }
+      - { key: d, text: "Role-based access control, with permissions assigned to job-function roles" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** Stable job functions and frequent joiners and leavers are the classic case for
+      RBAC: define each role's permissions once, then assign people to roles.
+
+      - **a** — DAC increases inconsistency; it is the problem, not the fix.
+      - **b** — MAC requires labelling every object and clearing every person; heavy and unsuited to
+        a hospital's needs.
+      - **c** — Firewall rules apply to everyone equally and cannot express job-function access to
+        applications and records.
+    points: 1
+
+  - key: d5-rule-based-after-hours
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A bank configures its core systems to reject every interactive login between 23:00 and 05:00
+      except from the operations network, whatever the user's role. Which access control approach
+      is this?
+    choices:
+      - { key: a, text: "Role-based access control" }
+      - { key: b, text: "Rule-based access control" }
+      - { key: c, text: "Discretionary access control" }
+      - { key: d, text: "Content-dependent access control" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** A global condition (time and network) that applies to all subjects regardless
+      of identity or role is rule-based access control.
+
+      - **a** — Role-based control grants by job function; this rule ignores roles.
+      - **c** — No owner is deciding access at their discretion.
+      - **d** — Content-dependent control looks at the data being accessed, not the time or source.
+    points: 1
+
+  - key: d5-abac-role-explosion
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A multinational has grown to 4,000 roles because access to customer data depends on the
+      employee's department, country, contractor status, the data's region and classification, and
+      whether the laptop is managed. Administrators cannot keep up. Which approach would **BEST**
+      address this?
+    choices:
+      - { key: a, text: "Attribute-based access control evaluating subject, object and environment attributes against policy" }
+      - { key: b, text: "Hierarchical RBAC so senior roles inherit junior permissions" }
+      - { key: c, text: "Discretionary access control so data owners grant access directly" }
+      - { key: d, text: "Mandatory access control with a label for each country" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** The decision depends on combinations of attributes, which is what ABAC
+      expresses directly — a handful of policies replace thousands of roles (role explosion).
+
+      - **b** — Inheritance reduces some duplication but still needs a role per combination of
+        country, department and status.
+      - **c** — DAC removes central control and makes consistency worse.
+      - **d** — MAC labels cannot express device posture or contractor status, and it is
+        administratively heavy.
+    points: 1
+
+  - key: d5-risk-based-step-up
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A user signs in from London, then 20 minutes later a sign-in for the same account arrives from
+      a new device in another continent through an anonymising network. The identity provider demands
+      a phishing-resistant MFA prompt for the second attempt and would block it if the score were
+      higher. Which access control approach is this?
+    choices:
+      - { key: a, text: "Rule-based access control" }
+      - { key: b, text: "Mandatory access control" }
+      - { key: c, text: "Risk-based (adaptive) access control" }
+      - { key: d, text: "Discretionary access control" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** A real-time risk score from signals such as impossible travel, new device and
+      anonymiser drives allow, step-up or block — risk-based access control.
+
+      - **a** — A static rule applies the same condition to everyone; here the response is computed
+        from many signals for this attempt.
+      - **b** — MAC compares labels and clearances, not sign-in context.
+      - **d** — No owner decides anything here.
+    points: 1
+
+  - key: d5-pep-role
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      In a zero trust design, every API call passes through a gateway that asks a central policy
+      engine "may this subject do this action on this resource?", then allows or blocks the call
+      according to the answer. What is the gateway's role?
+    choices:
+      - { key: a, text: "Policy decision point" }
+      - { key: b, text: "Policy information point" }
+      - { key: c, text: "Policy administration point" }
+      - { key: d, text: "Policy enforcement point" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** The PEP intercepts requests and enforces the decision; it must be
+      non-bypassable.
+
+      - **a** — The central policy engine that evaluates policy is the PDP.
+      - **b** — A PIP supplies attributes (user, device, resource) to the PDP.
+      - **c** — The PAP is where policies are authored and managed.
+    points: 1
+
+  - key: d5-static-sod
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An ERP project wants to guarantee that no employee is ever assigned both the *Create Vendor*
+      and *Approve Payment* roles, even temporarily. Which control does this describe?
+    choices:
+      - { key: a, text: "Dynamic separation of duties" }
+      - { key: b, text: "Static separation of duties" }
+      - { key: c, text: "Hierarchical role inheritance" }
+      - { key: d, text: "Need to know" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** Static SoD (constrained RBAC) forbids conflicting roles from ever being
+      *assigned* to the same user.
+
+      - **a** — Dynamic SoD allows a user to hold both roles but not to *activate* both in the same
+        session or transaction.
+      - **c** — Hierarchies let senior roles inherit permissions; they do not prevent conflicts and can
+        create them.
+      - **d** — Need to know limits access to specific information; it does not split a process.
+    points: 1
+
+  - key: d5-abac-environment-attributes
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      An ABAC policy reads: *permit read on a record if the employee's department matches the
+      record's owning department, the record is not classified Restricted, it is a weekday between
+      07:00 and 19:00, and the request comes from a compliant managed device.* Which **TWO** are
+      environment attributes? **Choose two.**
+    choices:
+      - { key: a, text: "The employee's department" }
+      - { key: b, text: "The time and day of the request" }
+      - { key: c, text: "The record's classification" }
+      - { key: d, text: "The compliance state of the requesting device" }
+      - { key: e, text: "The record's owning department" }
+    answer: [b, d]
+    explanation_md: |
+      **b and d are correct.** Environment (context) attributes describe the circumstances of the
+      request — time, location, device posture, threat level — rather than the subject or object.
+
+      - **a** — Department is a subject attribute.
+      - **c** — Classification is an object (resource) attribute.
+      - **e** — The owning department is also an object attribute.
+    points: 1
+
+  # ---------------------------------------------------------------- 5.6 Kerberos, RADIUS, TACACS+
+  - key: d5-kerberos-clock-skew
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      After a time server failure, a branch office's workstations drift ten minutes from the domain
+      controllers, and users suddenly cannot access file shares even though their passwords are
+      correct. What is the most likely cause?
+    choices:
+      - { key: a, text: "The users' TGTs were encrypted with the wrong service key" }
+      - { key: b, text: "Kerberos rejects authenticators whose timestamps fall outside the allowed clock skew, a replay defence" }
+      - { key: c, text: "RADIUS accounting packets were dropped because UDP is unreliable" }
+      - { key: d, text: "The KDC's krbtgt password expired" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** Kerberos authenticators carry timestamps; servers reject those outside the
+      permitted skew (commonly five minutes) to prevent replay, so drifted clocks break
+      authentication.
+
+      - **a** — Clock drift does not change which key encrypts a ticket.
+      - **c** — RADIUS is not used for Windows file-share authentication, and accounting does not
+        authenticate.
+      - **d** — The krbtgt password does not expire in normal operation, and this would affect every
+        site, not just the drifted branch.
+    points: 1
+
+  - key: d5-golden-ticket
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      Incident responders confirm an attacker dumped the krbtgt account's password hash from a domain
+      controller. Which statement **BEST** describes the threat and the key recovery step?
+    choices:
+      - { key: a, text: "The attacker can forge TGTs for any user (golden tickets); reset the krbtgt password twice as part of eviction" }
+      - { key: b, text: "The attacker can crack service accounts offline (Kerberoasting); lengthen service passwords" }
+      - { key: c, text: "The attacker can replay one user's cached ticket (pass-the-ticket); reboot that user's workstation" }
+      - { key: d, text: "The attacker can read RADIUS shared secrets; rotate the secrets on all switches" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** The krbtgt key encrypts every TGT, so holding it lets an attacker forge TGTs
+      for any identity, including domain admins. Resetting it twice invalidates both the current and
+      previous keys the KDC accepts, alongside wider incident response.
+
+      - **b** — Kerberoasting targets service account passwords via service tickets; it does not need
+        the krbtgt hash.
+      - **c** — Pass-the-ticket reuses stolen tickets; it is a smaller problem than forging any ticket.
+      - **d** — RADIUS secrets are unrelated to the Kerberos krbtgt account.
+    points: 1
+
+  - key: d5-tacacs-per-command
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A network team wants every command an engineer enters on core routers to be authorized
+      individually against central policy and recorded, with the entire AAA payload protected in
+      transit. Which protocol fits **BEST**?
+    choices:
+      - { key: a, text: "RADIUS" }
+      - { key: b, text: "Kerberos" }
+      - { key: c, text: "TACACS+" }
+      - { key: d, text: "SAML" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** TACACS+ separates authentication, authorization and accounting, enabling
+      per-command authorization and accounting, runs over TCP 49 and obfuscates the whole packet body.
+
+      - **a** — RADIUS combines authentication and authorization and hides only the password; it is
+        best for network access such as Wi-Fi and VPN.
+      - **b** — Kerberos provides ticket-based authentication for services, not per-command device
+        authorization.
+      - **d** — SAML is browser federation, not network device administration.
+    points: 1
+
+  - key: d5-radius-properties
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      A company is deploying 802.1X for its wireless network with a RADIUS server. An auditor asks
+      about RADIUS's transport and protection. Which **TWO** statements are accurate? **Choose two.**
+    choices:
+      - { key: a, text: "RADIUS uses UDP, with authentication on port 1812" }
+      - { key: b, text: "RADIUS encrypts the entire packet body with the shared secret" }
+      - { key: c, text: "RADIUS separates authorization from authentication into distinct exchanges" }
+      - { key: d, text: "Only the user password attribute is hidden; other attributes travel in clear unless protected by TLS or IPsec" }
+      - { key: e, text: "RADIUS runs over TCP port 49" }
+    answer: [a, d]
+    explanation_md: |
+      **a and d are correct.** RADIUS runs over UDP (1812 authentication, 1813 accounting) and hides
+      only the User-Password attribute, so the rest should be protected by RADIUS over TLS or IPsec
+      when crossing untrusted networks.
+
+      - **b** — Whole-body protection is a TACACS+ feature.
+      - **c** — RADIUS combines authentication and authorization in the Access-Accept; TACACS+
+        separates them.
+      - **e** — TCP 49 is TACACS+.
+    points: 1
+
+  - key: d5-kdc-single-point
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A company is extending Kerberos-based single sign-on to a new manufacturing site. From an
+      architecture standpoint, what is the main inherent weakness the design must address?
+    choices:
+      - { key: a, text: "Passwords are sent across the network in clear text during logon" }
+      - { key: b, text: "Kerberos uses public-key cryptography that is too slow for factory devices" }
+      - { key: c, text: "Tickets never expire, so stolen tickets are valid forever" }
+      - { key: d, text: "The KDC holds every principal's key, making it a single point of failure and of compromise" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** If the KDC is down, nobody gets tickets; if it is compromised, every key is
+      exposed. Design for redundant, hardened KDCs (domain controllers) with tight administrative
+      access.
+
+      - **a** — Kerberos never sends the password; the user's key decrypts the AS reply.
+      - **b** — Kerberos is built on symmetric cryptography (public-key extensions exist but are
+        optional).
+      - **c** — Tickets have lifetimes (often ten hours for a TGT) and expire.
+    points: 1
+
+  # ---------------------------------------------------------------- 5.5 provisioning lifecycle
+  - key: d5-privilege-creep-mover
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A review finds that an employee who moved from accounts payable to procurement to treasury over
+      five years can now create vendors, raise purchase orders and release payments. What is the
+      **ROOT** cause that the security manager should fix?
+    choices:
+      - { key: a, text: "The transfer process adds the new role's access without removing the previous role's" }
+      - { key: b, text: "The employee should have been given a separate administrator account" }
+      - { key: c, text: "The ERP system lacks audit logging of payment releases" }
+      - { key: d, text: "Access reviews are performed by IT administrators instead of managers" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** This is privilege creep from a broken mover process. Fix the process so
+      transfers remove previous access by default (with SoD constraints blocking toxic combinations),
+      then clean up the current access.
+
+      - **b** — Separate admin accounts are for IT privileges; these are business entitlements.
+      - **c** — Logging helps detection but would not have prevented the accumulation.
+      - **d** — Reviewer choice matters, and reviews should have caught this, but the source of the
+        problem is the transfer process that created it.
+    points: 1
+
+  - key: d5-leaver-disable-not-delete
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An engineer is dismissed for suspected data theft. HR asks IT to "delete his account
+      immediately". What should the security manager advise?
+    choices:
+      - { key: a, text: "Delete the account now to guarantee he cannot log in" }
+      - { key: b, text: "Leave the account active for a week to monitor what he does" }
+      - { key: c, text: "Disable the account and revoke sessions and tokens now, preserving the account and its data for the investigation and retention" }
+      - { key: d, text: "Reset the password and send the new one to his manager" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** Disabling blocks use immediately while keeping the audit trail, mailbox and
+      file ownership needed for investigation and legal hold. Revoking sessions and tokens closes paths
+      that survive a disabled password. Deletion follows retention policy later.
+
+      - **a** — Deleting may destroy evidence and orphan data the investigation needs.
+      - **b** — Leaving a suspected thief active risks more loss; monitoring must not mean continued
+        access.
+      - **d** — Sharing a new password with the manager breaks accountability and still leaves the
+        account usable.
+    points: 1
+
+  - key: d5-access-review-reviewers
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      An organisation's quarterly entitlement review is performed by the IT administrators who grant
+      access. Auditors report that the reviews approve almost everything. Who should certify that
+      users still need their access to the finance application?
+    choices:
+      - { key: a, text: "The IT administrators, because they understand the permission structure" }
+      - { key: b, text: "The users themselves, through a self-attestation form" }
+      - { key: c, text: "The external auditors, because they are independent" }
+      - { key: d, text: "The users' managers and the finance application's data owner" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** Managers know what their people's jobs require, and the data owner is
+      accountable for who reaches the data. They certify; IT executes removals.
+
+      - **a** — Administrators reviewing access they granted lack independence and business context.
+      - **b** — Self-attestation invites everyone to keep everything.
+      - **c** — Auditors test whether the review control works; they do not perform it.
+    points: 1
+
+  - key: d5-jit-standing-privilege
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      Cloud administrators currently hold permanent owner rights on production subscriptions. The
+      CISO wants to reduce the damage if an administrator's account is phished, without slowing
+      routine work unacceptably. What is the **BEST** approach?
+    choices:
+      - { key: a, text: "Require longer passwords for administrator accounts" }
+      - { key: b, text: "Replace standing owner rights with just-in-time elevation that is approved, time-limited and automatically removed" }
+      - { key: c, text: "Review administrator group membership annually" }
+      - { key: d, text: "Share a single owner account among administrators so only one account needs protecting" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** JIT access removes standing privilege: a phished account outside an approved
+      window has nothing to abuse, and every elevation is recorded.
+
+      - **a** — Passwords are phished regardless of length.
+      - **c** — An annual review leaves privileges standing all year.
+      - **d** — Shared accounts destroy accountability and concentrate risk.
+    points: 1
+
+  - key: d5-service-account-hardening
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      A penetration test cracked the password of a service account running the reporting
+      application by requesting its Kerberos service ticket and attacking it offline. The account is
+      a domain admin "so the app always works". Which **TWO** actions **BEST** address the findings?
+      **Choose two.**
+    choices:
+      - { key: a, text: "Move the service to a managed service account (or vaulted long random password) with automatic rotation" }
+      - { key: b, text: "Set the password to never expire so the application cannot break" }
+      - { key: c, text: "Remove domain admin and grant only the rights the reporting application needs" }
+      - { key: d, text: "Allow interactive logon so administrators can troubleshoot as the service" }
+      - { key: e, text: "Reuse the same account for other applications to reduce the number of accounts" }
+    answer: [a, c]
+    explanation_md: |
+      **a and c are correct.** Kerberoasting succeeds against weak, static service passwords, which a
+      managed account or long random rotated secret defeats; and least privilege limits the damage if
+      the account is ever compromised.
+
+      - **b** — A never-expiring password is the condition that makes offline cracking worthwhile.
+      - **d** — Service accounts should be denied interactive logon to reduce misuse.
+      - **e** — Sharing one account across applications widens its privileges and blast radius and
+        blurs ownership.
+    points: 1
+
+  - key: d5-sudo-vs-root
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      Linux administrators share the root password to perform maintenance. The auditor wants
+      elevated actions attributable to individuals with the least privilege practical. What should
+      replace the shared root password?
+    choices:
+      - { key: a, text: "Individual accounts with sudo rules granting specific commands, with sudo use logged and reviewed" }
+      - { key: b, text: "A longer root password changed weekly" }
+      - { key: c, text: "Direct root SSH login with key-based authentication for all administrators" }
+      - { key: d, text: "Making every administrator a member of the wheel group with unrestricted sudo" }
+    answer: [a]
+    explanation_md: |
+      **a is correct.** sudo ties each elevation to the individual's account, can be limited to the
+      commands each role needs, and its logs give an auditable trail.
+
+      - **b** — A stronger shared password is still shared; attribution remains impossible.
+      - **c** — Logging in directly as root still logs actions under root, and grants full privilege.
+      - **d** — Unrestricted sudo improves attribution but ignores least privilege.
+    points: 1
+
+  - key: d5-break-glass-accounts
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      The company's cloud identity provider enforces conditional access and MFA through a third-party
+      service. Leadership worries that an outage of that service could lock every administrator out.
+      What is the **BEST** control?
+    choices:
+      - { key: a, text: "Disable MFA for all administrators so outages cannot block them" }
+      - { key: b, text: "Give every administrator a second permanent admin account without MFA" }
+      - { key: c, text: "Rely on the provider's support line to restore access during an outage" }
+      - { key: d, text: "Create a small number of break-glass accounts with vaulted credentials and split knowledge, excluded from the dependency, whose every use alerts and is reviewed" }
+    answer: [d]
+    explanation_md: |
+      **d is correct.** Break-glass accounts provide emergency access while keeping the number small,
+      the credentials tightly controlled, and any use immediately visible.
+
+      - **a** — Removing MFA from all admins trades a rare outage for constant exposure.
+      - **b** — Many permanent unprotected admin accounts multiply the attack surface.
+      - **c** — Support may be slow or unable to help during a wide outage; it is not a control you own.
+    points: 1
+
+  - key: d5-involuntary-termination-timing
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A system administrator with broad privileges is to be dismissed for poor performance at a
+      meeting at 14:00. When should his logical access be removed?
+    choices:
+      - { key: a, text: "Immediately after the meeting, once he has been told" }
+      - { key: b, text: "At the end of his notice period, so he can hand over work" }
+      - { key: c, text: "Coordinated to happen as or just before he is informed, including privileged and remote access" }
+      - { key: d, text: "At the next scheduled quarterly access review" }
+    answer: [c]
+    explanation_md: |
+      **c is correct.** For involuntary termination of a privileged user, HR, security and IT
+      coordinate so access is removed as he is informed — before he can react — including VPN,
+      privileged and cloud accounts.
+
+      - **a** — The minutes after notification are the highest-risk window for sabotage.
+      - **b** — Leaving privileged access in place through a notice period invites harm; handover can be
+        supervised.
+      - **d** — Reviews are a backstop, not a termination process.
+    points: 1
+
+  - key: d5-leaver-sessions-tokens
+    kind: multi
+    domain: d5-iam
+    prompt_md: |
+      A former employee's directory account was disabled on her last day, yet a week later her
+      personal laptop is still syncing files from a corporate SaaS storage app. Which **TWO** actions
+      should the leaver process include to prevent this? **Choose two.**
+    choices:
+      - { key: a, text: "Revoke the user's active sessions and OAuth refresh tokens at the identity provider and the SaaS app" }
+      - { key: b, text: "Change the password of the disabled directory account" }
+      - { key: c, text: "Deprovision the SaaS account through an automated channel such as SCIM" }
+      - { key: d, text: "Extend the identity provider's session lifetime" }
+      - { key: e, text: "Send the user a reminder of her confidentiality obligations" }
+    answer: [a, c]
+    explanation_md: |
+      **a and c are correct.** Long-lived refresh tokens and existing sessions survive a disabled
+      directory account; they must be revoked. Deprovisioning the SaaS account itself removes the
+      access at the source.
+
+      - **b** — The account is already disabled; a new password does not affect tokens already issued.
+      - **d** — Longer sessions make the problem worse.
+      - **e** — A reminder is reasonable courtesy but does not stop the sync.
+    points: 1
+
+  - key: d5-review-findings-orphans
+    kind: single
+    domain: d5-iam
+    prompt_md: |
+      A first-ever access review finds 140 active accounts belonging to people who left the company
+      in the past two years. After disabling them, what should the security manager do **NEXT**?
+    choices:
+      - { key: a, text: "Delete the 140 accounts and close the finding" }
+      - { key: b, text: "Review logs for any use after each leaver's departure date, and fix the leaver process so HR events trigger deprovisioning" }
+      - { key: c, text: "Increase password complexity requirements for all users" }
+      - { key: d, text: "Schedule the next review for two years' time" }
+    answer: [b]
+    explanation_md: |
+      **b is correct.** Two things follow: check whether any of those accounts was used after the
+      person left (a possible incident), and fix the root cause — the leaver process is not triggered
+      by HR — so the problem does not recur.
+
+      - **a** — Deleting removes evidence and fixes nothing upstream.
+      - **c** — Password complexity has nothing to do with orphaned accounts.
+      - **d** — Two-year intervals allowed this; review frequency should rise, not stay low.
+    points: 1

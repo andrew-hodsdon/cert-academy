@@ -1,0 +1,612 @@
+sources:
+  - slug: d3-isc2-cissp-outline
+    kind: standard
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline (effective 15 April 2024)"
+    authors: [ISC2]
+    site: isc2.org
+    tags: [outline, cissp]
+    summary_md: |
+      The official outline. Domain 3 objectives 3.1–3.10, including the named sub-items (SASE, shared
+      responsibility, the 3.5 architecture list, the 3.7 attack list, the 3.9 facility list and the 3.10
+      lifecycle stages). Every lesson in this module maps to it.
+
+  - slug: d3-nist-sp-800-160v1r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/160/v1/r1/final
+    title: "NIST SP 800-160 Vol. 1 Rev. 1: Engineering Trustworthy Secure Systems"
+    authors: [Ron Ross, Mark Winstead, Michael McEvilley]
+    site: NIST CSRC
+    published: 2022-11-16
+    tags: [systems-engineering, design-principles, lifecycle]
+    summary_md: |
+      NIST's systems security engineering guide, built on ISO/IEC/IEEE 15288 life cycle processes.
+      Appendix E lists the security design principles (least privilege, least functionality, defence in
+      depth, minimise trusted elements, secure defaults, secure failure and recovery, reduced complexity,
+      and others). Used for lessons 1 and 2.
+
+  - slug: d3-iso-15288
+    kind: standard
+    url: https://www.iso.org/standard/81702.html
+    title: "ISO/IEC/IEEE 15288:2023 Systems and software engineering — System life cycle processes"
+    authors: [ISO/IEC JTC 1/SC 7]
+    site: iso.org
+    published: 2023-05-01
+    tags: [lifecycle]
+    summary_md: |
+      The life cycle process standard that SP 800-160 maps security onto: stakeholder needs, requirements
+      definition, architecture, design, implementation, integration, verification, transition, validation,
+      operation, maintenance and disposal. Source for lesson 1's lifecycle table.
+
+  - slug: d3-saltzer-schroeder-1975
+    kind: paper
+    url: https://www.cs.virginia.edu/~evans/cs551/saltzer/
+    title: "The Protection of Information in Computer Systems"
+    authors: [Jerome H. Saltzer, Michael D. Schroeder]
+    site: Proceedings of the IEEE
+    published: 1975-09-01
+    tags: [design-principles]
+    summary_md: |
+      The classic eight design principles: economy of mechanism, fail-safe defaults, complete mediation,
+      open design, separation of privilege, least privilege, least common mechanism, psychological
+      acceptability. The origin of KISS, secure defaults and separation of duties as design principles.
+
+  - slug: d3-nist-sp-800-207
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/207/final
+    title: "NIST SP 800-207: Zero Trust Architecture"
+    authors: [Scott Rose, Oliver Borchert, Stu Mitchell, Sean Connelly]
+    site: NIST CSRC
+    published: 2020-08-11
+    tags: [zero-trust]
+    summary_md: |
+      Defines zero trust tenets (no implicit trust based on network location, per-session access,
+      dynamic policy) and the logical components: policy engine, policy administrator and policy
+      enforcement point. Used for lesson 1's zero trust section.
+
+  - slug: d3-cisa-zero-trust-maturity
+    kind: standard
+    url: https://www.cisa.gov/zero-trust-maturity-model
+    title: "CISA Zero Trust Maturity Model, Version 2.0"
+    authors: [CISA]
+    site: cisa.gov
+    published: 2023-04-11
+    tags: [zero-trust, sase]
+    summary_md: |
+      The five pillars (identity, devices, networks, applications and workloads, data) and maturity
+      stages. Second source for zero trust, and context for SASE as a way to deliver network-pillar
+      controls from the cloud edge.
+
+  - slug: d3-cisa-secure-by-design
+    kind: web
+    url: https://www.cisa.gov/securebydesign
+    title: "CISA Secure by Design"
+    authors: [CISA]
+    site: cisa.gov
+    tags: [secure-defaults, design-principles]
+    summary_md: |
+      CISA's secure-by-design and secure-by-default principles: products should be secure out of the box,
+      with hardening that is the default rather than an option. Second source for secure defaults.
+
+  - slug: d3-owasp-security-design-principles
+    kind: web
+    url: https://owasp.org/www-project-developer-guide/release/foundations/security_principles/
+    title: "OWASP Developer Guide: Security fundamentals and principles"
+    authors: [OWASP]
+    site: owasp.org
+    tags: [design-principles]
+    summary_md: |
+      OWASP's restatement of least privilege, defence in depth, fail securely, separation of duties,
+      keep it simple, secure defaults and zero trust. Independent second source for lesson 1.
+
+  - slug: d3-nist-sp-800-145
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/145/final
+    title: "NIST SP 800-145: The NIST Definition of Cloud Computing"
+    authors: [Peter Mell, Timothy Grance]
+    site: NIST CSRC
+    published: 2011-09-28
+    tags: [cloud]
+    summary_md: |
+      Five essential characteristics, three service models (SaaS, PaaS, IaaS) and four deployment
+      models (private, community, public, hybrid). Basis for lesson 3's cloud section.
+
+  - slug: d3-csa-security-guidance
+    kind: standard
+    url: https://cloudsecurityalliance.org/research/guidance
+    title: "CSA Security Guidance for Critical Areas of Focus in Cloud Computing v5"
+    authors: [Cloud Security Alliance]
+    site: cloudsecurityalliance.org
+    tags: [cloud, shared-responsibility]
+    summary_md: |
+      Explains the shared responsibility model across IaaS, PaaS and SaaS, and cloud-specific risks.
+      Second source for shared responsibility (lessons 1 and 3).
+
+  - slug: d3-nist-sp-800-190
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/190/final
+    title: "NIST SP 800-190: Application Container Security Guide"
+    authors: [Murugiah Souppaya, John Morello, Karen Scarfone]
+    site: NIST CSRC
+    published: 2017-09-25
+    tags: [containers]
+    summary_md: |
+      Container risks by component (image, registry, orchestrator, container, host OS) and the shared
+      kernel as the key isolation difference from VMs. Used in lesson 3.
+
+  - slug: d3-nist-sp-800-125
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/125/final
+    title: "NIST SP 800-125: Guide to Security for Full Virtualization Technologies"
+    authors: [Karen Scarfone, Murugiah Souppaya, Paul Hoffman]
+    site: NIST CSRC
+    published: 2011-01-28
+    tags: [virtualization]
+    summary_md: |
+      Type 1 (bare-metal) and type 2 (hosted) hypervisors, guest isolation, VM sprawl and escape risks.
+      Used in lesson 3.
+
+  - slug: d3-nist-sp-800-82r3
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/82/r3/final
+    title: "NIST SP 800-82 Rev. 3: Guide to Operational Technology (OT) Security"
+    authors: [Keith Stouffer, Michael Pease, CheeYee Tang, Timothy Zimmerman, Victoria Pillitteri, Suzanne Lightman]
+    site: NIST CSRC
+    published: 2023-09-28
+    tags: [ics, ot, scada]
+    summary_md: |
+      OT and ICS (SCADA, DCS, PLC) characteristics: availability and safety come first, long lifetimes,
+      legacy protocols without authentication, and the need for segmentation. Used in lesson 3.
+
+  - slug: d3-cisa-ics
+    kind: web
+    url: https://www.cisa.gov/topics/industrial-control-systems
+    title: "CISA: Industrial Control Systems"
+    authors: [CISA]
+    site: cisa.gov
+    tags: [ics, ot]
+    summary_md: |
+      CISA's ICS guidance and advisories; second source for OT priorities and segmentation advice.
+
+  - slug: d3-nist-ir-8259
+    kind: standard
+    url: https://csrc.nist.gov/pubs/ir/8259/final
+    title: "NISTIR 8259: Foundational Cybersecurity Activities for IoT Device Manufacturers"
+    authors: [Michael Fagan, Katerina Megas, Karen Scarfone, Matthew Smith]
+    site: NIST CSRC
+    published: 2020-05-29
+    tags: [iot, embedded]
+    summary_md: |
+      Baseline IoT device capabilities (identification, configuration, data protection, logical access,
+      software update, state awareness). Used for the IoT and embedded sections of lesson 3.
+
+  - slug: d3-owasp-iot-top10
+    kind: web
+    url: https://owasp.org/www-project-internet-of-things/
+    title: "OWASP Internet of Things Project (IoT Top 10)"
+    authors: [OWASP]
+    site: owasp.org
+    tags: [iot]
+    summary_md: |
+      The common IoT weaknesses: weak or hard-coded passwords, insecure network services, lack of secure
+      update, insecure defaults. Second source for lesson 3's IoT section.
+
+  - slug: d3-owasp-serverless-top10
+    kind: web
+    url: https://owasp.org/www-project-serverless-top-10/
+    title: "OWASP Serverless Top 10"
+    authors: [OWASP]
+    site: owasp.org
+    tags: [serverless]
+    summary_md: |
+      Serverless risks: event-data injection, over-privileged function permissions, broken
+      authentication between functions, insufficient logging. Used in lesson 3.
+
+  - slug: d3-owasp-top10
+    kind: web
+    url: https://owasp.org/Top10/
+    title: "OWASP Top 10"
+    authors: [OWASP]
+    site: owasp.org
+    tags: [web, injection]
+    summary_md: |
+      Broken access control, injection, security misconfiguration, SSRF and the rest. Supports the
+      client, server and database vulnerability material in lesson 3.
+
+  - slug: d3-nist-sp-800-53r5
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    title: "NIST SP 800-53 Rev. 5: Security and Privacy Controls for Information Systems and Organizations"
+    authors: [Joint Task Force]
+    site: NIST CSRC
+    published: 2020-12-10
+    tags: [controls, physical]
+    summary_md: |
+      The control catalogue. Used for control selection and tailoring (lesson 2, with SP 800-53B
+      baselines) and for the PE (physical and environmental) family in lesson 6.
+
+  - slug: d3-nist-sp-800-37r2
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/37/r2/final
+    title: "NIST SP 800-37 Rev. 2: Risk Management Framework"
+    authors: [Joint Task Force]
+    site: NIST CSRC
+    published: 2018-12-20
+    tags: [rmf, authorization]
+    summary_md: |
+      RMF steps (prepare, categorise, select, implement, assess, authorise, monitor). The source for
+      control selection driven by categorisation, and for authorisation by an authorising official.
+
+  - slug: d3-bell-lapadula-1976
+    kind: paper
+    url: https://csrc.nist.gov/files/pubs/conference/1998/10/08/proceedings-of-the-21st-nissc-1998/final/docs/early-cs-papers/bell76.pdf
+    title: "Secure Computer System: Unified Exposition and Multics Interpretation (MTR-2997)"
+    authors: [D. Elliott Bell, Leonard J. LaPadula]
+    site: MITRE / NIST early computer security papers
+    published: 1976-03-01
+    tags: [security-models, confidentiality]
+    summary_md: |
+      The Bell-LaPadula model: simple security property (no read up), *-property (no write down),
+      discretionary security property. Primary source for lesson 2.
+
+  - slug: d3-biba-1977
+    kind: paper
+    url: https://apps.dtic.mil/sti/citations/ADA039324
+    title: "Integrity Considerations for Secure Computer Systems (MTR-3153)"
+    authors: [Kenneth J. Biba]
+    site: DTIC / MITRE
+    published: 1977-04-01
+    tags: [security-models, integrity]
+    summary_md: |
+      The Biba strict integrity model: simple integrity (no read down), * integrity (no write up) and
+      invocation. Used in lesson 2.
+
+  - slug: d3-clark-wilson-1987
+    kind: paper
+    url: https://doi.org/10.1109/SP.1987.10001
+    title: "A Comparison of Commercial and Military Computer Security Policies"
+    authors: [David D. Clark, David R. Wilson]
+    site: IEEE Symposium on Security and Privacy
+    published: 1987-04-27
+    tags: [security-models, integrity]
+    summary_md: |
+      Clark-Wilson: constrained and unconstrained data items, transformation procedures, integrity
+      verification procedures, well-formed transactions and separation of duty. Used in lesson 2.
+
+  - slug: d3-brewer-nash-1989
+    kind: paper
+    url: https://doi.org/10.1109/SECPRI.1989.36295
+    title: "The Chinese Wall Security Policy"
+    authors: [David F. C. Brewer, Michael J. Nash]
+    site: IEEE Symposium on Security and Privacy
+    published: 1989-05-01
+    tags: [security-models, conflict-of-interest]
+    summary_md: |
+      Brewer-Nash: dynamic access control based on conflict-of-interest classes and what the subject has
+      already accessed. Used in lesson 2.
+
+  - slug: d3-anderson-security-engineering
+    kind: book
+    url: https://www.cl.cam.ac.uk/~rja14/book.html
+    title: "Security Engineering, 3rd edition"
+    authors: [Ross Anderson]
+    site: University of Cambridge
+    published: 2020-12-01
+    tags: [security-models, physical, side-channel]
+    summary_md: |
+      Independent second source across the module: multilevel security (BLP, Biba), Chinese Wall,
+      Clark-Wilson, access control, physical protection, emission security and side channels. Chapters
+      are free online.
+
+  - slug: d3-common-criteria
+    kind: standard
+    url: https://www.commoncriteriaportal.org/cc/
+    title: "Common Criteria for Information Technology Security Evaluation (CC:2022)"
+    authors: [Common Criteria Recognition Arrangement]
+    site: commoncriteriaportal.org
+    published: 2022-11-01
+    tags: [evaluation, common-criteria]
+    summary_md: |
+      The CC parts, protection profiles, security targets, the target of evaluation and the seven
+      evaluation assurance levels. CC is published as ISO/IEC 15408. Used in lesson 2.
+
+  - slug: d3-iso-15408
+    kind: standard
+    url: https://www.iso.org/standard/72891.html
+    title: "ISO/IEC 15408-1:2022 Evaluation criteria for IT security — Part 1"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: iso.org
+    published: 2022-08-01
+    tags: [evaluation, common-criteria]
+    summary_md: |
+      The ISO publication of the Common Criteria. Second source for PP, ST, TOE and EAL definitions.
+
+  - slug: d3-tcg-tpm2
+    kind: standard
+    url: https://trustedcomputinggroup.org/resource/tpm-library-specification/
+    title: "TPM 2.0 Library Specification"
+    authors: [Trusted Computing Group]
+    site: trustedcomputinggroup.org
+    tags: [tpm, hardware-root-of-trust]
+    summary_md: |
+      TPM 2.0: platform configuration registers, measured boot, sealing, attestation and protected key
+      storage. Also published as ISO/IEC 11889. Used in lesson 2.
+
+  - slug: d3-nist-sp-800-193
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/193/final
+    title: "NIST SP 800-193: Platform Firmware Resiliency Guidelines"
+    authors: [Andrew Regenscheid]
+    site: NIST CSRC
+    published: 2018-05-04
+    tags: [firmware, root-of-trust]
+    summary_md: |
+      Roots of trust, protect/detect/recover for platform firmware. Second source for TPM and hardware
+      root of trust material in lesson 2.
+
+  - slug: d3-fips-140-3
+    kind: standard
+    url: https://csrc.nist.gov/pubs/fips/140-3/final
+    title: "FIPS 140-3: Security Requirements for Cryptographic Modules"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2019-03-22
+    tags: [hsm, crypto-modules]
+    summary_md: |
+      Four security levels for cryptographic modules, with physical tamper evidence at level 2,
+      tamper response at level 3 and environmental failure protection at level 4. Used for HSMs.
+
+  - slug: d3-fips-197
+    kind: standard
+    url: https://csrc.nist.gov/pubs/fips/197/final
+    title: "FIPS 197: Advanced Encryption Standard (AES)"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2001-11-26
+    tags: [aes, symmetric]
+    summary_md: |
+      AES: 128-bit block, 128/192/256-bit keys. Used in lessons 4 and 5.
+
+  - slug: d3-nist-sp-800-57p1r5
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final
+    title: "NIST SP 800-57 Part 1 Rev. 5: Recommendation for Key Management"
+    authors: [Elaine Barker]
+    site: NIST CSRC
+    published: 2020-05-04
+    tags: [key-management, cryptoperiod]
+    summary_md: |
+      Key states (pre-activation, active, suspended, deactivated, compromised, destroyed), cryptoperiods,
+      comparable security strengths (RSA-3072 ≈ AES-128), dual control and split knowledge. Core source
+      for lesson 4.
+
+  - slug: d3-nist-sp-800-131ar2
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/131/a/r2/final
+    title: "NIST SP 800-131A Rev. 2: Transitioning the Use of Cryptographic Algorithms and Key Lengths"
+    authors: [Elaine Barker, Allen Roginsky]
+    site: NIST CSRC
+    published: 2019-03-21
+    tags: [algorithm-selection, deprecation]
+    summary_md: |
+      Which algorithms and key lengths are acceptable, deprecated or disallowed (for example two-key
+      TDEA disallowed, three-key TDEA encryption disallowed after 2023, SHA-1 disallowed for signature
+      generation). Used for algorithm selection in lesson 4.
+
+  - slug: d3-fips-180-4
+    kind: standard
+    url: https://csrc.nist.gov/pubs/fips/180-4/upd1/final
+    title: "FIPS 180-4: Secure Hash Standard"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2015-08-04
+    tags: [hashing, sha-2]
+    summary_md: |
+      SHA-1 and the SHA-2 family digest sizes. Used in lessons 4 and 5.
+
+  - slug: d3-fips-186-5
+    kind: standard
+    url: https://csrc.nist.gov/pubs/fips/186-5/final
+    title: "FIPS 186-5: Digital Signature Standard"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2023-02-03
+    tags: [signatures]
+    summary_md: |
+      Approved signature schemes (RSA, ECDSA, EdDSA); DSA is no longer approved for generating new
+      signatures. Used in lesson 4.
+
+  - slug: d3-nist-pqc-fips-203-205
+    kind: standard
+    url: https://csrc.nist.gov/projects/post-quantum-cryptography
+    title: "NIST Post-Quantum Cryptography project (FIPS 203, 204, 205)"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2024-08-13
+    tags: [post-quantum, quantum]
+    summary_md: |
+      The first PQC standards published August 2024: FIPS 203 ML-KEM, FIPS 204 ML-DSA, FIPS 205
+      SLH-DSA. Also the reason "harvest now, decrypt later" matters. Used in lesson 4.
+
+  - slug: d3-nsa-quantum-faq
+    kind: standard
+    url: https://media.defense.gov/2021/Aug/04/2002821837/-1/-1/1/Quantum_FAQs_20210804.PDF
+    title: "NSA: Quantum Computing and Post-Quantum Cryptography FAQs"
+    authors: [National Security Agency]
+    site: defense.gov
+    published: 2021-08-04
+    tags: [post-quantum, qkd]
+    summary_md: |
+      Explains that Shor's algorithm threatens RSA and ECC, Grover's algorithm only halves symmetric
+      strength, and why NSA does not recommend quantum key distribution as a substitute for
+      quantum-resistant algorithms. Second source for the quantum section of lesson 4.
+
+  - slug: d3-rfc-5280
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc5280
+    title: "RFC 5280: Internet X.509 Public Key Infrastructure Certificate and CRL Profile"
+    authors: [D. Cooper, S. Santesson, S. Farrell, S. Boeyen, R. Housley, W. Polk]
+    site: IETF
+    published: 2008-05-01
+    tags: [pki, x509, crl]
+    summary_md: |
+      X.509 v3 certificate fields, path validation and CRLs. Used in lesson 4.
+
+  - slug: d3-rfc-6960
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc6960
+    title: "RFC 6960: X.509 Internet PKI Online Certificate Status Protocol (OCSP)"
+    authors: [S. Santesson, M. Myers, R. Ankney, A. Malpani, S. Galperin, C. Adams]
+    site: IETF
+    published: 2013-06-01
+    tags: [pki, ocsp]
+    summary_md: |
+      Real-time certificate status checking. Second source for revocation in lesson 4.
+
+  - slug: d3-nist-sp-800-38a
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/38/a/final
+    title: "NIST SP 800-38A: Recommendation for Block Cipher Modes of Operation"
+    authors: [Morris Dworkin]
+    site: NIST CSRC
+    published: 2001-12-01
+    tags: [modes, ecb, cbc, ctr]
+    summary_md: |
+      ECB, CBC, CFB, OFB and CTR modes. Source for why ECB leaks patterns. Used in lessons 4 and 5.
+
+  - slug: d3-menezes-handbook
+    kind: book
+    url: https://cacr.uwaterloo.ca/hac/
+    title: "Handbook of Applied Cryptography"
+    authors: [Alfred J. Menezes, Paul C. van Oorschot, Scott A. Vanstone]
+    site: CACR, University of Waterloo
+    published: 1996-10-16
+    tags: [cryptanalysis, attack-models]
+    summary_md: |
+      Defines the classic attack models (ciphertext-only, known-plaintext, chosen-plaintext,
+      chosen-ciphertext), exhaustive key search and the birthday paradox for hash collisions. Free
+      chapters online. Core source for lesson 5 and second source for lesson 4.
+
+  - slug: d3-kocher-timing-1996
+    kind: paper
+    url: https://www.paulkocher.com/doc/TimingAttacks.pdf
+    title: "Timing Attacks on Implementations of Diffie-Hellman, RSA, DSS, and Other Systems"
+    authors: [Paul C. Kocher]
+    site: CRYPTO '96
+    published: 1996-08-18
+    tags: [side-channel, timing]
+    summary_md: |
+      The first public timing attack on public-key implementations; the reason constant-time code
+      exists. Used in lesson 5.
+
+  - slug: d3-shattered
+    kind: paper
+    url: https://shattered.io/
+    title: "SHAttered: The first collision for full SHA-1"
+    authors: [Marc Stevens, Elie Bursztein, Pierre Karpman, Ange Albertini, Yarik Markov]
+    site: CWI Amsterdam and Google
+    published: 2017-02-23
+    tags: [collision, sha-1]
+    summary_md: |
+      Practical SHA-1 collision (two different PDFs with the same hash). Used in lesson 5 to show why
+      collision resistance and algorithm deprecation matter.
+
+  - slug: d3-mitre-attack-credential-access
+    kind: web
+    url: https://attack.mitre.org/tactics/TA0006/
+    title: "MITRE ATT&CK: Credential Access (Pass the Hash T1550.002, Kerberoasting T1558.003, Golden Ticket T1558.001)"
+    authors: [MITRE]
+    site: attack.mitre.org
+    tags: [pass-the-hash, kerberos, mitm]
+    summary_md: |
+      Technique descriptions and mitigations for pass the hash, Kerberoasting, golden and silver tickets,
+      and adversary-in-the-middle (T1557). Used in lesson 5.
+
+  - slug: d3-cisa-stopransomware
+    kind: web
+    url: https://www.cisa.gov/stopransomware/ransomware-guide
+    title: "CISA #StopRansomware Guide"
+    authors: [CISA, FBI, NSA, MS-ISAC]
+    site: cisa.gov
+    tags: [ransomware]
+    summary_md: |
+      Ransomware prevention and response: offline encrypted backups, segmentation, MFA and patching.
+      Second source for the ransomware and credential-attack material in lesson 5.
+
+  - slug: d3-nfpa-75
+    kind: standard
+    url: https://www.nfpa.org/codes-and-standards/nfpa-75-standard-development/75
+    title: "NFPA 75: Standard for the Fire Protection of Information Technology Equipment"
+    authors: [National Fire Protection Association]
+    site: nfpa.org
+    tags: [fire, data-centre]
+    summary_md: |
+      Fire protection requirements for IT equipment rooms, including construction, suppression and
+      emergency power-off. Used in lesson 6.
+
+  - slug: d3-osha-1910-157
+    kind: standard
+    url: https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.157
+    title: "OSHA 29 CFR 1910.157: Portable fire extinguishers"
+    authors: [US Occupational Safety and Health Administration]
+    site: osha.gov
+    tags: [fire, extinguisher-classes]
+    summary_md: |
+      Defines the US fire classes A (ordinary combustibles), B (flammable liquids and gases), C
+      (energised electrical equipment), D (combustible metals) and K (cooking media, per NFPA 10). Used
+      for lesson 6's fire table.
+
+  - slug: d3-epa-halon
+    kind: web
+    url: https://www.epa.gov/snap/halons
+    title: "EPA: Halons and the Montreal Protocol"
+    authors: [US Environmental Protection Agency]
+    site: epa.gov
+    tags: [fire, halon]
+    summary_md: |
+      Halon production ended in the US on 1 January 1994 under the Montreal Protocol; acceptable
+      substitutes are listed under the SNAP programme. Used in lesson 6.
+
+  - slug: d3-ashrae-tc99
+    kind: standard
+    url: https://tpc.ashrae.org/FileDownload?idx=c81e88e4-998d-426d-ad24-bdedfb746178
+    title: "ASHRAE TC 9.9 Data Center Power Equipment Thermal Guidelines and Best Practices"
+    authors: [ASHRAE Technical Committee 9.9]
+    site: ashrae.org
+    tags: [hvac, temperature, humidity]
+    summary_md: |
+      The recommended envelope for IT inlet air: 18–27 °C, with humidity expressed as a dew point range
+      rather than a simple relative humidity band. Used in lesson 6.
+
+  - slug: d3-uptime-tiers
+    kind: web
+    url: https://uptimeinstitute.com/tiers
+    title: "Uptime Institute Tier Classification System"
+    authors: [Uptime Institute]
+    site: uptimeinstitute.com
+    tags: [data-centre, redundancy]
+    summary_md: |
+      Tier I (basic) to Tier IV (fault tolerant) data centre topology. Used in lesson 6 for power and
+      cooling redundancy.
+
+  - slug: d3-ica-cpted
+    kind: web
+    url: https://www.cpted.net/
+    title: "International CPTED Association"
+    authors: [International CPTED Association]
+    site: cpted.net
+    tags: [cpted, physical]
+    summary_md: |
+      Crime Prevention Through Environmental Design: natural surveillance, natural access control,
+      territorial reinforcement and maintenance. Used in lesson 6.
+
+  - slug: d3-cisa-physical-security
+    kind: web
+    url: https://www.cisa.gov/topics/physical-security
+    title: "CISA: Physical Security"
+    authors: [CISA]
+    site: cisa.gov
+    tags: [physical, cpted]
+    summary_md: |
+      CISA's physical security guidance (layered protection, access control, barriers). Second source
+      for lesson 6 alongside NIST SP 800-53 PE and the CPTED association.

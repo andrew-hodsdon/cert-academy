@@ -1,0 +1,13 @@
+title: "Domain 2: Asset Security"
+domain: d2-asset-security
+summary_md: |
+  Asset Security is 10% of the CISSP exam and asks one question over and over: who decides how
+  this information is protected, and does the protection follow the data through its whole life?
+  This module covers every objective in the 2024 outline: **2.1** identify and classify
+  information and assets (including the data roles: owner, controller, processor, custodian,
+  steward); **2.2** establish information and asset handling requirements; **2.3** provision
+  information and assets securely (inventory, ownership, asset management); **2.4** manage the
+  data lifecycle (roles, collection, location, maintenance, retention, remanence, destruction);
+  **2.5** ensure appropriate asset retention (end of life, end of support); and **2.6** determine
+  data security controls and compliance requirements (data states, scoping and tailoring,
+  standards selection, and protection methods such as DRM, DLP and CASB).

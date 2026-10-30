@@ -1,0 +1,380 @@
+sources:
+  - slug: d8-isc2-cissp-outline
+    kind: standard
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline (effective 15 April 2024)"
+    authors: [ISC2]
+    site: ISC2
+    tags: [cissp, outline, domain-8]
+    summary_md: |
+      The official outline. Domain 8 (10%) lists objectives 8.1 to 8.5: security in the SDLC
+      (methodologies, maturity models, O&M, change management, IPT), development ecosystem
+      controls, software security effectiveness, acquired software, and secure coding. Every
+      lesson in this module maps to it.
+
+  - slug: d8-nist-sp-800-218-ssdf
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/218/final
+    title: "NIST SP 800-218: Secure Software Development Framework (SSDF) Version 1.1"
+    authors: [Murugiah Souppaya, Karen Scarfone, Donna Dodson]
+    site: NIST CSRC
+    published: 2022-02-03
+    tags: [sdlc, ssdf, secure-development, supply-chain]
+    summary_md: |
+      Methodology-neutral secure development practices in four groups: Prepare the Organization
+      (PO), Protect the Software (PS), Produce Well-Secured Software (PW) and Respond to
+      Vulnerabilities (RV). Used in lessons 1–4 for "security in every phase", protecting code
+      repositories and build integrity, testing (PW.7/PW.8), third-party component reuse (PW.4)
+      and vulnerability response.
+
+  - slug: d8-nist-sp-800-160v1r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/160/v1/r1/final
+    title: "NIST SP 800-160 Vol. 1 Rev. 1: Engineering Trustworthy Secure Systems"
+    authors: [Ron Ross, Mark Winstead, Michael McEvilley]
+    site: NIST CSRC
+    published: 2022-11-16
+    tags: [systems-engineering, lifecycle]
+    summary_md: |
+      Systems security engineering across the whole life cycle, including operation, maintenance
+      and disposal. Supports lesson 1's point that security requirements are set at initiation and
+      carried through to retirement.
+
+  - slug: d8-microsoft-sdl
+    kind: vendor_docs
+    url: https://www.microsoft.com/en-us/securityengineering/sdl
+    title: "Microsoft Security Development Lifecycle (SDL)"
+    authors: [Microsoft]
+    site: Microsoft
+    tags: [sdl, threat-modeling, secure-development]
+    summary_md: |
+      Microsoft's published SDL practices: training, security requirements, threat modelling,
+      approved tools, static and dynamic analysis, penetration testing and incident response.
+      Second source for lesson 1 (security activities per phase) and lesson 2 (testing tools).
+
+  - slug: d8-agile-manifesto
+    kind: web
+    url: https://agilemanifesto.org/
+    title: "Manifesto for Agile Software Development"
+    authors: [Kent Beck, Martin Fowler, Ward Cunningham]
+    site: agilemanifesto.org
+    published: 2001-02-13
+    tags: [agile, methodology]
+    summary_md: |
+      The four agile values and twelve principles (working software, customer collaboration,
+      responding to change, short iterations). Used in lesson 1 to explain why agile needs security
+      built into each iteration rather than a single end-of-project review.
+
+  - slug: d8-safe-framework
+    kind: web
+    url: https://scaledagileframework.com/
+    title: "SAFe: Scaled Agile Framework"
+    authors: [Scaled Agile, Inc.]
+    site: Scaled Agile
+    tags: [scaled-agile, safe, methodology]
+    summary_md: |
+      Describes agile at enterprise scale: agile release trains, program increment planning and
+      enablers (including security and compliance enablers). Lesson 1 uses it for "scaled agile".
+
+  - slug: d8-cmmi-institute
+    kind: web
+    url: https://cmmiinstitute.com/cmmi
+    title: "CMMI: Capability Maturity Model Integration"
+    authors: [ISACA CMMI Institute]
+    site: CMMI Institute
+    tags: [cmmi, maturity-model]
+    summary_md: |
+      CMMI's five maturity levels: 1 Initial, 2 Managed, 3 Defined, 4 Quantitatively Managed,
+      5 Optimizing. Lesson 1 maturity-model table.
+    body_md: |
+      Exam memory aid: "I Must Define Quality Optimally" — Initial, Managed (repeatable at project
+      level), Defined (organisation-wide standard process), Quantitatively managed (measured),
+      Optimizing (continuous improvement).
+
+  - slug: d8-sei-cmmi-history
+    kind: paper
+    url: https://insights.sei.cmu.edu/library/capability-maturity-model-integration-cmmi-version-12-overview/
+    title: "Capability Maturity Model Integration (CMMI) Version 1.2 Overview"
+    authors: [Software Engineering Institute, Carnegie Mellon University]
+    site: SEI
+    tags: [cmmi, maturity-model]
+    summary_md: |
+      SEI's overview of CMMI's staged representation and its origin in the SW-CMM. Second source
+      for the five maturity levels taught in lesson 1.
+
+  - slug: d8-owasp-samm
+    kind: standard
+    url: https://owaspsamm.org/model/
+    title: "OWASP Software Assurance Maturity Model (SAMM) v2"
+    authors: [OWASP Foundation]
+    site: OWASP
+    tags: [samm, maturity-model]
+    summary_md: |
+      Prescriptive, open model with five business functions (Governance, Design, Implementation,
+      Verification, Operations), three security practices each, and maturity levels 1–3. Used in
+      lessons 1 and 3 for measuring and improving a software security programme.
+
+  - slug: d8-bsimm
+    kind: web
+    url: https://www.blackduck.com/services/security-program/bsimm-maturity-model.html
+    title: "BSIMM: Building Security In Maturity Model"
+    authors: [Black Duck Software]
+    site: Black Duck
+    tags: [bsimm, maturity-model]
+    summary_md: |
+      A descriptive model built from observing real software security initiatives; organised in
+      four domains (Governance, Intelligence, SSDL Touchpoints, Deployment) and twelve practices.
+      Lesson 1 contrasts it with SAMM (descriptive vs prescriptive).
+
+  - slug: d8-nist-sp-800-53r5
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    title: "NIST SP 800-53 Rev. 5: Security and Privacy Controls for Information Systems and Organizations"
+    authors: [Joint Task Force]
+    site: NIST CSRC
+    published: 2020-09-23
+    tags: [controls, change-management, sa-family, sr-family]
+    summary_md: |
+      Controls cited: CM-3 configuration change control, CM-4 impact analysis, SA-3 system
+      development life cycle, SA-4 acquisition process, SA-8 security engineering principles,
+      SA-11 developer testing and evaluation, SA-15 development process and tools, SR family
+      (supply chain risk management), AU family (auditing). Used in lessons 1, 2 and 3.
+
+  - slug: d8-nist-sp-800-204d
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/204/d/final
+    title: "NIST SP 800-204D: Strategies for the Integration of Software Supply Chain Security in DevSecOps CI/CD Pipelines"
+    authors: [Ramaswamy Chandramouli, Frederick Kautz, Santiago Torres-Arias]
+    site: NIST CSRC
+    published: 2024-02-12
+    tags: [devsecops, ci-cd, supply-chain]
+    summary_md: |
+      Securing CI/CD pipelines: protected repositories, hardened build platforms, signed
+      artifacts, provenance and attestations, least-privilege pipeline credentials. Lessons 1 and 2.
+
+  - slug: d8-slsa
+    kind: standard
+    url: https://slsa.dev/spec/v1.0/
+    title: "SLSA (Supply-chain Levels for Software Artifacts) Specification v1.0"
+    authors: [OpenSSF]
+    site: slsa.dev
+    published: 2023-04-19
+    tags: [supply-chain, provenance, build-integrity]
+    summary_md: |
+      Build-track levels for artifact provenance: generated provenance, hosted build platform,
+      hardened builds. Used in lessons 2 and 3 for build integrity and verifying where an artifact
+      came from.
+
+  - slug: d8-owasp-devsecops-guideline
+    kind: web
+    url: https://owasp.org/www-project-devsecops-guideline/
+    title: "OWASP DevSecOps Guideline"
+    authors: [OWASP Foundation]
+    site: OWASP
+    tags: [devsecops, sast, dast, sca, secrets]
+    summary_md: |
+      Describes the security steps in a DevSecOps pipeline: pre-commit hooks and secret scanning,
+      SAST, SCA, DAST, IaC scanning, container scanning. Second source for lesson 2's pipeline
+      design and the testing-tool comparison.
+
+  - slug: d8-owasp-wstg
+    kind: standard
+    url: https://owasp.org/www-project-web-security-testing-guide/
+    title: "OWASP Web Security Testing Guide (WSTG)"
+    authors: [OWASP Foundation]
+    site: OWASP
+    tags: [testing, dast, penetration-testing]
+    summary_md: |
+      The reference methodology for testing web applications, including where black-box (DAST)
+      and white-box (code review) testing fit in the SDLC. Lesson 2.
+
+  - slug: d8-owasp-asvs
+    kind: standard
+    url: https://owasp.org/www-project-application-security-verification-standard/
+    title: "OWASP Application Security Verification Standard (ASVS)"
+    authors: [OWASP Foundation]
+    site: OWASP
+    tags: [asvs, verification, requirements]
+    summary_md: |
+      A verifiable list of application security requirements in three levels (L1 baseline,
+      L2 most applications, L3 high assurance). Used in lessons 3 and 4 as the yardstick for
+      "is this software secure enough" and as a source of security requirements.
+
+  - slug: d8-iso-27034
+    kind: standard
+    url: https://www.iso.org/standard/44378.html
+    title: "ISO/IEC 27034-1: Application security — Overview and concepts"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: ISO
+    tags: [application-security, iso]
+    summary_md: |
+      Introduces the Organization Normative Framework and Application Security Controls, i.e. an
+      organisation-wide approach to defining, applying and verifying application security. Second
+      source for lesson 3 (assessing software security effectiveness).
+
+  - slug: d8-nist-sp-800-161r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/161/r1/upd1/final
+    title: "NIST SP 800-161 Rev. 1: Cybersecurity Supply Chain Risk Management Practices"
+    authors: [Jon Boyens, Angela Smith, Nadya Bartol]
+    site: NIST CSRC
+    published: 2022-05-05
+    tags: [c-scrm, supply-chain, acquisition]
+    summary_md: |
+      Supply-chain risk management for acquirers: supplier assessment, contract requirements,
+      provenance, SBOM. Primary source for lesson 3's acquired-software section.
+
+  - slug: d8-ntia-sbom-minimum
+    kind: standard
+    url: https://www.ntia.gov/report/2021/minimum-elements-software-bill-materials-sbom
+    title: "The Minimum Elements For a Software Bill of Materials (SBOM)"
+    authors: [NTIA, US Department of Commerce]
+    site: NTIA
+    published: 2021-07-12
+    tags: [sbom, supply-chain]
+    summary_md: |
+      Defines the SBOM baseline data fields (supplier, component name, version, other unique
+      identifiers, dependency relationship, author of SBOM data, timestamp), automation support
+      (SPDX, CycloneDX, SWID) and practices. Lesson 3.
+
+  - slug: d8-cisa-sbom
+    kind: web
+    url: https://www.cisa.gov/sbom
+    title: "CISA: Software Bill of Materials (SBOM)"
+    authors: [CISA]
+    site: CISA
+    tags: [sbom, vex, supply-chain]
+    summary_md: |
+      CISA's SBOM programme page and resources, including VEX (Vulnerability Exploitability
+      eXchange) to state whether a listed component's vulnerability actually affects the product.
+      Second source for lesson 3.
+
+  - slug: d8-spdx
+    kind: standard
+    url: https://spdx.dev/
+    title: "SPDX: System Package Data Exchange (ISO/IEC 5962:2021)"
+    authors: [Linux Foundation]
+    site: spdx.dev
+    tags: [sbom, licensing]
+    summary_md: |
+      SBOM format and licence-identifier standard (published as ISO/IEC 5962:2021). Used in lesson
+      3 for SBOM formats and open-source licence tracking.
+
+  - slug: d8-cyclonedx
+    kind: standard
+    url: https://cyclonedx.org/
+    title: "OWASP CycloneDX Bill of Materials Standard"
+    authors: [OWASP Foundation]
+    site: cyclonedx.org
+    tags: [sbom, vex]
+    summary_md: |
+      OWASP's SBOM standard (also ECMA-424), supporting VEX and other BOM types. Second SBOM
+      format source for lesson 3.
+
+  - slug: d8-cisa-secure-by-design
+    kind: web
+    url: https://www.cisa.gov/securebydesign
+    title: "CISA: Secure by Design"
+    authors: [CISA]
+    site: CISA
+    tags: [secure-by-design, acquisition, memory-safety]
+    summary_md: |
+      Principles asking vendors to take ownership of customer security outcomes, eliminate whole
+      classes of defects (memory-safe languages, parameterised queries) and publish SBOMs. Used in
+      lessons 2, 3 and 4.
+
+  - slug: d8-csa-ccm
+    kind: standard
+    url: https://cloudsecurityalliance.org/research/cloud-controls-matrix
+    title: "Cloud Security Alliance Cloud Controls Matrix (CCM)"
+    authors: [Cloud Security Alliance]
+    site: CSA
+    tags: [cloud, shared-responsibility, managed-services]
+    summary_md: |
+      Control framework mapping responsibilities between cloud providers and customers; used in
+      lesson 3 for assessing managed services (SaaS/PaaS/IaaS) and the shared-responsibility model.
+
+  - slug: d8-owasp-top10
+    kind: standard
+    url: https://owasp.org/www-project-top-ten/
+    title: "OWASP Top 10: The Ten Most Critical Web Application Security Risks"
+    authors: [OWASP Foundation]
+    site: OWASP
+    tags: [owasp-top-10, web, weaknesses]
+    summary_md: |
+      The awareness list of web application risk categories. The 2021 edition (current when the
+      2024 CISSP outline was written) leads with Broken Access Control, Cryptographic Failures and
+      Injection; the 2025 edition keeps Broken Access Control first and adds Software Supply Chain
+      Failures and Mishandling of Exceptional Conditions. Lesson 4.
+
+  - slug: d8-mitre-cwe-top25
+    kind: standard
+    url: https://cwe.mitre.org/top25/
+    title: "CWE Top 25 Most Dangerous Software Weaknesses"
+    authors: [MITRE]
+    site: MITRE CWE
+    tags: [cwe, weaknesses]
+    summary_md: |
+      Ranked list of the most dangerous software weakness types (e.g. CWE-79 XSS, CWE-89 SQL
+      injection, CWE-787 out-of-bounds write, CWE-862 missing authorization). Second source for
+      lesson 4's weakness catalogue.
+
+  - slug: d8-owasp-api-top10-2023
+    kind: standard
+    url: https://owasp.org/API-Security/editions/2023/en/0x11-t10/
+    title: "OWASP API Security Top 10 (2023)"
+    authors: [OWASP Foundation]
+    site: OWASP
+    tags: [api, bola, rate-limiting]
+    summary_md: |
+      API-specific risks: API1 Broken Object Level Authorization, API2 Broken Authentication,
+      API3 Broken Object Property Level Authorization, API4 Unrestricted Resource Consumption,
+      API5 Broken Function Level Authorization, API6 Unrestricted Access to Sensitive Business
+      Flows, API7 SSRF, API8 Security Misconfiguration, API9 Improper Inventory Management,
+      API10 Unsafe Consumption of APIs. Lesson 4.
+
+  - slug: d8-owasp-rest-cheatsheet
+    kind: web
+    url: https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html
+    title: "OWASP REST Security Cheat Sheet"
+    authors: [OWASP Foundation]
+    site: OWASP Cheat Sheet Series
+    tags: [api, rest]
+    summary_md: |
+      Practical REST API controls: HTTPS only, access control per endpoint, token validation, input
+      validation, rate limiting, security headers. Second source for lesson 4's API section.
+
+  - slug: d8-owasp-sqli-cheatsheet
+    kind: web
+    url: https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html
+    title: "OWASP SQL Injection Prevention Cheat Sheet"
+    authors: [OWASP Foundation]
+    site: OWASP Cheat Sheet Series
+    tags: [sql-injection, parameterized-queries]
+    summary_md: |
+      Primary defences in order: prepared statements with parameterised queries, safely built
+      stored procedures, allow-list input validation, and (discouraged) escaping; plus least
+      privilege as defence in depth. Lesson 4 worked example.
+
+  - slug: d8-owasp-input-validation-cheatsheet
+    kind: web
+    url: https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
+    title: "OWASP Input Validation Cheat Sheet"
+    authors: [OWASP Foundation]
+    site: OWASP Cheat Sheet Series
+    tags: [input-validation, allow-list]
+    summary_md: |
+      Server-side, allow-list (positive) validation of syntax and semantics; validation is not a
+      substitute for parameterisation or output encoding. Lesson 4.
+
+  - slug: d8-python-dbapi-pep249
+    kind: standard
+    url: https://peps.python.org/pep-0249/
+    title: "PEP 249: Python Database API Specification v2.0"
+    authors: [Marc-André Lemburg]
+    site: python.org
+    tags: [python, parameterized-queries]
+    summary_md: |
+      Defines cursor.execute(operation, parameters) and the paramstyle placeholders that let the
+      driver bind values separately from the SQL text. Supports the code in lesson 4's worked
+      example.

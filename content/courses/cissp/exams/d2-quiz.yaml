@@ -1,0 +1,980 @@
+slug: d2-quiz
+ordinal: 12
+title: "Domain 2 quiz: Asset Security"
+kind: quiz
+draw: 25
+time_limit_min: 35
+pass_pct: 80
+instructions_md: |
+  25 questions drawn at random from a bank of 40 covering objectives 2.1–2.6, with 35 minutes on
+  the clock. Most questions have one best answer; questions marked "Choose two." need both correct
+  options selected to score. Answer as a risk adviser to the business: ownership and policy before
+  tools, and the most complete answer wins. Retake until you hold 80% or more.
+questions:
+  # ---------- 2.1 Information and asset classification ----------
+  - key: d2-who-decides-classification
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A database administrator says the customer table is classified Confidential, which forces
+      encrypted, separately stored backups. To save storage costs she proposes reclassifying it as
+      Internal and asks the security team to approve. Who should make the classification decision?
+    choices:
+      - { key: a, text: "The database administrator, because she best understands the data's storage requirements" }
+      - { key: b, text: "The CISO, because classification is a security decision" }
+      - { key: c, text: "The data owner, because the owner is accountable for the data's protection" }
+      - { key: d, text: "The IT operations manager, because backup cost sits in the operations budget" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the data owner, a business manager accountable for the data, sets and changes
+      its classification. Others may recommend; the owner decides.
+
+      - **a** is wrong: the DBA is a **custodian**. She implements the owner's requirements and may
+        raise the cost issue, but cannot downgrade the data.
+      - **b** is wrong: the CISO advises on risk and sets the programme, but does not own the
+        business data. Classification sits with the owner.
+      - **d** is wrong: budget ownership does not make someone the data owner; cost is an input to
+        the owner's decision, not a reason to let operations decide.
+    points: 1
+
+  - key: d2-high-water-mark-system
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A system processes three information types with these FIPS 199 impact ratings
+      (confidentiality, integrity, availability): case notes (Moderate, Moderate, Low), public
+      guidance (Low, Moderate, Low) and appointment schedules (Low, Low, High). What is the
+      system's security category?
+    choices:
+      - { key: a, text: "Confidentiality Moderate, integrity Moderate, availability High" }
+      - { key: b, text: "Confidentiality Moderate, integrity Moderate, availability Low" }
+      - { key: c, text: "Confidentiality Low, integrity Moderate, availability Low" }
+      - { key: d, text: "High for all three objectives" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: FIPS 199 takes the **highest** impact value for each objective across all the
+      information types the system holds (the high-water mark). C = max(M, L, L) = Moderate,
+      I = max(M, M, L) = Moderate, A = max(L, L, H) = High. The overall system impact is High.
+
+      - **b** is wrong: it ignores the High availability rating of appointment schedules.
+      - **c** is wrong: it takes the most common value rather than the highest.
+      - **d** is wrong: the high-water mark is applied **per objective**; nothing is rated High for
+        confidentiality or integrity, so those objectives stay Moderate.
+    points: 1
+
+  - key: d2-payroll-saas-processor
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A manufacturer uses a SaaS payroll provider. The provider calculates and pays salaries using
+      employee personal data, only on the manufacturer's documented instructions, and does not use
+      the data for any purpose of its own. Under GDPR, which role does the **provider** hold?
+    choices:
+      - { key: a, text: "Data controller" }
+      - { key: b, text: "Data owner" }
+      - { key: c, text: "Data steward" }
+      - { key: d, text: "Data processor" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: GDPR Art. 4 defines a processor as a party that processes personal data **on
+      behalf of** the controller. Acting only on documented instructions is the hallmark, and
+      Art. 28 requires a contract that says so.
+
+      - **a** is wrong: the **manufacturer** is the controller, because it determines the purposes
+        and means of processing. The provider would become a controller only if it began using the
+        data for its own purposes.
+      - **b** is wrong: "data owner" is an internal accountability role inside the manufacturer
+        (for example the HR director), not a vendor's legal role.
+      - **c** is wrong: a data steward manages data quality and definitions within an
+        organisation's data governance; it is not a GDPR role.
+    points: 1
+
+  - key: d2-steward-data-quality
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      An insurer's reports disagree because different teams define "active policy" differently. The
+      data owner wants one person to maintain the business definitions, metadata and quality rules
+      for policy data on her behalf. Which role is this?
+    choices:
+      - { key: a, text: "Data custodian" }
+      - { key: b, text: "Data steward" }
+      - { key: c, text: "Data processor" }
+      - { key: d, text: "System owner" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a data steward looks after the **content**: definitions, metadata, lineage and
+      quality, so data is fit for use and used consistently. Accountability stays with the owner.
+
+      - **a** is wrong: the custodian looks after the **container**: storage, backups, permissions
+        and restores, implementing the owner's controls.
+      - **c** is wrong: a processor is an external party processing personal data on a
+        controller's behalf; it does not govern internal definitions.
+      - **d** is wrong: the system owner is responsible for the system that processes the data,
+        not for business definitions of the data itself.
+    points: 1
+
+  - key: d2-clearance-without-need-to-know
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      An engineer holds a valid Secret clearance and has signed the required non-disclosure
+      agreement. She asks for a Secret report from a different programme "to learn from their
+      design". Her manager confirms she has no task that requires it. What should the custodian do?
+    choices:
+      - { key: a, text: "Grant read-only access, because her clearance matches the classification" }
+      - { key: b, text: "Deny access, because she lacks a need to know for that information" }
+      - { key: c, text: "Grant access after she signs a second non-disclosure agreement" }
+      - { key: d, text: "Ask the security officer to upgrade her clearance to Top Secret first" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: access to classified information requires clearance **and** need to know (and
+      an NDA). Clearance alone is necessary but not sufficient.
+
+      - **a** is wrong: matching clearance to classification ignores need to know; read-only access
+        still discloses the content.
+      - **c** is wrong: more paperwork does not create a need to know.
+      - **d** is wrong: a higher clearance is irrelevant; the missing element is need to know, not
+        clearance level.
+    points: 1
+
+  - key: d2-first-step-classification-programme
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A newly appointed CISO finds that the company has no data classification programme. Sensitive
+      files are scattered across shares and SaaS tools. What should she do **FIRST**?
+    choices:
+      - { key: a, text: "Deploy a DLP tool to block sensitive files leaving the network" }
+      - { key: b, text: "Label every existing document Confidential until it is reviewed" }
+      - { key: c, text: "Write a handling matrix for four classification levels" }
+      - { key: d, text: "Identify the information assets and assign an accountable owner to each" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: you cannot classify what you have not identified, and only an accountable owner
+      can decide classification. Inventory and ownership come before schemes, labels and tools.
+
+      - **a** is wrong: DLP needs to know what is sensitive; without classification it produces noise
+        and gaps. Tools come after policy and ownership.
+      - **b** is wrong: blanket over-classification is expensive, trains people to ignore labels and
+        is not an owner decision.
+      - **c** is wrong: a handling matrix is needed, but it is built on agreed levels and owners;
+        writing it first skips the foundation.
+    points: 1
+
+  - key: d2-classification-criteria
+    kind: multi
+    domain: d2-asset-security
+    prompt_md: |
+      A data owner is deciding the classification of a new research dataset. Which factors should
+      drive her decision? **Choose two.**
+    choices:
+      - { key: a, text: "The harm to the organisation if the data were disclosed, altered or unavailable" }
+      - { key: b, text: "The type of storage platform the dataset will be kept on" }
+      - { key: c, text: "Which development team created the dataset" }
+      - { key: d, text: "Laws, regulations and contracts that apply to the data" }
+      - { key: e, text: "The file format the dataset is stored in" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: classification reflects the data's value and the impact of losing
+      confidentiality, integrity or availability, and legal or contractual obligations set a floor
+      the owner cannot go below.
+
+      - **b** is wrong: the platform is chosen to meet the classification, not the other way round.
+      - **c** is wrong: authorship does not change the harm the data could cause.
+      - **e** is wrong: format affects handling mechanics, not how sensitive the content is.
+    points: 1
+
+  - key: d2-data-role-responsibilities
+    kind: multi
+    domain: d2-asset-security
+    prompt_md: |
+      Which statements correctly describe data roles? **Choose two.**
+    choices:
+      - { key: a, text: "The data custodian approves who may access the data" }
+      - { key: b, text: "The data owner is accountable for the data's classification and protection requirements" }
+      - { key: c, text: "A data processor decides the purposes for which personal data is processed" }
+      - { key: d, text: "The data steward carries ultimate accountability for data breaches" }
+      - { key: e, text: "The data custodian performs backups and restores to meet the owner's requirements" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are right: the owner decides and is accountable; the custodian implements and
+      operates controls such as backups and access configuration to the owner's requirements.
+
+      - **a** is wrong: the custodian **implements** access decisions; the owner approves them.
+      - **c** is wrong: deciding purposes and means is what makes a party the **controller**; a
+        processor acts on the controller's instructions.
+      - **d** is wrong: the steward manages quality and definitions on the owner's behalf;
+        accountability stays with the owner (and ultimately senior management).
+    points: 1
+
+  # ---------- 2.2 Information and asset handling ----------
+  - key: d2-unlabelled-backup-tapes
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      During an office move, staff find a box of unlabelled backup tapes in a storeroom. Nobody
+      knows what is on them. How should the tapes be handled until their contents are confirmed?
+    choices:
+      - { key: a, text: "As the highest classification the organisation uses, secured accordingly, and referred to the likely owner" }
+      - { key: b, text: "As Public, because unlabelled media has no classification" }
+      - { key: c, text: "As Internal, the organisation's default classification for business records" }
+      - { key: d, text: "Degaussed immediately, since unlabelled media breaches the handling policy" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: unmarked media is treated as holding the most sensitive data it could contain
+      until someone accountable decides otherwise. That avoids under-protecting it.
+
+      - **b** is wrong: a missing label does not make data public; this invites disclosure.
+      - **c** is wrong: a default may be fine for new documents, but unknown backup media may hold
+        anything, including regulated data.
+      - **d** is wrong: destroying unknown records may breach retention requirements or a legal
+        hold. Secure first, identify, then dispose under the retention schedule.
+    points: 1
+
+  - key: d2-machine-readable-label
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      The security team wants its new DLP and rights-management tools to recognise each document's
+      classification automatically and apply the matching policy. What should the handling standard
+      require?
+    choices:
+      - { key: a, text: "A coloured banner marking at the top and bottom of every page" }
+      - { key: b, text: "A cover sheet on printed copies of sensitive documents" }
+      - { key: c, text: "A classification label stored in each document's metadata" }
+      - { key: d, text: "A visible watermark showing the author's name" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: systems enforce policy using **labels**, machine-readable attributes in
+      metadata. DLP and rights management read these to apply rules.
+
+      - **a** is wrong: a banner is a human-readable **marking**. Useful for people, but tools would
+        need to parse visual text, which is unreliable.
+      - **b** is wrong: cover sheets help people handle paper; they do nothing for electronic
+        enforcement.
+      - **d** is wrong: an author watermark deters leaks and aids attribution but carries no
+        classification for tools to act on.
+    points: 1
+
+  - key: d2-backup-inherits-classification
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A nightly backup job writes Internal file-share data and Restricted HR records to the same
+      tape set, which is stored off-site. How should the tape set be classified and handled?
+    choices:
+      - { key: a, text: "Restricted, because a container takes the classification of the most sensitive data it holds" }
+      - { key: b, text: "Internal, because most of the data on the tapes is Internal" }
+      - { key: c, text: "Unclassified, because backups are infrastructure rather than information" }
+      - { key: d, text: "A new Backup classification with its own handling rules" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: media and copies inherit the highest classification of their contents (the
+      high-water mark applied to a container). The off-site tapes need Restricted handling, such as
+      encryption and controlled custody.
+
+      - **b** is wrong: classification is not a majority vote; the Restricted records are just as
+        exposed if the tapes are lost.
+      - **c** is wrong: backups are copies of information and are a frequent source of breaches.
+      - **d** is wrong: inventing a level for a medium confuses the scheme; classification follows
+        content.
+    points: 1
+
+  - key: d2-transport-restricted-media
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      Encrypted disks containing Restricted data must be moved by road to the disaster-recovery site
+      each week. Which approach **BEST** meets handling requirements for transport?
+    choices:
+      - { key: a, text: "Mark the outer package Restricted so couriers know to take extra care" }
+      - { key: b, text: "Rely on the disk encryption alone and use the cheapest courier" }
+      - { key: c, text: "Have any available staff member drive the disks over in a personal vehicle" }
+      - { key: d, text: "Use tamper-evident packaging, an authorised courier and a signed chain-of-custody record" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: transport controls add accountability (chain of custody), authorised carriers
+      and tamper evidence on top of encryption, as NIST SP 800-53 MP-5 and ISO/IEC 27001 media
+      controls describe. It is the most complete answer.
+
+      - **a** is wrong: marking the **outer** package advertises its value to thieves; markings belong
+        on the media inside.
+      - **b** is wrong: encryption is necessary but not sufficient; loss is still an incident and
+        nobody is accountable for custody.
+      - **c** is wrong: unauthorised personnel and no custody record break the handling standard.
+    points: 1
+
+  - key: d2-production-data-in-test
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      Developers ask for a full copy of the production customer database to test a new feature,
+      arguing that the test environment is inside the corporate network. What should the security
+      manager recommend?
+    choices:
+      - { key: a, text: "Copy the data as requested, since it stays inside the corporate network" }
+      - { key: b, text: "Provide masked or synthetic data, with any exception approved by the data owner" }
+      - { key: c, text: "Copy the data but restrict the test environment to the development team" }
+      - { key: d, text: "Refuse all test data and require developers to test in production" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: handling rules follow the data into every copy. Masked or synthetic data meets
+      the testing need without exposing customers, and only the owner can approve an exception.
+
+      - **a** is wrong: being on the internal network does not change the data's classification;
+        test environments usually have weaker controls.
+      - **c** is wrong: developers still see real customer data they do not need; least privilege
+        and minimisation are not met.
+      - **d** is wrong: testing in production creates integrity and availability risk and is worse.
+    points: 1
+
+  - key: d2-handling-standard-contents
+    kind: multi
+    domain: d2-asset-security
+    prompt_md: |
+      You are drafting the handling standard for information classified Confidential. Which items
+      belong in it? **Choose two.**
+    choices:
+      - { key: a, text: "The protection required when Confidential information is sent outside the organisation" }
+      - { key: b, text: "A list of every file currently classified Confidential" }
+      - { key: c, text: "The approved disposal method for media holding Confidential information" }
+      - { key: d, text: "The user accounts that currently have access to each Confidential share" }
+      - { key: e, text: "The rule numbers of the firewall policies protecting the file servers" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: a handling standard states, per classification level, what must be
+      done for activities such as transmission, storage, printing, sharing and disposal.
+
+      - **b** is wrong: a list of assets belongs in the **inventory**, not the standard.
+      - **d** is wrong: who has access is an access-control record approved by owners and kept by
+        custodians; it changes daily and is not a standard.
+      - **e** is wrong: firewall rule numbers are configuration details, a procedure-level artefact
+        that would make the standard obsolete at the next change.
+    points: 1
+
+  # ---------- 2.3 Secure provisioning and asset management ----------
+  - key: d2-forgotten-server-breach
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      Attackers compromised a test server that nobody in IT knew existed. It held an old copy of
+      customer records and had not been patched for two years. Which control would **MOST** likely
+      have prevented the breach?
+    choices:
+      - { key: a, text: "A web application firewall in front of production systems" }
+      - { key: b, text: "Annual security awareness training for developers" }
+      - { key: c, text: "A stricter password policy for administrator accounts" }
+      - { key: d, text: "An accurate asset inventory maintained with automated discovery" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: the root cause is an **unknown asset**. An inventory with automated discovery
+      (CIS Control 1, NIST SP 1800-5) would have surfaced the server so it could be owned, patched,
+      classified or decommissioned.
+
+      - **a** is wrong: the server was not production and the WAF would not have protected it.
+      - **b** is wrong: training helps, but the failure was that the organisation did not know the
+        asset existed.
+      - **c** is wrong: nothing in the scenario points to passwords; an unpatched, unmanaged server
+        is exposed regardless.
+    points: 1
+
+  - key: d2-inventory-missing-owner
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      An auditor reviews an asset inventory that lists each item's asset tag, model, serial number,
+      location and purchase date. Which missing field is the auditor **MOST** likely to raise, given
+      ISO/IEC 27001's inventory control?
+    choices:
+      - { key: a, text: "The supplier's support phone number" }
+      - { key: b, text: "The asset's depreciated book value" }
+      - { key: c, text: "The name of the technician who installed it" }
+      - { key: d, text: "The accountable owner of each asset" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: ISO/IEC 27001 Annex A 5.9 requires the inventory to identify owners. Without an
+      owner nobody classifies the asset, approves access or decides its disposal.
+
+      - **a** is wrong: useful operationally, but not the security-relevant gap.
+      - **b** is wrong: book value is a finance attribute; security value comes from the owner's
+        classification.
+      - **c** is wrong: the installer is a custodian detail; it does not establish accountability.
+    points: 1
+
+  - key: d2-secure-vm-provisioning
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      Product teams create their own virtual machines in the cloud and often forget security agents
+      and logging. Which change **BEST** makes provisioning secure by default?
+    choices:
+      - { key: a, text: "Provision only from an approved, hardened template that records each VM's owner and classification in the inventory" }
+      - { key: b, text: "Scan all virtual machines monthly and e-mail teams a list of findings" }
+      - { key: c, text: "Allow only senior engineers to create virtual machines" }
+      - { key: d, text: "Ask teams to patch new virtual machines within their first week of use" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: secure provisioning means assets start from a known-good baseline (NIST SP
+      800-128) and enter the inventory with an owner and classification at creation, so controls are
+      present from day one.
+
+      - **b** is wrong: scanning is detective and after the fact; machines run insecurely for weeks.
+      - **c** is wrong: seniority does not guarantee consistent configuration, and it slows the
+        business without fixing the root cause.
+      - **d** is wrong: a week-long exposure window is avoidable; the baseline should already be
+        patched.
+    points: 1
+
+  - key: d2-leaver-laptop-reissue
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A finance analyst leaves the company. Her laptop held Confidential forecasts and will be
+      issued to a new starter in another department. What is the **BEST** sequence?
+    choices:
+      - { key: a, text: "Hand the laptop straight to the new starter so no files are lost" }
+      - { key: b, text: "Delete the analyst's user profile and reissue the laptop" }
+      - { key: c, text: "Recover the laptop, revoke her access, sanitise the drive to the data's classification, update the inventory, then reissue" }
+      - { key: d, text: "Wipe free disk space with a utility and reissue the laptop under her old asset record" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: return of assets (ISO/IEC 27001 A 5.11), deprovisioning, sanitisation before
+      reuse and an updated inventory record together close the asset's previous life securely.
+
+      - **a** is wrong: the new starter would see Confidential data without need to know.
+      - **b** is wrong: deleting a profile leaves recoverable data on disk (remanence) and other
+        copies may exist outside the profile.
+      - **d** is wrong: wiping free space does not remove existing files, and the inventory would
+        show the wrong custodian.
+    points: 1
+
+  - key: d2-shadow-saas-asset-management
+    kind: multi
+    domain: d2-asset-security
+    prompt_md: |
+      The finance team has been storing customer invoices in an unsanctioned SaaS file-sharing
+      service for a year. Which actions **BEST** bring this under asset management? **Choose two.**
+    choices:
+      - { key: a, text: "Block all internet access from the finance department" }
+      - { key: b, text: "Tell finance to delete their accounts immediately without reviewing the stored data" }
+      - { key: c, text: "Discover the organisation's cloud service use and record the service in the asset inventory" }
+      - { key: d, text: "Extend firewall log retention to two years" }
+      - { key: e, text: "Assign an owner who classifies the data and decides whether to sanction or migrate the service" }
+    answer: [c, e]
+    explanation_md: |
+      **c** and **e** are right: you first make the asset known (discovery, for example via CASB or
+      proxy logs, and an inventory entry), then give it an owner who classifies the data and decides
+      its future. That is asset management.
+
+      - **a** is wrong: disproportionate, stops legitimate work and does not address the data
+        already in the service.
+      - **b** is wrong: deleting without review may destroy records that must be retained and loses
+        sight of where data went.
+      - **d** is wrong: longer logs may help investigations but do not bring the service under
+        management.
+    points: 1
+
+  # ---------- 2.4 Data lifecycle management ----------
+  - key: d2-ssd-resale-sanitisation
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A company will sell 400 used laptops with solid-state drives that held Confidential data. The
+      buyer wants working drives. Which sanitisation approach is **MOST** appropriate?
+    choices:
+      - { key: a, text: "Overwrite each drive three times with random data using standard write commands" }
+      - { key: b, text: "Purge each drive with its built-in sanitise or cryptographic erase command, then verify" }
+      - { key: c, text: "Degauss each drive with a high-strength degausser" }
+      - { key: d, text: "Perform a quick format and reinstall the operating system" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: media leaving organisational control with Confidential data needs **purge**.
+      For SSDs, NIST SP 800-88 points to the device's sanitise commands (block erase or
+      cryptographic erase), followed by verification, and the drives stay usable.
+
+      - **a** is wrong: overwriting through the normal interface is a **clear** technique and is
+        unreliable on SSDs because wear levelling and spare blocks hide data from it.
+      - **c** is wrong: degaussing works on magnetic media only; it does not erase flash memory.
+      - **d** is wrong: a quick format rewrites file-system structures only; the data remains
+        recoverable (remanence).
+    points: 1
+
+  - key: d2-clear-category
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      Which NIST SP 800-88 sanitisation category applies logical techniques to user-addressable
+      storage and protects only against simple, non-invasive data recovery?
+    choices:
+      - { key: a, text: "Purge" }
+      - { key: b, text: "Destroy" }
+      - { key: c, text: "Clear" }
+      - { key: d, text: "Degauss" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: **clear** uses standard read/write commands (such as overwriting) or a reset,
+      and defends against keyboard-level and software recovery tools.
+
+      - **a** is wrong: **purge** makes recovery infeasible even with state-of-the-art laboratory
+        techniques.
+      - **b** is wrong: **destroy** also defeats laboratory recovery and leaves the media unusable.
+      - **d** is wrong: degaussing is a **technique** that falls under purge for magnetic media; it is
+        not one of the three categories.
+    points: 1
+
+  - key: d2-cloud-cryptographic-erase
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A company is leaving an infrastructure-as-a-service provider. Its storage volumes held
+      Restricted data, were encrypted from creation with customer-managed keys, and run on shared
+      hardware it cannot access. How should the company sanitise the data?
+    choices:
+      - { key: a, text: "Ask the provider to ship the physical disks for on-site destruction" }
+      - { key: b, text: "Destroy every copy of the encryption keys (cryptographic erase) and keep a record of it" }
+      - { key: c, text: "Overwrite each volume with zeros before deleting it" }
+      - { key: d, text: "Delete the volumes through the provider's console" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: cryptographic erase is the practical purge method where physical media is
+      inaccessible. It works because the data was encrypted from the start; destroying **all** key
+      copies (including backups and escrow) leaves only unreadable ciphertext.
+
+      - **a** is wrong: multi-tenant disks hold other customers' data; providers will not ship them.
+      - **c** is wrong: logical overwrites on virtualised storage may not reach every physical block,
+        so this is at best a clear.
+      - **d** is wrong: deletion removes references; without key destruction the data may persist.
+    points: 1
+
+  - key: d2-minimise-collection
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      An online wine shop's sign-up form collects full date of birth, place of birth and mother's
+      maiden name. The only business need is to confirm that customers are over the legal drinking
+      age. What should the security manager recommend?
+    choices:
+      - { key: a, text: "Collect only what is needed to confirm age and stop collecting the other fields" }
+      - { key: b, text: "Encrypt the three fields in the database" }
+      - { key: c, text: "Tokenise the three fields and store the token vault separately" }
+      - { key: d, text: "Restrict access to the three fields to the compliance team" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: data minimisation (GDPR Art. 5(1)(c), NIST SP 800-122) says collect only what
+      the purpose needs. Data you never collect cannot be breached and needs no retention or
+      destruction.
+
+      - **b** is wrong: encryption protects the fields but keeps unnecessary personal data and its
+        risks.
+      - **c** is wrong: tokenisation reduces exposure but still retains data with no purpose.
+      - **d** is wrong: access control is good practice, but the better answer removes the risk at
+        collection.
+    points: 1
+
+  - key: d2-data-location-transfer
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      An engineer configured disaster-recovery replication of an EU customer database to a cloud
+      region in another continent, without consulting anyone. What is the security manager's
+      **PRIMARY** concern?
+    choices:
+      - { key: a, text: "Increased network latency between the regions" }
+      - { key: b, text: "The added storage cost of the second region" }
+      - { key: c, text: "Whether the replica uses a long enough encryption key" }
+      - { key: d, text: "Whether the cross-border transfer of personal data is lawful and approved by the data owner" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: data location determines which laws apply. GDPR Chapter V restricts transfers
+      of personal data outside the EEA without an adequacy decision or appropriate safeguards, and
+      the owner never approved a new location.
+
+      - **a** is wrong: latency is a performance issue, not the main risk.
+      - **b** is wrong: cost matters, but legal exposure dominates.
+      - **c** is wrong: encryption strength is relevant but does not by itself make the transfer
+        lawful.
+    points: 1
+
+  - key: d2-format-before-donation
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A charity's IT volunteer formats the hard drives of old office PCs before donating them to a
+      school. The drives held donor bank details. What is the problem?
+    choices:
+      - { key: a, text: "Formatting damages the drives' firmware, so the school cannot use them" }
+      - { key: b, text: "Formatting leaves the donor data recoverable, so the drives need purging or destruction" }
+      - { key: c, text: "Formatting counts as destruction, so the drives can no longer be donated" }
+      - { key: d, text: "Formatting is a purge technique, which is stronger than this data requires" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: formatting usually rewrites only file-system structures, so data remains
+      (remanence). Sensitive financial data leaving organisational control needs **purge** (or
+      destroy).
+
+      - **a** is wrong: formatting does not damage firmware.
+      - **c** is wrong: destruction makes media unusable; formatting does not.
+      - **d** is wrong: formatting is not even a reliable clear, let alone purge.
+    points: 1
+
+  - key: d2-sanitisation-decision-factors
+    kind: multi
+    domain: d2-asset-security
+    prompt_md: |
+      Under NIST SP 800-88, which factors drive the choice between clear, purge and destroy?
+      **Choose two.**
+    choices:
+      - { key: a, text: "The age of the media" }
+      - { key: b, text: "The confidentiality of the information on the media" }
+      - { key: c, text: "The manufacturer's warranty status" }
+      - { key: d, text: "Whether the media will leave organisational control" }
+      - { key: e, text: "The number of files stored on the media" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: the sanitisation decision depends on how sensitive the data is and
+      whether the media will be reused and leave organisational control.
+
+      - **a** is wrong: age may affect which technique works, not the required level of assurance.
+      - **c** is wrong: warranty matters for returns (and may push you to keep and destroy drives),
+        but it does not set the category.
+      - **e** is wrong: one file of Restricted data needs the same treatment as a million.
+    points: 1
+
+  - key: d2-after-sanitisation
+    kind: multi
+    domain: d2-asset-security
+    prompt_md: |
+      A team has finished purging a batch of server drives before returning them to the lessor.
+      Which actions should follow? **Choose two.**
+    choices:
+      - { key: a, text: "Verify the sanitisation was effective, for example by sampling" }
+      - { key: b, text: "Relabel the drives with the highest classification before shipping" }
+      - { key: c, text: "Take a forensic image of each drive first in case data is needed later" }
+      - { key: d, text: "Send the drives back immediately; purge needs no further steps" }
+      - { key: e, text: "Record a certificate of sanitisation naming the media, method, operator and date" }
+    answer: [a, e]
+    explanation_md: |
+      **a** and **e** are right: NIST SP 800-88 recommends verifying sanitisation and documenting it,
+      for example with a certificate of sanitisation. Together they give assurance and an audit
+      trail.
+
+      - **b** is wrong: sanitised media should not carry classified markings to the outside world.
+      - **c** is wrong: an image made at this stage creates a **new** copy of the data that must
+        itself be protected and sanitised, which defeats the purpose.
+      - **d** is wrong: skipping verification and records leaves no evidence the data is gone.
+    points: 1
+
+  # ---------- 2.5 Asset retention ----------
+  - key: d2-legal-hold-overrides-schedule
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      The retention schedule says customer complaint files are destroyed after six years. Several
+      seven-year-old files relate to a dispute that legal counsel expects to go to court. What
+      should happen to those files?
+    choices:
+      - { key: a, text: "Destroy them now, because the retention period has passed" }
+      - { key: b, text: "Anonymise them so they can be kept without breaching the schedule" }
+      - { key: c, text: "Preserve them under a legal hold until counsel releases it" }
+      - { key: d, text: "Move them to cheaper archive storage and destroy them at the next annual purge" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a legal hold suspends normal destruction for records relevant to actual or
+      reasonably anticipated litigation. Destroying them could be spoliation of evidence.
+
+      - **a** is wrong: the schedule is overridden for held records.
+      - **b** is wrong: anonymising alters evidence; the records must be preserved intact.
+      - **d** is wrong: scheduling destruction ignores the hold, and its timing is not the
+        organisation's to choose; counsel releases holds.
+    points: 1
+
+  - key: d2-end-of-support-medical-device
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A hospital's imaging system has reached **end of support**: the vendor will release no more
+      patches. A replacement is budgeted for two years from now, and clinicians depend on it daily.
+      What should the security manager recommend?
+    choices:
+      - { key: a, text: "Keep running it unchanged, since it has had no incidents so far" }
+      - { key: b, text: "Shut it down immediately to remove the risk" }
+      - { key: c, text: "Apply unofficial third-party patches found online" }
+      - { key: d, text: "Have the owner formally accept the risk, isolate the system on a restricted segment, monitor it and track the replacement" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: when an unsupported component must stay, NIST SP 800-53 SA-22 expects a
+      documented justification and alternative protections. Owner risk acceptance plus compensating
+      controls (segmentation, restricted access, monitoring) and a replacement plan is the most
+      complete answer.
+
+      - **a** is wrong: no past incidents does not mean no risk; new vulnerabilities will stay open.
+      - **b** is wrong: shutting down a clinical system harms patient care; safety and the business
+        come first.
+      - **c** is wrong: untrusted patches can break a regulated medical device and introduce new
+        risk.
+    points: 1
+
+  - key: d2-who-sets-retention
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A company is building its first records retention schedule. Who should set the retention
+      period for each category of records?
+    choices:
+      - { key: a, text: "The data owners, with legal counsel, based on legal, regulatory and business requirements" }
+      - { key: b, text: "The storage administrators, based on available capacity" }
+      - { key: c, text: "The CISO alone, based on the organisation's risk appetite" }
+      - { key: d, text: "Nobody: keeping all records indefinitely is the safest default" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: retention is a business and legal decision. Owners know the business need;
+      counsel knows the legal minimums and privacy maximums.
+
+      - **b** is wrong: capacity is a constraint for custodians to manage, not the basis for
+        retention.
+      - **c** is wrong: the CISO advises, but cannot know all legal record-keeping obligations or
+        business needs alone.
+      - **d** is wrong: over-retention increases breach impact and e-discovery cost and can breach
+        storage limitation under privacy law.
+    points: 1
+
+  - key: d2-eol-versus-eos
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A vendor announces that it will stop selling a firewall model next month but will continue to
+      release security updates for it for three more years. Which term describes the announcement?
+    choices:
+      - { key: a, text: "End of life" }
+      - { key: b, text: "End of support" }
+      - { key: c, text: "End of service life" }
+      - { key: d, text: "Decommissioning" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: **end of life** (EOL) means the vendor stops selling or making the product.
+      Support and patches can continue for years after it.
+
+      - **b** is wrong: **end of support** is when patches and fixes stop, three years later here.
+      - **c** is wrong: "end of service life" is another name for end of support, not for the end of
+        sales.
+      - **d** is wrong: decommissioning is the customer's act of retiring an asset, not a vendor
+        announcement.
+    points: 1
+
+  - key: d2-over-retention-risks
+    kind: multi
+    domain: d2-asset-security
+    prompt_md: |
+      The legal department proposes keeping every e-mail forever "to be safe". Which risks does
+      this create? **Choose two.**
+    choices:
+      - { key: a, text: "Loss of integrity in stored e-mail headers" }
+      - { key: b, text: "Breaching the principle that clearance must match classification" }
+      - { key: c, text: "Larger and costlier e-discovery when litigation arises" }
+      - { key: d, text: "Breaching privacy laws' storage limitation for personal data" }
+      - { key: e, text: "Lower availability of the mail service during business hours" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are right: everything kept is discoverable and must be searched and produced,
+      and privacy law (for example GDPR Art. 5(1)(e)) requires personal data to be kept no longer
+      than necessary. Breach impact also grows with volume.
+
+      - **a** is wrong: age does not corrupt headers; integrity is a separate control issue.
+      - **b** is wrong: clearance versus classification concerns access, not retention.
+      - **e** is wrong: archives are normally separate from the live service; availability is not
+        the main risk.
+    points: 1
+
+  # ---------- 2.6 Data security controls and compliance ----------
+  - key: d2-fde-on-running-laptop
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      An employee's laptop uses full-disk encryption with pre-boot authentication. While she is
+      logged in, malware copies files from her documents folder to an attacker's server. Why did
+      full-disk encryption not prevent this?
+    choices:
+      - { key: a, text: "Full-disk encryption only protects the operating system partition, not user folders" }
+      - { key: b, text: "The encryption key was too short to resist the attacker" }
+      - { key: c, text: "Full-disk encryption protects data in transit, not at rest" }
+      - { key: d, text: "Once the user is logged in, the operating system decrypts data transparently for any running process" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: FDE protects data at rest when the device is off or locked. On a running,
+      unlocked system, reads are decrypted for any process, including malware.
+
+      - **a** is wrong: FDE encrypts the whole volume, user data included.
+      - **b** is wrong: the attacker never attacked the encryption; key length is irrelevant.
+      - **c** is wrong: it is the reverse; FDE is a data-at-rest control.
+    points: 1
+
+  - key: d2-drm-after-sharing
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A law firm must send draft merger documents to the other side's lawyers. The partners want to
+      prevent printing and forwarding and be able to revoke access if talks collapse. Which control
+      fits **BEST**?
+    choices:
+      - { key: a, text: "Network data loss prevention on the firm's e-mail gateway" }
+      - { key: b, text: "Digital rights management that encrypts the documents and enforces usage rights" }
+      - { key: c, text: "A cloud access security broker in front of the firm's SaaS tools" }
+      - { key: d, text: "TLS for all e-mail sent to the other firm" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: DRM (information rights management) travels with the file, enforcing who can
+      open it and what they can do, and allows central revocation after delivery.
+
+      - **a** is wrong: DLP controls data leaving through the firm's channels; it has no reach once
+        the recipient has the file.
+      - **c** is wrong: a CASB governs the firm's own use of cloud services, not the recipient's use
+        of a document.
+      - **d** is wrong: TLS protects data in transit only; the recipient can do anything with it
+        afterwards.
+    points: 1
+
+  - key: d2-casb-shadow-it
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      Staff are using dozens of unapproved SaaS applications. Security wants to discover which
+      services are in use, assess their risk and enforce policy, such as blocking uploads of
+      Confidential files to unsanctioned services. Which technology is designed for this?
+    choices:
+      - { key: a, text: "Digital rights management" }
+      - { key: b, text: "Full-disk encryption" }
+      - { key: c, text: "A cloud access security broker" }
+      - { key: d, text: "A trusted execution environment" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a CASB sits between users and cloud services to give visibility of cloud use
+      (shadow IT discovery), assess services and enforce data-security and access policy.
+
+      - **a** is wrong: DRM protects individual files, not visibility of cloud service use.
+      - **b** is wrong: FDE protects data at rest on devices.
+      - **d** is wrong: a TEE protects data in use during computation.
+    points: 1
+
+  - key: d2-scoping-wireless
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A team adopts the NIST SP 800-53B moderate baseline for a new system. The system has no
+      wireless capability, so they remove the wireless access controls from its control set and
+      document why. What is this activity called?
+    choices:
+      - { key: a, text: "Supplementing" }
+      - { key: b, text: "Selecting compensating controls" }
+      - { key: c, text: "Assigning organisation-defined parameters" }
+      - { key: d, text: "Scoping" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: **scoping** removes baseline controls that do not apply to the system, with a
+      documented rationale. SP 800-53B treats scoping as one of the tailoring activities.
+
+      - **a** is wrong: supplementing **adds** controls beyond the baseline.
+      - **b** is wrong: compensating controls replace a control that applies but cannot be
+        implemented.
+      - **c** is wrong: assigning parameters sets values within controls (such as lockout
+        thresholds); it does not remove controls.
+    points: 1
+
+  - key: d2-compensating-control-legacy
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      The baseline requires multi-factor authentication, but a legacy application in scope cannot
+      support it before its replacement next year. What should the security manager do?
+    choices:
+      - { key: a, text: "Implement compensating controls and have the risk accepted by the accountable official" }
+      - { key: b, text: "Scope MFA out of the baseline because it is too costly for this system" }
+      - { key: c, text: "Move the system to the low baseline, which may not require MFA" }
+      - { key: d, text: "Ignore the requirement until the replacement goes live" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: where an applicable control cannot be implemented, tailoring allows a
+      **compensating control** (for example access only via a jump host with MFA, IP restrictions
+      and enhanced monitoring), documented and accepted by the accountable official.
+
+      - **b** is wrong: scoping removes controls that do **not apply**; MFA applies here, and cost
+        alone is not a scoping rationale.
+      - **c** is wrong: the baseline follows the system's categorisation; lowering it to avoid a
+        control misrepresents the risk.
+      - **d** is wrong: silently ignoring a requirement is a failure of due care.
+    points: 1
+
+  - key: d2-tokenisation-pci-scope
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      A retailer wants to remove card numbers from its order-management and analytics systems to
+      shrink its PCI DSS scope, but customer service must still be able to process refunds to the
+      original card. Which method fits **BEST**?
+    choices:
+      - { key: a, text: "Dynamic masking that shows only the last four digits on screen" }
+      - { key: b, text: "Anonymisation of card numbers in all downstream systems" }
+      - { key: c, text: "Tokenisation, with the token vault kept in a separate, tightly controlled environment" }
+      - { key: d, text: "Full-disk encryption on the order-management servers" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: tokens replace card numbers in downstream systems, taking them out of the
+      card-data scope, while the secured vault can map a token back for a refund.
+
+      - **a** is wrong: dynamic masking hides digits on display but the full number is still stored,
+        so the systems stay in scope.
+      - **b** is wrong: anonymisation is irreversible; refunds to the original card become
+        impossible.
+      - **d** is wrong: FDE protects disks at rest but the application still stores and processes
+        card numbers, so scope does not shrink.
+    points: 1
+
+  - key: d2-data-in-transit-between-sites
+    kind: single
+    domain: d2-asset-security
+    prompt_md: |
+      Application servers in one data centre query a database holding Confidential data in another
+      data centre over a leased line. Which control **BEST** protects this data in transit?
+    choices:
+      - { key: a, text: "Transparent database encryption on the database server" }
+      - { key: b, text: "TLS 1.2 or later with mutual certificate authentication between the servers" }
+      - { key: c, text: "Endpoint DLP agents on the application servers" }
+      - { key: d, text: "Digital rights management applied to the database tables" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: data in transit is protected by encrypting and authenticating the channel. NIST
+      SP 800-52 Rev. 2 sets TLS 1.2 as the minimum, and mutual authentication stops impersonation. A
+      leased line is not a substitute for encryption.
+
+      - **a** is wrong: TDE protects data at rest in the database files; query results cross the
+        network in the clear unless the connection is encrypted.
+      - **c** is wrong: endpoint DLP watches for policy violations on hosts; it does not encrypt the
+        channel.
+      - **d** is wrong: DRM protects documents after distribution; it is not a database transport
+        control.
+    points: 1
+
+  - key: d2-dlp-missed-exfiltration
+    kind: multi
+    domain: d2-asset-security
+    prompt_md: |
+      A company deployed network DLP at its internet gateway, yet an insider uploaded a large set of
+      customer records to a personal cloud account without an alert. Which are the **MOST** likely
+      reasons? **Choose two.**
+    choices:
+      - { key: a, text: "The upload was encrypted with TLS and the gateway did not inspect it" }
+      - { key: b, text: "The records were not classified or labelled, so no policy matched them" }
+      - { key: c, text: "The file servers holding the records used full-disk encryption" }
+      - { key: d, text: "The retention period for customer records was too long" }
+      - { key: e, text: "The insider's account used multi-factor authentication" }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right: network DLP cannot inspect traffic it cannot decrypt, and DLP
+      policies depend on knowing what is sensitive (classification, labels, fingerprints).
+      Endpoint DLP or a CASB and better classification would close these gaps.
+
+      - **c** is wrong: FDE on servers is transparent to authorised reads; it neither helps nor blocks
+        network DLP.
+      - **d** is wrong: over-retention increases impact but does not explain the missed alert.
+      - **e** is wrong: MFA governs authentication; it does not affect DLP inspection.
+    points: 1

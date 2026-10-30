@@ -1,0 +1,523 @@
+sources:
+  - slug: d1-isc2-cissp-outline
+    kind: standard
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline (effective 15 April 2024)"
+    authors: [ISC2]
+    site: isc2.org
+    published: 2024-04-15
+    tags: [cissp, outline]
+    summary_md: |
+      The official outline. Defines Domain 1 objectives 1.1–1.12 and their sub-bullets (for
+      example silicon root of trust, PUF and SBOM under 1.11; gamification and security
+      champions under 1.12). Every lesson in this module maps to it.
+
+  - slug: d1-isc2-code-of-ethics
+    kind: standard
+    url: https://www.isc2.org/ethics
+    title: "ISC2 Code of Ethics"
+    authors: [ISC2]
+    site: isc2.org
+    tags: [ethics]
+    summary_md: |
+      The preamble and four canons every ISC2 member agrees to, in priority order: protect
+      society and infrastructure; act honorably, honestly, justly, responsibly and legally;
+      provide diligent and competent service to principals; advance and protect the
+      profession. Also describes the complaint procedure (who may file against which canon).
+      Used in lesson 1.
+
+  - slug: d1-rfc-1087
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc1087
+    title: "RFC 1087: Ethics and the Internet"
+    authors: [Internet Activities Board]
+    site: RFC Editor
+    published: 1989-01-01
+    tags: [ethics]
+    summary_md: |
+      The IAB's 1989 statement listing unethical uses of the Internet (unauthorised access,
+      disrupting intended use, wasting resources, destroying integrity, compromising privacy).
+      An example of an organisational/community code of ethics, contrasted with the ISC2 code
+      in lesson 1.
+
+  - slug: d1-nist-sp-800-12
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/12/r1/final
+    title: "NIST SP 800-12 Rev. 1: An Introduction to Information Security"
+    authors: [Michael Nieles, Kelley Dempsey, Victoria Yan Pillitteri]
+    site: NIST CSRC
+    published: 2017-06-22
+    tags: [cia, governance, policy, roles]
+    summary_md: |
+      NIST's primer: CIA definitions, roles and responsibilities (head of agency, CIO, CISO,
+      system owner), policy types, and the place of awareness and training. Used in lessons 1, 2
+      and 5.
+
+  - slug: d1-nist-glossary
+    kind: standard
+    url: https://csrc.nist.gov/glossary
+    title: "NIST CSRC Glossary"
+    authors: [NIST]
+    site: NIST CSRC
+    tags: [definitions]
+    summary_md: |
+      Authoritative definitions drawn from NIST publications: confidentiality, integrity,
+      availability, authenticity, non-repudiation, risk, threat, vulnerability, residual risk,
+      RTO, RPO, MTD. Second source for the definitions in lessons 1, 4 and 6.
+
+  - slug: d1-fips-199
+    kind: standard
+    url: https://csrc.nist.gov/pubs/fips/199/final
+    title: "FIPS 199: Standards for Security Categorization of Federal Information and Information Systems"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2004-02-01
+    tags: [cia, categorization]
+    summary_md: |
+      Defines loss of confidentiality, integrity and availability and the low/moderate/high
+      impact levels used to categorise systems. Supports the CIA material in lesson 1 and the
+      Categorize step of the RMF in lesson 4.
+
+  - slug: d1-nist-csf-2
+    kind: standard
+    url: https://www.nist.gov/cyberframework
+    title: "NIST Cybersecurity Framework (CSF) 2.0"
+    authors: [NIST]
+    site: nist.gov
+    published: 2024-02-26
+    tags: [framework, governance]
+    summary_md: |
+      CSF 2.0 added a sixth function, Govern, to Identify, Protect, Detect, Respond and Recover,
+      and broadened the audience beyond critical infrastructure. Profiles and tiers describe
+      current vs target state. Used in lessons 2 and 4.
+
+  - slug: d1-nist-sp-800-37
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/37/r2/final
+    title: "NIST SP 800-37 Rev. 2: Risk Management Framework for Information Systems and Organizations"
+    authors: [Joint Task Force]
+    site: NIST CSRC
+    published: 2018-12-20
+    tags: [rmf, risk]
+    summary_md: |
+      The RMF's seven steps (Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor),
+      the authorising official's role in accepting risk, and continuous monitoring. Used in
+      lessons 2 and 4.
+
+  - slug: d1-nist-sp-800-39
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/39/final
+    title: "NIST SP 800-39: Managing Information Security Risk"
+    authors: [Joint Task Force]
+    site: NIST CSRC
+    published: 2011-03-01
+    tags: [risk, governance]
+    summary_md: |
+      Organisation-wide risk management: the three tiers (organisation, mission/business
+      process, system), risk framing, assessing, responding and monitoring, and the response
+      options accept, avoid, mitigate, share/transfer. Used in lessons 2 and 4.
+
+  - slug: d1-nist-sp-800-30
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/30/r1/final
+    title: "NIST SP 800-30 Rev. 1: Guide for Conducting Risk Assessments"
+    authors: [Joint Task Force]
+    site: NIST CSRC
+    published: 2012-09-17
+    tags: [risk, assessment]
+    summary_md: |
+      Risk assessment process: threat sources and events, vulnerabilities and predisposing
+      conditions, likelihood, impact, and qualitative/semi-quantitative scales. Used in lesson 4.
+
+  - slug: d1-nist-sp-800-53
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    title: "NIST SP 800-53 Rev. 5: Security and Privacy Controls for Information Systems and Organizations"
+    authors: [Joint Task Force]
+    site: NIST CSRC
+    published: 2020-09-23
+    tags: [controls, personnel, supply-chain, awareness]
+    summary_md: |
+      The control catalogue. Families used here: PS (personnel security: screening,
+      termination, transfer, access agreements, external personnel), AT (awareness and
+      training), SR (supply chain risk management), PL (policy), RA (risk assessment), CA
+      (assessment, authorisation, continuous monitoring). Used in lessons 2, 4 and 5.
+
+  - slug: d1-iso-27001
+    kind: standard
+    url: https://www.iso.org/standard/27001
+    title: "ISO/IEC 27001:2022 Information security management systems — Requirements"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: iso.org
+    published: 2022-10-25
+    tags: [isms, framework]
+    summary_md: |
+      The certifiable ISMS standard: leadership commitment, risk assessment and treatment,
+      Statement of Applicability, internal audit, management review, continual improvement.
+      Annex A lists 93 controls (aligned with ISO/IEC 27002:2022). Used in lessons 2 and 4.
+
+  - slug: d1-iso-27002
+    kind: standard
+    url: https://www.iso.org/standard/75652.html
+    title: "ISO/IEC 27002:2022 Information security controls"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: iso.org
+    published: 2022-02-15
+    tags: [controls]
+    summary_md: |
+      Implementation guidance for the 93 controls, grouped into four themes: organisational,
+      people, physical and technological. Second source for the framework comparison in
+      lesson 2 and the personnel controls in lesson 5.
+
+  - slug: d1-iso-31000
+    kind: standard
+    url: https://www.iso.org/iso-31000-risk-management.html
+    title: "ISO 31000:2018 Risk management — Guidelines"
+    authors: [ISO/TC 262]
+    site: iso.org
+    published: 2018-02-15
+    tags: [risk]
+    summary_md: |
+      Generic enterprise risk management principles, framework and process (identify, analyse,
+      evaluate, treat, monitor, communicate). Not security-specific. Used in lesson 4.
+
+  - slug: d1-isaca-cobit
+    kind: web
+    url: https://www.isaca.org/resources/cobit
+    title: "COBIT (Control Objectives for Information and Related Technologies)"
+    authors: [ISACA]
+    site: isaca.org
+    tags: [governance, framework]
+    summary_md: |
+      ISACA's framework for governance and management of enterprise IT; COBIT 2019 separates
+      governance (evaluate, direct, monitor) from management. Used in lessons 2 and 4.
+
+  - slug: d1-sabsa
+    kind: web
+    url: https://sabsa.org/
+    title: "SABSA: Sherwood Applied Business Security Architecture"
+    authors: [The SABSA Institute]
+    site: sabsa.org
+    tags: [architecture, framework]
+    summary_md: |
+      A business-driven, risk-based security architecture method built as a layered matrix
+      (contextual, conceptual, logical, physical, component, operational) traced from business
+      attributes. Used in lesson 2.
+
+  - slug: d1-pci-dss
+    kind: standard
+    url: https://www.pcisecuritystandards.org/standards/pci-dss/
+    title: "PCI Data Security Standard (PCI DSS) v4.0.1"
+    authors: [PCI Security Standards Council]
+    site: pcisecuritystandards.org
+    published: 2024-06-11
+    tags: [industry-standard, compliance]
+    summary_md: |
+      Industry standard for anyone storing, processing or transmitting cardholder data; enforced
+      by contract through the card brands and acquirers, not by statute. v4.0 requirements
+      that were future-dated became mandatory on 31 March 2025. Used in lessons 2 and 3.
+
+  - slug: d1-gdpr
+    kind: standard
+    url: https://eur-lex.europa.eu/eli/reg/2016/679/oj
+    title: "Regulation (EU) 2016/679 (General Data Protection Regulation)"
+    authors: [European Parliament, Council of the European Union]
+    site: EUR-Lex
+    published: 2016-04-27
+    tags: [privacy, law, transborder]
+    summary_md: |
+      The GDPR text. Used for: Art. 5 principles; Art. 6 lawful bases; Art. 25 data protection
+      by design and default; Art. 28 processors; Art. 33 72-hour breach notification to the
+      supervisory authority; Art. 35 DPIA; Arts. 44–49 international transfers (adequacy,
+      SCCs, BCRs); Art. 83 fines up to EUR 20 million or 4% of worldwide annual turnover.
+      Used in lesson 3.
+
+  - slug: d1-edpb-transfers
+    kind: web
+    url: https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection_en
+    title: "European Commission: International dimension of data protection"
+    authors: [European Commission]
+    site: commission.europa.eu
+    tags: [privacy, transborder]
+    summary_md: |
+      Commission overview of transfer tools: adequacy decisions (including the EU–US Data
+      Privacy Framework adopted July 2023), standard contractual clauses and binding corporate
+      rules. Second source for transborder data flow in lesson 3.
+
+  - slug: d1-oecd-privacy
+    kind: standard
+    url: https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0188
+    title: "OECD Guidelines Governing the Protection of Privacy and Transborder Flows of Personal Data"
+    authors: [OECD]
+    site: oecd.org
+    published: 1980-09-23
+    tags: [privacy, transborder]
+    summary_md: |
+      The eight basic principles (collection limitation, data quality, purpose specification,
+      use limitation, security safeguards, openness, individual participation, accountability),
+      revised 2013. The ancestor of most modern privacy law. Used in lesson 3.
+
+  - slug: d1-ccpa
+    kind: web
+    url: https://oag.ca.gov/privacy/ccpa
+    title: "California Consumer Privacy Act (CCPA)"
+    authors: [State of California Department of Justice]
+    site: oag.ca.gov
+    tags: [privacy, law]
+    summary_md: |
+      California AG guidance on consumer rights under the CCPA as amended by the CPRA (right to
+      know, delete, correct, opt out of sale/sharing, limit use of sensitive data). Used in
+      lesson 3 as the main US state privacy example.
+
+  - slug: d1-hhs-hipaa
+    kind: web
+    url: https://www.hhs.gov/hipaa/for-professionals/security/index.html
+    title: "HHS: The HIPAA Security Rule"
+    authors: [US Department of Health and Human Services]
+    site: hhs.gov
+    tags: [privacy, law, healthcare]
+    summary_md: |
+      Administrative, physical and technical safeguards for electronic protected health
+      information; covered entities and business associates; breach notification rule. Used
+      in lessons 3 and 5.
+
+  - slug: d1-cfaa
+    kind: standard
+    url: https://www.law.cornell.edu/uscode/text/18/1030
+    title: "18 U.S.C. § 1030 — Computer Fraud and Abuse Act"
+    authors: [US Congress]
+    site: Cornell LII
+    tags: [cybercrime, law]
+    summary_md: |
+      The core US federal computer-crime statute (1986, amended many times): access without or
+      exceeding authorisation to protected computers, damage, trafficking in passwords. Used in
+      lesson 3.
+
+  - slug: d1-doj-ccips
+    kind: web
+    url: https://www.justice.gov/criminal/criminal-ccips
+    title: "US DOJ Computer Crime and Intellectual Property Section (CCIPS)"
+    authors: [US Department of Justice]
+    site: justice.gov
+    tags: [cybercrime, ip, investigations]
+    summary_md: |
+      DOJ section that prosecutes computer and IP crime and publishes guidance on searching and
+      seizing computers and on reporting cybercrime. Second source for cybercrime and criminal
+      investigation material in lesson 3.
+
+  - slug: d1-wipo-ip
+    kind: web
+    url: https://www.wipo.int/about-ip/en/
+    title: "WIPO: What is Intellectual Property?"
+    authors: [World Intellectual Property Organization]
+    site: wipo.int
+    tags: [ip]
+    summary_md: |
+      Definitions of patents, copyright, trademarks, industrial designs and trade secrets and
+      how each is protected. Used in lesson 3.
+
+  - slug: d1-uspto-ip-basics
+    kind: web
+    url: https://www.uspto.gov/trademarks/basics/trademark-patent-copyright
+    title: "USPTO: Trademark, patent, or copyright?"
+    authors: [US Patent and Trademark Office]
+    site: uspto.gov
+    tags: [ip]
+    summary_md: |
+      Plain-language comparison of US trademarks, patents (generally 20 years from filing) and
+      copyright; second source for the IP table in lesson 3. Copyright term (life + 70 years)
+      is from the US Copyright Office (17 U.S.C. § 302).
+
+  - slug: d1-wassenaar
+    kind: web
+    url: https://www.wassenaar.org/
+    title: "The Wassenaar Arrangement on Export Controls for Conventional Arms and Dual-Use Goods and Technologies"
+    authors: [Wassenaar Arrangement Secretariat]
+    site: wassenaar.org
+    tags: [export, cryptography]
+    summary_md: |
+      Multilateral export-control regime whose dual-use list includes information security
+      items such as cryptography. Participating states implement it in national law. Used in
+      lesson 3.
+
+  - slug: d1-bis-ear
+    kind: web
+    url: https://www.bis.gov/regulations/ear
+    title: "US Export Administration Regulations (EAR)"
+    authors: [US Department of Commerce, Bureau of Industry and Security]
+    site: bis.gov
+    tags: [export, cryptography]
+    summary_md: |
+      US dual-use export rules administered by Commerce/BIS, including Category 5 Part 2
+      (information security / encryption). Contrasted with ITAR (State Department, defence
+      articles). Second source for export controls in lesson 3.
+
+  - slug: d1-nist-sp-800-86
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/86/final
+    title: "NIST SP 800-86: Guide to Integrating Forensic Techniques into Incident Response"
+    authors: [Karen Kent, Suzanne Chevalier, Tim Grance, Hung Dang]
+    site: NIST CSRC
+    published: 2006-08-01
+    tags: [investigations, forensics]
+    summary_md: |
+      Forensic process (collection, examination, analysis, reporting), chain of custody and
+      the need to involve legal counsel and law enforcement appropriately. Used in lesson 3.
+
+  - slug: d1-nist-sp-800-34
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final
+    title: "NIST SP 800-34 Rev. 1: Contingency Planning Guide for Federal Information Systems"
+    authors: [Marianne Swanson, Pauline Bowen, Amy Wohl Phillips, Dean Gallup, David Lynes]
+    site: NIST CSRC
+    published: 2010-05-01
+    tags: [bcp, bia]
+    summary_md: |
+      The BIA process (identify mission/business processes and recovery criticality, resource
+      requirements, recovery priorities) and the definitions of MTD, RTO and RPO and how they
+      relate (RTO must not exceed MTD). Primary source for lesson 6.
+
+  - slug: d1-iso-22301
+    kind: standard
+    url: https://www.iso.org/standard/75106.html
+    title: "ISO 22301:2019 Business continuity management systems — Requirements"
+    authors: [ISO/TC 292]
+    site: iso.org
+    published: 2019-10-30
+    tags: [bcp, bia]
+    summary_md: |
+      The certifiable BCMS standard: BIA and risk assessment, business continuity strategies,
+      plans, exercising and management review. Uses MTPD (maximum tolerable period of
+      disruption) and minimum business continuity objective. Second source for lesson 6.
+
+  - slug: d1-threat-modeling-manifesto
+    kind: web
+    url: https://www.threatmodelingmanifesto.org/
+    title: "Threat Modeling Manifesto"
+    authors: [Zoe Braiterman, Adam Shostack, Jonathan Marcil, et al.]
+    site: threatmodelingmanifesto.org
+    published: 2020-11-17
+    tags: [threat-modeling]
+    summary_md: |
+      The four questions (what are we working on, what can go wrong, what are we going to do
+      about it, did we do a good enough job) and the values and principles of threat modeling.
+      Used in lesson 5.
+
+  - slug: d1-owasp-threat-modeling
+    kind: web
+    url: https://owasp.org/www-community/Threat_Modeling
+    title: "OWASP: Threat Modeling"
+    authors: [OWASP Foundation]
+    site: owasp.org
+    tags: [threat-modeling]
+    summary_md: |
+      Overview of threat modeling, when to do it (early and continuously in design), and the
+      common methods: STRIDE, PASTA, attack trees, LINDDUN. Second source for lesson 5.
+
+  - slug: d1-microsoft-stride
+    kind: vendor_docs
+    url: https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats
+    title: "Microsoft Threat Modeling Tool: threats (STRIDE)"
+    authors: [Microsoft]
+    site: learn.microsoft.com
+    tags: [threat-modeling, stride]
+    summary_md: |
+      Microsoft's definitions of the six STRIDE categories and the security property each one
+      violates. Used in lesson 5.
+
+  - slug: d1-mitre-attack
+    kind: web
+    url: https://attack.mitre.org/
+    title: "MITRE ATT&CK"
+    authors: [MITRE]
+    site: attack.mitre.org
+    tags: [threat-intelligence]
+    summary_md: |
+      Knowledge base of adversary tactics and techniques from real-world observation, used to
+      ground "what can go wrong" in threat models. Used in lesson 5.
+
+  - slug: d1-nist-sp-800-161
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/161/r1/upd1/final
+    title: "NIST SP 800-161 Rev. 1: Cybersecurity Supply Chain Risk Management Practices"
+    authors: [Jon Boyens, Angela Smith, Nadya Bartol, Kris Winkler, Alex Holbrook, Matthew Fallon]
+    site: NIST CSRC
+    published: 2022-05-05
+    tags: [supply-chain]
+    summary_md: |
+      C-SCRM across the enterprise: supplier assessment, contractual requirements, monitoring,
+      provenance, counterfeit and tampered components. Used in lesson 5.
+
+  - slug: d1-cisa-sbom
+    kind: web
+    url: https://www.cisa.gov/sbom
+    title: "CISA: Software Bill of Materials (SBOM)"
+    authors: [CISA]
+    site: cisa.gov
+    tags: [supply-chain, sbom]
+    summary_md: |
+      What an SBOM is (a nested inventory of software components and dependencies), why it
+      helps vulnerability response, and links to the NTIA minimum elements (2021) and formats
+      (SPDX, CycloneDX). Used in lesson 5.
+
+  - slug: d1-opentitan
+    kind: web
+    url: https://opentitan.org/
+    title: "OpenTitan: open-source silicon root of trust"
+    authors: [lowRISC, OpenTitan partners]
+    site: opentitan.org
+    tags: [supply-chain, hardware, root-of-trust]
+    summary_md: |
+      An open silicon root of trust design: immutable boot code in hardware that verifies the
+      firmware before it runs. Illustrates the 1.11 "silicon root of trust" bullet; PUF is
+      covered alongside from NIST's glossary. Used in lesson 5.
+
+  - slug: d1-nist-sp-800-50
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/50/r1/final
+    title: "NIST SP 800-50 Rev. 1: Building a Cybersecurity and Privacy Learning Program"
+    authors: [Marian Merritt, Julie Haney, Kelley Dempsey, Susanne Furman]
+    site: NIST CSRC
+    published: 2024-09-26
+    tags: [awareness, training]
+    summary_md: |
+      Lifecycle for a cybersecurity and privacy learning program: awareness, role-based
+      training, education; planning, development, implementation, evaluation and improvement
+      with measurable outcomes. Used in lesson 5.
+
+  - slug: d1-cisa-insider-threat
+    kind: web
+    url: https://www.cisa.gov/topics/physical-security/insider-threat-mitigation
+    title: "CISA: Insider Threat Mitigation"
+    authors: [CISA]
+    site: cisa.gov
+    tags: [personnel, insider-threat]
+    summary_md: |
+      Defining, detecting and managing insider threats; the role of HR, screening, offboarding
+      and a reporting culture. Second source for personnel security in lesson 5.
+
+  - slug: d1-iso-27005
+    kind: standard
+    url: https://www.iso.org/standard/80585.html
+    title: "ISO/IEC 27005:2022 Guidance on managing information security risks"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: iso.org
+    published: 2022-10-25
+    tags: [risk]
+    summary_md: |
+      Information security risk management guidance supporting the ISO/IEC 27001 risk
+      assessment and treatment requirements (event-based and asset-based approaches). Used in
+      the framework comparison in lesson 4.
+
+  - slug: d1-aicpa-soc2
+    kind: web
+    url: https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2
+    title: "AICPA: SOC 2 — SOC for Service Organizations: Trust Services Criteria"
+    authors: [AICPA & CIMA]
+    site: aicpa-cima.com
+    tags: [supply-chain, assurance]
+    summary_md: |
+      Describes SOC 2 reports on a service organisation's controls relevant to security,
+      availability, processing integrity, confidentiality and privacy; Type I covers design at
+      a point in time, Type II covers operating effectiveness over a period. Used for
+      third-party assessment in lesson 5.

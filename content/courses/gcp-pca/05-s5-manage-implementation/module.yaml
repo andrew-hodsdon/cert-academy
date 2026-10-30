@@ -1,0 +1,13 @@
+title: "Section 5: Managing implementation"
+domain: s5-manage-implementation
+summary_md: |
+  Section 5 (~12.5% of the exam) tests whether you can guide the people who build and run the
+  solution you designed. Lesson 1 covers **5.1** from the development side: application and API
+  design, API management with Apigee and API Gateway, testing frameworks (unit, integration, load),
+  data and system migration tooling, and where Gemini Cloud Assist and Gemini Code Assist help.
+  Lesson 2 covers **5.1** from the operations side: application and infrastructure deployment,
+  infrastructure as code with Terraform, Infrastructure Manager and Config Connector, CI/CD with
+  Cloud Build, Artifact Registry and Cloud Deploy, and choosing a release pattern. Lesson 3 covers
+  **5.2**: Cloud Shell, Cloud Shell Editor and Cloud Code, the Google Cloud CLI (gcloud, gcloud
+  storage / gsutil, bq), the local emulators (Bigtable, Spanner, Pub/Sub, Firestore), client
+  libraries and the best practices for calling Google APIs.

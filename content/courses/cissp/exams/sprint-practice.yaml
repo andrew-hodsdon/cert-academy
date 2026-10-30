@@ -1,0 +1,10 @@
+slug: sprint-practice
+ordinal: 2
+title: "Sprint practice (50 questions, 70 minutes)"
+kind: practice
+draw: 50
+time_limit_min: 70
+pass_pct: 80
+readiness: false
+instructions_md: |
+  A shorter mixed-domain run for weeknights, weighted like the real exam. Does not count toward readiness.

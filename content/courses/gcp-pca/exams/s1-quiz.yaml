@@ -1,0 +1,1019 @@
+slug: s1-quiz
+ordinal: 11
+title: "Section 1 quiz: Designing and planning"
+kind: quiz
+draw: 20
+time_limit_min: 45
+pass_pct: 80
+instructions_md: |
+  20 questions drawn at random from a 50-question bank covering objectives 1.1–1.5, with a
+  45-minute clock. Questions are scenario-based, like the real exam: pick the answer that meets
+  **every** stated requirement at the lowest operational burden. Multiple-select questions say how
+  many to choose. Retake until you hold 80% or more, then move on to the full practice exam.
+questions:
+  # ---------------------------------------------------------------- 1.1 Business requirements
+  - key: s1-spot-for-restartable-render
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A media company re-renders its back catalogue every night. Each render job checkpoints its
+      progress every few minutes and can resume on another machine. The jobs need about 600 vCPUs
+      for five hours and must finish before 07:00. Finance wants the lowest compute cost. What
+      should you recommend?
+    choices:
+      - { key: a, text: "Buy a 3-year committed use discount sized for 600 vCPUs" }
+      - { key: b, text: "Run the jobs on Spot VMs in a managed instance group, with checkpoint resume and a fallback to standard VMs if Spot capacity is short" }
+      - { key: c, text: "Run the jobs on sole-tenant nodes so capacity is guaranteed" }
+      - { key: d, text: "Run fewer, larger standard VMs so the jobs finish sooner" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: the work is fault-tolerant and restartable, which is exactly what Spot VMs are
+      for, and the fallback protects the 07:00 deadline. **a** is wrong: a commitment for 600 vCPUs
+      would be paid 24 hours a day for a five-hour burst. **c** is wrong: sole-tenant nodes cost more
+      and solve licensing or isolation needs, not cost. **d** is wrong: larger standard VMs cost the
+      same per vCPU-hour at full price, so they don't lower cost.
+    points: 1
+  - key: s1-cud-steady-erp
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A manufacturer has rehosted its ERP system to Compute Engine. It runs 24×7 on a fixed set of
+      VMs, its size has been stable for two years, and the company plans to keep it for at least
+      three more. Which action gives the largest predictable saving with no change to the
+      application?
+    choices:
+      - { key: a, text: "Move the ERP VMs to Spot VMs" }
+      - { key: b, text: "Rely on sustained use discounts and take no further action" }
+      - { key: c, text: "Refactor the ERP onto Cloud Run so it scales to zero at night" }
+      - { key: d, text: "Purchase a 3-year committed use discount covering the ERP's steady usage" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: a stable, always-on baseline expected to run for years is the textbook case for
+      a committed use discount, which gives a larger discount than sustained use. **a** is wrong: an
+      ERP cannot tolerate preemption, and Spot VMs have no SLA. **b** is wrong: sustained use
+      discounts are automatic but smaller, and not every machine family gets them. **c** is wrong:
+      it requires a major application change, which the question rules out.
+    points: 1
+  - key: s1-kpi-insurer-onboarding
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A healthcare SaaS company's top business goal is to onboard new insurance partners faster.
+      The board asks how the cloud programme's success will be measured. Which KPI is the BEST
+      measure of that goal?
+    choices:
+      - { key: a, text: "Median days from a signed insurer contract to the first claim processed in production" }
+      - { key: b, text: "Number of APIs published to the partner developer portal" }
+      - { key: c, text: "Percentage of on-premises VMs migrated to Google Cloud" }
+      - { key: d, text: "Average CPU utilisation of the integration servers" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: it measures the business outcome directly, with a clear baseline and target.
+      **b** is wrong: publishing APIs is an activity; it can rise while onboarding stays slow.
+      **c** is wrong: migration progress is an activity count, not the onboarding outcome.
+      **d** is wrong: utilisation is a technical efficiency metric unrelated to partner onboarding.
+    points: 1
+  - key: s1-disposition-repurchase
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      During assessment you find the company runs its own ticketing and internal wiki software on
+      ageing VMs. Neither is customised, neither differentiates the business, and the operations
+      team spends several days a month patching them. Leadership wants the team focused on the core
+      product. What disposition should you recommend for these two workloads?
+    choices:
+      - { key: a, text: "Rehost both onto Compute Engine with Migrate to Virtual Machines" }
+      - { key: b, text: "Refactor both into containers on GKE Standard" }
+      - { key: c, text: "Replace both with SaaS products and retire the VMs" }
+      - { key: d, text: "Rebuild both as custom applications on Cloud Run" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: commodity, uncustomised software with high upkeep is a buy (repurchase)
+      candidate, which removes the patching toil entirely. **a** is wrong: rehosting moves the toil
+      to the cloud unchanged. **b** is wrong: refactoring commodity software adds effort and still
+      leaves the team running it. **d** is wrong: building your own ticketing system is the opposite
+      of focusing on the core product.
+    points: 1
+  - key: s1-identify-nonfunctional
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      You are documenting requirements for a new dealer portal. Which two of the following are
+      non-functional requirements? (Choose two.)
+    choices:
+      - { key: a, text: "Dealers can submit a build-to-order vehicle configuration" }
+      - { key: b, text: "Portal pages load in under 300 ms at the 95th percentile for dealers in Europe" }
+      - { key: c, text: "Personal data of EU customers is stored and processed only in EU regions" }
+      - { key: d, text: "The system emails the dealer when a vehicle leaves the factory" }
+      - { key: e, text: "Dealers can search inventory by colour and trim" }
+    answer: [b, c]
+    explanation_md: |
+      **b** (performance) and **c** (data residency, a compliance constraint) describe how well and
+      under what constraints the system must work, so they are non-functional. **a**, **d** and
+      **e** describe features the system provides (submitting, notifying, searching), so they are
+      functional requirements.
+    points: 1
+  - key: s1-rto-rpo-translate
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      The head of operations says: "If the order system goes down we can survive up to four hours
+      before customers go elsewhere, but we can never lose more than 15 minutes of orders." How
+      should you record this in the business continuity requirements?
+    choices:
+      - { key: a, text: "RTO 15 minutes, RPO 4 hours" }
+      - { key: b, text: "RTO 4 hours, RPO 15 minutes" }
+      - { key: c, text: "Availability SLO of 99.99% with an RPO of 4 hours" }
+      - { key: d, text: "RTO 4 hours, RPO 0 minutes" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: RTO is how long the service may be down (four hours) and RPO is how much data,
+      measured in time, may be lost (15 minutes). **a** swaps the two. **c** is wrong: an SLO is a
+      different measure and the RPO stated is wrong. **d** is wrong: the business accepted up to 15
+      minutes of loss; designing for zero would cost far more than required.
+    points: 1
+  - key: s1-integration-apigee-partners
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      An insurer-facing platform must expose claims and eligibility services to dozens of new
+      insurance partners. Each partner needs its own credentials and rate limits, the business wants
+      usage analytics per partner, and partners should be able to self-onboard from documentation.
+      What should you use?
+    choices:
+      - { key: a, text: "VPC Network Peering between your VPC and each partner's VPC" }
+      - { key: b, text: "A Pub/Sub topic per partner, with partners subscribing to claims events" }
+      - { key: c, text: "An HA VPN tunnel from each partner's data centre" }
+      - { key: d, text: "Apigee API management in front of the services, with a developer portal" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Apigee provides per-consumer keys, quotas, analytics and a developer portal,
+      which match every requirement. **a** is wrong: peering connects whole networks, has no per-
+      partner quotas or analytics, and requires non-overlapping ranges with each partner. **b** is
+      wrong: Pub/Sub moves events but is not an API product with self-service onboarding. **c** is
+      wrong: a VPN per partner is slow to onboard and still provides no API management.
+    points: 1
+  - key: s1-avoid-overengineering
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      An internal reporting application is used by staff in one country. Requirements: 99.9%
+      availability, survive the loss of a single zone, and keep cost low. A colleague proposes an
+      active-active deployment in two regions with a Spanner multi-region database. What should you
+      recommend?
+    choices:
+      - { key: a, text: "Accept the proposal, because more availability is always better" }
+      - { key: b, text: "Deploy to a single zone and restore from snapshots if the zone fails" }
+      - { key: c, text: "Use a regional managed instance group behind a load balancer and a Cloud SQL instance with high availability enabled, in one region" }
+      - { key: d, text: "Use two regions but with a single Cloud SQL instance in one zone" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a regional design spreads across zones, meets 99.9% and survives a zone loss at
+      far lower cost. **a** is wrong: it over-engineers for a regional outage the business didn't
+      ask to survive, at much higher cost. **b** is wrong: restoring from snapshots after a zone loss
+      takes too long for the stated requirement. **d** is wrong: the single-zone database is a single
+      point of failure, so the second region adds cost without meeting the zone-loss requirement.
+    points: 1
+  - key: s1-data-movement-colocate
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      Raw sensor data (about 40 TB a month) lands in a Cloud Storage bucket in europe-west1. An
+      analytics team in another region runs daily jobs that copy all the raw data to their region
+      before aggregating it. Egress costs and job durations are rising. Which two changes BEST
+      address this? (Choose two.)
+    choices:
+      - { key: a, text: "Run the processing in europe-west1, next to the data" }
+      - { key: b, text: "Switch the bucket to the Archive storage class" }
+      - { key: c, text: "Aggregate the data where it lands and move only the much smaller results" }
+      - { key: d, text: "Order a Dedicated Interconnect between the two regions" }
+      - { key: e, text: "Move the bucket to Standard Network Service Tier" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: keeping compute near the data and moving only aggregated results
+      cuts both inter-region egress and transfer time. **b** is wrong: Archive is for rarely read
+      data and adds retrieval fees to a daily job. **d** is wrong: Interconnect links on-premises
+      networks to Google, not two Google Cloud regions. **e** is wrong: network tiers apply to
+      internet-facing traffic, not to copying data between Google Cloud regions.
+    points: 1
+  - key: s1-compliance-design-input
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A car maker is starting its Google Cloud foundation. It processes EU customer data and must
+      comply with EU data-protection law; it has suffered breaches before. What should you do FIRST
+      to make sure compliance is built in rather than retrofitted?
+    choices:
+      - { key: a, text: "Include an organisation policy restricting resource locations to EU regions in the landing zone, and design data flows around it" }
+      - { key: b, text: "Migrate the workloads first, then run a compliance audit and fix what it finds" }
+      - { key: c, text: "Rely on Google's own compliance certifications to cover the company's obligations" }
+      - { key: d, text: "Encrypt all data with customer-managed keys after the migration is finished" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: residency is enforced in the foundation by policy, so no team can accidentally
+      deploy outside the EU, and data flows are designed accordingly (security by design). **b** is
+      wrong: fixing compliance after migrating is costly and risks violations in the meantime.
+      **c** is wrong: Google's certifications cover Google's part of the shared responsibility model,
+      not the customer's design choices. **d** is wrong: encryption helps but doesn't control where
+      data lives, and doing it afterwards is retrofitting.
+    points: 1
+
+  # ---------------------------------------------------------------- 1.2 Technical requirements
+  - key: s1-error-budget-minutes
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A service has an availability SLO of 99.95% measured over a rolling 30-day window. How much
+      full outage does the error budget allow per window?
+    choices:
+      - { key: a, text: "About 4.3 minutes" }
+      - { key: b, text: "About 43.2 minutes" }
+      - { key: c, text: "About 21.6 minutes" }
+      - { key: d, text: "About 216 minutes" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: 30 × 24 × 60 = 43,200 minutes, and 0.05% of that is 21.6 minutes. **a** is the
+      budget for 99.99%. **b** is the budget for 99.9%. **d** is ten times too large (it would
+      correspond to 99.5%).
+    points: 1
+  - key: s1-composite-serial-availability
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A request passes through three components in series: a load-balanced web tier, an
+      application tier and a database. Each is designed for 99.9% availability and they fail
+      independently. What is the approximate end-to-end availability?
+    choices:
+      - { key: a, text: "99.9%" }
+      - { key: b, text: "99.97%" }
+      - { key: c, text: "99.0%" }
+      - { key: d, text: "99.7%" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: serial availability is the product, 0.999³ ≈ 0.997. **a** is wrong: the chain is
+      always weaker than any single serial link. **b** is wrong: that would be the result if the
+      components were redundant (parallel), not serial. **c** is wrong: it overstates the loss by
+      roughly a factor of three.
+    points: 1
+  - key: s1-cloudsql-ha-zone-failure
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      An order database runs on Cloud SQL for PostgreSQL. The requirement is that it keeps running
+      with automatic failover and no data loss if the zone hosting the primary fails. What should you
+      configure?
+    choices:
+      - { key: a, text: "Enable high availability on the instance, so a standby in another zone of the region is kept in sync and fails over automatically" }
+      - { key: b, text: "Add a read replica in the same zone as the primary" }
+      - { key: c, text: "Add a cross-region read replica and promote it manually during an outage" }
+      - { key: d, text: "Enable daily automated backups and restore to a new zone after a failure" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Cloud SQL HA keeps a synchronously replicated standby in another zone and
+      fails over automatically, meeting both requirements. **b** is wrong: a replica in the same zone
+      fails with it, and replicas are not automatic failover targets. **c** is wrong: promotion is
+      manual and asynchronous replication can lose recent writes; it is a regional DR tool. **d** is
+      wrong: restoring from a daily backup is slow and loses up to a day of data.
+    points: 1
+  - key: s1-backup-versus-replication
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      A faulty release ran a script that deleted customer records in Cloud SQL and overwrote
+      objects in a Cloud Storage bucket. Both systems were already replicated across zones. Which two
+      capabilities would have let you recover the data? (Choose two.)
+    choices:
+      - { key: a, text: "Cloud SQL high availability" }
+      - { key: b, text: "Cloud SQL automated backups with point-in-time recovery" }
+      - { key: c, text: "Object Versioning (or soft delete) on the Cloud Storage bucket" }
+      - { key: d, text: "Additional Cloud SQL read replicas" }
+      - { key: e, text: "Changing the bucket to a multi-region location" }
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** are right: point-in-time recovery restores the database to just before the
+      script, and versioning or soft delete keeps prior object versions. **a**, **d** and **e** are
+      all replication: they copy the deletion and overwrites to every copy instantly, so they protect
+      against infrastructure failure, not against bad changes.
+    points: 1
+  - key: s1-quota-before-launch
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      A retailer launches a campaign in three weeks and expects traffic ten times higher than
+      normal in two regions. Managed instance group autoscaling is already configured and was tested
+      at twice normal load. Which two actions should you take now? (Choose two.)
+    choices:
+      - { key: a, text: "Forecast the peak footprint and request quota increases in both regions ahead of the launch" }
+      - { key: b, text: "Disable the autoscaler and pre-create ten times today's instances immediately" }
+      - { key: c, text: "Create Cloud Monitoring alerts on quota usage for the scaled resources" }
+      - { key: d, text: "Switch every instance to the largest machine type available" }
+      - { key: e, text: "Open a support case on launch day if scaling stops" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: autoscaling stops at allocation quotas, increases can take time, and
+      alerts warn you before you hit a limit. **b** is wrong: three weeks of ten-fold capacity wastes
+      money and still needs the quota. **d** is wrong: vertical scaling hits machine-size limits,
+      still consumes vCPU quota and loses the elasticity of horizontal scaling. **e** is wrong: it
+      reacts after customers are already affected.
+    points: 1
+  - key: s1-survive-region-outage
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A global consumer application must keep serving users if an entire Google Cloud region fails,
+      with an RTO of a few minutes and an RPO of near zero for its relational data. Which design
+      meets these requirements with the least custom failover logic?
+    choices:
+      - { key: a, text: "A regional managed instance group across three zones with Cloud SQL high availability" }
+      - { key: b, text: "Daily snapshots copied to a second region and restored when needed" }
+      - { key: c, text: "Two VMs in different regions with DNS round-robin and a Cloud SQL instance in one region" }
+      - { key: d, text: "A global external Application Load Balancer with backends in two regions and a Spanner multi-region database" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: the global load balancer routes around a failed region automatically, and
+      Spanner multi-region keeps synchronous replicas so a region loss loses no committed data.
+      **a** is wrong: it survives a zone failure, not a region failure. **b** is wrong: restoring
+      takes hours and loses up to a day of data. **c** is wrong: DNS round-robin keeps sending users
+      to a dead region, and the single-region database is a single point of failure.
+    points: 1
+  - key: s1-warm-standby-pattern
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A logistics application needs an RTO of one hour and an RPO of 15 minutes in case its primary
+      region is lost. Management wants the cheapest design that meets these objectives. Which
+      disaster recovery pattern fits?
+    choices:
+      - { key: a, text: "Hot: full active-active deployments serving traffic in two regions" }
+      - { key: b, text: "Warm: a scaled-down copy of the application in a second region with a cross-region database replica, scaled up on failover" }
+      - { key: c, text: "Cold: nightly backups stored in the same region as production" }
+      - { key: d, text: "Cold: nightly backups copied to a second region and restored on demand" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a warm standby with continuous cross-region replication gives an RPO of minutes
+      and can scale up within an hour, without paying for a full second environment. **a** is wrong:
+      it meets the objectives but costs the most. **c** is wrong: backups in the same region are lost
+      with the region, and nightly backups break the 15-minute RPO. **d** is wrong: nightly backups
+      still mean up to 24 hours of data loss.
+    points: 1
+  - key: s1-gemini-cloud-assist-investigations
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      An operations team wants AI help in the Google Cloud console to find the likely root cause of
+      latency incidents faster, by analysing logs, metrics, configuration and recent changes
+      together. What should they use?
+    choices:
+      - { key: a, text: "Fine-tune a model from Model Garden on past incident tickets" }
+      - { key: b, text: "Build a custom agent on Gemini Enterprise Agent Platform that reads exported logs" }
+      - { key: c, text: "Gemini Cloud Assist Investigations" }
+      - { key: d, text: "Cloud Trace on its own" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Gemini Cloud Assist Investigations is the built-in, managed capability for this
+      exact job. **a** and **b** are wrong: they build a custom solution for a problem Google already
+      solves, adding cost and maintenance. **d** is wrong: Cloud Trace shows request latency paths
+      but doesn't correlate logs, metrics and configuration changes into a root-cause analysis.
+    points: 1
+  - key: s1-slo-sla-statements
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      Your team is writing its first reliability policy. Which two statements are correct? (Choose
+      two.)
+    choices:
+      - { key: a, text: "An SLO should be set at 100% for customer-facing services" }
+      - { key: b, text: "The error budget is 1 minus the SLO, and can be spent on releases and experiments" }
+      - { key: c, text: "The SLI is the contractual penalty paid when availability is missed" }
+      - { key: d, text: "An external SLA should be looser than the internal SLO, so you are warned before breaching it" }
+      - { key: e, text: "The SLA should be stricter than the SLO to motivate engineers" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: the error budget is the allowed unreliability, and SLAs sit below the
+      SLO so the SLO is breached first. **a** is wrong: 100% is unachievable, leaves no room for
+      change and costs disproportionately. **c** is wrong: the SLI is the measurement; penalties
+      belong to the SLA. **e** is wrong: a stricter SLA than SLO means you breach the contract before
+      your own alarm fires.
+    points: 1
+  - key: s1-global-latency-levers
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      A web application in us-central1 serves users worldwide. Users in Asia and Europe report slow
+      page loads, mostly for images and scripts that rarely change. Which two design choices will reduce
+      their latency the most with the least redesign? (Choose two.)
+    choices:
+      - { key: a, text: "Serve through a global external Application Load Balancer with Cloud CDN enabled" }
+      - { key: b, text: "Switch the project to Standard Network Service Tier" }
+      - { key: c, text: "Keep Premium Network Service Tier so traffic enters Google's network near the user" }
+      - { key: d, text: "Move to larger VMs in us-central1" }
+      - { key: e, text: "Store the static assets in the Archive storage class" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: Cloud CDN caches static content at edge locations near users, and
+      Premium Tier carries the rest of the traffic on Google's backbone from the nearest edge.
+      **b** is wrong: Standard Tier routes over the public internet and doesn't support global load
+      balancing. **d** is wrong: the delay is distance, not server capacity. **e** is wrong: Archive
+      lowers storage cost for rarely read data and adds retrieval fees; it doesn't reduce latency.
+    points: 1
+  - key: s1-waf-pillars-recall
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      An architecture review board wants to structure its design reviews around the Google Cloud
+      Well-Architected Framework pillars. Which list names those pillars?
+    choices:
+      - { key: a, text: "Availability, scalability, durability, latency, cost and security" }
+      - { key: b, text: "Operational excellence; security, privacy and compliance; reliability; cost optimization; performance optimization; sustainability" }
+      - { key: c, text: "Assess, plan, deploy, optimize, operate and retire" }
+      - { key: d, text: "Rehost, replatform, refactor, re-architect, rebuild and repurchase" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: these are the framework's six pillars. **a** is wrong: these are quality
+      attributes, not the framework's pillars. **c** is wrong: assess, plan, deploy and optimize are
+      Google's migration phases (with two made-up additions). **d** is wrong: these are the six
+      migration types.
+    points: 1
+
+  # ---------------------------------------------------------------- 1.3 Network, storage, compute
+  - key: s1-cloud-run-stateless-api
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A two-person team has containerised a stateless REST API. Traffic is unpredictable, with long
+      idle periods overnight and sudden spikes after marketing emails. They want to pay nothing when
+      idle and spend no time managing servers or clusters. Where should they run it?
+    choices:
+      - { key: a, text: "A Compute Engine managed instance group with a minimum of one instance" }
+      - { key: b, text: "A GKE Standard cluster with the cluster autoscaler" }
+      - { key: c, text: "App Engine flexible environment" }
+      - { key: d, text: "Cloud Run" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Cloud Run runs containers, scales per request including to zero, and has no
+      infrastructure to manage. **a** is wrong: it always runs at least one VM and needs OS
+      management. **b** is wrong: GKE Standard means managing node pools and paying for nodes even
+      when idle. **c** is wrong: the flexible environment runs VM instances and doesn't scale to zero.
+    points: 1
+  - key: s1-gke-autopilot-helm
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A company deploys its services with Helm charts and Kubernetes operators, and wants the same
+      Kubernetes tooling in the cloud as on premises. It has no need for custom node configuration
+      and wants Google to manage nodes, scaling and security patching of the node layer. Which
+      platform fits BEST?
+    choices:
+      - { key: a, text: "GKE Autopilot" }
+      - { key: b, text: "Cloud Run" }
+      - { key: c, text: "GKE Standard with manually managed node pools" }
+      - { key: d, text: "Compute Engine VMs running a self-managed Kubernetes distribution" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Autopilot keeps the full Kubernetes API (Helm, operators) while Google manages
+      the nodes. **b** is wrong: Cloud Run doesn't run Helm charts or Kubernetes operators. **c** is
+      wrong: it works but leaves node management to the team, which they want to avoid. **d** is
+      wrong: self-managed Kubernetes adds the most operational burden.
+    points: 1
+  - key: s1-gke-standard-node-control
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A security vendor's agent must run as a privileged DaemonSet on every Kubernetes node, needs
+      specific kernel parameters set on the nodes, and the team must be able to SSH to nodes for
+      debugging. They still want a managed Kubernetes control plane. Which option meets these
+      requirements?
+    choices:
+      - { key: a, text: "GKE Autopilot" }
+      - { key: b, text: "GKE Standard, with node pools configured for the agent" }
+      - { key: c, text: "Cloud Run with a sidecar container" }
+      - { key: d, text: "App Engine standard environment" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: GKE Standard gives node-level control (node configuration, SSH, privileged
+      workloads) with a managed control plane. **a** is wrong: Autopilot manages and locks down the
+      nodes, restricting privileged workloads and node access. **c** and **d** are wrong: neither
+      exposes nodes or runs DaemonSets.
+    points: 1
+  - key: s1-bigtable-vehicle-telemetry
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A vehicle maker collects telemetry from three million connected cars, each sending readings
+      every few seconds. A dealer app must fetch the latest readings for one vehicle by its ID in a
+      few milliseconds. Which database should store the telemetry for that access pattern?
+    choices:
+      - { key: a, text: "Cloud SQL for MySQL with read replicas" }
+      - { key: b, text: "BigQuery" }
+      - { key: c, text: "Bigtable, with a row key based on vehicle ID and time" }
+      - { key: d, text: "Firestore in Datastore mode" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Bigtable handles very high write throughput and millisecond lookups by row key,
+      the classic time-series and IoT pattern. **a** is wrong: a single-primary relational database
+      won't absorb this write rate. **b** is wrong: BigQuery is for analytics, not millisecond
+      per-key serving. **d** is wrong: Firestore suits application documents, not sustained
+      high-volume time-series ingestion at this scale.
+    points: 1
+  - key: s1-spanner-global-writes
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A payments platform must accept writes from customers on three continents, keep a single
+      strongly consistent relational ledger, scale writes horizontally, and survive a regional
+      outage without data loss. Which database meets all requirements?
+    choices:
+      - { key: a, text: "Spanner with a multi-region configuration" }
+      - { key: b, text: "Cloud SQL for PostgreSQL with cross-region read replicas" }
+      - { key: c, text: "Bigtable with replication across three regions" }
+      - { key: d, text: "AlloyDB for PostgreSQL in one region" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Spanner provides relational SQL, external consistency, horizontal write
+      scaling and multi-region synchronous replication. **b** is wrong: Cloud SQL has one primary,
+      so writes don't scale horizontally and replica promotion can lose recent data. **c** is wrong:
+      Bigtable isn't relational, and its cross-cluster replication is eventually consistent. **d** is
+      wrong: a single-region deployment doesn't survive a regional outage.
+    points: 1
+  - key: s1-alloydb-postgres-analytics
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A PostgreSQL application is outgrowing self-managed servers. The business also wants
+      near-real-time analytical queries on the live operational data without building an ETL
+      pipeline, and the developers will not rewrite the PostgreSQL-specific code. What should you
+      recommend?
+    choices:
+      - { key: a, text: "Spanner" }
+      - { key: b, text: "Firestore" }
+      - { key: c, text: "BigQuery as the application database" }
+      - { key: d, text: "AlloyDB for PostgreSQL" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: AlloyDB is PostgreSQL-compatible, built for demanding transactional workloads,
+      and its columnar engine accelerates analytical queries on operational data. **a** is wrong:
+      Spanner has a PostgreSQL interface but isn't a drop-in for PostgreSQL-specific features, so code
+      changes are likely. **b** is wrong: Firestore is a document database, so it would be a rewrite.
+      **c** is wrong: BigQuery is an analytics warehouse, not an OLTP database.
+    points: 1
+  - key: s1-archive-retention-records
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      A hospital group must keep scanned medical records for ten years. After the first year they
+      are almost never read, and regulators require that they cannot be deleted or altered before
+      the retention period ends. Which two choices meet the requirements at the lowest cost? (Choose
+      two.)
+    choices:
+      - { key: a, text: "A lifecycle rule moving objects older than one year to the Archive storage class" }
+      - { key: b, text: "Keeping all records in Standard storage permanently" }
+      - { key: c, text: "A bucket retention policy of ten years, locked with Bucket Lock" }
+      - { key: d, text: "Storing the records on Filestore" }
+      - { key: e, text: "Relying on IAM so that only administrators can delete objects" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: Archive is the cheapest class for data read less than once a year,
+      and a locked retention policy makes deletion or replacement impossible until the period ends.
+      **b** is wrong: Standard costs more for data that is rarely read. **d** is wrong: file storage
+      is far more expensive and offers no retention lock. **e** is wrong: administrators can still
+      delete objects, so IAM alone doesn't meet the regulatory requirement.
+    points: 1
+  - key: s1-partner-interconnect-no-colo
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A manufacturing plant needs about 2 Gbps of private connectivity to its VPC with an SLA. The
+      plant is far from any Google colocation facility, but its telecom provider is a supported
+      Google partner. What should you recommend?
+    choices:
+      - { key: a, text: "Dedicated Interconnect with a 10 Gbps circuit" }
+      - { key: b, text: "Direct Peering with Google" }
+      - { key: c, text: "Partner Interconnect through the telecom provider" }
+      - { key: d, text: "Carrier Peering" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Partner Interconnect reaches Google through a provider when you can't get to a
+      colocation facility, with attachment sizes from 50 Mbps to 50 Gbps. **a** is wrong: Dedicated
+      Interconnect requires a physical connection in a colocation facility. **b** and **d** are
+      wrong: peering reaches Google's public services, not your VPC, and has no SLA.
+    points: 1
+  - key: s1-shared-vpc-central-network
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A central network team must control subnets, firewall rules and hybrid connectivity for the
+      whole organisation. Twenty application teams each want their own project for billing and IAM
+      isolation, but all workloads must use the centrally managed network. What should you design?
+    choices:
+      - { key: a, text: "A separate VPC in each project, connected with VPC Network Peering" }
+      - { key: b, text: "A Shared VPC host project owned by the network team, with each application project attached as a service project" }
+      - { key: c, text: "One project for all twenty teams, separated with labels" }
+      - { key: d, text: "A separate VPC per project, each with its own HA VPN to on premises" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Shared VPC centralises network control in the host project while teams keep
+      their own projects for billing and IAM. **a** is wrong: each team would control its own network,
+      and peering isn't transitive, so on-premises reach gets complicated. **c** is wrong: one project
+      loses billing and IAM isolation. **d** is wrong: twenty VPN setups decentralise control and
+      multiply cost and operations.
+    points: 1
+  - key: s1-psc-overlapping-ranges
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      Your VPC must privately consume an internal service published by a partner company in its own
+      VPC. Both networks use the same 10.0.0.0/16 range, and the partner wants to expose only that
+      one service, not its network. What should you use?
+    choices:
+      - { key: a, text: "Private Service Connect: the partner publishes a service attachment and you create an endpoint in your VPC" }
+      - { key: b, text: "VPC Network Peering between the two VPCs" }
+      - { key: c, text: "Shared VPC, with your project attached to the partner's host project" }
+      - { key: d, text: "Expose the service on an external IP address and allow your NAT addresses in its firewall" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: PSC exposes a single service through an endpoint with its own IP address in the
+      consumer's VPC, so overlapping ranges don't matter and the networks stay separate. **b** is
+      wrong: peering fails with overlapping ranges and connects whole networks. **c** is wrong: Shared
+      VPC works inside one organisation and would give you the partner's network. **d** is wrong: it
+      isn't private, as the requirement demands.
+    points: 1
+  - key: s1-peering-not-transitive
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      VPC A is peered with VPC B, and VPC B is peered with VPC C. Workloads in A cannot reach a
+      service in C. Address ranges in all three VPCs don't overlap. Which two options would let A
+      reach the service in C? (Choose two.)
+    choices:
+      - { key: a, text: "Create a direct VPC Network Peering between A and C" }
+      - { key: b, text: "Add a static route in B pointing to C, which will be shared with A automatically" }
+      - { key: c, text: "Publish the service in C with Private Service Connect and create an endpoint in A" }
+      - { key: d, text: "Switch VPC B to Standard Network Service Tier" }
+      - { key: e, text: "Add Cloud NAT to VPC B" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: VPC peering is not transitive, so A needs either its own peering with
+      C or a PSC endpoint to C's published service. **b** is wrong: routes learned through one peering
+      aren't passed on to another peer, so this doesn't make B a transit network. **d** is wrong:
+      network tiers affect internet routing, not peering. **e** is wrong: Cloud NAT handles outbound
+      internet access, not traffic between VPCs.
+    points: 1
+  - key: s1-streaming-pipeline-choice
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      An online retailer wants to capture clickstream events from its website, enrich and window them
+      in real time, and load the results into BigQuery for dashboards that lag by under a minute. It
+      wants fully managed, autoscaling services. Which two services should form the pipeline?
+      (Choose two.)
+    choices:
+      - { key: a, text: "Pub/Sub for event ingestion" }
+      - { key: b, text: "Dataproc clusters running nightly Hadoop jobs" }
+      - { key: c, text: "Transfer Appliance" }
+      - { key: d, text: "Dataflow streaming pipelines" }
+      - { key: e, text: "Storage Transfer Service" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: Pub/Sub ingests events at scale and Dataflow processes streams with
+      windowing and writes to BigQuery, both serverless. **b** is wrong: nightly batch jobs miss the
+      one-minute freshness target, and clusters need management. **c** and **e** are wrong: they are
+      bulk data transfer tools, not streaming processors.
+    points: 1
+  - key: s1-spot-suitable-workloads
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      You are reviewing a cost plan that moves several workloads to Spot VMs. Which two workloads
+      are appropriate for Spot VMs? (Choose two.)
+    choices:
+      - { key: a, text: "The primary PostgreSQL database for the order system" }
+      - { key: b, text: "Stateless CI build runners that retry failed jobs automatically" }
+      - { key: c, text: "A single VM that runs the company's licence server" }
+      - { key: d, text: "Batch image-rendering workers that checkpoint and resume" }
+      - { key: e, text: "A payment API running on one VM with no load balancer" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: both are fault-tolerant and restartable, so preemption costs only a
+      retry. **a**, **c** and **e** are wrong: each is a stateful or single-instance service whose
+      interruption causes an outage or data risk, and Spot VMs can be preempted at any time with no
+      SLA.
+    points: 1
+  - key: s1-genai-product-descriptions
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      An online retailer wants to generate product descriptions and attributes for 500,000 catalogue
+      items from supplier data and images within the next quarter. Accuracy matters, so merchandisers
+      must approve output before publication. What should you recommend?
+    choices:
+      - { key: a, text: "Train a new large language model from scratch on AI Hypercomputer using the catalogue" }
+      - { key: b, text: "Use BigQuery ML linear regression to predict attribute values" }
+      - { key: c, text: "Use the Cloud Translation API to rewrite supplier descriptions" }
+      - { key: d, text: "Call Gemini models through Gemini Enterprise Agent Platform with supplier data and images as input, and route output to a human review queue" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: a prebuilt multimodal Gemini model meets the need quickly, and the review queue
+      meets the accuracy requirement. **a** is wrong: training from scratch is slow, very costly and
+      unnecessary. **b** is wrong: linear regression predicts numbers; it can't write descriptions or
+      read images. **c** is wrong: translation changes language, not content quality, and doesn't
+      extract attributes from images.
+    points: 1
+
+  # ---------------------------------------------------------------- 1.4 Migration plan
+  - key: s1-transfer-time-200tb
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      You must move 200 TB to Cloud Storage over a dedicated 1 Gbps link. Assume you achieve about
+      80% of the link's rated throughput. Approximately how long will the transfer take?
+    choices:
+      - { key: a, text: "About 2 days" }
+      - { key: b, text: "About 23 days" }
+      - { key: c, text: "About 185 days" }
+      - { key: d, text: "About 9 hours" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: 200 TB × 8 = 1.6 × 10¹⁵ bits; 80% of 1 Gbps is 8 × 10⁸ bits/s; 1.6 × 10¹⁵ ÷
+      8 × 10⁸ = 2 × 10⁶ s ≈ 23 days. **a** and **d** come from dividing by bytes instead of bits or
+      dropping a power of ten. **c** corresponds to a link roughly eight times slower (about 100 Mbps).
+    points: 1
+  - key: s1-transfer-appliance-low-bandwidth
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A media company must move a 500 TB on-premises archive to Cloud Storage within six weeks. Its
+      only connection is a 100 Mbps internet link, and buying more bandwidth would take months. What
+      should you recommend?
+    choices:
+      - { key: a, text: "Storage Transfer Service with on-premises agents over the existing link" }
+      - { key: b, text: "gcloud storage commands run in parallel from several servers" }
+      - { key: c, text: "Order a 10 Gbps Dedicated Interconnect and transfer over it" }
+      - { key: d, text: "Transfer Appliance" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: at 100 Mbps the transfer would take well over a year, and Google recommends
+      Transfer Appliance when an online upload would take more than about a week. **a** and **b** are
+      wrong: both are limited by the same 100 Mbps link, and parallelism can't exceed it. **c** is
+      wrong: the scenario says more bandwidth can't be provisioned in time.
+    points: 1
+  - key: s1-sts-from-s3
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A company is moving 80 TB of objects from Amazon S3 to Cloud Storage. During a two-month
+      transition it needs daily incremental syncs of new and changed objects, with logs of what was
+      transferred. Which approach requires the least operational effort?
+    choices:
+      - { key: a, text: "Storage Transfer Service with a scheduled daily transfer job from the S3 bucket" }
+      - { key: b, text: "A cron job on a Compute Engine VM that runs gcloud storage rsync" }
+      - { key: c, text: "Transfer Appliance shipped to the AWS region" }
+      - { key: d, text: "Database Migration Service" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Storage Transfer Service is managed, supports S3 as a source, runs scheduled
+      incremental transfers and logs results. **b** is wrong: it works but leaves you to run, monitor
+      and retry the VM and script. **c** is wrong: you can't install an appliance in AWS's data centre,
+      and it doesn't do recurring syncs. **d** is wrong: it migrates databases, not object storage.
+    points: 1
+  - key: s1-dms-continuous-mysql
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      An on-premises MySQL database of 2 TB must move to Cloud SQL for MySQL. The business allows at
+      most a few minutes of downtime at cut-over. What should you do?
+    choices:
+      - { key: a, text: "Export with mysqldump at the weekend, upload to Cloud Storage and import" }
+      - { key: b, text: "Use Database Migration Service with a continuous migration job, then promote the destination at cut-over" }
+      - { key: c, text: "Use Transfer Appliance to ship the database files" }
+      - { key: d, text: "Rehost the database server with Migrate to Virtual Machines and keep MySQL self-managed" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a continuous migration does an initial load, then replicates changes with CDC
+      until you promote, so downtime is limited to the cut-over. **a** is wrong: a one-time dump means
+      writes must stop for the whole export, upload and import. **c** is wrong: shipping files takes
+      days and still needs downtime for the changes made meanwhile. **d** is wrong: it doesn't reach
+      the stated target, Cloud SQL, and keeps the operational burden.
+    points: 1
+  - key: s1-dms-oracle-to-postgres
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A company wants to stop paying for commercial Oracle Database licences. Its Oracle database
+      supports an application the team is willing to adapt, and it wants a managed PostgreSQL-
+      compatible target with schema conversion assistance. What should you recommend?
+    choices:
+      - { key: a, text: "Rehost Oracle on Compute Engine with bring-your-own-licence" }
+      - { key: b, text: "Load the Oracle data into BigQuery with the BigQuery Data Transfer Service" }
+      - { key: c, text: "A heterogeneous Database Migration Service migration from Oracle to AlloyDB for PostgreSQL, using its schema conversion" }
+      - { key: d, text: "Move the Oracle database files to Filestore" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Database Migration Service supports heterogeneous Oracle to AlloyDB (or Cloud
+      SQL for PostgreSQL) migrations with schema conversion, which removes the Oracle licence. **a** is
+      wrong: it keeps paying for Oracle licences. **b** is wrong: BigQuery is an analytics warehouse,
+      not the transactional target. **d** is wrong: file storage doesn't run a database or remove
+      the licence.
+    points: 1
+  - key: s1-migration-center-first-step
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A company with about 2,000 on-premises VMs and several hundred databases asks for a business
+      case and a first migration wave plan. Inventory records are incomplete and nobody knows all the
+      dependencies. What should you do FIRST?
+    choices:
+      - { key: a, text: "Use Migration Center to discover assets, identify dependencies and generate TCO reports" }
+      - { key: b, text: "Start migrating the largest VMs with Migrate to Virtual Machines to show quick progress" }
+      - { key: c, text: "Purchase 3-year committed use discounts for the estimated footprint" }
+      - { key: d, text: "Build cost estimates by hand in the Pricing Calculator from the incomplete inventory" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: assessment comes first, and Migration Center automates discovery, dependency
+      identification and TCO so the business case and waves rest on real data. **b** is wrong:
+      migrating before you understand dependencies risks outages and picks the riskiest workloads
+      first. **c** is wrong: committing before you know the footprint risks paying for unused
+      capacity. **d** is wrong: manual estimates from incomplete data are less accurate and slower.
+    points: 1
+  - key: s1-rehost-lease-deadline
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A company's colocation lease ends in nine months. It runs 300 VMware VMs and has little cloud
+      experience. The goal is to exit the data centre on time with minimal risk, then modernise.
+      Which approach should form the bulk of the plan?
+    choices:
+      - { key: a, text: "Rebuild every application as cloud-native microservices before the lease ends" }
+      - { key: b, text: "Refactor all applications to GKE during the migration" }
+      - { key: c, text: "Repurchase SaaS replacements for every application" }
+      - { key: d, text: "Rehost the VMs with Migrate to Virtual Machines (or move them as-is to Google Cloud VMware Engine), then optimise after the move" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: a hard deadline and limited skills favour rehosting, which is fastest and
+      lowest risk, with modernisation in the Optimize phase. **a** and **b** are wrong: rewriting or
+      refactoring 300 workloads in nine months with an inexperienced team puts the deadline at risk.
+      **c** is wrong: SaaS replacements don't exist for most custom applications, and switching all of
+      them is a large business change.
+    points: 1
+  - key: s1-sole-tenant-byol
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      During migration planning you find a commercial application whose existing licence terms
+      require it to run on dedicated physical servers, licensed by physical core. The company wants
+      to reuse the licences it already owns on Google Cloud. What should you recommend?
+    choices:
+      - { key: a, text: "Run the application on Spot VMs to offset the licence cost" }
+      - { key: b, text: "Run the application on sole-tenant nodes with bring-your-own-licence" }
+      - { key: c, text: "Run the application on Cloud Run" }
+      - { key: d, text: "Use a premium pay-as-you-go image and discard the existing licences" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: sole-tenant nodes provide dedicated physical hosts, which is what physical-core
+      licence terms require for BYOL. **a** is wrong: Spot VMs run on shared hardware and can be
+      preempted. **c** is wrong: Cloud Run is shared, serverless infrastructure with no physical-core
+      visibility. **d** is wrong: it abandons licences the company already paid for, contrary to the
+      requirement.
+    points: 1
+  - key: s1-wave-planning-practices
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      You are planning migration waves for a portfolio of 60 applications with many shared
+      databases. Which two practices should guide the wave plan? (Choose two.)
+    choices:
+      - { key: a, text: "Move tightly coupled applications and their databases together in the same wave" }
+      - { key: b, text: "Migrate the most business-critical system first to prove the platform" }
+      - { key: c, text: "Start with low-risk, low-dependency workloads as first movers" }
+      - { key: d, text: "Move shared databases months before the applications that use them, over a high-latency VPN" }
+      - { key: e, text: "Skip workload testing for applications that were only rehosted" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: grouping by dependency avoids chatty traffic across the hybrid link,
+      and low-risk first movers let the team learn the process safely. **b** is wrong: the most
+      critical system should move once the team has practice. **d** is wrong: splitting databases
+      from their applications across a high-latency link degrades performance. **e** is wrong:
+      rehosted workloads still need functional, performance and rollback testing.
+    points: 1
+  - key: s1-vmware-engine-exit
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      An organisation must leave its data centre quickly. Its operations team is deeply invested in
+      vSphere tooling, runbooks and backup software, and wants to keep using them unchanged at first.
+      Which option fits BEST?
+    choices:
+      - { key: a, text: "Google Cloud VMware Engine" }
+      - { key: b, text: "Migrate to Containers onto GKE" }
+      - { key: c, text: "Rebuild the applications on Cloud Run" }
+      - { key: d, text: "Migrate to Virtual Machines onto Compute Engine, replacing the VMware tooling" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: VMware Engine runs the VMware stack natively in Google Cloud, so existing vSphere
+      tools and processes keep working and VMs move as-is. **b** and **c** are wrong: both change the
+      platform and the operating model, which the team wants to avoid at first. **d** is wrong: it is
+      a valid rehost but requires replacing the VMware tooling, which conflicts with the requirement.
+    points: 1
+
+  # ---------------------------------------------------------------- 1.5 Future improvements
+  - key: s1-future-managed-messaging
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      Two designs meet today's requirements for an order-processing system. One uses a self-managed
+      message broker cluster on Compute Engine; the other uses Pub/Sub. The business expects volumes
+      to grow unpredictably and new consumers to be added over the next few years. Which design should
+      you recommend, and why?
+    choices:
+      - { key: a, text: "The self-managed broker, because it gives full control over upgrades" }
+      - { key: b, text: "The self-managed broker, because it avoids per-message charges" }
+      - { key: c, text: "Pub/Sub, because it scales automatically and lets new subscribers be added without changing producers" }
+      - { key: d, text: "Neither; write messages directly to a shared Cloud SQL table" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a managed, decoupled messaging service absorbs growth and lets new consumers be
+      added without touching producers or managing capacity. **a** is wrong: controlling upgrades is a
+      cost, not a benefit, when growth is the concern. **b** is wrong: VM, storage and operations costs
+      usually outweigh message charges, and the broker must be scaled by hand. **d** is wrong: a
+      shared table couples every component to one database and scales poorly as a queue.
+    points: 1
+  - key: s1-cloud-first-meaning
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      The CIO announces a "cloud-first" policy. A plant manager worries this means the factory-floor
+      control systems, which need sub-millisecond local response, must move to a cloud region
+      immediately. Which statement BEST describes a cloud-first design approach?
+    choices:
+      - { key: a, text: "Every workload must move to the public cloud within a fixed deadline" }
+      - { key: b, text: "New solutions default to cloud-native, managed designs, while workloads with valid latency, regulatory or economic reasons can stay on premises or hybrid" }
+      - { key: c, text: "Cloud services are considered only after on-premises options are ruled out" }
+      - { key: d, text: "Existing applications must be rebuilt as microservices before they move" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: cloud-first sets the default for new designs; hybrid remains a legitimate end
+      state where constraints demand it. **a** is wrong: it describes a forced migration, not a design
+      approach, and ignores valid constraints. **c** is wrong: it is the opposite of cloud-first.
+      **d** is wrong: cloud-first doesn't require rebuilding everything; rehosting and later
+      optimisation are compatible with it.
+    points: 1
+  - key: s1-future-ai-moderation-governance
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      A media company plans to add AI moderation that flags inappropriate content in uploaded
+      episodes. Requirements say moderation decisions must be auditable and explainable, and
+      mistaken removals are costly. Which two design elements should you include? (Choose two.)
+    choices:
+      - { key: a, text: "Route borderline or high-impact decisions to a human reviewer before action is taken" }
+      - { key: b, text: "Let the model delete flagged content automatically to minimise latency" }
+      - { key: c, text: "Record each decision with the model version, inputs, scores and the reason given, for later audit" }
+      - { key: d, text: "Train a custom model from scratch so the vendor cannot see the data" }
+      - { key: e, text: "Disable logging of moderation results to reduce storage cost" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: human review limits costly errors, and recording model version,
+      inputs, scores and rationale makes decisions auditable and explainable. **b** is wrong:
+      automatic deletion without review conflicts with the cost of mistaken removals. **d** is wrong:
+      training from scratch doesn't by itself make decisions auditable and is far costlier than
+      using a managed model. **e** is wrong: removing logs destroys the audit trail.
+    points: 1
+  - key: s1-future-iac-adoption
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A company expects to expand into two new regions next year and wants to adopt new Google Cloud
+      services quickly as they become available, without long manual build projects. Its current
+      environment was created by hand in the console. What should you recommend FIRST?
+    choices:
+      - { key: a, text: "Document the console steps in a detailed runbook for each region" }
+      - { key: b, text: "Wait until the expansion is approved before changing anything" }
+      - { key: c, text: "Buy committed use discounts in the new regions now" }
+      - { key: d, text: "Define the environment as infrastructure as code (for example Terraform, or Application Design Center templates) so new regions and services become reviewed code changes" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: infrastructure as code makes the environment repeatable and lets new regions and
+      services be added quickly and consistently. **a** is wrong: manual runbooks are slow and drift
+      between regions. **b** is wrong: it delays the groundwork that makes expansion fast. **c** is
+      wrong: committing spend before the footprint exists risks paying for unused capacity and does
+      nothing for agility.
+    points: 1
+  - key: s1-future-data-monetisation
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      A vehicle maker wants to start selling anonymised, aggregated driving data to insurance and
+      city-planning partners within the next year, and expects new data products to follow. What
+      foundation BEST supports this evolving business need?
+    choices:
+      - { key: a, text: "A governed BigQuery data platform with curated, access-controlled datasets shared to partners through BigQuery sharing (formerly Analytics Hub)" }
+      - { key: b, text: "Nightly CSV exports emailed to each partner" }
+      - { key: c, text: "Giving partners read access to the production operational databases" }
+      - { key: d, text: "Copying raw telemetry to a separate bucket per partner" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: curated, governed datasets shared in place let new data products and partners be
+      added without copying data, with access control and auditing. **b** is wrong: emailed exports
+      are insecure, manual and don't scale. **c** is wrong: it exposes raw, possibly personal data and
+      loads production systems. **d** is wrong: raw per-partner copies multiply storage, risk exposing
+      personal data and are hard to govern.
+    points: 1

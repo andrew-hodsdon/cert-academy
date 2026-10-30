@@ -1,0 +1,15 @@
+sources:
+  - slug: gcp-pca-cert-page
+    kind: vendor_docs
+    url: https://cloud.google.com/learn/certification/cloud-architect
+    title: "Professional Cloud Architect certification"
+    site: Google Cloud
+    summary_md: |
+      Exam facts: 50–60 questions, 2 hours, $200, valid 2 years, case studies, renewal options.
+  - slug: gcp-pca-exam-guide
+    kind: vendor_docs
+    url: https://services.google.com/fh/files/misc/professional_cloud_architect_exam_guide_english.pdf
+    title: "Professional Cloud Architect exam guide"
+    site: Google Cloud
+    summary_md: |
+      The six sections and their objectives; the authority for what the exam covers.

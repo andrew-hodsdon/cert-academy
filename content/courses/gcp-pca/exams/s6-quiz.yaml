@@ -1,0 +1,565 @@
+slug: s6-quiz
+ordinal: 16
+title: "Section 6 quiz: Operations excellence"
+kind: quiz
+draw: 15
+time_limit_min: 30
+pass_pct: 80
+instructions_md: |
+  15 questions drawn at random from a bank of 26 on Section 6 (objectives 6.1–6.6): the
+  operational excellence pillar, SLOs and error budgets, Google Cloud Observability, deployment and
+  release management, supporting production, quality control, and chaos, load and penetration
+  testing. 30 minutes. Questions marked **Choose two** need both correct answers for the point.
+
+  Pick the option that meets every stated requirement with the least operational burden. Retake
+  until you hold 80% or more, then move on to the practice exams.
+questions:
+  - key: s6-opex-principle-manual-releases
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A review finds that every production release follows a 40-step manual runbook, and a third of
+      releases need emergency fixes because steps were skipped. Which principle of the
+      Well-Architected Framework's operational excellence pillar most directly addresses this?
+    choices:
+      - { key: a, text: "Automate and manage change" }
+      - { key: b, text: "Manage and optimize cloud resources" }
+      - { key: c, text: "Manage incidents and problems" }
+      - { key: d, text: "Ensure operational readiness and performance using CloudOps" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: manual, error-prone change is the problem "automate and manage change" targets,
+      through IaC, CI/CD and controlled release processes.
+      **b** is wrong: that principle covers right-sizing, autoscaling and cost. **c** is wrong:
+      incident management handles failures after they happen, not the release process that causes
+      them. **d** is wrong: it covers SLOs, monitoring, performance testing and capacity planning.
+    points: 1
+
+  - key: s6-sli-user-centred
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A team is defining the availability SLI for Cymbal Retail's checkout API. Which SLI best
+      reflects what customers experience?
+    choices:
+      - { key: a, text: "Average CPU utilisation across the checkout service's GKE nodes" }
+      - { key: b, text: "The proportion of valid checkout requests at the load balancer that succeed within 2 seconds" }
+      - { key: c, text: "The number of checkout pods in the Ready state" }
+      - { key: d, text: "The percentage of time the Cloud SQL instance is running" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a good SLI is a ratio of good events to valid events measured close to the user,
+      and it combines success with acceptable latency.
+      **a** is wrong: CPU is a resource metric, a possible cause, not user experience. **c** is wrong:
+      pods can be Ready while requests still fail. **d** is wrong: the database can be running while
+      checkout fails for other reasons.
+    points: 1
+
+  - key: s6-error-budget-minutes
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A service has an availability SLO of 99.95% measured over a rolling 30-day window. How much
+      total downtime does its error budget allow in that window?
+    choices:
+      - { key: a, text: "4.3 minutes" }
+      - { key: b, text: "43.2 minutes" }
+      - { key: c, text: "21.6 minutes" }
+      - { key: d, text: "3.6 hours" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: 30 days is 43,200 minutes, and 0.05% of that is 21.6 minutes.
+      **a** is wrong: 4.3 minutes is the budget for 99.99%. **b** is wrong: 43.2 minutes is the
+      budget for 99.9%. **d** is wrong: 3.6 hours is the budget for 99.5%.
+    points: 1
+
+  - key: s6-error-budget-exhausted
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      Halfway through its 30-day window, EHR Healthcare's patient portal has used its entire error
+      budget. Product managers want to ship two new features this week. The team has an agreed error
+      budget policy based on Google's SRE practice. What should happen?
+    choices:
+      - { key: a, text: "Ship the features, because the SLO is measured monthly and may recover" }
+      - { key: b, text: "Lower the SLO to 99% for the rest of the month so the features can ship" }
+      - { key: c, text: "Ship the features only to internal users, then to everyone next week" }
+      - { key: d, text: "Freeze feature releases, allowing only critical and security fixes, and prioritise reliability work until the service is back within SLO" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Google's example policy halts changes other than P0 and security fixes when the
+      budget is exhausted, and turns engineering effort to reliability.
+      **a** is wrong: it ignores the agreed policy and adds risk to a service already out of budget.
+      **b** is wrong: moving the target to fit the outcome defeats the purpose of an SLO. **c** is
+      wrong: it is still a feature release during a freeze, only postponed by a week.
+    points: 1
+
+  - key: s6-burn-rate-alerts
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      An on-call team gets paged dozens of times a week by an alert that fires whenever the error
+      rate exceeds 0.1% for one minute, yet it missed a slow degradation that consumed most of the
+      month's error budget. The service has a 99.9% SLO in Cloud Monitoring. What should the
+      architect recommend?
+    choices:
+      - { key: a, text: "Replace the alert with SLO burn-rate alerts: a fast-burn policy that pages and a slow-burn policy that opens a ticket" }
+      - { key: b, text: "Raise the threshold to 1% and extend the duration to 10 minutes" }
+      - { key: c, text: "Send the existing alert to email instead of paging" }
+      - { key: d, text: "Add a CPU utilisation alert at 80% to catch slow degradation" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: burn-rate alerts measure how fast the error budget is being spent. A fast-burn
+      policy pages on serious problems, and a slow-burn policy catches gradual budget loss without
+      paging, which fixes both the noise and the missed degradation.
+      **b** is wrong: it reduces noise but still misses slow burns below 1%. **c** is wrong: it hides
+      urgent problems as well as noise. **d** is wrong: CPU is a cause metric that may not correlate
+      with user-facing errors.
+    points: 1
+
+  - key: s6-aggregated-sink-org
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      The security team needs audit logs from all 120 projects in the organisation, including
+      projects created in the future, delivered to a single BigQuery dataset. What is the least
+      operational effort?
+    choices:
+      - { key: a, text: "Create a log sink in every project and add sink creation to the project factory" }
+      - { key: b, text: "Create an aggregated sink at the organisation level with includeChildren, filtered to audit logs, with the BigQuery dataset as destination" }
+      - { key: c, text: "Use a metrics scope that includes all projects" }
+      - { key: d, text: "Run a nightly Cloud Run job that copies each project's audit logs into BigQuery" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: an organisation-level aggregated sink with includeChildren routes matching logs
+      from every current and future project to one destination.
+      **a** is wrong: it works but means many sinks to maintain and depends on every project being
+      created correctly. **c** is wrong: metrics scopes aggregate metrics, not logs. **d** is wrong: it
+      is custom code, delayed by a day, and needs broad read access everywhere.
+    points: 1
+
+  - key: s6-log-archive-retention
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A regulation requires that application audit logs are kept for seven years, at the lowest
+      possible cost, and that nobody can delete them early. Logs are rarely read after 90 days. What
+      should the architect design?
+    choices:
+      - { key: a, text: "Set the _Default log bucket retention to seven years" }
+      - { key: b, text: "Route the logs to a BigQuery dataset with a seven-year table expiration" }
+      - { key: c, text: "Route the logs with a sink to a Cloud Storage bucket using Archive storage and a seven-year retention policy locked with Bucket Lock" }
+      - { key: d, text: "Rely on the _Required bucket, which keeps audit logs automatically" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Cloud Storage Archive class is the cheapest long-term store, and a locked
+      retention policy prevents deletion before the period ends.
+      **a** is wrong: seven years is within Cloud Logging's 3,650-day limit, but retaining logs in a
+      log bucket beyond 30 days is billed at a much higher rate than Archive storage, and _Default
+      mixes these logs with everything else. **b** is wrong: BigQuery storage costs more,
+      and expiration does not stop early deletion. **d** is wrong: _Required keeps only Admin Activity
+      and System Event logs, for 400 days.
+    points: 1
+
+  - key: s6-ops-agent-memory
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      An application on Compute Engine VMs slows down every few days. Cloud Monitoring shows CPU and
+      network metrics, but operators cannot see memory usage or the Nginx request metrics they need.
+      What should they do?
+    choices:
+      - { key: a, text: "Enable Data Access audit logs for Compute Engine" }
+      - { key: b, text: "Turn on Cloud Trace for the VMs" }
+      - { key: c, text: "Create log-based metrics from the serial port output" }
+      - { key: d, text: "Install the Ops Agent on the VMs and enable its Nginx integration" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: the Ops Agent collects guest-level metrics such as memory and disk use, plus
+      third-party application metrics such as Nginx, which hypervisor-level metrics do not include.
+      **a** is wrong: audit logs record API access, not resource usage. **b** is wrong: Cloud Trace
+      needs application instrumentation and measures request latency, not memory. **c** is wrong:
+      serial output does not report memory or Nginx metrics reliably.
+    points: 1
+
+  - key: s6-metrics-scope-central
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A central operations team must build dashboards and alerting policies covering metrics from 35
+      production projects, without copying data. What should the architect configure?
+    choices:
+      - { key: a, text: "A dedicated monitoring project whose metrics scope includes the 35 production projects" }
+      - { key: b, text: "An aggregated log sink to the monitoring project, with log-based metrics" }
+      - { key: c, text: "Managed Service for Prometheus in each project, with a separate Grafana per project" }
+      - { key: d, text: "A Cloud Run job that exports metrics from each project to BigQuery every minute" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a metrics scope lets one scoping project chart and alert on metrics stored in
+      many monitored projects, with no copying.
+      **b** is wrong: it routes logs, not metrics, and rebuilding metrics from logs is costly and
+      incomplete. **c** is wrong: separate Grafana instances per project are the opposite of
+      centralised. **d** is wrong: it is custom code, adds cost and delay, and BigQuery is not an
+      alerting system.
+    points: 1
+
+  - key: s6-managed-prometheus
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      Altostrat Media's GKE teams rely on Prometheus exporters, PromQL queries and Grafana dashboards.
+      Their self-managed Prometheus servers run out of storage and lose data during upgrades. They
+      want to keep their queries and dashboards while removing the operational burden. What should
+      they adopt?
+    choices:
+      - { key: a, text: "Rewrite all dashboards as Cloud Monitoring dashboards using built-in GKE metrics only" }
+      - { key: b, text: "Google Cloud Managed Service for Prometheus with managed collection on GKE" }
+      - { key: c, text: "Larger persistent disks and a second Prometheus replica per cluster" }
+      - { key: d, text: "Export Prometheus metrics to BigQuery and build Looker Studio reports" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Managed Service for Prometheus keeps the Prometheus data model and PromQL, works
+      with Grafana, and Google runs the scalable storage, so the operational burden goes away.
+      **a** is wrong: it throws away the custom exporters and dashboards the teams rely on. **c** is
+      wrong: it keeps all the operational burden and only postpones the storage problem. **d** is
+      wrong: it is not a monitoring and alerting system, and loses PromQL.
+    points: 1
+
+  - key: s6-profiler-cpu-hotspot
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      After a release, a Java service on GKE uses 40% more CPU for the same traffic, raising costs.
+      Latency between services is unchanged. The team wants to find which methods cause the extra CPU,
+      in production, with minimal overhead. Which tool should it use?
+    choices:
+      - { key: a, text: "Cloud Trace" }
+      - { key: b, text: "Error Reporting" }
+      - { key: c, text: "Cloud Profiler" }
+      - { key: d, text: "Uptime checks" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Cloud Profiler continuously samples CPU and heap in production with low overhead
+      and shows flame graphs by function that can be compared across versions.
+      **a** is wrong: Trace shows latency across service calls, which is unchanged here. **b** is
+      wrong: Error Reporting groups exceptions, not CPU usage. **d** is wrong: uptime checks test
+      availability from outside.
+    points: 1
+
+  - key: s6-trace-microservice-latency
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A user request passes through seven microservices on Cloud Run and GKE. p99 latency has doubled,
+      and each team says its own service looks fine. What should the architect recommend to find
+      which hop is slow?
+    choices:
+      - { key: a, text: "Cloud Profiler on all seven services" }
+      - { key: b, text: "Log-based metrics counting requests per service" }
+      - { key: c, text: "Uptime checks against each service's endpoint" }
+      - { key: d, text: "Instrument the services with OpenTelemetry and use Cloud Trace to analyse the end-to-end spans" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: distributed tracing follows a request through every service and shows each
+      span's duration, revealing the slow hop.
+      **a** is wrong: Profiler shows where CPU or memory goes inside a service, not which hop adds
+      latency to a request. **b** is wrong: request counts do not show latency per hop. **c** is wrong:
+      synthetic checks test each endpoint in isolation, not the real request path.
+    points: 1
+
+  - key: s6-cloud-run-rollback
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      Minutes after a new revision of a Cloud Run service receives 100% of traffic, the error rate
+      climbs sharply. What is the fastest way to restore service?
+    choices:
+      - { key: a, text: "Update traffic to send 100% to the previous revision" }
+      - { key: b, text: "Rebuild the previous version's image from Git and redeploy it" }
+      - { key: c, text: "Delete the new revision and wait for Cloud Run to choose another" }
+      - { key: d, text: "Scale the new revision's maximum instances to zero" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: revisions are immutable and the previous one still exists, so `gcloud run
+      services update-traffic --to-revisions=PREVIOUS=100` restores service in seconds.
+      **b** is wrong: rebuilding and redeploying takes far longer. **c** is wrong: a revision that is
+      serving traffic cannot be deleted; traffic has to be moved first, which is option a anyway.
+      **d** is wrong: limiting the bad revision's instances does not move its traffic to the good
+      revision; requests would fail or queue instead.
+    points: 1
+
+  - key: s6-cloud-run-test-no-traffic
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A team wants to deploy a new Cloud Run revision into production and run smoke tests against it
+      through a URL before any customer traffic reaches it. What should it do?
+    choices:
+      - { key: a, text: "Deploy to a separate staging project and copy the revision to production after testing" }
+      - { key: b, text: "Deploy with --no-traffic and a revision tag, test through the tag's URL, then shift traffic" }
+      - { key: c, text: "Deploy normally and immediately set traffic back to the old revision" }
+      - { key: d, text: "Deploy with minimum instances set to zero so no customer is routed to it" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: `--no-traffic` keeps production traffic on the current revision, and a tag
+      gives the new revision its own URL for testing.
+      **a** is wrong: a revision belongs to its service, so a staging revision cannot be moved into
+      production, and testing in staging is not a production smoke test. **c** is wrong: customers hit the new revision in the gap. **d** is
+      wrong: minimum instances affect scaling, not routing.
+    points: 1
+
+  - key: s6-gke-readiness-probe
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      During each rolling update of a GKE Deployment, users see a burst of errors for about a minute.
+      New pods take 45 seconds to load a cache after their container starts. What should the team
+      add?
+    choices:
+      - { key: a, text: "A higher maxSurge so more pods start at once" }
+      - { key: b, text: "A liveness probe that restarts pods that are slow to start" }
+      - { key: c, text: "A readiness probe that reports ready only after the cache has loaded" }
+      - { key: d, text: "A Horizontal Pod Autoscaler with a lower CPU target" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: without a readiness probe Kubernetes routes traffic to a pod as soon as its
+      container runs. A readiness probe holds traffic, and the rollout, until the pod can serve.
+      **a** is wrong: more simultaneous new pods means more not-ready pods taking traffic. **b** is
+      wrong: a liveness probe restarts unhealthy pods; during cache loading it could restart them in
+      a loop. **d** is wrong: autoscaling does not stop traffic reaching unready pods.
+    points: 1
+
+  - key: s6-mig-canary-update
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A web tier runs on a regional managed instance group of 40 VMs. The team wants to run a new
+      instance template on about 10% of the VMs for a day, compare metrics, then roll out fully, while
+      keeping full serving capacity. What should it do?
+    choices:
+      - { key: a, text: "Create a second MIG with 4 VMs and point DNS at both" }
+      - { key: b, text: "Set the MIG's target size to 44 and manually recreate 4 VMs with the new template" }
+      - { key: c, text: "Edit the existing instance template in place so new VMs pick it up" }
+      - { key: d, text: "Start a rolling update with the new template as a canary version at target size 10%, maxUnavailable 0 and a positive maxSurge" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: MIG updates support a canary version with a target size alongside the current
+      template; maxUnavailable 0 with surge capacity keeps full capacity during the update.
+      **a** is wrong: DNS weighting is coarse, slow to change and bypasses the load balancer's health
+      checking. **b** is wrong: it is manual and the MIG may recreate the VMs from the old template.
+      **c** is wrong: instance templates are immutable, so you create a new one and update the MIG.
+    points: 1
+
+  - key: s6-expand-contract-schema
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A service is released with canary deployments and must always be able to roll back. The next
+      version replaces a `phone` column with `phone_e164` in Cloud SQL. How should the change be
+      released?
+    choices:
+      - { key: a, text: "Add phone_e164 and write both columns in this release; remove phone only in a later release after the old version is retired" }
+      - { key: b, text: "Rename the column in a migration that runs just before the canary starts" }
+      - { key: c, text: "Use blue/green with two separate databases and copy data at cut-over" }
+      - { key: d, text: "Drop the old column at the end of the canary, once it reaches 100%" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: the expand-and-contract pattern keeps the schema compatible with both versions
+      during a canary and keeps rollback possible.
+      **b** is wrong: the old version, still serving most traffic, breaks as soon as the column is
+      renamed. **c** is wrong: two databases diverge during the switch and add heavy cost and risk.
+      **d** is wrong: dropping it at 100% removes the ability to roll back afterwards.
+    points: 1
+
+  - key: s6-incident-first-action
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      Ten minutes after a release, error rates on KnightMotives' dealer ordering platform spike and
+      an SLO fast-burn alert pages on-call. The errors correlate with the new version. An incident
+      commander has been named. What should be done FIRST?
+    choices:
+      - { key: a, text: "Start the postmortem document and assign action items" }
+      - { key: b, text: "Roll back to the previous version to mitigate user impact, then investigate" }
+      - { key: c, text: "Debug the new version in production to find the root cause before changing anything" }
+      - { key: d, text: "Open a P1 case with Google Cloud Customer Care" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Google's incident practice is to mitigate first and investigate later; rolling
+      back the release that correlates with the errors restores service fastest.
+      **a** is wrong: the postmortem comes after the incident is resolved. **c** is wrong: debugging
+      while users fail lengthens the outage. **d** is wrong: the evidence points to the team's own
+      release, not a Google platform issue (Personalized Service Health would confirm that).
+    points: 1
+
+  - key: s6-pentest-notification
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A company hires a security firm to penetration-test the public applications it runs in its own
+      Google Cloud projects. What must it do with respect to Google?
+    choices:
+      - { key: a, text: "Submit a penetration testing request form and wait for written approval" }
+      - { key: b, text: "Open a support case at least two weeks in advance with the tester's IP addresses" }
+      - { key: c, text: "No notification is required, but the tests must follow the Acceptable Use Policy and Terms of Service and affect only its own projects" }
+      - { key: d, text: "Purchase Premium Support, which is required for penetration testing" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Google states customers need not contact it before penetration testing their
+      own projects, provided they abide by the AUP and Terms of Service and only affect their own
+      projects.
+      **a** and **b** are wrong: there is no approval process or advance notice requirement. **d** is
+      wrong: no support tier is required for testing.
+    points: 1
+
+  - key: s6-soak-test-memory-leak
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      A service passes a one-hour load test at peak traffic, but in production it fails every three
+      days. Memory grows steadily until pods are killed. Which test would have found this before
+      launch?
+    choices:
+      - { key: a, text: "A spike test that jumps to twice peak traffic for five minutes" }
+      - { key: b, text: "More unit tests with mocked dependencies" }
+      - { key: c, text: "A stress test that raises load until the service breaks" }
+      - { key: d, text: "A soak test that runs realistic load for many hours while monitoring memory" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: soak (endurance) tests run sustained load long enough for slow resource leaks to
+      show.
+      **a** is wrong: spike tests check sudden bursts and autoscaling, not slow growth. **b** is wrong:
+      unit tests do not run long enough or under load. **c** is wrong: stress tests find the breaking
+      point under rising load, usually over a short run.
+    points: 1
+
+  - key: s6-multi-audit-log-defaults
+    kind: multi
+    domain: s6-operations-excellence
+    prompt_md: |
+      An auditor asks which Cloud Audit Logs are recorded without any configuration. Which two
+      statements are true? **Choose two.**
+    choices:
+      - { key: a, text: "Data Access audit logs are enabled by default for all services" }
+      - { key: b, text: "Admin Activity audit logs are always written and cannot be disabled" }
+      - { key: c, text: "Admin Activity audit logs are kept for 30 days in the _Default bucket" }
+      - { key: d, text: "Data Access audit logs are off by default for most services and must be enabled" }
+      - { key: e, text: "Audit logs are only written when an organisation-level sink exists" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: Admin Activity (and System Event) audit logs are always on, while
+      Data Access logs are disabled by default except for BigQuery and must be turned on per service.
+      **a** is wrong: Data Access logging is mostly off by default. **c** is wrong: Admin Activity
+      logs go to the _Required bucket for 400 days. **e** is wrong: audit logs are written regardless
+      of user-created sinks.
+    points: 1
+
+  - key: s6-multi-chaos-principles
+    kind: multi
+    domain: s6-operations-excellence
+    prompt_md: |
+      EHR Healthcare wants to start chaos engineering on its GKE-based platform. Which two practices
+      should the architect insist on? **Choose two.**
+    choices:
+      - { key: a, text: "Begin with a full-region outage in production to test the worst case first" }
+      - { key: b, text: "Define steady state using the service's SLIs and state a hypothesis before each experiment" }
+      - { key: c, text: "Run experiments without telling the on-call team, to test them realistically" }
+      - { key: d, text: "Start with a small blast radius and an abort mechanism, staying within the error budget" }
+      - { key: e, text: "Only run experiments in a development project, never in production" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: chaos engineering measures steady state, tests a hypothesis, and
+      limits blast radius with the ability to stop.
+      **a** is wrong: starting at maximum blast radius risks a real outage of patient-facing systems.
+      **c** is wrong: surprise experiments create real incidents and erode trust; game days are
+      planned. **e** is wrong: the discipline aims to run carefully in production, because staging
+      does not reproduce production exactly.
+    points: 1
+
+  - key: s6-multi-gke-canary-ab-routing
+    kind: multi
+    domain: s6-operations-excellence
+    prompt_md: |
+      Altostrat Media is releasing a new recommendation model on GKE. It wants a safety canary that
+      sends 5% of all traffic to v2, and separately wants requests carrying the header
+      `x-cohort: premium-beta` always routed to v2 for a business experiment. Which two Gateway API
+      features should it use? **Choose two.**
+    choices:
+      - { key: a, text: "HTTPRoute header matching to send premium-beta requests to the v2 Service" }
+      - { key: b, text: "A Kubernetes Service selector that matches both v1 and v2 pods" }
+      - { key: c, text: "A Horizontal Pod Autoscaler on the v2 Deployment" }
+      - { key: d, text: "A PodDisruptionBudget on the v1 Deployment" }
+      - { key: e, text: "Weighted backendRefs of 95 and 5 in the HTTPRoute" }
+    answer: [a, e]
+    explanation_md: |
+      **a** and **e** are right: weighted backendRefs give a precise percentage split for the canary,
+      and header matches route a chosen cohort for A/B testing.
+      **b** is wrong: one Service across both versions splits by pod count, not a controlled 5%, and
+      cannot route by header. **c** is wrong: autoscaling sizes v2 but does not route traffic.
+      **d** is wrong: a PodDisruptionBudget limits voluntary disruptions, not routing.
+    points: 1
+
+  - key: s6-multi-postmortem
+    kind: multi
+    domain: s6-operations-excellence
+    prompt_md: |
+      After a four-hour outage, leadership asks how the postmortem should be run. Which two
+      characteristics reflect Google's recommended practice? **Choose two.**
+    choices:
+      - { key: a, text: "It names the engineer responsible so accountability is clear" }
+      - { key: b, text: "It is written only if the outage breached a customer SLA" }
+      - { key: c, text: "It is blameless, focusing on system and process causes" }
+      - { key: d, text: "It records action items, each with an owner and due date, tracked to completion" }
+      - { key: e, text: "It is kept private to the on-call team to avoid embarrassment" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are right: Google's postmortem culture is blameless and turns findings into
+      owned, tracked action items.
+      **a** is wrong: blame leads people to hide information. **b** is wrong: postmortems are
+      triggered by significant impact, data loss or on-call intervention, not only SLA breaches.
+      **e** is wrong: sharing postmortems widely is how the organisation learns.
+    points: 1
+
+  - key: s6-multi-actionable-alerting
+    kind: multi
+    domain: s6-operations-excellence
+    prompt_md: |
+      EHR Healthcare's operators ignore most alert emails because so many arrive. Which two changes
+      will make alerting effective? **Choose two.**
+    choices:
+      - { key: a, text: "Page only on symptoms that threaten user experience, such as SLO burn rate and failed uptime checks" }
+      - { key: b, text: "Add alerts for every metric above 70% so nothing is missed" }
+      - { key: c, text: "Include a runbook link and context in each alerting policy's documentation" }
+      - { key: d, text: "Send all alerts to every engineer so someone always responds" }
+      - { key: e, text: "Lower thresholds so alerts fire earlier" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: paging on user-facing symptoms makes every page urgent and
+      actionable, and runbook links in the policy documentation let responders act quickly.
+      **b** and **e** are wrong: more and earlier alerts add noise, the very problem being fixed.
+      **d** is wrong: alerts should go to the owning on-call rotation; sending them to everyone
+      diffuses responsibility.
+    points: 1
+
+  - key: s6-multi-quality-gates
+    kind: multi
+    domain: s6-operations-excellence
+    prompt_md: |
+      Cymbal Retail's change fail rate is high: bad builds and broken releases reach customers. The
+      architect wants automated quality gates that stop bad changes before most customers see them.
+      Which two should be recommended? **Choose two.**
+    choices:
+      - { key: a, text: "A monthly report of production incidents reviewed by management" }
+      - { key: b, text: "Binary Authorization requiring attestations that the image passed tests and vulnerability scanning" }
+      - { key: c, text: "A manual QA sign-off email before every production deployment" }
+      - { key: d, text: "Doubling the size of the production cluster to absorb failures" }
+      - { key: e, text: "Cloud Deploy canary releases with a verification step that fails the rollout when checks fail" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are right: Binary Authorization blocks untested or vulnerable images at deploy
+      time, and canary releases with automated verification stop a bad release while it reaches only
+      a small share of users.
+      **a** is wrong: it detects problems after customers are affected. **c** is wrong: manual
+      sign-off is slow, inconsistent and not automated. **d** is wrong: extra capacity does not stop
+      faulty code.
+    points: 1

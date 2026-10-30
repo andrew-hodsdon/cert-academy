@@ -1,0 +1,651 @@
+sources:
+  - slug: d4-isc2-cissp-outline
+    kind: web
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline (effective 15 April 2024)"
+    site: ISC2
+    tags: [cissp, outline]
+    summary_md: |
+      The official outline. Domain 4 has three objectives: 4.1 secure design principles in network
+      architectures (OSI/TCP-IP, IPv4/IPv6, secure and converged protocols, transport architecture,
+      performance metrics, traffic flows, physical/logical/micro-segmentation, edge, wireless,
+      cellular, CDN, SDN, VPC, monitoring and management), 4.2 secure network components (operation
+      of infrastructure, transmission media, NAC, endpoint security) and 4.3 secure communication
+      channels (voice/video/collaboration, remote access, data communications, third-party
+      connectivity). Every lesson in this module maps to it.
+
+  - slug: d4-iso-7498-1
+    kind: standard
+    url: https://www.iso.org/standard/20269.html
+    title: "ISO/IEC 7498-1:1994 Open Systems Interconnection — Basic Reference Model"
+    site: ISO
+    tags: [osi, layers]
+    summary_md: |
+      Defines the seven-layer OSI reference model (physical, data link, network, transport,
+      session, presentation, application) and the idea that each layer provides services to the
+      one above. Lesson 1 uses it for the layer definitions.
+
+  - slug: d4-rfc-1122
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc1122
+    title: "RFC 1122: Requirements for Internet Hosts — Communication Layers"
+    site: IETF
+    published: 1989-10-01
+    tags: [tcp-ip, layers]
+    summary_md: |
+      Describes the Internet (TCP/IP) architecture as link, internet (IP), transport (TCP/UDP) and
+      application layers. Lesson 1's TCP/IP-to-OSI mapping rests on it together with ISO 7498-1.
+
+  - slug: d4-rfc-791
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc791
+    title: "RFC 791: Internet Protocol (IPv4)"
+    site: IETF
+    published: 1981-09-01
+    tags: [ipv4]
+    summary_md: |
+      IPv4: 32-bit addresses, the header (TTL, protocol, fragmentation fields) and fragmentation and
+      reassembly — the fields that fragmentation attacks such as teardrop abuse.
+
+  - slug: d4-rfc-1918
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc1918
+    title: "RFC 1918: Address Allocation for Private Internets"
+    site: IETF
+    published: 1996-02-01
+    tags: [ipv4, nat, private-addressing]
+    summary_md: |
+      Reserves 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16 for private use. These must never be
+      routed on the internet, which is why packets from them arriving at an internet edge are
+      filtered as spoofed.
+
+  - slug: d4-rfc-8200
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc8200
+    title: "RFC 8200: Internet Protocol, Version 6 (IPv6) Specification"
+    site: IETF
+    published: 2017-07-01
+    tags: [ipv6]
+    summary_md: |
+      IPv6: 128-bit addresses, a fixed 40-byte header with extension headers, and fragmentation done
+      only by the source host (routers never fragment). Lesson 1 relies on it for the IPv4/IPv6
+      comparison.
+
+  - slug: d4-rfc-4291
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc4291
+    title: "RFC 4291: IP Version 6 Addressing Architecture"
+    site: IETF
+    published: 2006-02-01
+    tags: [ipv6, addressing]
+    summary_md: |
+      IPv6 address types: unicast, anycast and multicast — and no broadcast. Defines link-local
+      (fe80::/10) and the multicast prefix ff00::/8. Second source for the IPv6 facts in lesson 1.
+
+  - slug: d4-rfc-8504
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc8504
+    title: "RFC 8504: IPv6 Node Requirements"
+    site: IETF
+    published: 2019-01-01
+    tags: [ipv6, ipsec]
+    summary_md: |
+      Current IPv6 node requirements. IPsec support is a SHOULD, not a MUST (the early "IPsec is
+      mandatory in IPv6" rule was relaxed). Lesson 1 uses it to correct that common myth.
+
+  - slug: d4-rfc-6105
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc6105
+    title: "RFC 6105: IPv6 Router Advertisement Guard"
+    site: IETF
+    published: 2011-02-01
+    tags: [ipv6, ndp, ra-guard]
+    summary_md: |
+      Describes rogue router advertisements as a threat on IPv6 links and RA Guard, a switch
+      feature that drops RAs from ports not authorised to send them — the IPv6 analogue of DHCP
+      snooping.
+
+  - slug: d4-rfc-9293
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc9293
+    title: "RFC 9293: Transmission Control Protocol (TCP)"
+    site: IETF
+    published: 2022-08-01
+    tags: [tcp, handshake]
+    summary_md: |
+      The current TCP specification: connection-oriented, reliable, ordered delivery, the three-way
+      handshake (SYN, SYN-ACK, ACK), sequence numbers and flags. Basis for the SYN flood and session
+      hijacking material.
+
+  - slug: d4-rfc-768
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc768
+    title: "RFC 768: User Datagram Protocol"
+    site: IETF
+    published: 1980-08-28
+    tags: [udp]
+    summary_md: |
+      UDP: connectionless, no handshake, no delivery guarantee. Its lack of a handshake is why
+      UDP services (DNS, NTP, memcached) are used for reflection and amplification attacks.
+
+  - slug: d4-rfc-4987
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc4987
+    title: "RFC 4987: TCP SYN Flooding Attacks and Common Mitigations"
+    site: IETF
+    published: 2007-08-01
+    tags: [ddos, syn-flood, syn-cookies]
+    summary_md: |
+      Explains how SYN floods exhaust a server's half-open connection backlog and the mitigations:
+      SYN cookies, SYN caches, filtering and larger backlogs. Lessons 1 and 5 use it.
+
+  - slug: d4-rfc-2827
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc2827
+    title: "RFC 2827 (BCP 38): Network Ingress Filtering"
+    site: IETF
+    published: 2000-05-01
+    tags: [spoofing, ingress-filtering, ddos]
+    summary_md: |
+      Ingress filtering: networks should drop outbound packets whose source address is not one of
+      their own, which defeats source-address spoofing used in reflection DDoS.
+
+  - slug: d4-rfc-5358
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc5358
+    title: "RFC 5358 (BCP 140): Preventing Use of Recursive Nameservers in Reflector Attacks"
+    site: IETF
+    published: 2008-10-01
+    tags: [dns, amplification, ddos]
+    summary_md: |
+      Open recursive DNS resolvers are abused to reflect and amplify traffic at victims; resolvers
+      should answer only their intended clients. Lesson 5's amplification material relies on it.
+
+  - slug: d4-cisa-dos
+    kind: web
+    url: https://www.cisa.gov/news-events/news/understanding-denial-service-attacks
+    title: "Understanding Denial-of-Service Attacks"
+    site: CISA
+    tags: [ddos]
+    summary_md: |
+      CISA's plain-language explanation of DoS and DDoS, including amplification and the role of
+      upstream providers and DDoS protection services. Second source alongside the RFCs.
+
+  - slug: d4-nist-sp-800-189
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/189/final
+    title: "NIST SP 800-189: Resilient Interdomain Traffic Exchange — BGP Security and DDoS Mitigation"
+    site: NIST
+    published: 2019-12-01
+    tags: [bgp, rpki, ddos, spoofing]
+    summary_md: |
+      Recommends RPKI-based route origin validation against BGP prefix hijacks, plus source address
+      validation (BCP 38) and DDoS mitigation techniques. Used for the BGP hijack and spoofing
+      defences.
+
+  - slug: d4-rfc-6811
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc6811
+    title: "RFC 6811: BGP Prefix Origin Validation"
+    site: IETF
+    published: 2013-01-01
+    tags: [bgp, rpki]
+    summary_md: |
+      Defines how routers use RPKI Route Origin Authorizations to mark BGP announcements valid,
+      invalid or not found. Second source for RPKI.
+
+  - slug: d4-rfc-4033
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc4033
+    title: "RFC 4033: DNS Security Introduction and Requirements (DNSSEC)"
+    site: IETF
+    published: 2005-03-01
+    tags: [dns, dnssec, cache-poisoning]
+    summary_md: |
+      DNSSEC adds origin authentication and integrity to DNS data with digital signatures; it
+      explicitly does **not** provide confidentiality. Defence against cache poisoning.
+
+  - slug: d4-rfc-8484
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc8484
+    title: "RFC 8484: DNS Queries over HTTPS (DoH)"
+    site: IETF
+    published: 2018-10-01
+    tags: [dns, privacy, doh]
+    summary_md: |
+      DoH carries DNS queries inside HTTPS, giving confidentiality to the query stream. Contrasts
+      with DNSSEC (integrity, no confidentiality) and matters for monitoring because DoH can bypass
+      enterprise DNS controls.
+
+  - slug: d4-nist-sp-800-215
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/215/final
+    title: "NIST SP 800-215: Guide to a Secure Enterprise Network Landscape"
+    site: NIST
+    published: 2022-11-01
+    tags: [architecture, segmentation, sd-wan, sase]
+    summary_md: |
+      Surveys the modern enterprise network: perimeter erosion, segmentation, SD-WAN, SASE,
+      cloud access and zero trust. Lesson 2 uses it for the architecture survey and the
+      shift from perimeter to identity-based controls.
+
+  - slug: d4-nist-sp-800-207
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/207/final
+    title: "NIST SP 800-207: Zero Trust Architecture"
+    site: NIST
+    published: 2020-08-01
+    tags: [zero-trust, pdp, pep]
+    summary_md: |
+      Defines zero trust tenets (no implicit trust from network location, per-session access,
+      dynamic policy) and the logical components: policy engine, policy administrator and policy
+      enforcement point. Lessons 2 and 4 rely on it.
+
+  - slug: d4-nist-sp-800-207a
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/207/a/final
+    title: "NIST SP 800-207A: A Zero Trust Architecture Model for Access Control in Cloud-Native Applications"
+    site: NIST
+    published: 2023-09-01
+    tags: [zero-trust, micro-segmentation, service-mesh]
+    summary_md: |
+      Applies zero trust to multi-cloud and cloud-native apps: identity-based segmentation,
+      service mesh sidecars as enforcement points and network-tier plus identity-tier policies.
+      Second source for micro-segmentation.
+
+  - slug: d4-ieee-802-1q
+    kind: standard
+    url: https://standards.ieee.org/ieee/802.1Q/10323/
+    title: "IEEE 802.1Q: Bridges and Bridged Networks (VLAN tagging)"
+    site: IEEE
+    tags: [vlan, switching]
+    summary_md: |
+      Defines VLAN tagging: a 4-byte tag carrying a 12-bit VLAN ID (4,094 usable VLANs). Basis for
+      VLAN segmentation and for understanding double-tagging VLAN hopping.
+
+  - slug: d4-rfc-7348
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc7348
+    title: "RFC 7348: Virtual eXtensible Local Area Network (VXLAN)"
+    site: IETF
+    published: 2014-08-01
+    tags: [vxlan, overlay, micro-segmentation]
+    summary_md: |
+      VXLAN encapsulates layer-2 frames in UDP (port 4789) with a 24-bit network identifier,
+      allowing about 16 million segments against VLAN's 4,094. The overlay technology behind
+      much data-centre and cloud micro-segmentation.
+
+  - slug: d4-rfc-7426
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc7426
+    title: "RFC 7426: Software-Defined Networking (SDN) Layers and Architecture Terminology"
+    site: IRTF
+    published: 2015-01-01
+    tags: [sdn, control-plane, data-plane]
+    summary_md: |
+      Defines SDN's separation of the control plane (decisions) from the forwarding/data plane and
+      the management plane, with northbound and southbound interfaces. Lesson 2 uses it for planes
+      and SDN.
+
+  - slug: d4-nist-sp-800-153
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/153/final
+    title: "NIST SP 800-153: Guidelines for Securing Wireless Local Area Networks (WLANs)"
+    site: NIST
+    published: 2012-02-01
+    tags: [wifi, wlan, rogue-ap]
+    summary_md: |
+      WLAN security configuration, rogue AP detection and continuous monitoring with wireless IDS.
+      Lesson 2's Wi-Fi governance points rest on it.
+
+  - slug: d4-wifi-alliance-security
+    kind: vendor_docs
+    url: https://www.wi-fi.org/discover-wi-fi/security
+    title: "Wi-Fi Alliance: Wi-Fi CERTIFIED WPA3 and Wi-Fi Enhanced Open"
+    site: Wi-Fi Alliance
+    tags: [wifi, wpa3, sae, owe]
+    summary_md: |
+      WPA3-Personal uses SAE (Simultaneous Authentication of Equals) to resist offline dictionary
+      attacks and give forward secrecy; WPA3-Enterprise offers a 192-bit mode; Protected Management
+      Frames are required; Wi-Fi Enhanced Open (OWE) encrypts open networks without a password.
+
+  - slug: d4-nist-sp-800-97
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/97/final
+    title: "NIST SP 800-97: Establishing Wireless Robust Security Networks — A Guide to IEEE 802.11i"
+    site: NIST
+    published: 2007-02-01
+    tags: [wifi, wep, ccmp, 802.1x]
+    summary_md: |
+      Explains why WEP is broken, TKIP as a stop-gap and CCMP (AES) as the robust security network
+      cipher, with 802.1X/EAP for enterprise authentication. Second source for the Wi-Fi history.
+
+  - slug: d4-nist-sp-800-121r2
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/121/r2/upd1/final
+    title: "NIST SP 800-121 Rev. 2: Guide to Bluetooth Security"
+    site: NIST
+    tags: [bluetooth, ble]
+    summary_md: |
+      Bluetooth BR/EDR and Low Energy security modes, pairing methods and threats (bluejacking,
+      bluesnarfing, bluebugging, eavesdropping), with recommendations such as turning off
+      discoverability and using Secure Connections.
+
+  - slug: d4-csa-zigbee
+    kind: vendor_docs
+    url: https://csa-iot.org/all-solutions/zigbee/
+    title: "Connectivity Standards Alliance: Zigbee"
+    site: Connectivity Standards Alliance
+    tags: [zigbee, iot, 802.15.4]
+    summary_md: |
+      Zigbee is a low-power mesh protocol built on IEEE 802.15.4 for IoT and building automation,
+      using AES-128 for network and link security. Used for the Zigbee row in lesson 2.
+
+  - slug: d4-nist-sp-800-187
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/187/final
+    title: "NIST SP 800-187: Guide to LTE Security"
+    site: NIST
+    published: 2017-12-01
+    tags: [cellular, lte, 4g, imsi-catcher]
+    summary_md: |
+      LTE architecture and security: mutual authentication via the SIM/USIM, encryption and
+      integrity on the air interface, and residual threats such as IMSI catchers and downgrade to
+      2G. Lesson 2's cellular material uses it.
+
+  - slug: d4-3gpp-ts-33-501
+    kind: standard
+    url: https://www.3gpp.org/dynareport/33501.htm
+    title: "3GPP TS 33.501: Security architecture and procedures for 5G System"
+    site: 3GPP
+    tags: [cellular, 5g, suci]
+    summary_md: |
+      The 5G security architecture: the permanent subscriber identifier (SUPI) is sent concealed
+      as SUCI, defeating passive IMSI catching; adds stronger home-network control of
+      authentication. Second source for cellular.
+
+  - slug: d4-nist-sp-800-41r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/41/r1/final
+    title: "NIST SP 800-41 Rev. 1: Guidelines on Firewalls and Firewall Policy"
+    site: NIST
+    published: 2009-09-01
+    tags: [firewall, packet-filter, stateful, proxy]
+    summary_md: |
+      Firewall technologies (packet filtering, stateful inspection, application-level firewalls and
+      proxy gateways, application-proxy), architectures (DMZ) and policy guidance — notably
+      default-deny and egress filtering. Core source for lesson 3.
+
+  - slug: d4-nist-sp-800-94
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/94/final
+    title: "NIST SP 800-94: Guide to Intrusion Detection and Prevention Systems (IDPS)"
+    site: NIST
+    published: 2007-02-01
+    tags: [ids, ips, signature, anomaly]
+    summary_md: |
+      IDPS types (network, wireless, network behaviour analysis, host-based) and detection methods
+      (signature, anomaly, stateful protocol analysis), with false positives/negatives and inline
+      prevention. Core source for lesson 3's IDS/IPS section.
+
+  - slug: d4-ieee-802-1x
+    kind: standard
+    url: https://standards.ieee.org/ieee/802.1X/7345/
+    title: "IEEE 802.1X: Port-Based Network Access Control"
+    site: IEEE
+    tags: [nac, 802.1x, eap]
+    summary_md: |
+      Port-based access control with three roles: supplicant, authenticator (switch or AP) and
+      authentication server. EAP carries the credentials. Basis for NAC in lesson 3.
+
+  - slug: d4-rfc-3580
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc3580
+    title: "RFC 3580: IEEE 802.1X RADIUS Usage Guidelines"
+    site: IETF
+    published: 2003-09-01
+    tags: [802.1x, radius, dynamic-vlan]
+    summary_md: |
+      How 802.1X authenticators use RADIUS as the authentication server, including returning a VLAN
+      assignment — the mechanism NAC uses to quarantine non-compliant devices.
+
+  - slug: d4-rfc-2865
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc2865
+    title: "RFC 2865: Remote Authentication Dial In User Service (RADIUS)"
+    site: IETF
+    published: 2000-06-01
+    tags: [radius, aaa]
+    summary_md: |
+      RADIUS over UDP; only the User-Password attribute is hidden (with an MD5-based scheme using the
+      shared secret), the rest of the packet is in clear. Contrast with TACACS+.
+
+  - slug: d4-rfc-8907
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc8907
+    title: "RFC 8907: The TACACS+ Protocol"
+    site: IETF
+    published: 2020-09-01
+    tags: [tacacs, aaa, device-administration]
+    summary_md: |
+      TACACS+ over TCP port 49, separating authentication, authorization and accounting and
+      obfuscating the whole packet body; used for network device administration with per-command
+      authorization.
+
+  - slug: d4-nist-sp-800-77r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/77/r1/final
+    title: "NIST SP 800-77 Rev. 1: Guide to IPsec VPNs"
+    site: NIST
+    published: 2020-06-01
+    tags: [ipsec, vpn, ike]
+    summary_md: |
+      IPsec in practice: ESP and AH, transport and tunnel modes, IKEv2, NAT traversal and VPN
+      architectures (gateway-to-gateway, host-to-gateway, host-to-host). Notes AH is rarely needed
+      because ESP provides integrity too. Core source for lesson 4.
+
+  - slug: d4-rfc-4301
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc4301
+    title: "RFC 4301: Security Architecture for the Internet Protocol"
+    site: IETF
+    published: 2005-12-01
+    tags: [ipsec, sa, spd]
+    summary_md: |
+      The IPsec architecture: security associations (unidirectional, identified by SPI), the
+      security policy and association databases, and transport versus tunnel mode.
+
+  - slug: d4-rfc-4302
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc4302
+    title: "RFC 4302: IP Authentication Header (AH)"
+    site: IETF
+    published: 2005-12-01
+    tags: [ipsec, ah]
+    summary_md: |
+      AH (IP protocol 51) gives integrity and data-origin authentication over the payload and
+      immutable IP header fields, plus optional anti-replay — no confidentiality. Covering the IP
+      header is why AH breaks through NAT.
+
+  - slug: d4-rfc-4303
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc4303
+    title: "RFC 4303: IP Encapsulating Security Payload (ESP)"
+    site: IETF
+    published: 2005-12-01
+    tags: [ipsec, esp]
+    summary_md: |
+      ESP (IP protocol 50) provides confidentiality, integrity, data-origin authentication and
+      anti-replay for the payload (not the outer IP header).
+
+  - slug: d4-rfc-7296
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc7296
+    title: "RFC 7296: Internet Key Exchange Protocol Version 2 (IKEv2)"
+    site: IETF
+    published: 2014-10-01
+    tags: [ike, ipsec, key-exchange]
+    summary_md: |
+      IKEv2 runs over UDP 500 (UDP 4500 after NAT detection), uses Diffie-Hellman to set up an
+      IKE SA and then child SAs for ESP/AH, with mutual authentication by certificates, PSK or EAP.
+
+  - slug: d4-rfc-8446
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc8446
+    title: "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3"
+    site: IETF
+    published: 2018-08-01
+    tags: [tls, handshake, forward-secrecy]
+    summary_md: |
+      TLS 1.3: a one-round-trip handshake (ClientHello with key_share, ServerHello, then encrypted
+      EncryptedExtensions, Certificate, CertificateVerify, Finished), only ephemeral (EC)DHE or PSK
+      key exchange (static RSA removed, so forward secrecy is always on), AEAD-only cipher suites,
+      and optional 0-RTT data with replay caveats. Lesson 5's walkthrough follows it.
+
+  - slug: d4-nist-sp-800-52r2
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/52/r2/final
+    title: "NIST SP 800-52 Rev. 2: Guidelines for the Selection, Configuration, and Use of TLS Implementations"
+    site: NIST
+    published: 2019-08-01
+    tags: [tls, configuration]
+    summary_md: |
+      Requires government servers to support TLS 1.2 and plan for TLS 1.3, prohibits SSL and TLS 1.0
+      for government use, and prefers ephemeral key exchange and AEAD suites. Second source for TLS.
+
+  - slug: d4-rfc-8996
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc8996
+    title: "RFC 8996: Deprecating TLS 1.0 and TLS 1.1"
+    site: IETF
+    published: 2021-03-01
+    tags: [tls, deprecation]
+    summary_md: |
+      Formally deprecates TLS 1.0 and 1.1 (SSL 2.0 and 3.0 were already prohibited). The minimum
+      acceptable version today is TLS 1.2.
+
+  - slug: d4-rfc-3261
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc3261
+    title: "RFC 3261: SIP — Session Initiation Protocol"
+    site: IETF
+    published: 2002-06-01
+    tags: [voip, sip]
+    summary_md: |
+      SIP sets up, modifies and tears down sessions (signalling) on port 5060, or 5061 over TLS;
+      the media itself flows separately over RTP.
+
+  - slug: d4-rfc-3711
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc3711
+    title: "RFC 3711: The Secure Real-time Transport Protocol (SRTP)"
+    site: IETF
+    published: 2004-03-01
+    tags: [voip, srtp, media]
+    summary_md: |
+      SRTP gives confidentiality, message authentication and replay protection to RTP media
+      streams. Pair with SIP over TLS so both signalling and media are protected.
+
+  - slug: d4-nist-sp-800-46r2
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/46/r2/final
+    title: "NIST SP 800-46 Rev. 2: Guide to Enterprise Telework, Remote Access, and BYOD Security"
+    site: NIST
+    published: 2016-07-01
+    tags: [remote-access, vpn, telework]
+    summary_md: |
+      Remote access architectures (tunnelling, portals, direct application access, remote desktop),
+      the assumption that client devices and networks are hostile, and controls such as MFA and
+      not allowing split tunnelling where it raises risk. Core source for remote access.
+
+  - slug: d4-nist-sp-800-47r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/47/r1/final
+    title: "NIST SP 800-47 Rev. 1: Managing the Security of Information Exchanges"
+    site: NIST
+    published: 2021-07-01
+    tags: [third-party, interconnection, isa]
+    summary_md: |
+      Planning, establishing, maintaining and ending information exchanges and system
+      interconnections with other organisations, documented in agreements such as an
+      interconnection security agreement (ISA) and MOU/MOA. Basis for third-party connectivity.
+
+  - slug: d4-rfc-7208
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc7208
+    title: "RFC 7208: Sender Policy Framework (SPF)"
+    site: IETF
+    published: 2014-04-01
+    tags: [email, spf]
+    summary_md: |
+      SPF lets a domain publish, in a DNS TXT record, which hosts may send mail using that domain in
+      the SMTP envelope (MAIL FROM/HELO). It does not check the visible From header.
+
+  - slug: d4-rfc-6376
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc6376
+    title: "RFC 6376: DomainKeys Identified Mail (DKIM) Signatures"
+    site: IETF
+    published: 2011-09-01
+    tags: [email, dkim]
+    summary_md: |
+      DKIM signs selected headers and the body with a private key; receivers fetch the public key
+      from DNS (selector._domainkey.domain) and verify integrity and the signing domain.
+
+  - slug: d4-rfc-7489
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc7489
+    title: "RFC 7489: Domain-based Message Authentication, Reporting, and Conformance (DMARC)"
+    site: IETF
+    published: 2015-03-01
+    tags: [email, dmarc]
+    summary_md: |
+      DMARC requires SPF or DKIM to pass **and align** with the visible From domain, publishes a
+      policy (none, quarantine, reject) and asks receivers for aggregate reports.
+
+  - slug: d4-nist-sp-800-177r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/177/r1/final
+    title: "NIST SP 800-177 Rev. 1: Trustworthy Email"
+    site: NIST
+    published: 2019-02-01
+    tags: [email, spf, dkim, dmarc, smime, starttls]
+    summary_md: |
+      Recommends SPF, DKIM and DMARC for domain authentication, STARTTLS/MTA-STS for transport and
+      S/MIME for end-to-end signing and encryption. Second source for every email claim.
+
+  - slug: d4-rfc-8461
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc8461
+    title: "RFC 8461: SMTP MTA Strict Transport Security (MTA-STS)"
+    site: IETF
+    published: 2018-09-01
+    tags: [email, starttls, mta-sts]
+    summary_md: |
+      Lets a receiving domain declare that senders must use TLS with a valid certificate, closing
+      the STARTTLS downgrade (stripping) attack against opportunistic encryption.
+
+  - slug: d4-nist-sp-800-53r5
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    title: "NIST SP 800-53 Rev. 5: Security and Privacy Controls for Information Systems and Organizations"
+    site: NIST
+    published: 2020-09-01
+    tags: [controls, boundary-protection, physical, power]
+    summary_md: |
+      Control catalogue used here for SC-7 boundary protection (default deny, managed interfaces,
+      proxies), SC-8 transmission confidentiality, PE-4 access control for transmission (protect
+      cabling), PE-9/PE-11 power equipment and emergency power, SI-4 system monitoring and AC-17
+      remote access. Second source for lesson 3's infrastructure and media claims.
+
+  - slug: d4-nist-sp-800-83r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/83/r1/final
+    title: "NIST SP 800-83 Rev. 1: Guide to Malware Incident Prevention and Handling for Desktops and Laptops"
+    site: NIST
+    published: 2013-07-01
+    tags: [endpoint, antimalware, host-firewall, hips]
+    summary_md: |
+      Host-based defences: antimalware, host-based firewalls, host-based IPS, application allow-listing
+      and patching, layered on the endpoint because network controls can't see everything. Basis for
+      the endpoint security section in lesson 3.

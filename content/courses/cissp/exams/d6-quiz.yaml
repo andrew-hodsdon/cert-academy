@@ -1,0 +1,1085 @@
+slug: d6-quiz
+ordinal: 16
+title: "Domain 6 quiz: Security Assessment and Testing"
+kind: quiz
+draw: 25
+time_limit_min: 35
+pass_pct: 80
+instructions_md: |
+  25 questions drawn at random from a 48-question bank covering objectives 6.1–6.5, with a
+  35-minute clock. Most questions have one answer; questions marked **Choose two.** need exactly
+  two. Answer as a security adviser to the business: evidence and independence first, the risk
+  owner decides, and the most complete answer wins. Pass mark 80%. Every answer has an
+  explanation, so review the ones you missed against the Domain 6 lessons.
+questions:
+  # ---------- 6.1 / 6.5 Assessment, test and audit strategies; security audits ----------
+  - key: d6-soc2-type2-operating-effectiveness
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A hospital is choosing a cloud provider to host patient-scheduling data. The hospital's
+      vendor-risk policy requires independent evidence that the provider's security controls
+      **operated effectively over the past year**. Which report should the hospital request?
+    choices:
+      - { key: a, text: "SOC 1 Type 2" }
+      - { key: b, text: "SOC 2 Type 1" }
+      - { key: c, text: "SOC 2 Type 2" }
+      - { key: d, text: "SOC 3" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: SOC 2 covers the Trust Services Criteria (security, availability, processing
+      integrity, confidentiality, privacy), and Type 2 adds the auditor's testing of **operating
+      effectiveness over a period**.
+      - **a** SOC 1 addresses controls relevant to user entities' internal control over financial
+        reporting, not security of patient data.
+      - **b** Type 1 reports only on the design of controls **as of a date**; it doesn't show they
+        operated during the year.
+      - **d** SOC 3 is a general-use summary without the detailed tests and results the policy
+        needs.
+    points: 1
+
+  - key: d6-soc3-public-website
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A SaaS company's sales team wants to post independent security assurance on its public
+      website so prospects can see it without signing an NDA. The company already completes an
+      annual SOC 2 Type 2 examination. What is the BEST option?
+    choices:
+      - { key: a, text: "Obtain a SOC 3 report from the auditor and publish it" }
+      - { key: b, text: "Publish the SOC 2 Type 2 report with the test results redacted" }
+      - { key: c, text: "Publish an ISAE 3402 Type II report instead" }
+      - { key: d, text: "Publish a management-signed bridge letter summarising the SOC 2" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a SOC 3 covers the same Trust Services Criteria as SOC 2 but is designed for
+      **general use**, so it can be freely distributed.
+      - **b** SOC 2 reports are restricted-use; redacting them yourself doesn't change their
+        intended audience and misrepresents the auditor's report.
+      - **c** ISAE 3402 is about controls relevant to financial reporting (the international SOC 1
+        counterpart), and is also restricted-use.
+      - **d** A bridge letter is the provider's own unaudited assertion covering a gap period; it
+        isn't independent assurance.
+    points: 1
+
+  - key: d6-soc1-payroll-financial-audit
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A company outsources payroll processing. Its external financial-statement auditor needs to
+      rely on the payroll provider's controls over the accuracy of payroll transactions for the
+      full fiscal year. Which report best meets the auditor's need?
+    choices:
+      - { key: a, text: "SOC 2 Type 2 covering security and availability" }
+      - { key: b, text: "SOC 1 Type 1 dated at fiscal year-end" }
+      - { key: c, text: "ISO/IEC 27001 certificate for the provider's ISMS" }
+      - { key: d, text: "SOC 1 Type 2 covering the fiscal year" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: SOC 1 addresses controls relevant to user entities' **internal control over
+      financial reporting**, and Type 2 shows operating effectiveness across the period the auditor
+      relies on.
+      - **a** SOC 2 addresses security and other trust criteria, not financial-reporting controls
+        such as payroll accuracy.
+      - **b** Type 1 covers design at a single date, not operation through the year.
+      - **c** ISO 27001 certifies an information security management system; it doesn't test
+        transaction-processing controls relevant to financial statements.
+    points: 1
+
+  - key: d6-isae-3402-equivalent
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A European outsourcing provider offers its clients an **ISAE 3402 Type II** report. A US
+      client's risk team asks which AICPA report it is most comparable to. What should you tell
+      them?
+    choices:
+      - { key: a, text: "SOC 2 Type 2, because both cover the Trust Services Criteria" }
+      - { key: b, text: "SOC 1 Type 2, because both address controls relevant to user entities' financial reporting over a period" }
+      - { key: c, text: "SOC 3, because both are intended for general use" }
+      - { key: d, text: "ISO/IEC 27001 certification, because both are issued by accredited certification bodies" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: ISAE 3402 is the IAASB's international standard for assurance on service
+      organisation controls relevant to financial reporting — the counterpart of SOC 1 — and Type II
+      includes operating effectiveness over a period.
+      - **a** The Trust Services Criteria belong to SOC 2/SOC 3, not ISAE 3402.
+      - **c** ISAE 3402 reports are restricted to user entities and their auditors, not general use.
+      - **d** ISAE 3402 reports are issued by independent service auditors; ISO 27001 certificates
+        come from certification bodies and certify a management system, a different kind of
+        assurance.
+    points: 1
+
+  - key: d6-bridge-letter-gap
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      Your organisation's annual vendor review is due in December. The cloud provider's most recent
+      SOC 2 Type 2 covers January to June, and the next report won't be issued until spring. What
+      should you do FIRST to cover the gap?
+    choices:
+      - { key: a, text: "Reject the report because it is out of date and suspend the vendor" }
+      - { key: b, text: "Ask the provider to issue a SOC 2 Type 1 for the current date" }
+      - { key: c, text: "Request a bridge letter from the provider's management covering July to December" }
+      - { key: d, text: "Perform your own on-site audit of the provider's data centre" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a **bridge (gap) letter** is the normal way to cover the time between the end
+      of a report period and the current date — management asserts no material changes. It's not
+      audited, so you note that limit and diarise the next report.
+      - **a** A six-month gap is normal; suspending a vendor is disproportionate before asking for
+        the standard remedy.
+      - **b** A Type 1 would show design at a date, not operation over the gap, and commissioning one
+        is costly and slow.
+      - **d** Cloud providers rarely permit individual customer audits, and it isn't the first step.
+    points: 1
+
+  - key: d6-soc-carve-out-subservice
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A SaaS vendor's SOC 2 Type 2 report states that it uses the **carve-out method** for the
+      public IaaS platform that hosts its application. What does this mean for your assurance?
+    choices:
+      - { key: a, text: "The IaaS platform's controls were tested by the vendor's auditor and are covered by the opinion" }
+      - { key: b, text: "The IaaS platform's controls are excluded, so you should obtain the IaaS provider's own report for an overlapping period" }
+      - { key: c, text: "The vendor's controls over the IaaS platform are complementary user entity controls you must operate" }
+      - { key: d, text: "The report is qualified and can't be relied on" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: under the carve-out method, a subservice organisation's controls are
+      **excluded** from the description and testing. To cover them, obtain that subservice
+      organisation's own report.
+      - **a** describes the **inclusive** method.
+      - **c** Complementary user entity controls are controls the **customer** is expected to
+        operate, not the subservice provider's controls.
+      - **d** Carve-out is a legitimate presentation choice and doesn't by itself qualify the opinion.
+    points: 1
+
+  - key: d6-cuec-meaning
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A SOC 2 Type 2 report from your HR SaaS provider lists "customers review their administrator
+      accounts quarterly" as a **complementary user entity control (CUEC)**. Your company has never
+      performed that review. What is the MOST significant implication?
+    choices:
+      - { key: a, text: "The provider's auditor will issue a qualified opinion next year" }
+      - { key: b, text: "The control is the provider's responsibility, so no action is needed" }
+      - { key: c, text: "The report is invalid and must be replaced with a SOC 3" }
+      - { key: d, text: "The report's assurance doesn't fully apply to you until your company operates that control" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: CUECs are controls the service organisation **assumes its customers operate**.
+      The control objectives in the report are only achieved for you if you perform them, so you add
+      the quarterly review to your own control set.
+      - **a** The provider's opinion is about the provider's controls; your failure doesn't qualify it.
+      - **b** It's explicitly listed as the **customer's** responsibility.
+      - **c** The report is valid; a SOC 3 has less detail and wouldn't address the gap.
+    points: 1
+
+  - key: d6-internal-audit-independence
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      An internal auditor helped design the company's new privileged-access management process
+      last year. The annual audit plan now assigns her to audit that process. What should the
+      chief audit executive do?
+    choices:
+      - { key: a, text: "Reassign the audit to staff who weren't involved in the design, or use an external auditor" }
+      - { key: b, text: "Let her proceed, since her knowledge of the process will make the audit more thorough" }
+      - { key: c, text: "Let her proceed, but have the process owner sign off her findings" }
+      - { key: d, text: "Postpone the audit until the process has run for three years" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: an auditor who designed a control can't objectively audit it — her
+      independence is impaired. Assigning someone uninvolved (or an external party) protects the
+      credibility of the result.
+      - **b** Familiarity is exactly the problem; thoroughness doesn't fix a self-review threat.
+      - **c** Having the auditee sign off findings further weakens independence.
+      - **d** Delaying assurance on a high-risk process is not a remedy for a staffing conflict.
+    points: 1
+
+  - key: d6-strategy-starts-with-risk
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A newly appointed CISO must design the organisation's security assessment and testing
+      strategy. Several vendors are pitching scanning and testing tools. What should the CISO do
+      FIRST?
+    choices:
+      - { key: a, text: "Align the strategy with business objectives and the risk assessment to set scope, depth and frequency" }
+      - { key: b, text: "Select a vulnerability scanner so testing can start immediately" }
+      - { key: c, text: "Commission a full-scope external penetration test to establish a baseline" }
+      - { key: d, text: "Adopt the testing frequencies used by a peer organisation in the same industry" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: an assessment strategy is driven by **business objectives and risk** — they
+      determine what's in scope, which methods are used, how deep and how often.
+      - **b** Choosing a tool before knowing what you need to assess is tools-before-strategy.
+      - **c** A penetration test is one technique; commissioning it before setting scope and
+        objectives risks testing the wrong things.
+      - **d** Peers have different risks, systems and obligations; their frequencies may not fit.
+    points: 1
+
+  - key: d6-second-party-supplier-audit
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A manufacturer exercises the right-to-audit clause in its contract and sends its own audit
+      team to review a component supplier's information security controls. How is this audit BEST
+      classified?
+    choices:
+      - { key: a, text: "Internal (first-party) audit" }
+      - { key: b, text: "Third-party audit" }
+      - { key: c, text: "External (second-party) audit" }
+      - { key: d, text: "Self-assessment" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a customer auditing its supplier is an **external, second-party** audit — the
+      auditor is outside the audited organisation but has a direct interest in the outcome.
+      - **a** A first-party audit is an organisation auditing itself.
+      - **b** A third-party audit is performed by an independent body with no stake (a certification
+        body, a CPA firm, a regulator).
+      - **d** A self-assessment is performed by the supplier itself.
+    points: 1
+
+  - key: d6-saas-no-right-to-audit
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      Your company is adopting a large SaaS platform. The provider refuses individual customer
+      audits. Which two sources give the BEST independent assurance about the provider's controls?
+      **Choose two.**
+    choices:
+      - { key: a, text: "The provider's security whitepaper describing its controls" }
+      - { key: b, text: "The provider's current SOC 2 Type 2 report" }
+      - { key: c, text: "A completed security questionnaire signed by the provider's account manager" }
+      - { key: d, text: "An ISO/IEC 27001 certificate whose scope covers the service you use" }
+      - { key: e, text: "Results of your own penetration test against the provider's production infrastructure" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: both are **third-party** assurances — a SOC 2 Type 2 gives tested
+      operating effectiveness, and an in-scope ISO 27001 certificate shows an accredited body has
+      audited the ISMS.
+      - **a** A whitepaper is the provider's own marketing description, not independent evidence.
+      - **c** A questionnaire is self-attestation, however it's signed.
+      - **e** Testing a provider's production infrastructure without its authorisation is
+        unauthorised and possibly illegal; providers publish testing policies limited to your own
+        tenant.
+    points: 1
+
+  - key: d6-iso27001-certification-facts
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      A board member asks what an ISO/IEC 27001 certificate from a supplier actually tells you.
+      Which two statements are accurate? **Choose two.**
+    choices:
+      - { key: a, text: "An accredited certification body audited the supplier's ISMS against the standard's requirements" }
+      - { key: b, text: "Every Annex A control was tested for operating effectiveness and the results are in the certificate" }
+      - { key: c, text: "The certificate covers the whole organisation, whatever scope is printed on it" }
+      - { key: d, text: "The certificate is permanent once Stage 2 is passed" }
+      - { key: e, text: "The certificate is maintained through periodic surveillance audits within a three-year cycle" }
+    answer: [a, e]
+    explanation_md: |
+      **a** and **e** are right: certification means an **accredited certification body** audited
+      the ISMS (Stage 1 and Stage 2), and the certificate is kept through **surveillance audits**,
+      normally annual, within a three-year cycle ending in recertification.
+      - **b** A certificate doesn't carry control-by-control test results; that's what a SOC 2 Type 2
+        provides.
+      - **c** The certificate applies only to the **scope** stated on it — check it.
+      - **d** Certificates expire and depend on surveillance and recertification audits.
+    points: 1
+
+  # ---------- 6.2 Security control testing ----------
+  - key: d6-vuln-assessment-vs-pentest
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      Management wants to know whether a chain of medium-severity weaknesses on the customer portal
+      could actually be used to reach the customer database. Which activity BEST answers that
+      question?
+    choices:
+      - { key: a, text: "Authenticated vulnerability scan of the portal servers" }
+      - { key: b, text: "Penetration test of the portal under signed rules of engagement" }
+      - { key: c, text: "Compliance check of the portal against a CIS Benchmark" }
+      - { key: d, text: "Review of the portal's firewall rulesets" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a penetration test **exploits** weaknesses and chains them to demonstrate
+      real impact, which is exactly the question asked.
+      - **a** A scan identifies and rates individual weaknesses but doesn't exploit or chain them.
+      - **c** A compliance check shows conformance with a baseline, not whether an attack path
+        exists.
+      - **d** Ruleset review is useful but can't show whether application weaknesses lead to data.
+    points: 1
+
+  - key: d6-credentialed-scan-false-positives
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      The monthly network scan keeps reporting critical OpenSSH vulnerabilities on Linux servers
+      that the administrators insist were patched through vendor backports. The scanner currently
+      works from the network only. What change would MOST improve accuracy?
+    choices:
+      - { key: a, text: "Increase the scan frequency to weekly" }
+      - { key: b, text: "Switch to an external scan from the internet" }
+      - { key: c, text: "Lower the reporting threshold so more findings are visible" }
+      - { key: d, text: "Run credentialed scans so the scanner can read installed package versions" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: uncredentialed scans infer versions from service banners, which don't reflect
+      backported fixes — a classic source of **false positives**. Credentialed scans read the actual
+      installed packages.
+      - **a** Scanning more often repeats the same inaccurate inference.
+      - **b** An external view sees even less detail, so accuracy gets worse, not better.
+      - **c** Lowering the threshold adds noise; it doesn't fix misidentified versions.
+    points: 1
+
+  - key: d6-pentest-written-authorisation
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A business unit head asks the security team to "start the penetration test on our new web
+      application tomorrow morning." The application is hosted by a third-party provider. What
+      must happen FIRST?
+    choices:
+      - { key: a, text: "Obtain written authorisation and agreed rules of engagement from parties with authority over the systems, including the hosting provider where its terms require it" }
+      - { key: b, text: "Run discovery scans to understand the attack surface before scoping" }
+      - { key: c, text: "Notify the security operations centre so it can suppress alerts during the test" }
+      - { key: d, text: "Take full backups of the application and its database" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: testing without **written authorisation** from those with authority over the
+      systems (and within the hosting provider's terms) is unauthorised access. Planning — scope,
+      rules of engagement, approval — is the first phase.
+      - **b** Discovery scans are already testing; they need authorisation too.
+      - **c** Whether to tell the SOC is a rules-of-engagement decision (overt vs covert), made
+        during planning, not before it.
+      - **d** Backups are a sensible precaution agreed in planning, but don't replace authorisation.
+    points: 1
+
+  - key: d6-pentest-finds-real-attacker
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      Midway through an authorised internal penetration test, the testers find a web shell and
+      outbound connections that aren't theirs — evidence that a real attacker is already in the
+      network. What should the test team do?
+    choices:
+      - { key: a, text: "Remove the web shell to protect the client, then continue testing" }
+      - { key: b, text: "Document the finding and include it in the final report" }
+      - { key: c, text: "Stop testing and escalate immediately to the designated client contact, as the rules of engagement specify" }
+      - { key: d, text: "Monitor the attacker's activity to gather intelligence for the report" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: evidence of a real compromise turns the situation into an **incident**. The
+      rules of engagement should define this stop condition and the emergency contact; the client's
+      incident response process takes over.
+      - **a** Removing the shell destroys evidence and exceeds the testers' authority.
+      - **b** Waiting for the final report leaves an active attacker in place for weeks.
+      - **d** Watching the attacker is outside the test's scope and delays response.
+    points: 1
+
+  - key: d6-purple-team
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      The SOC repeatedly fails to detect techniques used in red team exercises, and the red team's
+      reports arrive months later. The CISO wants offensive and defensive staff to work through
+      attack techniques together and tune detections as they go. What is this approach called?
+    choices:
+      - { key: a, text: "Blue team exercise" }
+      - { key: b, text: "Purple team exercise" }
+      - { key: c, text: "White team exercise" }
+      - { key: d, text: "Double-blind penetration test" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a **purple team** combines red (attack) and blue (defend) working together,
+      sharing results in real time to improve detection and response.
+      - **a** A blue team is the defenders alone.
+      - **c** A white team referees and oversees an exercise; it doesn't attack or defend.
+      - **d** A double-blind test deliberately keeps defenders unaware — the opposite of
+        collaboration.
+    points: 1
+
+  - key: d6-zero-knowledge-test
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      The board wants to know what an outside attacker with no inside information could achieve
+      against the company's internet presence. Which type of test BEST matches that goal?
+    choices:
+      - { key: a, text: "Full-knowledge (white-box) test with architecture diagrams and source code" }
+      - { key: b, text: "Partial-knowledge test using a standard user account" }
+      - { key: c, text: "Internal credentialed vulnerability scan" }
+      - { key: d, text: "Zero-knowledge (black-box) external penetration test" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: a **zero-knowledge** external test gives the testers only what an outsider
+      would have, simulating that attacker's view.
+      - **a** Full knowledge gives more coverage per hour but doesn't simulate an outsider with no
+        information.
+      - **b** Starting with an account simulates an insider or a compromised user.
+      - **c** An internal credentialed scan identifies weaknesses from inside and doesn't exploit them.
+    points: 1
+
+  - key: d6-synthetic-transactions
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      An online bank wants to detect failures in its funds-transfer workflow at 3 a.m., when there
+      is almost no customer traffic, before customers notice in the morning. Which technique BEST
+      fits?
+    choices:
+      - { key: a, text: "Synthetic transactions that run scripted transfers against production on a schedule" }
+      - { key: b, text: "Real user monitoring of customer sessions" }
+      - { key: c, text: "Weekly review of application error logs" }
+      - { key: d, text: "Quarterly penetration test of the transfer API" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: **synthetic transactions** are scripted and run whether or not users are
+      active, detecting failures proactively and giving a repeatable baseline.
+      - **b** Real user monitoring is passive; with no users at 3 a.m. there's nothing to observe.
+      - **c** A weekly log review is far too slow to detect a failure before morning.
+      - **d** A quarterly penetration test is about security weaknesses, not continuous functional
+        monitoring.
+    points: 1
+
+  - key: d6-fuzzing-file-parser
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A medical imaging vendor's software parses DICOM files received from many sources. The
+      security team is worried about crashes and memory corruption from malformed files. Which
+      testing technique is MOST suitable?
+    choices:
+      - { key: a, text: "Static analysis of the user interface code" }
+      - { key: b, text: "Synthetic transaction monitoring" }
+      - { key: c, text: "Fuzz testing the parser with malformed and unexpected inputs" }
+      - { key: d, text: "User acceptance testing with clinicians" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: **fuzzing** is dynamic testing that feeds large volumes of malformed or
+      unexpected input — mutated or generated from the file format's structure — to find crashes
+      and memory-safety flaws in parsers.
+      - **a** Static analysis of the UI code misses the parser and doesn't exercise runtime input
+        handling.
+      - **b** Synthetic transactions check that normal workflows work; they use valid inputs.
+      - **d** UAT confirms the software meets users' needs with normal data, not malformed files.
+    points: 1
+
+  - key: d6-misuse-case-discount
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      An e-commerce team writes tests such as "apply the same discount code twice", "apply a staff
+      code as a customer" and "modify the price field in the checkout request". What kind of
+      testing is this?
+    choices:
+      - { key: a, text: "Regression testing" }
+      - { key: b, text: "Misuse case testing" }
+      - { key: c, text: "Boundary value analysis" }
+      - { key: d, text: "Synthetic transaction monitoring" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: **misuse (abuse) cases** describe how an attacker would abuse legitimate
+      functions — here, business-logic abuse that automated scanners rarely find.
+      - **a** Regression testing re-runs existing tests after a change to catch breakage.
+      - **c** Boundary value analysis tests input limits (e.g. 0, max, max+1), not abuse of business
+        rules.
+      - **d** Synthetic transactions monitor that normal workflows succeed.
+    points: 1
+
+  - key: d6-branch-coverage
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A development team reports 100% **statement** coverage for its authentication module. The
+      security architect is still concerned that error-handling paths were never exercised. Which
+      coverage measure would BEST address that concern?
+    choices:
+      - { key: a, text: "Function coverage" }
+      - { key: b, text: "Requirements coverage" }
+      - { key: c, text: "Line coverage" }
+      - { key: d, text: "Branch (decision) coverage" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: **branch coverage** requires each decision's true **and** false outcomes to
+      run, so untested `else` and error paths show up — 100% statement coverage can still miss them.
+      - **a** Function coverage only shows each function was called — weaker than statement coverage.
+      - **b** Requirements coverage shows each requirement has a test, not which code paths ran.
+      - **c** Line coverage is essentially statement coverage, which they already have.
+    points: 1
+
+  - key: d6-api-object-authorisation
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A mobile banking app calls `GET /api/accounts/{accountId}/statements`. During testing, a
+      tester logged in as customer A changes the account ID to customer B's and receives B's
+      statements. Which type of testing found this?
+    choices:
+      - { key: a, text: "API interface testing of authorisation on each request" }
+      - { key: b, text: "Network interface testing of TLS configuration" }
+      - { key: c, text: "Compliance checking against the mobile OS hardening baseline" }
+      - { key: d, text: "Load testing of the statements endpoint" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: **API interface testing** checks that every call enforces authentication and
+      object-level authorisation. Changing an object ID to reach another user's data is a classic
+      broken object-level authorisation flaw.
+      - **b** TLS testing checks the channel's encryption, not whether the server authorises access
+        to each object.
+      - **c** OS hardening baselines don't test server-side business authorisation.
+      - **d** Load testing measures performance under volume.
+    points: 1
+
+  - key: d6-bas-control-drift
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      After several EDR policy changes went wrong, the CISO wants evidence **every week** that
+      endpoint and network controls still block or detect a defined set of attacker techniques
+      mapped to MITRE ATT&CK. Which approach BEST meets this need?
+    choices:
+      - { key: a, text: "Annual red team engagement" }
+      - { key: b, text: "Monthly credentialed vulnerability scans" }
+      - { key: c, text: "Breach and attack simulation running scheduled, safe simulations of those techniques" }
+      - { key: d, text: "Quarterly tabletop exercise with the SOC" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: **breach and attack simulation** continuously and automatically runs safe
+      simulations of known techniques (often mapped to ATT&CK) and reports which were prevented,
+      detected or missed — ideal for catching control drift.
+      - **a** A red team is valuable but annual and human-led; it can't give weekly evidence.
+      - **b** Vulnerability scans find weaknesses; they don't test whether detection and prevention
+        controls respond to attacker behaviour.
+      - **d** A tabletop is discussion-based and doesn't exercise technical controls.
+    points: 1
+
+  - key: d6-compliance-check-limits
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      Automated compliance checks show that 100% of the company's cloud servers meet the CIS
+      Benchmark. A manager concludes that the servers are now secure and annual penetration testing
+      can stop. What is the BEST response?
+    choices:
+      - { key: a, text: "Agree, because the CIS Benchmark is a consensus security standard" }
+      - { key: b, text: "Explain that compliance checks show conformance to a baseline, not the absence of exploitable weaknesses, so other testing is still needed" }
+      - { key: c, text: "Agree, but run the compliance checks monthly instead of continuously" }
+      - { key: d, text: "Replace the compliance checks with penetration testing, since they add no value" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: compliance checks measure **conformance** with a defined configuration
+      baseline. Systems can be fully conformant and still exploitable through application flaws,
+      logic errors or weaknesses the baseline doesn't cover.
+      - **a** A benchmark is a hardening baseline, not proof of security.
+      - **c** Reducing check frequency weakens assurance and doesn't address the gap.
+      - **d** Compliance checks are valuable, cheap and continuous; they complement testing rather
+        than compete with it.
+    points: 1
+
+  - key: d6-sast-characteristics
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      A development lead asks how static application security testing (SAST) differs from dynamic
+      testing. Which two statements about SAST are correct? **Choose two.**
+    choices:
+      - { key: a, text: "It analyses source code or binaries without executing the program" }
+      - { key: b, text: "It reliably finds server misconfigurations in the deployed environment" }
+      - { key: c, text: "It can run early in the SDLC, before the application is deployed" }
+      - { key: d, text: "It requires a running instance of the application" }
+      - { key: e, text: "It produces no false positives because it reads the actual code" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: SAST examines code **without running it**, so it fits early in
+      the SDLC — in the IDE or pipeline — where fixes are cheapest.
+      - **b** Deployment and server configuration are runtime concerns found by dynamic testing and
+        configuration checks.
+      - **d** Needing a running application describes DAST.
+      - **e** SAST is known for false positives, because it can't always tell whether a flagged path
+        is reachable or already sanitised.
+    points: 1
+
+  - key: d6-rules-of-engagement-contents
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      You are drafting the rules of engagement for an external penetration test of a payments
+      platform. Which two items MUST be in them? **Choose two.**
+    choices:
+      - { key: a, text: "The detailed remediation plan for the findings" }
+      - { key: b, text: "The in-scope targets, explicit exclusions and permitted techniques" }
+      - { key: c, text: "Emergency contacts and the conditions under which testing stops" }
+      - { key: d, text: "The CVSS score each finding will receive" }
+      - { key: e, text: "The vendor's marketing materials for the testing tools" }
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** are right: rules of engagement define **what may be tested and how**, and
+      **what happens when something goes wrong** (contacts, stop conditions, escalation).
+      - **a** Remediation is planned after findings exist, by the system owners.
+      - **d** Severity is assessed from evidence during analysis, not decided in advance.
+      - **e** Tool marketing has no place in the rules of engagement.
+    points: 1
+
+  - key: d6-log-review-evidence
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      During an investigation, the team couldn't reconstruct the order of events across the
+      firewall, domain controllers and database because timestamps disagreed, and an administrator
+      had deleted some local logs. Which two controls would BEST make logs reliable evidence in
+      future? **Choose two.**
+    choices:
+      - { key: a, text: "Raise clipping levels so fewer events are recorded" }
+      - { key: b, text: "Let each administrator review the logs of their own systems" }
+      - { key: c, text: "Synchronise all system clocks to a common, authoritative time source" }
+      - { key: d, text: "Forward logs to a central store that administrators of the source systems can't alter or delete" }
+      - { key: e, text: "Keep logs only on the local systems to reduce network traffic" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are right: **time synchronisation** (e.g. NTP) lets events from many systems
+      be correlated in order, and a **central, write-restricted** log store protects integrity and
+      separates duties.
+      - **a** Clipping levels reduce alert noise; recording fewer events doesn't fix timing or
+        integrity.
+      - **b** Self-review is a separation-of-duties weakness — administrators can hide their own
+        actions.
+      - **e** Local-only logs are exactly what was deleted.
+    points: 1
+
+  # ---------- 6.3 Collect security process data ----------
+  - key: d6-kri-vs-kpi
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      The risk committee wants an **early-warning** indicator that exposure to ransomware is moving
+      toward the organisation's risk appetite. Which measure BEST fits?
+    choices:
+      - { key: a, text: "Percentage of staff who completed annual security awareness training" }
+      - { key: b, text: "Number of malware alerts closed by the SOC last month" }
+      - { key: c, text: "Count of internet-facing systems with known-exploited vulnerabilities past the remediation deadline, with a defined tolerance" }
+      - { key: d, text: "Mean time for the help desk to reset passwords" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a **key risk indicator** is forward-looking and tied to appetite via a
+      tolerance. Overdue known-exploited vulnerabilities on exposed systems directly signal rising
+      ransomware likelihood.
+      - **a** Training completion is an implementation KPI; it shows attendance, not exposure.
+      - **b** Alerts closed measures SOC activity (a backward-looking KPI), not rising exposure.
+      - **d** Password-reset time is an operational service metric unrelated to ransomware exposure.
+    points: 1
+
+  - key: d6-access-review-rubber-stamp
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      Quarterly access recertification data shows managers have approved 100% of their staff's
+      entitlements for three years, usually within minutes of the review opening. What is the
+      MOST likely conclusion?
+    choices:
+      - { key: a, text: "The review is being rubber-stamped and isn't an effective control" }
+      - { key: b, text: "Provisioning is so accurate that no access ever needs removing" }
+      - { key: c, text: "The review frequency should drop to annual, since nothing changes" }
+      - { key: d, text: "The identity system is failing to record revocations" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a review that **never removes anything**, completed in minutes, shows
+      approvers aren't really checking. Measure revocation rates, sample entitlements and make data
+      owners accountable.
+      - **b** Over three years of joiners, movers and leavers, some access will have become
+        unnecessary; perfect accuracy isn't credible.
+      - **c** Reducing frequency rewards an ineffective control.
+      - **d** Possible, but the speed of approvals points to reviewer behaviour; you'd verify, not
+        assume, a system fault.
+    points: 1
+
+  - key: d6-backup-restore-evidence
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      The infrastructure team reports a 99.9% backup job success rate for the past year. An auditor
+      asks for evidence that tier-1 systems can be recovered within their recovery time objective.
+      Which evidence BEST answers the auditor?
+    choices:
+      - { key: a, text: "The backup software's job success reports" }
+      - { key: b, text: "A signed statement from the backup administrator" }
+      - { key: c, text: "Proof that backups are encrypted and stored off-site" }
+      - { key: d, text: "Records of periodic restore tests of tier-1 systems, with measured recovery times compared to RTO" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: only **restore tests** with measured timings show backups are usable and
+      recovery fits within the RTO.
+      - **a** Job success shows backups ran, not that they restore intact or quickly enough.
+      - **b** A statement is not evidence of operation.
+      - **c** Encryption and off-site storage protect backups but don't prove recoverability within
+        RTO.
+    points: 1
+
+  - key: d6-training-effectiveness-measure
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      The CISO must show the board whether the anti-phishing awareness programme is actually
+      changing behaviour. Which measure is BEST?
+    choices:
+      - { key: a, text: "Percentage of employees who completed the annual e-learning module" }
+      - { key: b, text: "Trend in phishing-simulation report rates and click rates over successive campaigns" }
+      - { key: c, text: "Number of awareness posters displayed in offices" }
+      - { key: d, text: "Average time employees spent on the training module" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: simulation **report and click rates over time** measure the behaviour the
+      programme exists to change — an effectiveness measure.
+      - **a** Completion is an implementation measure; it shows attendance, not behaviour.
+      - **c** Poster counts measure activity, not outcome.
+      - **d** Time spent shows engagement with the module, not changed behaviour.
+    points: 1
+
+  - key: d6-management-review-purpose
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      An ISO/IEC 27001 internal audit finds that the ISMS management review meetings receive
+      security reports but their minutes record no decisions or actions. Why is this a weakness?
+    choices:
+      - { key: a, text: "Minutes must be published to all employees" }
+      - { key: b, text: "Security reports should go to the IT manager rather than top management" }
+      - { key: c, text: "Management review exists to produce decisions on improvement, changes and resources, so a review without outputs fails its purpose" }
+      - { key: d, text: "The security team should approve its own reports to save management's time" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: clause 9.3 management review must result in **decisions and actions** on
+      continual improvement, changes to the ISMS and resources. Receiving reports without acting on
+      them leaves accountability unexercised.
+      - **a** There's no requirement to publish minutes to all staff.
+      - **b** Top management is the right audience; moving it down weakens governance.
+      - **d** Self-approval removes management oversight entirely.
+    points: 1
+
+  - key: d6-leaver-deprovisioning-metric
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      An audit found former employees whose accounts stayed active for weeks after they left. Which
+      measure would BEST show whether the leaver process is now effective?
+    choices:
+      - { key: a, text: "Time between the HR termination date and account disablement, compared with the policy target" }
+      - { key: b, text: "Total number of active accounts in the directory" }
+      - { key: c, text: "Number of new accounts created each month" }
+      - { key: d, text: "Number of password resets requested by current employees" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: comparing **HR termination dates with disable dates** measures exactly the
+      control that failed, against its target.
+      - **b** Total accounts doesn't show whether leavers are removed on time.
+      - **c** New accounts relate to the joiner process, not leavers.
+      - **d** Password resets are unrelated to de-provisioning.
+    points: 1
+
+  - key: d6-dr-after-action-data
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      After a functional DR exercise, the recovery of the order system took 9 hours against a
+      4-hour RTO, and a dependency on an undocumented licence server was discovered. What should
+      happen with this data?
+    choices:
+      - { key: a, text: "Repeat the exercise until the RTO is met, without recording the failed run" }
+      - { key: b, text: "Increase the RTO to 9 hours so the plan passes" }
+      - { key: c, text: "Keep the result within the DR team to avoid alarming management" }
+      - { key: d, text: "Record it in an after-action report with corrective actions and owners, update the plan, and report the gap to management" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: exercise data is valuable precisely because it shows gaps. An **after-action
+      report** with owners and dates, an updated plan and management visibility closes the loop.
+      - **a** Hiding failed runs destroys the evidence management needs.
+      - **b** The RTO comes from the business impact analysis; changing it to fit the test inverts
+        the logic and needs business approval.
+      - **c** Concealing the gap prevents the risk owner from deciding how to treat it.
+    points: 1
+
+  - key: d6-board-metrics-selection
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      The security team currently sends the board 47 operational metrics each quarter, and board
+      members say they can't tell whether risk is improving. What should the CISO do?
+    choices:
+      - { key: a, text: "Add more metrics so every control is represented" }
+      - { key: b, text: "Present a small set of measures tied to top risks, each with a target or tolerance, trend, owner and the decision needed" }
+      - { key: c, text: "Replace the metrics with a single overall security score" }
+      - { key: d, text: "Report the number of attacks blocked, which shows the team's value most clearly" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: board reporting should be **few, risk-tied measures** with targets or
+      tolerances, trends, owners and clear asks, so leadership can make decisions.
+      - **a** More metrics deepens the problem the board described.
+      - **c** A single composite score hides which risks are moving and why.
+      - **d** "Attacks blocked" is a vanity metric: it describes activity, not risk or control
+        effectiveness.
+    points: 1
+
+  - key: d6-kri-examples
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      Which two of the following are BEST described as key risk indicators rather than key
+      performance indicators? **Choose two.**
+    choices:
+      - { key: a, text: "Percentage of change requests processed within the agreed service level" }
+      - { key: b, text: "Rising number of standing privileged accounts, measured against a tolerance" }
+      - { key: c, text: "Percentage of the security budget spent this quarter" }
+      - { key: d, text: "Number of training sessions delivered last month" }
+      - { key: e, text: "Growth in sensitive data stored outside approved repositories, measured against a tolerance" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are right: both are **forward-looking signals of rising exposure** tied to a
+      tolerance — the defining traits of a KRI.
+      - **a** SLA achievement measures process performance — a KPI.
+      - **c** Budget spend is a financial performance measure.
+      - **d** Sessions delivered is an activity (implementation) count.
+    points: 1
+
+  - key: d6-dr-bc-data-to-collect
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      The business continuity manager is defining what data each DR/BC exercise must produce for
+      the management review. Which two data points are MOST valuable? **Choose two.**
+    choices:
+      - { key: a, text: "Actual recovery times and data loss compared with the RTOs and RPOs" }
+      - { key: b, text: "The number of participants who attended the exercise kickoff" }
+      - { key: c, text: "Plan steps that failed or were missing, with corrective actions and owners" }
+      - { key: d, text: "The catering cost of the exercise" }
+      - { key: e, text: "A list of exercise scenarios that were considered but not used" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right: comparing actual results with **RTO/RPO** shows whether recovery
+      meets business needs, and **gaps with corrective actions** drive improvement.
+      - **b** Attendance shows participation, not capability.
+      - **d** Exercise cost is administrative, not evidence of DR effectiveness.
+      - **e** Unused scenarios may help planning but say nothing about this exercise's results.
+    points: 1
+
+  # ---------- 6.4 Analyse test output and generate reports ----------
+  - key: d6-cvss-severity-vs-risk
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A scan reports a CVSS 9.8 vulnerability on an isolated lab server due for decommissioning
+      next month, and a CVSS 7.5 vulnerability on the internet-facing customer login service, which
+      threat intelligence says is being actively exploited. With capacity to fix only one this
+      week, what should the team do?
+    choices:
+      - { key: a, text: "Fix the 9.8 first, because the higher CVSS score always takes priority" }
+      - { key: b, text: "Fix both by taking the login service offline until the lab server is patched" }
+      - { key: c, text: "Defer both until the next maintenance window to avoid unplanned change" }
+      - { key: d, text: "Fix the login service first, because exposure, asset value and active exploitation make it the greater risk" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: CVSS base scores measure **severity**, not risk. Internet exposure, the
+      asset's criticality and active exploitation make the login flaw the higher **risk**.
+      - **a** Prioritising by base score alone ignores threat and environmental context.
+      - **b** Taking a customer service offline for an unrelated lab server is disproportionate.
+      - **c** Delaying an actively exploited, internet-facing flaw is unjustifiable.
+    points: 1
+
+  - key: d6-exception-approver
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      A legacy laboratory system can't be patched because the vendor will void its certification.
+      The system owner requests an exception to the patching policy. Who should approve it?
+    choices:
+      - { key: a, text: "The penetration tester who reported the finding" }
+      - { key: b, text: "The system administrator who maintains the server" }
+      - { key: c, text: "The risk owner with authority to accept that level of risk, after reviewing compensating controls" }
+      - { key: d, text: "Nobody; policy exceptions should never be granted" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: exceptions are **risk acceptance**, which belongs to a risk owner with the
+      authority to accept that level of risk, informed by compensating controls, with an expiry
+      date and a risk-register entry.
+      - **a** Testers report and recommend; they don't accept risk on the business's behalf.
+      - **b** The administrator lacks the authority and has a conflict of interest.
+      - **d** Refusing all exceptions ignores real constraints; a controlled exception process is
+        better than unmanaged non-compliance.
+    points: 1
+
+  - key: d6-coordinated-disclosure
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      While testing your company's network under an approved engagement, a consultant discovers an
+      unknown authentication bypass in a widely used commercial VPN appliance. With your company's
+      agreement, what is the MOST appropriate next step?
+    choices:
+      - { key: a, text: "Report it privately to the vendor, or through a coordinator such as CISA, and agree a timeline for a fix before publication" }
+      - { key: b, text: "Publish full details immediately so every customer can protect themselves" }
+      - { key: c, text: "Keep the flaw confidential indefinitely to avoid helping attackers" }
+      - { key: d, text: "Sell details of the flaw to a vulnerability broker to fund further research" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: **coordinated disclosure** gives the vendor time to fix while protecting
+      users, consistent with the ISC2 canon to protect society and the infrastructure.
+      - **b** Full immediate disclosure exposes every customer before a fix exists.
+      - **c** Non-disclosure leaves all users exposed to anyone else who finds the flaw.
+      - **d** Selling the flaw is unethical and breaches the engagement's confidentiality terms.
+    points: 1
+
+  - key: d6-remediation-retest-closure
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      An administrator marks a critical penetration-test finding "closed" in the tracking system
+      after applying a configuration change. What should happen before the finding is formally
+      closed?
+    choices:
+      - { key: a, text: "The administrator's manager should sign the closure" }
+      - { key: b, text: "The fix should be verified by re-testing, and the evidence recorded" }
+      - { key: c, text: "The finding should be moved to the risk register as accepted" }
+      - { key: d, text: "Nothing further; the administrator's change is sufficient" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: remediation is complete only when **re-testing** confirms the weakness is
+      gone; that evidence closes the item in the plan of action and milestones.
+      - **a** A signature without verification is still unverified.
+      - **c** Risk acceptance is for findings that **aren't** fixed; this one supposedly was.
+      - **d** Fixes often fail or only partly work; unverified closure gives false assurance.
+    points: 1
+
+  - key: d6-root-cause-analysis
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      Quarterly scans keep finding the same missing patches on a different set of servers each
+      time. The team fixes each server as reported. What would MOST improve the outcome?
+    choices:
+      - { key: a, text: "Increase scan frequency to weekly" }
+      - { key: b, text: "Report each server as a separate critical finding to management" }
+      - { key: c, text: "Buy a second scanner to confirm the results" }
+      - { key: d, text: "Analyse the root cause in the patch-management process and fix it" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: repeating findings point to a **process** failure (for example, servers
+      missing from patch groups). Fixing the root cause prevents the whole class of findings.
+      - **a** More frequent scans find the same symptom sooner but don't stop it recurring.
+      - **b** Reporting dozens of symptoms hides the single process issue management must fix.
+      - **c** The findings aren't in doubt; a second scanner adds cost without fixing anything.
+    points: 1
+
+  - key: d6-report-executive-summary
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      You are writing the report for a security assessment that the CEO and board will read. What
+      should the executive summary focus on?
+    choices:
+      - { key: a, text: "Overall risk in business terms, the most significant issues and the decisions management needs to make" }
+      - { key: b, text: "The full list of findings with CVSS vectors and tool output" }
+      - { key: c, text: "Step-by-step reproduction instructions for each vulnerability" }
+      - { key: d, text: "The tools and techniques used during testing" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: executives need the **risk picture, top issues and decisions**, in business
+      language.
+      - **b** Full findings and vectors belong in the body and appendices for owners and technical
+        teams.
+      - **c** Reproduction steps are technical appendix material — and sensitive.
+      - **d** Methodology belongs in its own section; it doesn't help executives decide.
+    points: 1
+
+  - key: d6-validate-scanner-false-positive
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      An automated scan of the HR system reports 300 findings. The application team says many are
+      false positives and is starting to ignore the reports. What should the security analyst do
+      FIRST?
+    choices:
+      - { key: a, text: "Escalate all 300 findings to the CIO as critical" }
+      - { key: b, text: "Stop scanning the HR system to preserve the relationship" }
+      - { key: c, text: "Validate the findings, record confirmed false positives and tune the scanner before reporting" }
+      - { key: d, text: "Ask the application team to apply every recommended fix regardless" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: analysis starts with **validation**. Removing false positives and tuning the
+      tool protects the report's credibility and focuses effort on real issues.
+      - **a** Escalating unvalidated noise damages trust and wastes management's time.
+      - **b** Stopping assessment leaves the system's real weaknesses unknown.
+      - **d** Forcing fixes for non-existent problems wastes effort and may introduce changes with
+        their own risk.
+    points: 1
+
+  - key: d6-remediation-timeframes-policy
+    kind: single
+    domain: d6-assessment-testing
+    prompt_md: |
+      System owners argue the deadline for every vulnerability finding case by case, and critical
+      fixes often slip for months. What is the BEST long-term fix?
+    choices:
+      - { key: a, text: "Have the security team apply fixes directly to production" }
+      - { key: b, text: "Set risk-based remediation timeframes in policy, approved by management, and track them with owners in a remediation plan" }
+      - { key: c, text: "Report only critical findings so owners focus on them" }
+      - { key: d, text: "Extend all deadlines to the next annual maintenance window" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: **policy-defined, risk-based timeframes** with management backing remove
+      case-by-case negotiation, and a tracked plan with owners (like a POA&M) makes slippage visible.
+      - **a** Security bypassing change control and system ownership creates new risk and blurs
+        accountability.
+      - **c** Hiding lower findings lets them accumulate and leaves management uninformed.
+      - **d** Uniform delay ignores risk; critical issues need shorter timelines.
+    points: 1
+
+  - key: d6-exception-process-elements
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      You are designing the organisation's process for exceptions to the vulnerability remediation
+      policy. Which two elements are MOST important? **Choose two.**
+    choices:
+      - { key: a, text: "A defined expiry date with review before renewal" }
+      - { key: b, text: "Automatic approval when the system owner submits the request" }
+      - { key: c, text: "Removing the finding from all reports once the exception is granted" }
+      - { key: d, text: "Compensating controls documented and verified for the exception period" }
+      - { key: e, text: "Permanent exceptions for legacy systems to reduce paperwork" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right: exceptions must be **time-bound** and backed by **compensating
+      controls** that reduce the risk meanwhile, approved by the risk owner and tracked in the risk
+      register.
+      - **b** Automatic approval removes the risk-owner decision.
+      - **c** Accepted risks must stay visible in the risk register and reports.
+      - **e** Permanent exceptions become unmanaged risk; legacy systems need a remediation or
+        replacement plan.
+    points: 1
+
+  - key: d6-disclosure-ethics
+    kind: multi
+    domain: d6-assessment-testing
+    prompt_md: |
+      An independent researcher reports a vulnerability in your company's customer web
+      application through your published vulnerability disclosure policy. Which two actions are
+      MOST appropriate? **Choose two.**
+    choices:
+      - { key: a, text: "Threaten legal action unless the researcher signs a lifetime non-disclosure agreement" }
+      - { key: b, text: "Acknowledge the report promptly and keep the researcher informed while you verify and fix it" }
+      - { key: c, text: "Ignore the report, since the researcher wasn't contracted" }
+      - { key: d, text: "Publish an advisory or customer notice with remediation information once the fix is available, as appropriate" }
+      - { key: e, text: "Quietly fix the issue and deny that it existed if asked" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right: ISO/IEC 29147 expects vendors to **acknowledge** reports,
+      communicate during remediation and **publish remediation information** — the vendor side of
+      coordinated disclosure.
+      - **a** Threats discourage good-faith reporting and contradict the policy you published.
+      - **c** Ignoring a credible report leaves customers exposed and invites public disclosure.
+      - **e** Denial is dishonest, conflicts with the ISC2 canon to act honourably and honestly,
+        and destroys trust.
+    points: 1

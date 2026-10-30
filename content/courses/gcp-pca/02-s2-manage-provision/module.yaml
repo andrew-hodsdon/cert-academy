@@ -1,0 +1,13 @@
+title: "Section 2: Managing and provisioning a solution infrastructure"
+domain: s2-manage-provision
+summary_md: |
+  About 17.5% of the exam, and the most hands-on section: you are given a design and asked which
+  concrete Google Cloud building block, setting or topology makes it work at the lowest operational
+  burden. Five lessons cover all five outline objectives: network topologies, including hybrid and
+  multicloud connectivity, VPC design, firewalls and load-balancer choice (2.1); storage systems,
+  covering allocation, transfer, retention, lifecycle, growth and backup (2.2); compute systems, covering
+  Compute Engine, Spot VMs, GKE, serverless networking, VMware Engine, patching and infrastructure as
+  code (2.3); Gemini Enterprise Agent Platform for end-to-end ML workflows, covering Agent Platform
+  Pipelines, data integration and AI Hypercomputer with GPUs and TPUs (2.4); and prebuilt
+  solutions and APIs, covering the Google AI APIs, Gemini Enterprise agents and NotebookLM, and
+  Model Garden (2.5). Finish with the Section 2 quiz and hold 80% before moving on.

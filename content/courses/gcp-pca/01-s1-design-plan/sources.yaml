@@ -1,0 +1,549 @@
+sources:
+  # --- Well-Architected Framework -------------------------------------------------------------
+  - slug: s1-waf-overview
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework
+    title: "Google Cloud Well-Architected Framework"
+    site: Google Cloud Documentation
+    tags: [well-architected, pillars]
+    summary_md: |
+      The framework's home page. Names six pillars (operational excellence; security, privacy and
+      compliance; reliability; cost optimization; performance optimization; sustainability) and the
+      cross-pillar perspectives (AI and ML; financial services). Lessons 1 and 2 rely on it for the
+      pillar list and the idea that design trade-offs are made across pillars. Checked 2026-10-30.
+  - slug: s1-waf-cost
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/cost-optimization
+    title: "Well-Architected Framework: Cost optimization pillar"
+    site: Google Cloud Documentation
+    tags: [well-architected, cost, finops]
+    summary_md: |
+      Principles for aligning spend with business value: a culture of cost awareness, cost
+      attribution with labels and billing export, optimising resource usage and continuous
+      optimisation. Lesson 1 uses it for cost optimisation and the OpEx model.
+  - slug: s1-waf-reliability
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/reliability
+    title: "Well-Architected Framework: Reliability pillar"
+    site: Google Cloud Documentation
+    tags: [well-architected, reliability, slo, ha]
+    summary_md: |
+      Reliability principles: define reliability from user-facing goals (SLOs), build redundancy,
+      scale horizontally, detect failures with observability, design for graceful degradation, and
+      test recovery. Lesson 2 relies on it for HA, failover and backup design.
+  - slug: s1-waf-performance
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/performance-optimization
+    title: "Well-Architected Framework: Performance optimization pillar"
+    site: Google Cloud Documentation
+    tags: [well-architected, performance, scaling]
+    summary_md: |
+      Plan resource allocation, take advantage of elasticity, promote modular design, and monitor
+      and improve performance continuously. Lesson 2 uses it for elasticity and latency.
+  - slug: s1-waf-operational-excellence
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/operational-excellence
+    title: "Well-Architected Framework: Operational excellence pillar"
+    site: Google Cloud Documentation
+    tags: [well-architected, operations, observability]
+    summary_md: |
+      Operational readiness, incident management, automation and continuous improvement. Lesson 1
+      cites it for observability as a business requirement; lesson 5 for continuous improvement.
+  - slug: s1-waf-security
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/security
+    title: "Well-Architected Framework: Security, privacy, and compliance pillar"
+    site: Google Cloud Documentation
+    tags: [well-architected, security, compliance]
+    summary_md: |
+      Security by design, zero trust, shift-left, AI security, and meeting regulatory and privacy
+      requirements. Lesson 1 cites it for treating compliance as a design input.
+  - slug: s1-waf-sustainability
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/sustainability
+    title: "Well-Architected Framework: Sustainability pillar"
+    site: Google Cloud Documentation
+    tags: [well-architected, sustainability, carbon]
+    summary_md: |
+      Choosing low-carbon regions, using efficient managed services and measuring emissions with
+      Carbon Footprint. Lessons 1 and 5 cite it.
+
+  # --- Cost -----------------------------------------------------------------------------------
+  - slug: s1-cud-overview
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/instances/committed-use-discounts-overview
+    title: "Committed use discounts (Compute Engine)"
+    site: Google Cloud Documentation
+    tags: [cost, cud]
+    summary_md: |
+      Resource-based CUDs (commit to vCPU/memory in a region for 1 or 3 years) and spend-based
+      (flexible) CUDs (commit to an hourly spend). Lessons 1 and 3 rely on it for predictable
+      baseline cost.
+  - slug: s1-sustained-use
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/sustained-use-discounts
+    title: "Sustained use discounts"
+    site: Google Cloud Documentation
+    tags: [cost, sud]
+    summary_md: |
+      Automatic discounts for eligible machine families (for example N1, N2) that run a large share
+      of the month; no commitment needed. Not every family is eligible. Lesson 1 cites it.
+  - slug: s1-spot-vms
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/instances/spot
+    title: "Spot VMs"
+    site: Google Cloud Documentation
+    tags: [compute, cost, spot]
+    summary_md: |
+      Spot VMs use spare capacity at a large discount, can be preempted at any time with a short
+      notice, have no maximum runtime and carry no SLA. They suit fault-tolerant batch work.
+      Lessons 1 and 3 rely on it.
+  - slug: s1-pricing-calculator
+    kind: product_docs
+    url: https://cloud.google.com/products/calculator
+    title: "Google Cloud Pricing Calculator"
+    site: Google Cloud
+    tags: [cost, estimate]
+    summary_md: |
+      Google's estimator for building a monthly cost estimate from a planned architecture. Lessons
+      1 and 4 mention it alongside Migration Center's TCO reports.
+
+  # --- Reliability, SLOs, DR, quotas ------------------------------------------------------------
+  - slug: s1-sre-slo
+    kind: book
+    url: https://sre.google/sre-book/service-level-objectives/
+    title: "Site Reliability Engineering, chapter 4: Service Level Objectives"
+    authors: [Chris Jones, John Wilkes, Niall Murphy, Cody Smith]
+    site: sre.google
+    tags: [slo, sli, sla]
+    summary_md: |
+      Defines SLIs, SLOs and SLAs and why an SLO should be set below 100%. Lesson 2's SLO section
+      rests on it, with the reliability pillar as the second source.
+  - slug: s1-sre-error-budget
+    kind: book
+    url: https://sre.google/workbook/error-budget-policy/
+    title: "The Site Reliability Workbook: Error budget policy"
+    site: sre.google
+    tags: [slo, error-budget]
+    summary_md: |
+      Error budget = 1 − SLO; an example policy that freezes releases when the budget is spent.
+      Lesson 2 cites it.
+  - slug: s1-dr-planning
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/dr-scenarios-planning-guide
+    title: "Disaster recovery planning guide"
+    site: Google Cloud Architecture Center
+    tags: [dr, rto, rpo, backup]
+    summary_md: |
+      RTO and RPO, and the cold, warm and hot DR patterns with their cost/recovery trade-offs.
+      Lessons 1 and 2 rely on it for business continuity and recovery design.
+  - slug: s1-dr-building-blocks
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/dr-scenarios-building-blocks
+    title: "Disaster recovery building blocks"
+    site: Google Cloud Architecture Center
+    tags: [dr, regions, zones]
+    summary_md: |
+      Zones, regions, managed instance groups, load balancing, snapshots and Backup and DR as
+      building blocks for recovery. Lesson 2 cites it with the planning guide.
+  - slug: s1-backup-dr
+    kind: product_docs
+    url: https://docs.cloud.google.com/backup-disaster-recovery/docs/concepts/backup-dr
+    title: "Backup and DR Service overview"
+    site: Google Cloud Documentation
+    tags: [backup, dr]
+    summary_md: |
+      Google's managed backup service for Compute Engine, databases and other workloads, with
+      backup vaults that protect backups from deletion. Lesson 2 cites it.
+  - slug: s1-quotas
+    kind: product_docs
+    url: https://docs.cloud.google.com/docs/quotas/overview
+    title: "Cloud Quotas overview"
+    site: Google Cloud Documentation
+    tags: [quotas, limits, scaling]
+    summary_md: |
+      Rate quotas and allocation quotas, project/region scope, how to view and request
+      adjustments, and quota alerts. Lesson 2 uses it for planning growth.
+  - slug: s1-regions-zones
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/regions-zones
+    title: "Regions and zones"
+    site: Google Cloud Documentation
+    tags: [regions, zones, ha]
+    summary_md: |
+      Zones are failure domains within a region; deploy across zones for HA and across regions
+      for DR. Lesson 2 relies on it.
+  - slug: s1-gce-sla
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/sla
+    title: "Compute Engine Service Level Agreement"
+    site: Google Cloud
+    tags: [sla, compute]
+    summary_md: |
+      SLA tiers for Compute Engine, with a higher target for instances spread across multiple
+      zones than for a single instance. Lesson 2 uses it to show why multi-zone design matters.
+
+  # --- Compute ----------------------------------------------------------------------------------
+  - slug: s1-compute-choice
+    kind: vendor_docs
+    url: https://cloud.google.com/hosting-options
+    title: "Application hosting options on Google Cloud"
+    site: Google Cloud
+    tags: [compute, gke, cloud-run]
+    summary_md: |
+      Google's comparison of Compute Engine, GKE, Cloud Run and App Engine by level of control and
+      management burden. Lesson 3's compute decision table rests on it with the product pages.
+  - slug: s1-cloud-run
+    kind: product_docs
+    url: https://docs.cloud.google.com/run/docs/overview/what-is-cloud-run
+    title: "What is Cloud Run"
+    site: Google Cloud Documentation
+    tags: [cloud-run, serverless]
+    summary_md: |
+      Cloud Run services (request-driven, scale to zero), jobs (run to completion) and worker pools;
+      Cloud Run functions as the function-as-a-service experience on the same platform. Lesson 3.
+  - slug: s1-gke-autopilot
+    kind: product_docs
+    url: https://docs.cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview
+    title: "GKE Autopilot overview"
+    site: Google Cloud Documentation
+    tags: [gke, autopilot, kubernetes]
+    summary_md: |
+      Autopilot manages nodes for you and bills for the resources Pods request; Standard gives node
+      level control and bills for nodes. Lesson 3 relies on it.
+  - slug: s1-app-engine
+    kind: product_docs
+    url: https://docs.cloud.google.com/appengine/docs/an-overview-of-app-engine
+    title: "An overview of App Engine"
+    site: Google Cloud Documentation
+    tags: [app-engine, paas]
+    summary_md: |
+      App Engine standard and flexible environments. Lesson 3 treats it as an existing-estate option
+      and notes Cloud Run as the default for new serverless containers.
+  - slug: s1-machine-families
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/machine-resource
+    title: "Machine families resource and comparison guide"
+    site: Google Cloud Documentation
+    tags: [compute, machine-types]
+    summary_md: |
+      General-purpose, compute-optimised, memory-optimised, storage-optimised and accelerator
+      optimised families; custom machine types. Lesson 3 cites it.
+  - slug: s1-sole-tenant-byol
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/nodes/bringing-your-own-licenses
+    title: "Bringing your own licenses (sole-tenant nodes)"
+    site: Google Cloud Documentation
+    tags: [licensing, byol, sole-tenant]
+    summary_md: |
+      Using sole-tenant nodes to bring licences that require dedicated physical hardware, with
+      in-place restart policies to limit core use. Lesson 4 relies on it for licence planning.
+
+  # --- Storage and databases --------------------------------------------------------------------
+  - slug: s1-storage-classes
+    kind: product_docs
+    url: https://docs.cloud.google.com/storage/docs/storage-classes
+    title: "Cloud Storage storage classes"
+    site: Google Cloud Documentation
+    tags: [storage, gcs, lifecycle]
+    summary_md: |
+      Standard, Nearline (30-day minimum), Coldline (90-day), Archive (365-day); retrieval fees;
+      same millisecond access latency for all classes. Lesson 3 relies on it.
+  - slug: s1-autoclass
+    kind: product_docs
+    url: https://docs.cloud.google.com/storage/docs/autoclass
+    title: "Cloud Storage Autoclass"
+    site: Google Cloud Documentation
+    tags: [storage, autoclass, cost]
+    summary_md: |
+      Autoclass moves objects between classes based on access, without retrieval or early-deletion
+      charges for those transitions. Lesson 3 uses it for unpredictable access patterns.
+  - slug: s1-databases
+    kind: vendor_docs
+    url: https://cloud.google.com/products/databases
+    title: "Google Cloud databases"
+    site: Google Cloud
+    tags: [databases]
+    summary_md: |
+      Google's overview of Cloud SQL, AlloyDB, Spanner, Bigtable, Firestore and Memorystore with
+      their intended workloads. Lesson 3's database table rests on it plus each product page.
+  - slug: s1-spanner
+    kind: product_docs
+    url: https://docs.cloud.google.com/spanner/docs/overview
+    title: "Spanner overview"
+    site: Google Cloud Documentation
+    tags: [spanner, relational, global]
+    summary_md: |
+      Horizontally scalable, strongly consistent relational database with multi-region
+      configurations. Lesson 3 cites it.
+  - slug: s1-alloydb
+    kind: product_docs
+    url: https://docs.cloud.google.com/alloydb/docs/overview
+    title: "AlloyDB for PostgreSQL overview"
+    site: Google Cloud Documentation
+    tags: [alloydb, postgresql]
+    summary_md: |
+      PostgreSQL-compatible managed database for demanding transactional and hybrid analytical
+      workloads, with a columnar engine. Lesson 3 cites it.
+  - slug: s1-bigtable
+    kind: product_docs
+    url: https://docs.cloud.google.com/bigtable/docs/overview
+    title: "Bigtable overview"
+    site: Google Cloud Documentation
+    tags: [bigtable, nosql, time-series]
+    summary_md: |
+      Wide-column NoSQL store for very high throughput, low-latency key access (time series, IoT,
+      ad tech); HBase API compatible. Lesson 3 cites it.
+  - slug: s1-bigquery
+    kind: product_docs
+    url: https://docs.cloud.google.com/bigquery/docs/introduction
+    title: "BigQuery overview"
+    site: Google Cloud Documentation
+    tags: [bigquery, analytics]
+    summary_md: |
+      Serverless analytics data warehouse. Lessons 3 and 5 cite it.
+  - slug: s1-firestore
+    kind: product_docs
+    url: https://docs.cloud.google.com/firestore/docs/overview
+    title: "Firestore overview"
+    site: Google Cloud Documentation
+    tags: [firestore, document]
+    summary_md: |
+      Serverless document database with real-time sync and offline support for mobile and web.
+      Lesson 3 cites it.
+  - slug: s1-filestore
+    kind: product_docs
+    url: https://docs.cloud.google.com/filestore/docs/overview
+    title: "Filestore overview"
+    site: Google Cloud Documentation
+    tags: [filestore, nfs]
+    summary_md: |
+      Managed NFS file shares for applications that need a POSIX file system. Lesson 3 cites it.
+  - slug: s1-data-processing
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/data-lifecycle-cloud-platform
+    title: "Data lifecycle on Google Cloud"
+    site: Google Cloud Architecture Center
+    tags: [dataflow, dataproc, pubsub]
+    summary_md: |
+      Ingest, store, process and analyse stages, mapping Pub/Sub, Dataflow, Dataproc and BigQuery
+      to each. Lesson 3's data-processing table uses it.
+
+  # --- Networking -------------------------------------------------------------------------------
+  - slug: s1-network-tiers
+    kind: product_docs
+    url: https://docs.cloud.google.com/network-tiers/docs/overview
+    title: "Network Service Tiers overview"
+    site: Google Cloud Documentation
+    tags: [network, tiers]
+    summary_md: |
+      Premium Tier routes over Google's network and supports global external load balancing;
+      Standard Tier uses the public internet for most of the path, is regional and costs less.
+      Lesson 3 relies on it.
+  - slug: s1-connectivity-choice
+    kind: product_docs
+    url: https://docs.cloud.google.com/network-connectivity/docs/how-to/choose-product
+    title: "Choosing a Network Connectivity product"
+    site: Google Cloud Documentation
+    tags: [interconnect, vpn, hybrid]
+    summary_md: |
+      Compares HA VPN, Dedicated, Partner and Cross-Cloud Interconnect, peering options and Network
+      Connectivity Center. States Dedicated Interconnect circuits of 10, 100 or 400 Gbps and VLAN
+      attachments from 50 Mbps to 50 Gbps; HA VPN 99.99% or 99.9% SLA by topology; no SLA for
+      Direct or Carrier Peering. Checked 2026-10-30. Lessons 3 and 4.
+  - slug: s1-dedicated-interconnect
+    kind: product_docs
+    url: https://docs.cloud.google.com/network-connectivity/docs/interconnect/concepts/dedicated-overview
+    title: "Dedicated Interconnect overview"
+    site: Google Cloud Documentation
+    tags: [interconnect]
+    summary_md: |
+      Physical connections in a colocation facility, the redundant topologies for 99.9% and 99.99%
+      availability, and Cloud Router with BGP. Lesson 3 cites it.
+  - slug: s1-ha-vpn
+    kind: product_docs
+    url: https://docs.cloud.google.com/network-connectivity/docs/vpn/concepts/topologies
+    title: "Cloud VPN topologies"
+    site: Google Cloud Documentation
+    tags: [vpn, ha]
+    summary_md: |
+      HA VPN gateway topologies that qualify for the 99.99% SLA (two interfaces, tunnels to a peer
+      with redundancy). Lesson 3 cites it.
+  - slug: s1-shared-vpc
+    kind: product_docs
+    url: https://docs.cloud.google.com/vpc/docs/shared-vpc
+    title: "Shared VPC"
+    site: Google Cloud Documentation
+    tags: [vpc, shared-vpc]
+    summary_md: |
+      A host project's VPC shared with service projects, centralising network control while
+      teams own their own projects. Lesson 3 cites it.
+  - slug: s1-vpc-peering
+    kind: product_docs
+    url: https://docs.cloud.google.com/vpc/docs/vpc-peering
+    title: "VPC Network Peering"
+    site: Google Cloud Documentation
+    tags: [vpc, peering]
+    summary_md: |
+      Private RFC 1918 connectivity between two VPC networks; peering is not transitive. Lesson 3.
+  - slug: s1-psc
+    kind: product_docs
+    url: https://docs.cloud.google.com/vpc/docs/private-service-connect
+    title: "Private Service Connect"
+    site: Google Cloud Documentation
+    tags: [psc, private-access]
+    summary_md: |
+      Consumer-side endpoints that reach Google APIs or a producer's published service privately,
+      without peering whole networks and without overlapping-range problems. Lesson 3.
+
+  # --- AI --------------------------------------------------------------------------------------
+  - slug: s1-agent-platform
+    kind: product_docs
+    url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/overview
+    title: "Gemini Enterprise Agent Platform overview"
+    site: Google Cloud Documentation
+    tags: [ai, gemini, model-garden, agents]
+    summary_md: |
+      Google's platform (successor to Vertex AI, announced at Next '26) for building, scaling,
+      governing and optimising agents; includes Model Garden (Gemini, third-party and open models)
+      and agent tooling. Lessons 3 and 5 rely on it.
+  - slug: s1-ai-hypercomputer
+    kind: vendor_docs
+    url: https://cloud.google.com/solutions/ai-hypercomputer
+    title: "AI Hypercomputer"
+    site: Google Cloud
+    tags: [ai, tpu, gpu]
+    summary_md: |
+      Google's integrated architecture of TPUs, GPUs, networking, storage and software for large
+      training and inference. Lesson 3 cites it for specialised workloads.
+  - slug: s1-waf-ai-ml
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/perspectives/ai-ml
+    title: "Well-Architected Framework: AI and ML perspective"
+    site: Google Cloud Documentation
+    tags: [well-architected, ai]
+    summary_md: |
+      Applies each pillar to AI and ML workloads. Lessons 3 and 5 cite it.
+  - slug: s1-gemini-cloud-assist
+    kind: product_docs
+    url: https://docs.cloud.google.com/cloud-assist/overview
+    title: "Gemini Cloud Assist overview"
+    site: Google Cloud Documentation
+    tags: [gemini, cloud-assist, operations]
+    summary_md: |
+      AI assistant to design (Application Design Center), troubleshoot (Investigations) and
+      optimise (cost optimisation, FinOps Hub, cost anomaly analysis) Google Cloud workloads; its
+      output must be validated. Checked 2026-10-30. Lessons 2 and 5.
+  - slug: s1-app-design-center
+    kind: product_docs
+    url: https://docs.cloud.google.com/application-design-center/docs/overview
+    title: "Application Design Center overview"
+    site: Google Cloud Documentation
+    tags: [design, gemini, iac]
+    summary_md: |
+      Design application templates visually or in natural language with Gemini Cloud Assist and
+      deploy them as infrastructure as code. Lessons 2 and 5.
+
+  # --- Migration --------------------------------------------------------------------------------
+  - slug: s1-migration-getting-started
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/migration-to-gcp-getting-started
+    title: "Migrate to Google Cloud: Get started"
+    site: Google Cloud Architecture Center
+    tags: [migration, framework]
+    summary_md: |
+      The four phases (assess, plan, deploy, optimise) and six migration types: rehost (lift and
+      shift), replatform (lift and optimise), refactor (move and improve), re-architect, rebuild
+      (remove and replace) and repurchase. Checked 2026-10-30. Lessons 1 and 4.
+  - slug: s1-migration-assess
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/migration-to-gcp-assessing-and-discovering-your-workloads
+    title: "Migrate to Google Cloud: Assess and discover your workloads"
+    site: Google Cloud Architecture Center
+    tags: [migration, assessment]
+    summary_md: |
+      Building an inventory, classifying workloads, dependency mapping, and choosing first movers.
+      Lesson 4 relies on it.
+  - slug: s1-migration-center
+    kind: product_docs
+    url: https://docs.cloud.google.com/migration-center/docs/migration-center-overview
+    title: "Migration Center overview"
+    site: Google Cloud Documentation
+    tags: [migration-center, tco]
+    summary_md: |
+      Cost estimation, asset discovery (servers and SQL Server, MySQL, PostgreSQL databases),
+      TCO reports, dependency identification, technical fit recommendations and migration planning.
+      Checked 2026-10-30. Lesson 4.
+  - slug: s1-migrate-to-vms
+    kind: product_docs
+    url: https://docs.cloud.google.com/migrate/virtual-machines/docs/5.0/migrate/overview
+    title: "Migrate to Virtual Machines overview"
+    site: Google Cloud Documentation
+    tags: [migration, vm, rehost]
+    summary_md: |
+      Moves VMs from VMware, AWS, Azure and physical sources to Compute Engine, with data replication,
+      test clones and cut-over. Lesson 4.
+  - slug: s1-dms
+    kind: product_docs
+    url: https://docs.cloud.google.com/database-migration/docs/overview
+    title: "Database Migration Service overview"
+    site: Google Cloud Documentation
+    tags: [migration, database, cdc]
+    summary_md: |
+      Homogeneous migrations (MySQL, PostgreSQL, SQL Server to Cloud SQL; PostgreSQL to AlloyDB) and
+      heterogeneous ones (Oracle or SQL Server to Cloud SQL for PostgreSQL or AlloyDB, with schema
+      conversion); continuous (CDC) versus one-time migrations. Checked 2026-10-30. Lesson 4.
+  - slug: s1-large-datasets
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/migration-to-google-cloud-transferring-your-large-datasets
+    title: "Migrate to Google Cloud: Transfer your large datasets"
+    site: Google Cloud Architecture Center
+    tags: [migration, transfer, bandwidth]
+    summary_md: |
+      Transfer-time arithmetic (100 TB at 1 Gbps ≈ 12 days; at 100 Mbps, over 100 days) and when to
+      use Transfer Appliance, Storage Transfer Service or gcloud storage. Checked 2026-10-30. Lesson 4.
+  - slug: s1-transfer-appliance
+    kind: product_docs
+    url: https://docs.cloud.google.com/transfer-appliance/docs/4.0/overview
+    title: "Transfer Appliance overview"
+    site: Google Cloud Documentation
+    tags: [migration, transfer-appliance]
+    summary_md: |
+      TA40 and TA300 appliances; recommended when uploading over the network would take more than a
+      week. Example: 300 TB at 100 Mbps takes about 9 months online. Checked 2026-10-30. Lesson 4.
+  - slug: s1-storage-transfer
+    kind: product_docs
+    url: https://docs.cloud.google.com/storage-transfer/docs/overview
+    title: "Storage Transfer Service overview"
+    site: Google Cloud Documentation
+    tags: [migration, transfer]
+    summary_md: |
+      Managed, scheduled transfers from other clouds, HTTP sources, file systems (via agents) and
+      between buckets. Lesson 4.
+
+  # --- Integration and observability ----------------------------------------------------------
+  - slug: s1-apigee
+    kind: product_docs
+    url: https://docs.cloud.google.com/apigee/docs/api-platform/get-started/what-apigee
+    title: "What is Apigee?"
+    site: Google Cloud Documentation
+    tags: [integration, api]
+    summary_md: |
+      API management: proxies, security, quotas, analytics and developer portals for exposing
+      services to partners. Lesson 1 uses it for integration patterns.
+  - slug: s1-pubsub
+    kind: product_docs
+    url: https://docs.cloud.google.com/pubsub/docs/overview
+    title: "Pub/Sub overview"
+    site: Google Cloud Documentation
+    tags: [integration, messaging]
+    summary_md: |
+      Asynchronous, at-least-once messaging that decouples producers and consumers. Lessons 1 and 3.
+  - slug: s1-observability
+    kind: product_docs
+    url: https://docs.cloud.google.com/stackdriver/docs
+    title: "Google Cloud Observability"
+    site: Google Cloud Documentation
+    tags: [observability, logging, monitoring]
+    summary_md: |
+      Cloud Logging, Cloud Monitoring, Trace and Profiler as one observability suite. Lesson 1.

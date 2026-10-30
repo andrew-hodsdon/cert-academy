@@ -1,0 +1,1036 @@
+slug: d8-quiz
+ordinal: 18
+title: "Domain 8 quiz: Software Development Security"
+kind: quiz
+draw: 25
+time_limit_min: 35
+pass_pct: 80
+instructions_md: |
+  25 questions drawn at random from a bank of 40 covering objectives 8.1–8.5, with 35 minutes on
+  the clock. Most questions have one answer; questions marked "Choose two." need both correct
+  options selected to score. Answer as a security adviser to the business: requirements and
+  process before tools, the earliest effective control, and the most complete answer. Aim for 80%
+  or better before moving on; read every explanation, including for the questions you got right.
+questions:
+  # ---------------- 8.1 Security in the SDLC ----------------
+  - key: d8-cmmi-quantitatively-managed
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A software company already follows one documented, organisation-wide development process.
+      It now collects defect and cycle-time data from every project and uses statistical limits to
+      decide when a process is out of control. Which CMMI maturity level does this describe?
+    choices:
+      - key: a
+        text: "Level 2, Managed"
+      - key: b
+        text: "Level 3, Defined"
+      - key: c
+        text: "Level 4, Quantitatively Managed"
+      - key: d
+        text: "Level 5, Optimizing"
+    answer: [c]
+    explanation_md: |
+      **c** is correct: statistical, measurement-based control of an already-defined process is the
+      hallmark of level 4. **a** is wrong: level 2 means processes are planned and repeatable per
+      project, not organisation-wide or measured statistically. **b** is wrong: level 3 is the
+      organisation-wide standard process the company already had *before* adding measurement.
+      **d** is wrong: level 5 focuses on continuous, deliberate process improvement driven by the
+      quantitative data, which the scenario does not describe.
+    points: 1
+
+  - key: d8-bsimm-peer-benchmark
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      The board of a bank asks the CISO: "How do our software security activities compare with
+      what other financial institutions actually do?" Which model best supports that answer?
+    choices:
+      - key: a
+        text: "BSIMM, because it is built from observing the activities of real software security initiatives"
+      - key: b
+        text: "OWASP SAMM, because it prescribes the activities each maturity level should include"
+      - key: c
+        text: "CMMI, because it rates the maturity of an organisation's development processes"
+      - key: d
+        text: "OWASP ASVS, because it defines three levels of application security verification"
+    answer: [a]
+    explanation_md: |
+      **a** is correct: BSIMM is descriptive. It records what participating organisations really
+      do, so it supports peer benchmarking. **b** is wrong: SAMM is prescriptive; it is ideal for
+      building your own roadmap but is not a record of what peers do. **c** is wrong: CMMI measures
+      general process maturity and is not specific to software security activities. **d** is wrong:
+      ASVS is a requirements standard for verifying an application, not a programme benchmark.
+    points: 1
+
+  - key: d8-agile-definition-of-done
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A Scrum team ships every two weeks. A penetration test before the last major release found
+      several authorisation flaws, delaying the release by a month. Product management refuses to
+      slow the sprint cadence. What should the security manager recommend FIRST?
+    choices:
+      - key: a
+        text: "Run the external penetration test before every sprint review"
+      - key: b
+        text: "Move the product to a waterfall model with a formal security sign-off gate"
+      - key: c
+        text: "Deploy a web application firewall in front of the application"
+      - key: d
+        text: "Add security acceptance criteria to user stories and include security checks in the team's definition of done"
+    answer: [d]
+    explanation_md: |
+      **d** is correct: the flaws were missing requirements found too late. Building security into
+      the units agile already uses (stories, acceptance criteria, definition of done) catches them
+      every sprint without changing cadence. **a** is wrong: a fortnightly external test is costly
+      and still finds problems after they are built. **b** is wrong: changing methodology slows
+      delivery and does not by itself add the missing requirements. **c** is wrong: a WAF is a
+      compensating control and does little against authorisation logic flaws.
+    points: 1
+
+  - key: d8-spiral-risk-driven
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A defence contractor is building a novel system whose requirements are uncertain and whose
+      technical risks are high. It wants each development cycle to include an explicit risk
+      analysis before the next increment is engineered. Which model fits best?
+    choices:
+      - key: a
+        text: "Waterfall"
+      - key: b
+        text: "Spiral"
+      - key: c
+        text: "Kanban"
+      - key: d
+        text: "V-model"
+    answer: [b]
+    explanation_md: |
+      **b** is correct: Boehm's spiral model repeats loops of planning, **risk analysis**,
+      engineering and evaluation, which is exactly the stated need. **a** is wrong: waterfall is
+      sequential with no repeated risk loop and copes poorly with uncertain requirements. **c** is
+      wrong: Kanban manages flow of work items; it has no built-in risk-analysis phase. **d** is
+      wrong: the V-model pairs each build phase with a test phase but is as sequential as waterfall.
+    points: 1
+
+  - key: d8-change-impact-analysis
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A developer submits a change request to replace the session-management library in a customer
+      portal. Under a mature change management process, what should happen BEFORE the change
+      advisory board approves it?
+    choices:
+      - key: a
+        text: "The change is deployed to production behind a feature flag"
+      - key: b
+        text: "The configuration baseline is updated to the new library version"
+      - key: c
+        text: "The change is analysed for its security and operational impact"
+      - key: d
+        text: "Users are notified that they will have to log in again"
+    answer: [c]
+    explanation_md: |
+      **c** is correct: the sequence is request, **impact analysis**, approval, test, implement,
+      document. Approvers need the security impact analysis to decide. **a** is wrong: deploying to
+      production before approval bypasses change control even if the feature is hidden. **b** is
+      wrong: the baseline is updated after the change is implemented and verified. **d** is wrong:
+      user communication may be part of implementation planning, but it is not the control that
+      informs the approval decision.
+    points: 1
+
+  - key: d8-integrated-product-team
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A government agency wants the people responsible for requirements, development, testing,
+      operations, security and contracting to work together on a new benefits system from
+      initiation to retirement, with shared decisions on trade-offs. What is this approach called?
+    choices:
+      - key: a
+        text: "An integrated product team"
+      - key: b
+        text: "A change advisory board"
+      - key: c
+        text: "A tiger team"
+      - key: d
+        text: "Separation of duties"
+    answer: [a]
+    explanation_md: |
+      **a** is correct: an integrated product team (IPT) brings every needed discipline, including
+      security, into one team across the life cycle. **b** is wrong: a CAB reviews and approves
+      changes; it does not build the product. **c** is wrong: a tiger team is a specialist group,
+      often for testing or crisis work, not a cross-functional delivery team. **d** is wrong:
+      separation of duties splits critical tasks between people; it is a control, not a team model.
+    points: 1
+
+  - key: d8-accreditation-authority
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      Independent assessors have tested a new claims-processing system and documented that it
+      meets most of its security requirements, with two medium-risk findings open. Who should
+      decide whether the system may go into production with those findings?
+    choices:
+      - key: a
+        text: "The lead assessor, because they understand the findings best"
+      - key: b
+        text: "The development manager, because the team will fix the findings"
+      - key: c
+        text: "The security operations centre, because it will monitor the system"
+      - key: d
+        text: "A senior manager acting as the authorising official, who accepts the residual risk"
+    answer: [d]
+    explanation_md: |
+      **d** is correct: certification is the technical evaluation; **accreditation (authorisation)**
+      is management's decision to accept the residual risk, made by a senior official accountable
+      for the business. **a** is wrong: assessors certify; they must stay independent of the
+      decision. **b** is wrong: the development manager has a conflict of interest and lacks the
+      authority to accept organisational risk. **c** is wrong: the SOC monitors after deployment;
+      it does not own the risk decision.
+    points: 1
+
+  - key: d8-devsecops-characteristics
+    kind: multi
+    domain: d8-software-security
+    prompt_md: |
+      An organisation says it has moved from DevOps to DevSecOps. Which TWO observations best
+      confirm the change is real? Choose two.
+    choices:
+      - key: a
+        text: "Security tests such as SAST, SCA and secret scanning run automatically on every pull request"
+      - key: b
+        text: "A security team reviews each release in a two-week window before deployment"
+      - key: c
+        text: "Developers no longer need peer review because automated tools check the code"
+      - key: d
+        text: "Development, operations and security share responsibility for security outcomes"
+      - key: e
+        text: "Penetration testing has been dropped because the pipeline now finds all issues"
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are correct: DevSecOps automates security in the pipeline (shift left) and
+      makes security a shared responsibility across the team. **b** is wrong: a separate two-week
+      security gate is the old bolt-on model DevSecOps replaces. **c** is wrong: tools complement
+      peer review; removing review weakens separation of duties and misses logic flaws. **e** is
+      wrong: automated tools miss design and business-logic issues, so periodic penetration testing
+      remains valuable.
+    points: 1
+
+  - key: d8-maintenance-hook-removal
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      During final code review before release, a reviewer finds an undocumented URL parameter that
+      lets developers log in as any user without a password. The lead developer says it is needed
+      to troubleshoot production. What should happen?
+    choices:
+      - key: a
+        text: "Keep it, but document it in the operations runbook"
+      - key: b
+        text: "Remove it before release and provide a controlled, audited support mechanism instead"
+      - key: c
+        text: "Keep it, but restrict it to requests from the corporate IP range"
+      - key: d
+        text: "Rename the parameter so it is harder to guess"
+    answer: [b]
+    explanation_md: |
+      **b** is correct: this is a maintenance hook (back door) that bypasses authentication and
+      accountability. It must be removed; support needs should be met through an approved,
+      authenticated and logged mechanism. **a** is wrong: documenting a back door does not make it
+      controlled. **c** is wrong: IP restriction reduces exposure but still bypasses authentication
+      and insiders can abuse it. **d** is wrong: obscurity is not a control.
+    points: 1
+
+  # ---------------- 8.2 Development ecosystem controls ----------------
+  - key: d8-no-source-dast
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      Your company is about to deploy a vendor's web-based HR application. The vendor will not
+      share source code or allow agents to be installed in the application, but permits testing of
+      a staging instance. Which testing approach can you use?
+    choices:
+      - key: a
+        text: "Dynamic application security testing (DAST) against the staging instance"
+      - key: b
+        text: "Static application security testing (SAST) of the application's code"
+      - key: c
+        text: "Interactive application security testing (IAST) during functional tests"
+      - key: d
+        text: "Peer code review of the vendor's latest commits"
+    answer: [a]
+    explanation_md: |
+      **a** is correct: DAST is black-box testing of the running application over its interfaces;
+      it needs no source code or instrumentation. **b** is wrong: SAST analyses source, bytecode or
+      binaries you do not have. **c** is wrong: IAST relies on an agent inside the running
+      application, which the vendor forbids. **d** is wrong: code review requires access to the
+      code.
+    points: 1
+
+  - key: d8-iast-agent
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A QA lead wants a testing tool that watches data flow from inside the running application
+      while the existing automated functional tests execute, reports the vulnerable line of code,
+      and produces few false positives. Which tool type is this?
+    choices:
+      - key: a
+        text: "Software composition analysis"
+      - key: b
+        text: "Runtime application self-protection"
+      - key: c
+        text: "Interactive application security testing"
+      - key: d
+        text: "Fuzz testing"
+    answer: [c]
+    explanation_md: |
+      **c** is correct: IAST instruments the running application with an agent and observes it as
+      tests exercise it, combining runtime context with code-level detail. **a** is wrong: SCA
+      inventories third-party components for known vulnerabilities and licences; it does not watch
+      data flow. **b** is wrong: RASP also sits inside the runtime, but its purpose is to block
+      attacks in production, not to report findings during QA. **d** is wrong: fuzzing sends
+      malformed input from outside and reports crashes, not the vulnerable line.
+    points: 1
+
+  - key: d8-sca-purpose
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      Legal is worried that developers have pulled in open-source libraries whose licences conflict
+      with the company's commercial distribution model, and security is worried about known
+      vulnerabilities in the same libraries. Which single tool type addresses both concerns?
+    choices:
+      - key: a
+        text: "Static application security testing"
+      - key: b
+        text: "Dynamic application security testing"
+      - key: c
+        text: "A web application firewall"
+      - key: d
+        text: "Software composition analysis"
+    answer: [d]
+    explanation_md: |
+      **d** is correct: SCA identifies third-party components and checks them against vulnerability
+      databases **and** licence information. **a** is wrong: SAST looks for weaknesses in the
+      organisation's own code and does not assess licences. **b** is wrong: DAST tests runtime
+      behaviour and cannot see licences. **c** is wrong: a WAF filters traffic in production; it
+      identifies neither components nor licences.
+    points: 1
+
+  - key: d8-leaked-secret-first
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A developer accidentally pushed a production cloud access key to a public code repository.
+      It was visible for about 40 minutes before the developer noticed. What should be done FIRST?
+    choices:
+      - key: a
+        text: "Rewrite the repository history to remove the commit"
+      - key: b
+        text: "Revoke the key and issue a replacement"
+      - key: c
+        text: "Make the repository private"
+      - key: d
+        text: "Enable secret scanning on the repository"
+    answer: [b]
+    explanation_md: |
+      **b** is correct: a secret exposed publicly must be assumed harvested (automated scanners find
+      them within minutes), so revoking it stops its use immediately. Then investigate its use.
+      **a** is wrong: removing the commit does not invalidate copies already taken. **c** is wrong:
+      making the repository private also does nothing about copies already taken. **d** is wrong:
+      secret scanning is the right preventive control for the future but does not contain this
+      exposure.
+    points: 1
+
+  - key: d8-repo-integrity-controls
+    kind: multi
+    domain: d8-software-security
+    prompt_md: |
+      An auditor asks how the organisation ensures that no single developer can place unreviewed
+      code into the release branch, and that every change is attributable to a verified identity.
+      Which TWO controls address this? Choose two.
+    choices:
+      - key: a
+        text: "Nightly backups of the repository"
+      - key: b
+        text: "Protected release branch requiring an approving review from another developer before merge"
+      - key: c
+        text: "Code obfuscation during the build"
+      - key: d
+        text: "A shared service account for automated commits by the whole team"
+      - key: e
+        text: "Signed commits tied to individual, MFA-protected developer accounts"
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are correct: branch protection with mandatory review enforces separation of
+      duties, and signed commits from individual authenticated accounts make each change
+      attributable. **a** is wrong: backups support recovery, not review or attribution. **c** is
+      wrong: obfuscation protects compiled code from reverse engineering, not the repository.
+      **d** is wrong: a shared account destroys individual accountability.
+    points: 1
+
+  - key: d8-memory-safe-language
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A device manufacturer's last three critical vulnerabilities were buffer overflows and
+      use-after-free bugs in its C firmware. It is starting a new firmware component. Which choice
+      would MOST reduce this class of defect?
+    choices:
+      - key: a
+        text: "Write the new component in a memory-safe language"
+      - key: b
+        text: "Compile the C code with optimisation enabled"
+      - key: c
+        text: "Obfuscate the firmware binary before shipping"
+      - key: d
+        text: "Increase the size of all fixed buffers"
+    answer: [a]
+    explanation_md: |
+      **a** is correct: memory-safe languages (Rust, for example) enforce bounds and lifetimes and
+      eliminate most memory-corruption defects by design, as CISA's Secure by Design guidance urges.
+      **b** is wrong: optimisation flags improve performance, not safety (hardening flags such as
+      stack protection help, but only partially). **c** is wrong: obfuscation slows analysis but
+      leaves the flaw. **d** is wrong: bigger buffers move the overflow threshold without removing
+      the missing bounds check.
+    points: 1
+
+  - key: d8-signed-artifact-meaning
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A pipeline signs each container image and records build provenance; the production cluster
+      admits only images whose signature and provenance verify. What does this control assure?
+    choices:
+      - key: a
+        text: "That the images contain no known vulnerabilities"
+      - key: b
+        text: "That the source code has passed peer review"
+      - key: c
+        text: "That a running image was built by the approved pipeline and has not been altered since"
+      - key: d
+        text: "That the developers who wrote the code are trustworthy"
+    answer: [c]
+    explanation_md: |
+      **c** is correct: signing and provenance assure **integrity and origin**: the artifact came
+      from the approved build and was not modified. **a** is wrong: a signed image can still contain
+      vulnerabilities; scanning addresses that. **b** is wrong: review is enforced by branch
+      protection; the signature does not itself prove review happened. **d** is wrong: no technical
+      control proves personal trustworthiness; that is a personnel-security matter.
+    points: 1
+
+  - key: d8-dependency-confusion
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      Attackers publish a package to a public registry with the same name as one of your internal
+      packages, but a higher version number. Your build servers install it automatically. Which
+      control BEST prevents this?
+    choices:
+      - key: a
+        text: "Run DAST against each build"
+      - key: b
+        text: "Ask developers to check package names before each build"
+      - key: c
+        text: "Scan the build server with antivirus software"
+      - key: d
+        text: "Resolve dependencies only through an internal repository proxy with internal namespaces reserved and versions pinned"
+    answer: [d]
+    explanation_md: |
+      **d** is correct: this is dependency confusion. Pulling only from a controlled proxy, reserving
+      internal names and pinning versions in lock files stops the build choosing the public
+      impostor. **a** is wrong: DAST tests the running app and would not stop malicious code running
+      during the build. **b** is wrong: manual checks are unreliable and builds are automated.
+      **c** is wrong: antivirus is unlikely to detect a purpose-built malicious package.
+    points: 1
+
+  - key: d8-rasp-role
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A legacy order system has a known injection weakness that cannot be fixed for three months
+      because the original developers have left. A vendor proposes a runtime application
+      self-protection (RASP) agent. How should the security manager view this proposal?
+    choices:
+      - key: a
+        text: "As the permanent fix, since RASP blocks the attack from inside the application"
+      - key: b
+        text: "As a compensating control that reduces risk until the code is fixed"
+      - key: c
+        text: "As unnecessary, since a SAST scan already found the weakness"
+      - key: d
+        text: "As a replacement for logging, since RASP blocks attacks before they happen"
+    answer: [b]
+    explanation_md: |
+      **b** is correct: RASP detects and blocks exploitation at runtime, which reduces risk, but the
+      weakness remains in the code and must still be fixed. **a** is wrong: a compensating control is
+      not a permanent fix; it can be bypassed or misconfigured. **c** is wrong: finding a weakness
+      does not reduce its risk; something must mitigate it in the meantime. **d** is wrong: logging
+      is still needed for detection and accountability.
+    points: 1
+
+  # ---------------- 8.3 Software security effectiveness ----------------
+  - key: d8-audit-trail-accountability
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      After a back door is found in production code, management wants to be able to prove which
+      developer introduced it and who approved the change. Which arrangement makes this possible?
+    choices:
+      - key: a
+        text: "Individual authenticated accounts for every developer, with repository, review and deployment logs sent to a store developers cannot modify"
+      - key: b
+        text: "A weekly team meeting where developers describe their changes"
+      - key: c
+        text: "Code comments containing each author's name"
+      - key: d
+        text: "A shared deployment account whose password is rotated monthly"
+    answer: [a]
+    explanation_md: |
+      **a** is correct: accountability needs individual identification plus a tamper-resistant
+      audit trail of commits, approvals and deployments. **b** is wrong: self-reporting is not
+      evidence. **c** is wrong: comments are editable by anyone with write access and prove nothing.
+      **d** is wrong: a shared account makes it impossible to attribute actions to an individual,
+      however often its password changes.
+    points: 1
+
+  - key: d8-root-cause-recurring-sqli
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      Over two quarters, testers have reported eleven separate SQL injection findings across four
+      applications built by the same teams. Each was patched individually. What is the BEST next
+      step?
+    choices:
+      - key: a
+        text: "Increase penetration testing frequency to monthly"
+      - key: b
+        text: "Deploy a WAF in front of all four applications"
+      - key: c
+        text: "Perform root-cause analysis and address it with a coding standard, a shared parameterised data-access layer and a SAST rule"
+      - key: d
+        text: "Discipline the developers responsible for the findings"
+    answer: [c]
+    explanation_md: |
+      **c** is correct: recurring findings of the same class signal a process failure. Fixing the
+      root cause (standard, safe library, automated detection, training) stops the class recurring,
+      as the SSDF's Respond to Vulnerabilities practices require. **a** is wrong: more testing finds
+      more instances but does not stop them being written. **b** is wrong: a WAF is a compensating
+      control and can be bypassed. **d** is wrong: blame does not fix a systemic gap in standards
+      and tooling.
+    points: 1
+
+  - key: d8-shift-left-metric
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A CISO wants one metric to show the board whether the investment in early security
+      activities (threat modelling, SAST in the IDE) is working. Which metric is MOST useful?
+    choices:
+      - key: a
+        text: "Total number of vulnerabilities found per year"
+      - key: b
+        text: "Proportion of vulnerabilities found before release versus in production"
+      - key: c
+        text: "Number of security tools licensed"
+      - key: d
+        text: "Number of developers who attended security training"
+    answer: [b]
+    explanation_md: |
+      **b** is correct: if early activities work, more defects are found before release and fewer
+      escape to production. **a** is wrong: a raw count rises or falls with testing effort and
+      code volume and does not show *where* defects are caught. **c** is wrong: tool count measures
+      spending, not effect. **d** is wrong: training attendance is an activity measure, not an
+      outcome.
+    points: 1
+
+  - key: d8-unfixable-before-launch
+    kind: multi
+    domain: d8-software-security
+    prompt_md: |
+      Two days before a regulatory deadline, testing finds a medium-severity vulnerability in a new
+      customer portal that cannot be fixed in time. Which TWO actions are appropriate? Choose two.
+    choices:
+      - key: a
+        text: "Launch and record the finding as a known issue in the team's backlog only"
+      - key: b
+        text: "Delay the deadline by not telling the regulator about the launch"
+      - key: c
+        text: "Apply a compensating control that reduces the likelihood of exploitation"
+      - key: d
+        text: "Have the business risk owner formally accept the residual risk with a remediation date"
+      - key: e
+        text: "Lower the finding's severity so it no longer blocks release"
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are correct: mitigate what you can now and have the accountable owner formally
+      accept what remains, with a deadline to fix. **a** is wrong: a backlog entry is not a risk
+      decision; the business owner must accept it. **b** is wrong: misleading a regulator breaches
+      due care and ethics. **e** is wrong: changing the rating to suit the schedule falsifies the
+      risk picture.
+    points: 1
+
+  - key: d8-asvs-level-3
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A medical-device company is defining verification requirements for software that controls
+      insulin dosing, where a security failure could harm patients. Using OWASP ASVS, which level
+      should it target?
+    choices:
+      - key: a
+        text: "Level 1, because it can be tested entirely with automated tools"
+      - key: b
+        text: "Level 2, because it is recommended for most applications"
+      - key: c
+        text: "No ASVS level, because ASVS applies only to e-commerce"
+      - key: d
+        text: "Level 3, the level for the most critical, high-assurance applications"
+    answer: [d]
+    explanation_md: |
+      **d** is correct: ASVS Level 3 is intended for applications where failure could cause serious
+      harm, such as safety-critical or high-value systems; people's safety comes first. **a** is
+      wrong: Level 1 is a baseline for low-assurance applications. **b** is wrong: Level 2 suits most
+      business applications but not life-safety systems. **c** is wrong: ASVS applies to web
+      applications and services generally, not just e-commerce.
+    points: 1
+
+  - key: d8-config-drift-unapproved
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A quarterly audit compares production with the approved configuration baseline and finds a
+      newer version of an authentication module that has no change record. What should the
+      security manager do FIRST?
+    choices:
+      - key: a
+        text: "Treat it as an unauthorised change and investigate who made it and why"
+      - key: b
+        text: "Update the baseline to match production, since the newer version is probably better"
+      - key: c
+        text: "Roll back the module immediately without investigation"
+      - key: d
+        text: "Wait for the next audit to see whether it changes again"
+    answer: [a]
+    explanation_md: |
+      **a** is correct: an unrecorded change to a security component is either a process failure or
+      a compromise, and the audit trail exists so you can find out. Investigation also tells you
+      whether rolling back is safe. **b** is wrong: legitimising an unknown change hides a possible
+      attack and undermines change control. **c** is wrong: rolling back blind may break service and
+      destroy evidence. **d** is wrong: waiting leaves a possible compromise in place.
+    points: 1
+
+  # ---------------- 8.4 Acquired software ----------------
+  - key: d8-sbom-minimum-element
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A procurement team is writing SBOM requirements into a contract and wants to include the NTIA
+      minimum data fields. Which of the following is one of those fields?
+    choices:
+      - key: a
+        text: "The number of developers who wrote each component"
+      - key: b
+        text: "The CVSS score of each component"
+      - key: c
+        text: "The dependency relationship between components"
+      - key: d
+        text: "The source code of each component"
+    answer: [c]
+    explanation_md: |
+      **c** is correct: the NTIA minimum elements are supplier name, component name, version, other
+      unique identifiers, **dependency relationship**, author of SBOM data and timestamp. **a** is
+      wrong: developer headcount is not an SBOM field. **b** is wrong: vulnerability scores change
+      over time and come from vulnerability data, not the SBOM itself. **d** is wrong: an SBOM is an
+      inventory; it does not include source code.
+    points: 1
+
+  - key: d8-vex-purpose
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A vendor's SBOM shows its product includes a library with a newly announced critical CVE. The
+      vendor also publishes a document stating the product is "not affected" because the vulnerable
+      function is never called. What is that document?
+    choices:
+      - key: a
+        text: "A software identification (SWID) tag"
+      - key: b
+        text: "A Vulnerability Exploitability eXchange (VEX) statement"
+      - key: c
+        text: "A SOC 2 Type II report"
+      - key: d
+        text: "A source code escrow agreement"
+    answer: [b]
+    explanation_md: |
+      **b** is correct: VEX states whether a known vulnerability in a listed component actually
+      affects the product. **a** is wrong: SWID tags identify installed software; they do not assess
+      exploitability. **c** is wrong: a SOC 2 report attests to a service organisation's controls
+      over a period, not to a single CVE. **d** is wrong: escrow protects access to source code if
+      the vendor fails.
+    points: 1
+
+  - key: d8-source-code-escrow
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A manufacturer depends on a small vendor's COTS scheduling software that runs its production
+      line. The vendor may be acquired or go out of business. Which contractual control BEST
+      protects the manufacturer's ability to keep maintaining the software?
+    choices:
+      - key: a
+        text: "A service level agreement with financial penalties"
+      - key: b
+        text: "A right-to-audit clause"
+      - key: c
+        text: "Cyber insurance covering vendor failure"
+      - key: d
+        text: "Source code escrow with release triggers such as insolvency or end of support"
+    answer: [d]
+    explanation_md: |
+      **d** is correct: escrow places the source with a trusted third party, released to the
+      customer on agreed triggers, so the software can still be maintained. **a** is wrong:
+      penalties are worthless against an insolvent vendor and do not provide the code. **b** is
+      wrong: audit rights assess the vendor's controls but do not secure the software's future.
+      **c** is wrong: insurance may compensate losses but does not keep the production line's
+      software maintainable.
+    points: 1
+
+  - key: d8-saas-customer-responsibility
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      Attackers took over a company's SaaS CRM tenant by password-spraying an administrator
+      account that had no multi-factor authentication. Under the shared-responsibility model, who
+      was responsible for the control that failed?
+    choices:
+      - key: a
+        text: "The customer, which is responsible for identity and access configuration in its tenant"
+      - key: b
+        text: "The SaaS provider, which is responsible for the whole application stack"
+      - key: c
+        text: "The cloud infrastructure provider hosting the SaaS application"
+      - key: d
+        text: "Responsibility is split equally, so neither party can be held responsible"
+    answer: [a]
+    explanation_md: |
+      **a** is correct: in every service model, including SaaS, the customer keeps responsibility
+      for its data, its users' identities and access, and its tenant configuration such as
+      enforcing MFA. **b** is wrong: the provider secures the application platform, not the
+      customer's account settings. **c** is wrong: the underlying infrastructure provider has no
+      part in tenant user configuration. **d** is wrong: shared responsibility assigns specific
+      controls to specific parties; it does not dilute accountability.
+    points: 1
+
+  - key: d8-saas-due-diligence
+    kind: multi
+    domain: d8-software-security
+    prompt_md: |
+      A business unit wants to adopt a SaaS expense-management service that will process
+      employees' bank details. The provider will not allow customer penetration testing. Which TWO
+      steps should security take before contracting? Choose two.
+    choices:
+      - key: a
+        text: "Review the provider's independent SOC 2 Type II report or ISO/IEC 27001 certification"
+      - key: b
+        text: "Run SAST against the provider's application"
+      - key: c
+        text: "Rely on the provider's marketing statement that it is 'bank-grade secure'"
+      - key: d
+        text: "Perform an unannounced penetration test anyway, since the data is sensitive"
+      - key: e
+        text: "Negotiate contract terms for breach notification, data handling and audit rights"
+    answer: [a, e]
+    explanation_md: |
+      **a** and **e** are correct: independent assurance reports substitute for direct testing, and
+      contract terms create enforceable obligations for data protection and notification. **b** is
+      wrong: you have no access to the provider's code. **c** is wrong: marketing claims are not
+      evidence. **d** is wrong: testing without permission is unauthorised and potentially illegal,
+      and breaches ethics.
+    points: 1
+
+  - key: d8-abandoned-open-source
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      SCA shows that a core open-source parsing library used by your flagship product has had no
+      release or maintainer response in three years, and two moderate CVEs remain unpatched. What
+      is the BEST course of action?
+    choices:
+      - key: a
+        text: "Continue using it, since open-source code can be inspected by anyone"
+      - key: b
+        text: "Remove it from the SBOM so customers are not concerned"
+      - key: c
+        text: "Assess the risk and plan to migrate to a maintained alternative or take ownership of patching it"
+      - key: d
+        text: "Ask the original maintainer to sign a support contract"
+    answer: [c]
+    explanation_md: |
+      **c** is correct: an abandoned component is an ongoing risk; the organisation must decide,
+      based on risk, whether to replace it or maintain (fork and patch) it itself. **a** is wrong:
+      "anyone can inspect it" does not mean anyone is fixing it. **b** is wrong: hiding a component
+      from the SBOM is deceptive and removes the inventory you need. **d** is wrong: an unresponsive
+      maintainer is unlikely to agree, and waiting leaves the CVEs open.
+    points: 1
+
+  - key: d8-build-compromise-lesson
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      In a well-known supply-chain attack, adversaries compromised a software vendor's build
+      environment and inserted malicious code into updates that were then signed with the vendor's
+      legitimate certificate. What is the MOST important lesson for an organisation acquiring
+      software?
+    choices:
+      - key: a
+        text: "Code-signing certificates should be renewed more frequently"
+      - key: b
+        text: "A valid vendor signature proves origin, not safety, so supplier assessment must include how the vendor secures its build process"
+      - key: c
+        text: "Only open-source software should be used, since its builds are public"
+      - key: d
+        text: "Automatic updates should be disabled permanently"
+    answer: [b]
+    explanation_md: |
+      **b** is correct: signing proves the update came from the vendor's pipeline and was not
+      altered afterwards; it cannot detect code inserted before signing. Acquirers should assess
+      vendors' secure development and build integrity (for example SSDF attestations and provenance)
+      and monitor behaviour after deployment. **a** is wrong: the certificate was not the weakness.
+      **c** is wrong: open source has its own supply-chain risks (e.g. malicious maintainers).
+      **d** is wrong: permanently disabling updates leaves known vulnerabilities unpatched.
+    points: 1
+
+  # ---------------- 8.5 Secure coding ----------------
+  - key: d8-sqli-best-fix
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      Code review finds a login function that builds its SQL statement by concatenating the
+      username and password typed by the user. What is the BEST fix in the code?
+    choices:
+      - key: a
+        text: "Strip single quotes and SQL keywords from the input"
+      - key: b
+        text: "Put a web application firewall in front of the login page"
+      - key: c
+        text: "Validate the input in client-side JavaScript"
+      - key: d
+        text: "Use a prepared statement with bound parameters"
+    answer: [d]
+    explanation_md: |
+      **d** is correct: parameterised queries keep the SQL structure fixed and pass input only as
+      data, which removes injection at its root (OWASP's primary defence). **a** is wrong: deny-list
+      filtering is easily bypassed with encodings and alternative syntax. **b** is wrong: a WAF is a
+      compensating control outside the code and can be evaded. **c** is wrong: client-side checks
+      are bypassed by sending requests directly to the server.
+    points: 1
+
+  - key: d8-xss-output-encoding
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A forum lets users post comments. An attacker posts a comment containing a script that runs
+      in the browser of anyone who views the thread and sends their session cookie to the attacker.
+      Which control MOST directly prevents this?
+    choices:
+      - key: a
+        text: "Context-aware output encoding when rendering user content"
+      - key: b
+        text: "Parameterised database queries when saving comments"
+      - key: c
+        text: "Encrypting comments at rest in the database"
+      - key: d
+        text: "Anti-CSRF tokens on the comment form"
+    answer: [a]
+    explanation_md: |
+      **a** is correct: this is stored cross-site scripting; encoding output for the HTML context
+      makes the browser display the script as text instead of executing it. **b** is wrong:
+      parameterisation prevents SQL injection, not script execution in the browser. **c** is wrong:
+      encryption at rest protects stored data from theft but the comment is decrypted before
+      display. **d** is wrong: CSRF tokens stop forged requests, not malicious content in pages.
+    points: 1
+
+  - key: d8-toctou-race
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A program checks that a user has permission to write to a file, then a few milliseconds
+      later opens the file by name and writes to it. An attacker swaps the file for a link to a
+      system file between the two steps. What is this weakness?
+    choices:
+      - key: a
+        text: "Buffer overflow"
+      - key: b
+        text: "Integer overflow"
+      - key: c
+        text: "Time-of-check to time-of-use race condition"
+      - key: d
+        text: "Covert timing channel"
+    answer: [c]
+    explanation_md: |
+      **c** is correct: the state changed between the **check** and the **use** (TOCTOU); the fix is
+      to make the check and use atomic, e.g. open the file once and check the handle. **a** is wrong:
+      no memory is written past a buffer. **b** is wrong: no arithmetic wraps. **d** is wrong: a
+      covert timing channel leaks information by modulating timing; it is not about exploiting the
+      gap between a check and a use.
+    points: 1
+
+  - key: d8-api-bola
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      A logged-in customer of an insurance app changes `GET /api/policies/50211` to
+      `GET /api/policies/50212` and receives another customer's policy. Authentication is working
+      correctly. Which OWASP API Security risk is this, and what is the fix?
+    choices:
+      - key: a
+        text: "Unrestricted resource consumption; add rate limiting"
+      - key: b
+        text: "Broken object level authorisation; check on every request that the caller may access that specific policy"
+      - key: c
+        text: "Broken authentication; require MFA at login"
+      - key: d
+        text: "Security misconfiguration; disable verbose error messages"
+    answer: [b]
+    explanation_md: |
+      **b** is correct: the user is authenticated but the API does not check ownership of the
+      requested object (BOLA, API1:2023). Object-level authorisation must be enforced in the
+      service. **a** is wrong: rate limiting slows enumeration but the user can still read the
+      records they reach. **c** is wrong: authentication is not the failure; MFA would not stop a
+      legitimate user requesting another ID. **d** is wrong: error messages are not involved.
+    points: 1
+
+  - key: d8-api-resource-consumption
+    kind: multi
+    domain: d8-software-security
+    prompt_md: |
+      A public search API is being abused: clients request 100,000 results per page and send
+      thousands of requests per minute, degrading service for everyone. Which TWO controls address
+      this risk most directly? Choose two.
+    choices:
+      - key: a
+        text: "Encrypt all API responses with TLS 1.3"
+      - key: b
+        text: "Rate limits and quotas per client or API key"
+      - key: c
+        text: "Maximum page size and payload limits enforced by the server"
+      - key: d
+        text: "Return detailed error messages so clients can fix their requests"
+      - key: e
+        text: "Move the API to a new version number"
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** are correct: this is Unrestricted Resource Consumption (API4:2023), mitigated
+      by limiting how often clients can call and how much each call can consume. **a** is wrong: TLS
+      protects confidentiality in transit, not availability. **d** is wrong: verbose errors leak
+      information and do nothing to limit abuse. **e** is wrong: versioning changes the endpoint, not
+      the lack of limits, and old versions may remain exposed.
+    points: 1
+
+  - key: d8-fail-secure-errors
+    kind: single
+    domain: d8-software-security
+    prompt_md: |
+      When the authorisation service times out, a web application's error handler currently
+      returns a full stack trace to the user and then allows the request to proceed. What should
+      the secure behaviour be?
+    choices:
+      - key: a
+        text: "Show the stack trace only to users on the internal network and allow the request"
+      - key: b
+        text: "Retry the authorisation call indefinitely until it succeeds"
+      - key: c
+        text: "Allow the request but log the error for later review"
+      - key: d
+        text: "Deny the request, show a generic error message, and log the details internally"
+    answer: [d]
+    explanation_md: |
+      **d** is correct: secure error handling **fails secure** (denies access when the decision
+      cannot be made), reveals nothing useful to the user, and records details for operators. **a**
+      is wrong: it still fails open and leaks internals to insiders. **b** is wrong: indefinite
+      retries tie up resources and can create a denial of service. **c** is wrong: logging does not
+      undo granting access that should have been checked; it still fails open.
+    points: 1
+
+  - key: d8-software-defined-security
+    kind: multi
+    domain: d8-software-security
+    prompt_md: |
+      A cloud team wants to adopt software-defined security so that network and access controls
+      are consistent, reviewed and auditable across hundreds of workloads. Which TWO practices fit
+      this goal? Choose two.
+    choices:
+      - key: a
+        text: "Administrators log in to each firewall's console to apply rule changes by hand"
+      - key: b
+        text: "Security rules are documented in a spreadsheet updated monthly"
+      - key: c
+        text: "Each workload team chooses its own security settings without central policy"
+      - key: d
+        text: "Security policies are written as code, version-controlled and reviewed before an automated pipeline applies them"
+      - key: e
+        text: "Infrastructure-as-code templates are scanned for insecure settings before deployment"
+    answer: [d, e]
+    explanation_md: |
+      **d** and **e** are correct: policy as code and IaC scanning are core software-defined security
+      practices; they make controls consistent, reviewable and auditable, and catch errors before
+      deployment. **a** is wrong: manual per-device changes are slow, inconsistent and hard to audit.
+      **b** is wrong: a spreadsheet documents rules but does not enforce them. **c** is wrong:
+      uncoordinated settings are the opposite of consistent, centrally defined policy.
+    points: 1
+
+  - key: d8-input-validation-practice
+    kind: multi
+    domain: d8-software-security
+    prompt_md: |
+      A development team is writing its input-handling standard for a web application. Which TWO
+      statements should it include? Choose two.
+    choices:
+      - key: a
+        text: "All input is validated on the server, whatever validation the client also performs"
+      - key: b
+        text: "Input validation replaces the need for parameterised queries"
+      - key: c
+        text: "Validation uses allow-lists that define the expected type, length, format and range"
+      - key: d
+        text: "Input from internal systems and partner APIs can be trusted without validation"
+      - key: e
+        text: "Validation relies on a deny-list of known attack strings"
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are correct: server-side validation cannot be bypassed by the client, and
+      allow-list (positive) validation accepts only what is known to be good. **b** is wrong:
+      validation is defence in depth; injection still needs parameterisation and output encoding.
+      **d** is wrong: upstream systems can be compromised (OWASP API10, Unsafe Consumption of APIs).
+      **e** is wrong: deny-lists are always incomplete and easily evaded with encoding tricks.
+    points: 1
+
+  - key: d8-session-management-practices
+    kind: multi
+    domain: d8-software-security
+    prompt_md: |
+      A penetration test found that the application keeps the same session ID before and after
+      login, and that session cookies can be read by JavaScript. Which TWO changes fix these
+      findings? Choose two.
+    choices:
+      - key: a
+        text: "Lengthen the session timeout so users log in less often"
+      - key: b
+        text: "Issue a new, random session ID when the user authenticates"
+      - key: c
+        text: "Put the session ID in the URL so it is visible for troubleshooting"
+      - key: d
+        text: "Set the HttpOnly and Secure flags on the session cookie"
+      - key: e
+        text: "Base the session ID on the user's account number for easy lookup"
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are correct: regenerating the session ID at login prevents session fixation,
+      and HttpOnly stops scripts reading the cookie (Secure keeps it on HTTPS only). **a** is wrong:
+      longer timeouts widen the window for hijacking. **c** is wrong: IDs in URLs leak through logs,
+      history and referrer headers. **e** is wrong: predictable session IDs can be guessed.
+    points: 1

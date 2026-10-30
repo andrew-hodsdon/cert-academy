@@ -1,0 +1,337 @@
+sources:
+  - slug: d6-isc2-cissp-outline
+    kind: standard
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline (effective 15 April 2024)"
+    authors: [ISC2]
+    site: ISC2
+    tags: [cissp, outline, domain-6]
+    summary_md: |
+      The official outline. Domain 6 is 12% and lists objectives 6.1–6.5 with their examples:
+      internal/external/third-party and location for strategies and audits; vulnerability
+      assessment, penetration testing (red/blue/purple), log reviews, synthetic transactions,
+      code review, misuse cases, coverage analysis, interface testing, breach attack simulation
+      and compliance checks; account management, management review, KPIs/KRIs, backup
+      verification, training and DR/BC data; remediation, exception handling, ethical disclosure.
+
+  - slug: d6-nist-sp-800-115
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/115/final
+    title: "NIST SP 800-115: Technical Guide to Information Security Testing and Assessment"
+    authors: [Karen Scarfone, Murugiah Souppaya, Amanda Cody, Angela Orebaugh]
+    site: NIST CSRC
+    published: 2008-09-30
+    tags: [penetration-testing, vulnerability-scanning, review-techniques, rules-of-engagement]
+    summary_md: |
+      The core reference for lessons 1, 2 and 4. Groups techniques into review (documentation,
+      log, ruleset, configuration review, network sniffing, file integrity checking), target
+      identification and analysis (discovery, port and service identification, vulnerability
+      scanning, wireless scanning) and target vulnerability validation (password cracking,
+      penetration testing, social engineering). Defines the four-phase penetration test
+      (planning, discovery, attack, reporting), internal vs external and overt vs covert testing,
+      rules of engagement, and post-test mitigation and reporting.
+
+  - slug: d6-nist-sp-800-53a
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/a/r5/final
+    title: "NIST SP 800-53A Rev. 5: Assessing Security and Privacy Controls in Information Systems and Organizations"
+    authors: [NIST Joint Task Force]
+    site: NIST CSRC
+    published: 2022-01-25
+    tags: [control-assessment, examine-interview-test, assessment-plan]
+    summary_md: |
+      Defines the three assessment methods (examine, interview, test), depth and coverage
+      attributes, assessor independence, and the assessment plan → assessment → report →
+      plan of action and milestones (POA&M) flow. Used in lessons 1 and 4.
+
+  - slug: d6-nist-sp-800-137
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/137/final
+    title: "NIST SP 800-137: Information Security Continuous Monitoring (ISCM) for Federal Information Systems and Organizations"
+    authors: [Kelley Dempsey, Nirali Chawla, Arnold Johnson, Ronald Johnston, Alicia Jones, Angela Orebaugh, Matthew Scholl, Kevin Stine]
+    site: NIST CSRC
+    published: 2011-09-30
+    tags: [continuous-monitoring, metrics, frequency]
+    summary_md: |
+      Continuous monitoring as an ongoing programme: define strategy, establish metrics and
+      monitoring frequencies, implement, analyse and report, respond, review and update. Basis for
+      lesson 1's "assessment frequency follows risk" and lesson 3's process-data collection.
+
+  - slug: d6-nist-sp-800-55v1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/55/v1/final
+    title: "NIST SP 800-55 Vol. 1: Measurement Guide for Information Security — Identifying and Selecting Measures"
+    authors: [Katherine Schroeder, Hung Trinh, Victoria Yan Pillitteri]
+    site: NIST CSRC
+    published: 2024-12-17
+    tags: [metrics, kpi, measures]
+    summary_md: |
+      NIST's measurement guide: implementation, effectiveness/efficiency and impact measures,
+      quantitative vs qualitative measures, and choosing measures that are tied to goals and
+      collectable. Underpins lesson 3's guidance on good KPIs and KRIs.
+
+  - slug: d6-nist-csf-2
+    kind: standard
+    url: https://www.nist.gov/cyberframework
+    title: "NIST Cybersecurity Framework (CSF) 2.0"
+    authors: [NIST]
+    site: NIST
+    published: 2024-02-26
+    tags: [governance, metrics, improvement]
+    summary_md: |
+      CSF 2.0 adds the Govern function and frames oversight, measurement and continuous
+      improvement (ID.IM) as governance activities. Supports lesson 3's point that metrics exist
+      to inform risk decisions by leadership.
+
+  - slug: d6-aicpa-soc-suite
+    kind: standard
+    url: https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services
+    title: "System and Organization Controls: SOC Suite of Services"
+    authors: [AICPA & CIMA]
+    site: AICPA & CIMA
+    tags: [soc1, soc2, soc3, attestation]
+    summary_md: |
+      The AICPA's description of SOC 1 (controls relevant to user entities' internal control over
+      financial reporting), SOC 2 (Trust Services Criteria: security, availability, processing
+      integrity, confidentiality, privacy; restricted use) and SOC 3 (general-use summary of a
+      SOC 2 engagement). Type 1 reports on design as of a date; Type 2 adds operating
+      effectiveness over a period. Used in lesson 1.
+
+  - slug: d6-iaasb-isae-3402
+    kind: standard
+    url: https://www.iaasb.org/publications/international-standard-assurance-engagements-isae-3402-assurance-reports-controls-service-organization
+    title: "ISAE 3402: Assurance Reports on Controls at a Service Organization"
+    authors: [IAASB]
+    site: IAASB
+    tags: [isae-3402, service-organization, assurance]
+    summary_md: |
+      The international assurance standard for reports on a service organisation's controls
+      relevant to user entities' financial reporting — the international counterpart of SOC 1,
+      with the same Type 1 / Type 2 split. Used in lesson 1.
+
+  - slug: d6-iso-27001
+    kind: standard
+    url: https://www.iso.org/standard/27001
+    title: "ISO/IEC 27001:2022 Information security, cybersecurity and privacy protection — ISMS requirements"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: ISO
+    published: 2022-10-25
+    tags: [iso-27001, isms, certification, internal-audit, management-review]
+    summary_md: |
+      The certifiable ISMS standard. Clause 9.1 (monitoring, measurement, analysis and
+      evaluation), 9.2 (internal audit) and 9.3 (management review) are the Domain 6 hooks;
+      certification is granted by an accredited certification body after a staged audit and kept
+      through surveillance audits. Used in lessons 1 and 3.
+
+  - slug: d6-iso-19011
+    kind: standard
+    url: https://www.iso.org/standard/70017.html
+    title: "ISO 19011:2018 Guidelines for auditing management systems"
+    authors: [ISO/TC 176]
+    site: ISO
+    published: 2018-07-01
+    tags: [audit, first-party, second-party, third-party, audit-programme]
+    summary_md: |
+      Guidance on audit principles (integrity, fair presentation, due professional care,
+      confidentiality, independence, evidence-based approach, risk-based approach), managing an
+      audit programme and conducting audits, including first-, second- and third-party audits and
+      remote audits. Used in lesson 1.
+
+  - slug: d6-owasp-wstg
+    kind: web
+    url: https://owasp.org/www-project-web-security-testing-guide/
+    title: "OWASP Web Security Testing Guide (WSTG)"
+    authors: [OWASP Foundation]
+    site: OWASP
+    tags: [web-testing, api-testing, penetration-testing, fuzzing]
+    summary_md: |
+      Community testing framework for web applications and APIs: information gathering,
+      configuration, identity, authentication, authorisation, session, input validation, error
+      handling, cryptography, business logic, client-side and API tests. Supports lesson 2's
+      interface testing, misuse cases and black/grey/white-box approaches.
+
+  - slug: d6-owasp-code-review
+    kind: web
+    url: https://owasp.org/www-project-code-review-guide/
+    title: "OWASP Code Review Guide"
+    authors: [OWASP Foundation]
+    site: OWASP
+    tags: [code-review, sast, secure-code]
+    summary_md: |
+      How to run secure code review: manual review combined with automated scanning, risk-based
+      focus on the riskiest code paths, and review as a step in the SDLC. Supports lesson 2's
+      code review and static vs dynamic testing.
+
+  - slug: d6-nist-sp-800-218
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/218/final
+    title: "NIST SP 800-218: Secure Software Development Framework (SSDF) v1.1"
+    authors: [Murugiah Souppaya, Karen Scarfone, Donna Dodson]
+    site: NIST CSRC
+    published: 2022-02-03
+    tags: [ssdf, code-review, testing, vulnerability-response]
+    summary_md: |
+      PW.7 (review and/or analyse human-readable code) and PW.8 (test executable code) back
+      lesson 2's code review and dynamic testing, including fuzzing; RV.1–RV.3 (identify,
+      assess, remediate vulnerabilities and find root causes) back lesson 4.
+
+  - slug: d6-nist-sp-800-92
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/92/final
+    title: "NIST SP 800-92: Guide to Computer Security Log Management"
+    authors: [Karen Kent, Murugiah Souppaya]
+    site: NIST CSRC
+    published: 2006-09-13
+    tags: [logging, log-review, time-synchronisation]
+    summary_md: |
+      Log management infrastructure, log protection and integrity, clock synchronisation and
+      routine log analysis. Supports lesson 2's log review (and is the classic reference, now
+      being revised).
+
+  - slug: d6-nist-scap
+    kind: standard
+    url: https://csrc.nist.gov/projects/security-content-automation-protocol
+    title: "Security Content Automation Protocol (SCAP)"
+    authors: [NIST]
+    site: NIST CSRC
+    tags: [scap, cve, cvss, cpe, cce, xccdf, oval, compliance-checks]
+    summary_md: |
+      SCAP is a suite of specifications for expressing and measuring security information in
+      standard form: enumerations (CVE, CPE, CCE), scoring (CVSS), checklist and check languages
+      (XCCDF, OVAL). Supports lesson 2's vulnerability assessment and automated compliance checks.
+
+  - slug: d6-cis-benchmarks
+    kind: web
+    url: https://www.cisecurity.org/cis-benchmarks
+    title: "CIS Benchmarks"
+    authors: [Center for Internet Security]
+    site: CIS
+    tags: [hardening, configuration-baselines, compliance-checks]
+    summary_md: |
+      Consensus secure-configuration baselines for operating systems, cloud platforms, databases
+      and devices, consumable by automated assessment tools. Lesson 2's example baseline for
+      compliance checks.
+
+  - slug: d6-first-cvss
+    kind: standard
+    url: https://www.first.org/cvss/
+    title: "Common Vulnerability Scoring System (CVSS)"
+    authors: [FIRST]
+    site: FIRST
+    tags: [cvss, severity, prioritisation]
+    summary_md: |
+      CVSS v4.0 (2023) scores vulnerability severity from Base, Threat, Environmental and
+      Supplemental metric groups. FIRST stresses that a base score measures severity, not risk;
+      organisations add threat and environmental context. Supports lessons 2 and 4.
+
+  - slug: d6-mitre-attack
+    kind: web
+    url: https://attack.mitre.org/
+    title: "MITRE ATT&CK"
+    authors: [MITRE]
+    site: MITRE
+    tags: [adversary-emulation, bas, purple-team, ttp]
+    summary_md: |
+      A knowledge base of adversary tactics and techniques from real-world observation. Breach and
+      attack simulation tools and purple-team exercises map their test cases to ATT&CK techniques
+      to measure detection and prevention coverage. Supports lesson 2.
+
+  - slug: d6-pci-dss
+    kind: standard
+    url: https://www.pcisecuritystandards.org/document_library/
+    title: "PCI DSS v4.0.1 (document library)"
+    authors: [PCI Security Standards Council]
+    site: PCI SSC
+    published: 2024-06-11
+    tags: [vulnerability-scanning, penetration-testing, compliance, frequency]
+    summary_md: |
+      Requirement 11 sets concrete testing frequencies: internal and external vulnerability scans
+      at least once every three months and after significant change (external scans by an
+      Approved Scanning Vendor), and penetration testing at least annually and after significant
+      change. Used as a worked example of compliance-driven test frequency in lessons 1 and 2.
+
+  - slug: d6-nist-sp-800-84
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/84/final
+    title: "NIST SP 800-84: Guide to Test, Training, and Exercise Programs for IT Plans and Capabilities"
+    authors: [Tim Grance, Tamara Nolan, Kristin Burke, Rich Dudley, Gregory White, Travis Good]
+    site: NIST CSRC
+    published: 2006-09-21
+    tags: [dr, bc, exercises, tabletop, functional-exercise]
+    summary_md: |
+      Tabletop and functional exercises, tests and training for contingency and incident plans,
+      and the after-action reporting that feeds improvement. Supports lesson 3's DR/BC data.
+
+  - slug: d6-nist-sp-800-34
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final
+    title: "NIST SP 800-34 Rev. 1: Contingency Planning Guide for Federal Information Systems"
+    authors: [Marianne Swanson, Pauline Bowen, Amy Wohl Phillips, Dean Gallup, David Lynes]
+    site: NIST CSRC
+    published: 2010-05-01
+    tags: [contingency-planning, backup, rto, rpo, testing]
+    summary_md: |
+      Contingency planning, BIA, RTO/RPO/MTD, backup and recovery, and plan testing and
+      maintenance. Supports lesson 3's backup verification and DR/BC data.
+
+  - slug: d6-nist-sp-800-50
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/50/r1/final
+    title: "NIST SP 800-50 Rev. 1: Building a Cybersecurity and Privacy Learning Program"
+    authors: [Marian Merritt, Julie Haney, Susanne Furman, Celia Paulsen]
+    site: NIST CSRC
+    published: 2024-09-26
+    tags: [training, awareness, measurement]
+    summary_md: |
+      Lifecycle for a cybersecurity and privacy learning programme, including evaluating its
+      effectiveness with measures beyond completion rates. Supports lesson 3's training data.
+
+  - slug: d6-nist-sp-800-40
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/40/r4/final
+    title: "NIST SP 800-40 Rev. 4: Guide to Enterprise Patch Management Planning"
+    authors: [Murugiah Souppaya, Karen Scarfone]
+    site: NIST CSRC
+    published: 2022-04-06
+    tags: [remediation, patching, risk-response, maintenance-plans]
+    summary_md: |
+      Frames patching as preventive maintenance and lists risk responses to vulnerabilities:
+      accept, mitigate (patch or other controls), transfer, avoid. Supports lesson 4's remediation
+      and exception handling.
+
+  - slug: d6-cisa-cvd
+    kind: web
+    url: https://www.cisa.gov/coordinated-vulnerability-disclosure-process
+    title: "CISA Coordinated Vulnerability Disclosure Process"
+    authors: [CISA]
+    site: CISA
+    tags: [disclosure, cvd, ethics]
+    summary_md: |
+      CISA's process for coordinating disclosure between researchers and vendors: report, vendor
+      verification and remediation, and coordinated public disclosure, with a default 45-day
+      window that can be adjusted. Supports lesson 4's ethical disclosure.
+
+  - slug: d6-iso-29147
+    kind: standard
+    url: https://www.iso.org/standard/72311.html
+    title: "ISO/IEC 29147:2018 Vulnerability disclosure"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: ISO
+    published: 2018-10-01
+    tags: [disclosure, vendor-process]
+    summary_md: |
+      Requirements and recommendations for vendors receiving vulnerability reports and publishing
+      remediation information. Companion ISO/IEC 30111 covers internal handling. Supports lesson 4.
+
+  - slug: d6-isc2-ethics
+    kind: standard
+    url: https://www.isc2.org/ethics
+    title: "ISC2 Code of Ethics"
+    authors: [ISC2]
+    site: ISC2
+    tags: [ethics, canons]
+    summary_md: |
+      The four canons in priority order: protect society, the common good, necessary public trust
+      and confidence, and the infrastructure; act honourably, honestly, justly, responsibly and
+      legally; provide diligent and competent service to principals; advance and protect the
+      profession. Used in lesson 4 to reason about disclosure.

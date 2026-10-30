@@ -1,0 +1,902 @@
+slug: s3-quiz
+ordinal: 13
+title: "Section 3 quiz: Security and compliance"
+kind: quiz
+draw: 20
+time_limit_min: 45
+pass_pct: 80
+instructions_md: |
+  20 questions drawn at random from a bank of 36, covering objectives 3.1 (designing for security)
+  and 3.2 (designing for compliance). 45 minutes. Multiple-select questions say how many to choose
+  and score only when every choice is right.
+
+  Answer as the exam does: the right option meets **every** stated requirement with the least
+  operational burden, using managed services, least privilege and the documented Google pattern.
+  Retake until you hold 80% or more.
+questions:
+  # ---------- 3.1 IAM and resource hierarchy ----------
+  - key: s3-folder-group-binding
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      The analytics department has 14 Google Cloud projects under a folder named `analytics`, and
+      creates new projects every quarter. Its platform team must be able to manage Compute Engine
+      instances in all of these projects, now and in the future, and nothing else. Team membership
+      changes often. What should you do?
+    choices:
+      - { key: a, text: "Grant the Compute Instance Admin (v1) role to the platform team's Google group on the analytics folder." }
+      - { key: b, text: "Grant the Compute Instance Admin (v1) role to each team member on each project, and add a step to the project creation checklist." }
+      - { key: c, text: "Grant the Editor role to the platform team's Google group on the analytics folder." }
+      - { key: d, text: "Create a custom role with Compute Engine permissions at the folder level and grant it to the group on the organisation." }
+    answer: [a]
+    explanation_md: |
+      **a** is right: a binding on the folder is inherited by every current and future project
+      under it, the group absorbs membership changes in the identity system, and the predefined role
+      limits access to Compute Engine instances.
+
+      - **b** works today but needs a manual step for every new project and every joiner or leaver,
+        which is error-prone and high-burden.
+      - **c** Editor is a basic role that grants write access to almost every service, breaking the
+        "nothing else" requirement.
+      - **d** custom roles cannot be created at folder level (only organisation or project), and
+        granting on the organisation would reach every department, not just analytics.
+    points: 1
+
+  - key: s3-replace-editor-role
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      Developers on a team hold the Editor role on their development project so that they can deploy
+      Cloud Run services and read logs. A security review flags the grant as excessive. You want to
+      keep the developers productive while applying least privilege with minimal ongoing maintenance.
+      What should you do?
+    choices:
+      - { key: a, text: "Keep Editor but add an IAM Condition that limits it to working hours." }
+      - { key: b, text: "Create a custom role containing every permission the developers used last month and grant it to each developer." }
+      - { key: c, text: "Replace Editor with the Cloud Run Developer and Logs Viewer predefined roles, granted to the developers' group." }
+      - { key: d, text: "Replace Editor with Viewer and have developers open a ticket with the platform team for each deployment." }
+    answer: [c]
+    explanation_md: |
+      **c** is right: predefined roles scoped to the job (deploy Cloud Run, read logs) give least
+      privilege, Google maintains them as services change, and granting to a group keeps
+      administration simple.
+
+      - **a** a time condition does nothing to reduce what Editor can do during those hours.
+      - **b** a custom role can be narrow, but it must be maintained by you as permissions change, and
+        granting to individuals instead of a group adds burden. Use custom roles only when no
+        predefined role fits.
+      - **d** Viewer cannot deploy, so productivity collapses and the platform team takes on manual work.
+    points: 1
+
+  - key: s3-least-privilege-cleanup
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      A company has run on Google Cloud for four years. An audit finds hundreds of IAM bindings that
+      grant broad roles directly to individual users across 200 projects. The security team wants to
+      reduce excess permissions safely and make future access easier to govern. Which two actions
+      should it take? **Choose two.**
+    choices:
+      - { key: a, text: "Revoke every binding on the organisation and let teams request access again from scratch." }
+      - { key: b, text: "Grant every user the Viewer role at the organisation so that nobody loses read access during the clean-up." }
+      - { key: c, text: "Use the IAM role recommender to identify and remove or narrow permissions that have not been used." }
+      - { key: d, text: "Replace individual user bindings with bindings to Google groups that represent job functions." }
+      - { key: e, text: "Move all projects into a single folder so that only one IAM policy needs to be reviewed." }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** are right. The role recommender uses observed permission usage to suggest safe
+      reductions, and group-based bindings make joiners, movers and leavers an identity-system task
+      instead of an IAM edit in 200 projects.
+
+      - **a** revoking everything would cause outages across production; it is not a safe clean-up.
+      - **b** adds a broad new grant, the opposite of least privilege.
+      - **e** project-level bindings still exist after moving folders; one folder does not remove them
+        and it destroys the environment separation folders provide.
+    points: 1
+
+  - key: s3-wif-github-actions
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      Your team's CI pipeline runs on GitHub Actions and deploys container images to Artifact Registry
+      and Cloud Run. Today it uses a service account key stored as a GitHub secret. Security policy now
+      bans long-lived credentials outside Google Cloud. What should you do?
+    choices:
+      - { key: a, text: "Store the service account key in Secret Manager and have the workflow fetch it at the start of each run." }
+      - { key: b, text: "Rotate the service account key every 24 hours with a scheduled Cloud Run function." }
+      - { key: c, text: "Move the pipeline to a Compute Engine VM and run the GitHub Actions runner there with a user-managed key." }
+      - { key: d, text: "Configure Workload Identity Federation with a GitHub OIDC provider and let the workflow obtain short-lived tokens for a deploy service account." }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Workload Identity Federation lets GitHub's OIDC token be exchanged for a
+      short-lived Google credential, so no key exists at all. Attribute conditions can restrict it to
+      the right repository and branch.
+
+      - **a** still uses a long-lived key, and the workflow would need another credential to read
+        Secret Manager.
+      - **b** daily rotation shortens exposure but a key still exists outside Google Cloud, and
+        rotation adds operational burden.
+      - **c** a user-managed key on a VM is still a long-lived key; a self-hosted runner on Compute
+        Engine would use the attached service account, but this option keeps the key and adds a VM to run.
+    points: 1
+
+  - key: s3-impersonation-terraform
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      Site reliability engineers occasionally need to run Terraform locally with the permissions of the
+      `terraform-prod` service account to fix drift. Today they download that service account's key.
+      You must remove the key while keeping an audit trail of which engineer acted. What should you do?
+    choices:
+      - { key: a, text: "Grant the SRE group the Service Account Token Creator role on terraform-prod and have engineers use service account impersonation." }
+      - { key: b, text: "Grant the SRE group the same roles that terraform-prod holds, directly on the production projects." }
+      - { key: c, text: "Keep one shared key in Secret Manager and grant the SRE group access to that secret." }
+      - { key: d, text: "Grant the SRE group the Owner role on the project that contains terraform-prod." }
+    answer: [a]
+    explanation_md: |
+      **a** is right: impersonation issues short-lived credentials, no key is created, and Cloud Audit
+      Logs record both the engineer and the impersonated service account.
+
+      - **b** gives every SRE permanent production rights instead of controlled, task-scoped access.
+      - **c** a shared key is still a key, and logs would show only the service account, not which
+        engineer used it.
+      - **d** Owner is far broader than needed and still doesn't by itself provide a keyless workflow.
+    points: 1
+
+  - key: s3-workforce-identity-federation
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A company uses Microsoft Entra ID as its only identity provider. A corporate policy forbids
+      synchronising employee identities into any other directory. Employees need single sign-on to
+      the Google Cloud console and gcloud with their Entra ID credentials. What should you recommend?
+    choices:
+      - { key: a, text: "Deploy Google Cloud Directory Sync to copy users and groups into Cloud Identity and configure SAML SSO." }
+      - { key: b, text: "Create a service account for each employee and distribute the keys through Entra ID." }
+      - { key: c, text: "Configure Workforce Identity Federation with Entra ID as the identity provider." }
+      - { key: d, text: "Configure Workload Identity Federation with an Entra ID provider and grant roles to the workload pool." }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Workforce Identity Federation lets users authenticate with an external IdP and
+      access Google Cloud as federated principals, **without** synchronising them into Cloud Identity.
+
+      - **a** directory sync copies identities into Cloud Identity, which the policy forbids.
+      - **b** service accounts are for workloads, not people; distributing keys is insecure.
+      - **d** Workload Identity Federation is for workloads (applications, CI), not for a human
+        workforce using the console.
+    points: 1
+
+  - key: s3-domain-restricted-sharing
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      After a project owner granted a personal Gmail account access to a production dataset, the
+      CISO requires that no one, including project owners, can grant IAM roles to identities outside
+      the company's Cloud Identity domain. What should you do?
+    choices:
+      - { key: a, text: "Remove the Owner role from every project owner and grant Editor instead." }
+      - { key: b, text: "Create a log-based alert on SetIamPolicy calls that add external members, and revert them manually." }
+      - { key: c, text: "Put all production projects in a VPC Service Controls perimeter." }
+      - { key: d, text: "Enforce the domain-restricted sharing organisation policy (iam.allowedPolicyMemberDomains) at the organisation with the company's customer ID." }
+    answer: [d]
+    explanation_md: |
+      **d** is right: an organisation policy constrains what configuration is allowed for every
+      principal, owners included, so grants to identities outside the allowed customer IDs fail.
+
+      - **a** Editor cannot set IAM policies, but owners are still needed for legitimate grants; this
+        also does not stop any remaining owner granting external access.
+      - **b** detects after the fact; the requirement is to prevent.
+      - **c** VPC Service Controls limits API access across a perimeter, not who can be added to IAM
+        policies.
+    points: 1
+
+  - key: s3-org-policy-guardrails
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      A new security baseline says: no Compute Engine VM in any project may have an external IP
+      address, and no user-managed service account keys may exist anywhere in the organisation. The
+      controls must apply to future projects automatically and cannot be bypassed by project owners.
+      Which two actions meet the baseline? **Choose two.**
+    choices:
+      - { key: a, text: "Enforce the compute.vmExternalIpAccess organisation policy at the organisation with no allowed VMs." }
+      - { key: b, text: "Remove the Compute Instance Admin role from all developers." }
+      - { key: c, text: "Enforce the iam.disableServiceAccountKeyCreation organisation policy at the organisation." }
+      - { key: d, text: "Create a hierarchical firewall policy that denies all ingress from 0.0.0.0/0." }
+      - { key: e, text: "Create a VPC Service Controls perimeter that includes every project." }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right. Organisation policies set at the organisation are inherited by every
+      current and future project and restrict configuration regardless of the caller's IAM roles.
+
+      - **b** project owners and other admins could still create VMs with external IPs.
+      - **d** blocks inbound traffic but VMs could still be given external IPs (and use them for
+        egress); it does not meet the stated control.
+      - **e** VPC Service Controls protects Google API data access; it does not govern external IPs or
+        key creation.
+    points: 1
+
+  - key: s3-kms-separation-of-duties
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A bank uses customer-managed encryption keys for BigQuery and Cloud Storage. Auditors require
+      separation of duties: the people who administer the keys must not be able to read the data, and
+      application project owners must not be able to manage or destroy the keys. What design should
+      you use?
+    choices:
+      - { key: a, text: "Create the keys in each application project and grant the project owners the Cloud KMS Admin role." }
+      - { key: b, text: "Create the keys in a dedicated key project; grant Cloud KMS Admin to the security team only, and grant CryptoKey Encrypter/Decrypter to the BigQuery and Cloud Storage service agents." }
+      - { key: c, text: "Create the keys in a dedicated key project and grant the security team the Owner role on both the key project and the application projects." }
+      - { key: d, text: "Use Google-managed encryption keys and restrict access to the data with IAM only." }
+    answer: [b]
+    explanation_md: |
+      **b** is right: a dedicated key project keeps application owners out of key administration;
+      Cloud KMS Admin can manage keys but cannot encrypt or decrypt; and only the service agents that
+      need to use the keys get the encrypter/decrypter role.
+
+      - **a** application owners would manage their own keys, exactly what the auditors forbid.
+      - **c** Owner on the application projects lets the security team read the data, breaking the
+        other half of the separation.
+      - **d** drops the customer-managed keys the bank already requires and does not address key
+        separation at all.
+    points: 1
+
+  - key: s3-pam-just-in-time
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      Five platform engineers hold permanent Owner rights on production projects "in case of
+      incidents". A compliance review requires that nobody hold standing administrative access to
+      production, but on-call engineers must still get elevated access within minutes, with a
+      recorded justification and peer approval. What should you implement?
+    choices:
+      - { key: a, text: "Shared break-glass Owner accounts whose passwords are kept in a safe." }
+      - { key: b, text: "IAM Conditions that make the Owner grants valid only outside business hours." }
+      - { key: c, text: "Privileged Access Manager entitlements that grant time-bound elevated roles after justification and approval." }
+      - { key: d, text: "A ticketing workflow in which the security team manually adds and later removes Owner bindings." }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Privileged Access Manager provides just-in-time, time-bound grants with
+      justification and optional approval, all recorded in audit logs, so no one holds standing access.
+
+      - **a** shared accounts destroy individual accountability and are a last-resort emergency
+        mechanism, not routine on-call access.
+      - **b** the engineers would still hold standing Owner access for much of each day.
+      - **d** manual add-and-remove is slow, error-prone and relies on people remembering to revoke.
+    points: 1
+
+  # ---------- 3.1 Data security ----------
+  - key: s3-cmek-revoke-access
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A media company stores licensed content metadata in BigQuery. Its licensing contracts require
+      that the company can, on demand, make the data unreadable to Google Cloud services, and that key
+      use is visible in audit logs. Keys may be stored in Google Cloud. The team wants minimal key
+      management effort. What should you recommend?
+    choices:
+      - { key: a, text: "Rely on Google's default encryption at rest, which already uses AES-256." }
+      - { key: b, text: "Use customer-supplied encryption keys (CSEK) on the BigQuery datasets." }
+      - { key: c, text: "Encrypt every row in the application before loading it into BigQuery and keep the key on-premises." }
+      - { key: d, text: "Use customer-managed encryption keys in Cloud KMS, provisioned with Autokey, and disable the key version when access must be revoked." }
+    answer: [d]
+    explanation_md: |
+      **d** is right: CMEK gives the company control of the key (disabling it makes the data unreadable)
+      and Cloud KMS usage appears in audit logs. Autokey creates and places the keys automatically,
+      keeping effort low.
+
+      - **a** default encryption gives the company no control to revoke access.
+      - **b** CSEK is supported only by Cloud Storage and Compute Engine, not BigQuery.
+      - **c** application-level encryption breaks BigQuery's ability to query the data and adds a large
+        custom burden; keys may stay in Google Cloud anyway.
+    points: 1
+
+  - key: s3-ekm-keys-outside-google
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A European bank's regulator requires that encryption keys protecting customer data in Google
+      Cloud are held in the bank's own key management system outside Google's infrastructure, and that
+      the bank can refuse any individual request by Google to use a key. What should you recommend?
+    choices:
+      - { key: a, text: "Cloud External Key Manager (Cloud EKM) keys with Key Access Justifications." }
+      - { key: b, text: "Customer-managed encryption keys with the Cloud HSM protection level." }
+      - { key: c, text: "Customer-managed encryption keys with a 30-day automatic rotation period." }
+      - { key: d, text: "Import the bank's key material into Cloud KMS and delete the on-premises copy." }
+    answer: [a]
+    explanation_md: |
+      **a** is right: with Cloud EKM the key material stays in the external key manager, every
+      wrap/unwrap is a call out to it, and Key Access Justifications attach a reason so the bank can
+      approve or refuse each request.
+
+      - **b** Cloud HSM keys are hardware-protected but held in Google-managed HSMs, inside Google.
+      - **c** rotation frequency does not change where the key is held.
+      - **d** importing keys places the material inside Cloud KMS, the opposite of the requirement.
+    points: 1
+
+  - key: s3-secret-manager-db-password
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A Cloud Run service reads a database password from an environment variable that is written in
+      plain text in the service's deployment YAML, which is stored in Git. You need to remove the
+      password from source control, restrict who can read it, and support monthly rotation. What
+      should you do?
+    choices:
+      - { key: a, text: "Base64-encode the password in the YAML file and restrict access to the Git repository." }
+      - { key: b, text: "Store the password in Secret Manager, grant the Cloud Run service's service account Secret Manager Secret Accessor on that secret, and reference the secret from the service." }
+      - { key: c, text: "Bake the password into the container image at build time so it never appears in YAML." }
+      - { key: d, text: "Store the password in a Cloud Storage bucket encrypted with CMEK and download it at start-up." }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Secret Manager stores versioned secrets with per-secret IAM and audit logging;
+      Cloud Run can mount the secret directly, and rotation means adding a new version.
+
+      - **a** Base64 is encoding, not encryption; the secret is still in Git.
+      - **c** the secret would sit in every copy of the image and need a rebuild to rotate.
+      - **d** works in principle but is a homegrown secret store without versioning or rotation
+        support; Secret Manager is the managed service for this.
+    points: 1
+
+  - key: s3-vpc-sc-exfiltration
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      Data scientists have BigQuery Data Viewer on a dataset of customer records so they can run
+      analysis. The CISO worries that a scientist, or an attacker with stolen credentials, could copy
+      the tables to a BigQuery dataset in a project outside the company. What should you do?
+    choices:
+      - { key: a, text: "Remove BigQuery Data Viewer and give the scientists only BigQuery Job User." }
+      - { key: b, text: "Create a hierarchical firewall policy that denies egress to the internet from all VPCs." }
+      - { key: c, text: "Enable Data Access audit logs on BigQuery and review them weekly." }
+      - { key: d, text: "Place the project in a VPC Service Controls service perimeter so that API calls moving data to resources outside the perimeter are denied." }
+    answer: [d]
+    explanation_md: |
+      **d** is right: VPC Service Controls blocks Google API operations that cross the perimeter, even
+      when the caller has valid IAM permissions, which is exactly the stolen-credential exfiltration
+      case.
+
+      - **a** without read access the scientists cannot do their work.
+      - **b** firewall rules filter VM network traffic; a BigQuery copy is a Google API operation that
+        never passes through the VPC firewall.
+      - **c** logs detect after the fact but do not prevent the copy.
+    points: 1
+
+  - key: s3-sdp-format-preserving
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A payments company loads transactions into BigQuery. Analysts must join and count by card number
+      without ever seeing real card numbers, the value must keep its 16-digit format for downstream
+      systems, and a fraud team's service must be able to recover the original number when needed.
+      What should you use?
+    choices:
+      - { key: a, text: "Sensitive Data Protection format-preserving encryption with a key wrapped by Cloud KMS, applied in the ingestion pipeline." }
+      - { key: b, text: "Sensitive Data Protection masking that replaces all but the last four digits with asterisks." }
+      - { key: c, text: "A SHA-256 hash of each card number stored in place of the number." }
+      - { key: d, text: "CMEK on the BigQuery dataset, with the fraud team granted the decrypt role." }
+    answer: [a]
+    explanation_md: |
+      **a** is right: format-preserving encryption produces a consistent 16-digit token (so joins and
+      counts still work) and is reversible by an authorised caller with access to the KMS-wrapped key.
+
+      - **b** masking is irreversible and different cards that share the last four digits collide.
+      - **c** a hash can be joined on but cannot be reversed, and it does not keep the 16-digit format.
+      - **d** CMEK encrypts storage, but anyone with query access still sees the real card numbers.
+    points: 1
+
+  - key: s3-interconnect-encryption
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      A healthcare company connects its data centre to Google Cloud with Dedicated Interconnect. Its
+      security policy says all traffic carrying patient data between the data centre and Google Cloud
+      must be encrypted on the link. Which two options meet this requirement? **Choose two.**
+    choices:
+      - { key: a, text: "No action is needed, because Google encrypts all traffic in transit by default, including on Cloud Interconnect." }
+      - { key: b, text: "Enable MACsec for Cloud Interconnect on the connection." }
+      - { key: c, text: "Enable customer-managed encryption keys on the VPC network." }
+      - { key: d, text: "Deploy HA VPN over Cloud Interconnect." }
+      - { key: e, text: "Attach a Cloud Armor security policy to the Interconnect attachment." }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right. Cloud Interconnect traffic is private but not encrypted by default;
+      MACsec encrypts at layer 2 on the link, and HA VPN over Interconnect adds IPsec encryption on top
+      of the private connection.
+
+      - **a** Google's default encryption in transit covers its own network and Google Front End
+        connections, not the customer's Interconnect link.
+      - **c** CMEK applies to data at rest in supported services; there is no CMEK setting for a VPC.
+      - **e** Cloud Armor protects load balancer backends from web attacks; it does not encrypt links.
+    points: 1
+
+  # ---------- 3.1 Secure access, network, supply chain, workloads ----------
+  - key: s3-iap-context-aware
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      An internal HR web application runs on a managed instance group behind an external Application
+      Load Balancer. Employees work remotely. The company wants to retire its VPN, and only employees
+      in the HR group using company-managed devices may reach the app. What should you do?
+    choices:
+      - { key: a, text: "Attach a Cloud Armor policy that allows only the office's public IP addresses." }
+      - { key: b, text: "Give each HR employee a client certificate and terminate mutual TLS on the instances." }
+      - { key: c, text: "Enable Identity-Aware Proxy on the backend service, grant the HR group IAP-secured Web App User, and require an access level for company-managed devices." }
+      - { key: d, text: "Move the application to a VM with an external IP and enable OS Login." }
+    answer: [c]
+    explanation_md: |
+      **c** is right: IAP authenticates and authorises each request by identity, and a context-aware
+      access level (Access Context Manager, with device signals from Chrome Enterprise Premium) adds
+      the managed-device condition. No VPN is needed.
+
+      - **a** remote employees are not at the office, and IP allowlists do not check identity or device.
+      - **b** self-managed mTLS on instances is high-burden and does not provide group-based
+        authorisation.
+      - **d** OS Login controls SSH to the VM, not access to a web application, and an external IP
+        increases exposure.
+    points: 1
+
+  - key: s3-iap-tcp-ssh
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      Administrators need SSH access to Compute Engine VMs that have no external IP addresses. The
+      security team wants to decommission the bastion host and avoid opening port 22 to the internet.
+      What should you do?
+    choices:
+      - { key: a, text: "Assign ephemeral external IPs to the VMs during maintenance windows." }
+      - { key: b, text: "Use IAP TCP forwarding: allow ingress on port 22 from 35.235.240.0/20 and grant administrators the IAP-secured Tunnel User role." }
+      - { key: c, text: "Configure Cloud NAT so administrators can connect through the NAT gateway." }
+      - { key: d, text: "Set up Private Service Connect endpoints for each VM." }
+    answer: [b]
+    explanation_md: |
+      **b** is right: IAP TCP forwarding tunnels SSH through Google's IAP range after checking the
+      administrator's identity and IAM role, so VMs need no external IP and no bastion.
+
+      - **a** external IPs expose the VMs to the internet, even if only temporarily.
+      - **c** Cloud NAT provides outbound connectivity only; it does not accept inbound connections.
+      - **d** Private Service Connect publishes services and reaches Google APIs privately; it is not an
+        administrator access path to individual VMs.
+    points: 1
+
+  - key: s3-hierarchical-firewall-baseline
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A central security team must guarantee that no project in the organisation allows RDP (TCP 3389)
+      from the internet. Project teams must keep managing their own firewall rules for their
+      applications. What should you do?
+    choices:
+      - { key: a, text: "Ask each project team to add a high-priority deny rule for TCP 3389 to its VPC firewall rules." }
+      - { key: b, text: "Create a VPC Service Controls perimeter around all projects." }
+      - { key: c, text: "Enforce the compute.requireOsLogin organisation policy." }
+      - { key: d, text: "Create a hierarchical firewall policy at the organisation that denies TCP 3389 from 0.0.0.0/0, and use goto_next for other traffic." }
+    answer: [d]
+    explanation_md: |
+      **d** is right: hierarchical firewall policies are evaluated before VPC-level rules, so a
+      central deny cannot be overridden by project teams, while goto_next delegates everything else to
+      their own rules.
+
+      - **a** relies on every team, today and in future, and any team can delete or override its own rule.
+      - **b** VPC Service Controls protects Google API data, not VM network ports.
+      - **c** OS Login governs SSH key management on Linux VMs; it does not block RDP traffic.
+    points: 1
+
+  - key: s3-cloud-armor-waf
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A retailer's public storefront runs on GKE behind an external Application Load Balancer. During
+      sales events it receives SQL injection attempts and layer-7 floods from botnets. The team wants a
+      managed protection at the edge with minimal tuning effort. What should you recommend?
+    choices:
+      - { key: a, text: "A Cloud Armor security policy with preconfigured WAF rules for SQL injection, rate limiting, and Adaptive Protection." }
+      - { key: b, text: "A hierarchical firewall policy that denies traffic from countries where the retailer does not sell." }
+      - { key: c, text: "VPC Service Controls around the GKE project." }
+      - { key: d, text: "An NGINX-based WAF running as a DaemonSet on every GKE node." }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Cloud Armor attaches to the external Application Load Balancer, filters SQL
+      injection with OWASP-based preconfigured rules, throttles floods with rate limiting, and Adaptive
+      Protection detects and suggests rules for layer-7 attacks.
+
+      - **b** firewall rules work at layers 3/4 and do not inspect HTTP payloads, so they cannot stop
+        SQL injection or distinguish a bot flood from real shoppers.
+      - **c** VPC Service Controls protects Google API data access, not public websites.
+      - **d** a self-managed WAF on nodes absorbs attack traffic inside the cluster and adds tuning and
+        operations burden.
+    points: 1
+
+  - key: s3-binary-authorization-supply-chain
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      After a supply-chain incident at a competitor, KnightMotives wants to ensure that only container
+      images built by its official Cloud Build pipeline and free of critical vulnerabilities can run on
+      its production GKE clusters. Which two actions should you take? **Choose two.**
+    choices:
+      - { key: a, text: "Put Artifact Registry inside a VPC Service Controls perimeter." }
+      - { key: b, text: "Enable Shielded GKE Nodes on the production clusters." }
+      - { key: c, text: "Enable Binary Authorization on the production clusters with a policy that requires attestations from the build pipeline and from vulnerability scanning." }
+      - { key: d, text: "Enforce the gcp.resourceLocations organisation policy for Artifact Registry." }
+      - { key: e, text: "Use Artifact Analysis scanning in the pipeline and create an attestation only for images with no critical vulnerabilities." }
+    answer: [c, e]
+    explanation_md: |
+      **c** and **e** are right. Artifact Analysis finds vulnerabilities and the pipeline attests the
+      images that pass; Binary Authorization enforces at deploy time that only attested images run.
+
+      - **a** a perimeter limits data exfiltration from Artifact Registry; it does not decide which
+        images may be deployed.
+      - **b** Shielded GKE Nodes protect node boot integrity, not the provenance of container images.
+      - **d** location restrictions address data residency, not image trust.
+    points: 1
+
+  - key: s3-confidential-vm-data-in-use
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A financial firm runs risk models on Compute Engine. Its policy requires that data be protected
+      while it is being processed in memory, including from the cloud provider's host software, with
+      minimal application changes. What should you use?
+    choices:
+      - { key: a, text: "Shielded VMs with Secure Boot and integrity monitoring." }
+      - { key: b, text: "Confidential VMs, which encrypt memory with hardware-managed keys." }
+      - { key: c, text: "CMEK on the persistent disks attached to the VMs." }
+      - { key: d, text: "Sole-tenant nodes so that no other customers share the host." }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Confidential VMs use hardware memory encryption (AMD SEV / SEV-SNP or Intel TDX),
+      protecting data in use from the host, usually without application changes.
+
+      - **a** Shielded VM protects boot integrity against rootkits, not memory contents.
+      - **c** CMEK protects data at rest on disks, not in memory.
+      - **d** sole tenancy isolates you from other customers but the host software can still access
+        unencrypted memory.
+    points: 1
+
+  - key: s3-scc-organisation
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      The CISO of a company with 300 projects wants one place to see misconfigurations (such as public
+      buckets and open firewall rules), active threats, and how the estate maps to the CIS benchmark,
+      including for projects created next year. What should you do FIRST?
+    choices:
+      - { key: a, text: "Write a Cloud Run function that scans each project's configuration nightly and writes results to BigQuery." }
+      - { key: b, text: "Activate Security Command Center at the organisation level." }
+      - { key: c, text: "Enable Data Access audit logs in every project." }
+      - { key: d, text: "Create a log sink in each project that exports logs to a SIEM." }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Security Command Center activated at the organisation covers every current and
+      future project, with Security Health Analytics misconfiguration findings, threat detection, and
+      compliance views mapped to standards such as CIS.
+
+      - **a** a homegrown scanner is high-burden and reinvents what SCC provides.
+      - **c** logs are raw input, not a view of misconfigurations or compliance.
+      - **d** per-project sinks miss future projects (an aggregated sink would not) and a SIEM alone does
+        not produce misconfiguration findings.
+    points: 1
+
+  # ---------- 3.1 Securing AI ----------
+  - key: s3-model-armor-chatbot
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      Altostrat Media is launching a 24/7 natural-language support chatbot. Testers have tricked it
+      into ignoring its instructions, and some users paste account numbers and home addresses into
+      their messages. You need to block prompt injection and redact personal data in both prompts and
+      responses, with minimal custom code. What should you do?
+    choices:
+      - { key: a, text: "Call Model Armor with a template that enables prompt injection and jailbreak detection and the Sensitive Data Protection filter, on every prompt and response." }
+      - { key: b, text: "Add instructions to the system prompt telling the model to refuse manipulation and never repeat personal data." }
+      - { key: c, text: "Place the chatbot's endpoint inside a VPC Service Controls perimeter." }
+      - { key: d, text: "Write regular expressions in the application to detect injection phrases and account-number patterns." }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Model Armor screens prompts and responses for prompt injection and jailbreaks and
+      uses Sensitive Data Protection to detect and redact personal data, as a managed service.
+
+      - **b** system-prompt instructions are exactly what prompt injection overrides; they are not a
+        control.
+      - **c** a perimeter prevents data exfiltration through APIs but does not inspect conversation
+        content.
+      - **d** custom regexes are brittle, miss paraphrased attacks and are costly to maintain.
+    points: 1
+
+  - key: s3-model-armor-floor-settings
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      Twelve product teams build generative AI features in their own projects, each with its own
+      Model Armor templates. The security team must guarantee that every team applies at least
+      medium-confidence filtering for prompt injection and dangerous content, without reviewing each
+      template by hand. What should you do?
+    choices:
+      - { key: a, text: "Create one shared template in the security project and ask teams to reference it." }
+      - { key: b, text: "Enable Data Access audit logs on Model Armor and review them monthly." }
+      - { key: c, text: "Configure Model Armor floor settings at the organisation with the required minimum filters." }
+      - { key: d, text: "Turn off each model's built-in safety filters so that Model Armor is the single control." }
+    answer: [c]
+    explanation_md: |
+      **c** is right: floor settings at organisation, folder or project level set the minimum filters
+      and thresholds that every template in scope must meet, enforcing a baseline centrally.
+
+      - **a** asking teams to reference a template is not enforcement; any team can use its own.
+      - **b** reviewing logs detects gaps later rather than guaranteeing a baseline.
+      - **d** removes a layer of defence; model safety settings and Model Armor are complementary.
+    points: 1
+
+  - key: s3-secure-model-deployment
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      Cymbal Retail tunes a model on Gemini Enterprise Agent Platform using product and order data in
+      BigQuery. Requirements: training data and the tuned model must not be copied out of approved
+      projects, and the serving endpoint must not be reachable from the public internet. Which two
+      actions should you take? **Choose two.**
+    choices:
+      - { key: a, text: "Attach a Cloud Armor policy to the model endpoint." }
+      - { key: b, text: "Include the Agent Platform, BigQuery and Cloud Storage projects in a VPC Service Controls perimeter." }
+      - { key: c, text: "Grant the data science group the Editor role so they do not need to export data to work on it." }
+      - { key: d, text: "Download the tuned model weights to an on-premises server for safekeeping." }
+      - { key: e, text: "Serve the model through a private endpoint reached with Private Service Connect." }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are right. The perimeter blocks API operations that would move training data or
+      model artefacts out of approved projects, and a Private Service Connect endpoint keeps serving
+      traffic on private IPs.
+
+      - **a** Cloud Armor protects internet-facing load balancers; it does not make the endpoint private
+        or stop exfiltration.
+      - **c** Editor is excessive and does nothing to prevent copying data out.
+      - **d** copying weights out of the cloud is itself the exfiltration the requirement forbids.
+    points: 1
+
+  - key: s3-genai-training-restriction
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      EHR Healthcare's legal team will approve a Gemini-based summarisation feature only if Google
+      does not use the prompts, which contain clinical notes, to train its models. Which statement is
+      accurate and gives the right next step?
+    choices:
+      - { key: a, text: "Google trains on prompts by default, so the team must self-host an open model instead." }
+      - { key: b, text: "Prompts are never stored for any reason, so no further review is needed." }
+      - { key: c, text: "Training restrictions apply only when CMEK is enabled on the endpoint." }
+      - { key: d, text: "Google does not use customer data to train its models without permission; the team should also review data retention, such as abuse-monitoring logging and grounding features, and the steps for zero data retention." }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Google's training restriction means customer data is not used to train or tune
+      models without permission, but some features retain data for limited periods, so a regulated
+      customer should review retention and the zero-data-retention steps.
+
+      - **a** contradicts the documented training restriction.
+      - **b** overstates it: some features (abuse monitoring, caching, grounding) retain data for limited
+        periods unless configured otherwise.
+      - **c** CMEK controls encryption keys; the training restriction does not depend on it.
+    points: 1
+
+  # ---------- 3.2 Compliance ----------
+  - key: s3-shared-responsibility-cloud-run
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A company moves an application from Compute Engine VMs to Cloud Run. The compliance manager asks
+      which security task remains the company's responsibility after the move. What should you tell
+      them?
+    choices:
+      - { key: a, text: "Patching the operating system of the servers that run the containers." }
+      - { key: b, text: "Physical security of the data centres that host Cloud Run." }
+      - { key: c, text: "Configuring IAM for who can invoke and deploy the service, and protecting the data the application handles." }
+      - { key: d, text: "Encrypting the data at rest on the underlying infrastructure." }
+    answer: [c]
+    explanation_md: |
+      **c** is right: in every service model the customer keeps responsibility for identities, access
+      configuration and their own data (and their application code).
+
+      - **a** on Cloud Run the underlying OS is managed by Google; guest OS patching was the customer's
+        job only on Compute Engine.
+      - **b** physical security is always Google's responsibility.
+      - **d** Google encrypts data at rest by default; the customer only chooses whether to manage keys.
+    points: 1
+
+  - key: s3-hipaa-phi-on-google-cloud
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      EHR Healthcare will store protected health information (PHI) for US hospitals on Google Cloud.
+      Which two steps are required for HIPAA compliance on the platform? **Choose two.**
+    choices:
+      - { key: a, text: "Accept Google's Business Associate Agreement (BAA) for the account." }
+      - { key: b, text: "Request Google's HIPAA certificate, which makes any workload on Google Cloud compliant." }
+      - { key: c, text: "Store PHI only in US multi-regions, because HIPAA requires US data residency." }
+      - { key: d, text: "Store and process PHI only in Google Cloud services covered by the BAA, and configure them securely." }
+      - { key: e, text: "Enable Access Transparency, which satisfies HIPAA's audit requirements on its own." }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right. Google signs a BAA as a business associate, and PHI may only be placed
+      in covered products, which the customer must still configure and operate compliantly.
+
+      - **b** there is no HIPAA certification that makes a customer's workload compliant; responsibility
+        is shared.
+      - **c** HIPAA does not mandate US data residency, and multi-region choice is not the compliance step.
+      - **e** Access Transparency logs Google personnel access; it is useful but does not on its own meet
+        the customer's audit obligations (Data Access audit logs, access reviews and more).
+    points: 1
+
+  - key: s3-eu-residency-assured-workloads
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A European insurer is moving claims processing to Google Cloud. Regulation requires that the data
+      stay in EU regions and that support access by Google personnel be limited to EU-based staff. The
+      insurer wants these controls enforced and monitored with as little custom configuration as
+      possible. What should you recommend?
+    choices:
+      - { key: a, text: "Create an Assured Workloads folder with an EU data boundary control package and place the claims projects in it." }
+      - { key: b, text: "Set the gcp.resourceLocations organisation policy to in:eu-locations on the claims folder." }
+      - { key: c, text: "Use only EU regions in the Terraform modules and review deployments in code review." }
+      - { key: d, text: "Enable Access Transparency and review the logs for non-EU personnel access." }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Assured Workloads applies a control package that enforces EU data residency and
+      personnel access controls through organisation policies and other features, and monitors for
+      violations.
+
+      - **b** enforces residency only; it does nothing about Google personnel access.
+      - **c** is convention, not enforcement, and also ignores personnel access.
+      - **d** shows access after it happens but does not limit who can access.
+    points: 1
+
+  - key: s3-sovereignty-key-and-access-control
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      A public-sector agency already restricts resource locations to its country. It now also needs
+      sovereignty controls: Google must not be able to decrypt the agency's data without the agency's
+      consent, and Google personnel must obtain explicit approval before accessing its content. Which
+      two controls should you add? **Choose two.**
+    choices:
+      - { key: a, text: "Customer-managed encryption keys with the Cloud HSM protection level." }
+      - { key: b, text: "VPC Service Controls around the agency's projects." }
+      - { key: c, text: "Data Access audit logs for all services." }
+      - { key: d, text: "Cloud EKM with keys held in the agency's external key manager and Key Access Justifications." }
+      - { key: e, text: "Access Approval for the agency's projects." }
+    answer: [d, e]
+    explanation_md: |
+      **d** and **e** are right. Cloud EKM keeps key material outside Google, so each use needs the
+      agency's key manager, and Key Access Justifications let it refuse by reason. Access Approval
+      requires the agency's explicit approval before Google personnel access content.
+
+      - **a** Cloud HSM keys are hardware-protected but held and operated within Google's infrastructure.
+      - **b** a perimeter stops exfiltration by API callers; it does not control the provider's access.
+      - **c** Data Access logs record customer-side access; they neither require consent nor control keys.
+    points: 1
+
+  - key: s3-pci-scope-reduction
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      Cymbal Retail takes card payments online and wants to minimise the number of systems in scope for
+      its PCI DSS assessment while keeping order analytics in BigQuery. Which two design decisions
+      best achieve this? **Choose two.**
+    choices:
+      - { key: a, text: "Isolate the cardholder data environment in dedicated projects under its own folder, segmented with VPC Service Controls and firewall policies." }
+      - { key: b, text: "Rely on Google Cloud's PCI DSS attestation, which places all workloads on Google Cloud out of scope." }
+      - { key: c, text: "Encrypt the BigQuery analytics dataset with CMEK so card numbers stored there are out of scope." }
+      - { key: d, text: "Run all services in one large VPC protected by Cloud Armor so the whole estate is assessed once." }
+      - { key: e, text: "Tokenise card numbers at the point of entry so order and analytics systems only ever store tokens." }
+    answer: [a, e]
+    explanation_md: |
+      **a** and **e** are right. Segmenting the cardholder data environment keeps other systems out of
+      scope, and early tokenisation means downstream order and analytics systems never hold card
+      numbers.
+
+      - **b** Google's attestation covers Google's infrastructure as a service provider; the customer's
+        own cardholder data environment is still in scope.
+      - **c** encrypted card numbers are still cardholder data; CMEK protects them but does not remove
+        the system from scope.
+      - **d** a flat network puts every system in scope, the opposite of the goal.
+    points: 1
+
+  - key: s3-coppa-childrens-app
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      An education start-up is building a learning app for US children aged 8–12 on Google Cloud. Its
+      lawyers cite the Children's Online Privacy Protection Act (COPPA). Which approach should the
+      architect take?
+    choices:
+      - { key: a, text: "Rely on Google Cloud's compliance programme, because COPPA obligations are fully handled by the cloud provider." }
+      - { key: b, text: "Store all children's data in a single US region, which is what COPPA primarily requires." }
+      - { key: c, text: "Build parental consent and data minimisation into the application, and on the platform restrict access, set retention and deletion, and de-identify data used for analytics." }
+      - { key: d, text: "Encrypt all data with CSEK, which satisfies COPPA's security requirement and removes the need for consent." }
+    answer: [c]
+    explanation_md: |
+      **c** is right: COPPA obligations such as verifiable parental consent and minimisation belong to
+      the operator of the app; the platform design supports them with access control, retention and
+      de-identification.
+
+      - **a** the cloud provider cannot obtain parental consent or decide what the app collects; the
+        obligations stay with the operator.
+      - **b** COPPA is about consent, notice and handling of children's data, not data location.
+      - **d** encryption is a security safeguard but never replaces consent.
+    points: 1
+
+  - key: s3-data-access-audit-logs
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      An auditor asks EHR Healthcare to show which employees read specific patient records stored in
+      Cloud SQL and Cloud Storage over the last 90 days. The team finds that Admin Activity logs show
+      configuration changes but no reads. What should you do so that this question can be answered in
+      future audits?
+    choices:
+      - { key: a, text: "Increase the retention of the _Required log bucket." }
+      - { key: b, text: "Enable Data Access audit logs for Cloud SQL and Cloud Storage, and route them to a log bucket with retention that covers the audit period." }
+      - { key: c, text: "Enable Access Transparency on the projects." }
+      - { key: d, text: "Turn on VPC Flow Logs on the subnets that host the database." }
+    answer: [b]
+    explanation_md: |
+      **b** is right: reads of data are recorded only in Data Access audit logs, which are off by
+      default for most services (BigQuery is the exception) and must be enabled; the default `_Default`
+      retention of 30 days is too short for a 90-day audit, so route or retain them longer.
+
+      - **a** the `_Required` bucket holds Admin Activity and System Event logs, which do not record
+        data reads, and its retention cannot be changed.
+      - **c** Access Transparency records actions by Google personnel, not by the customer's employees.
+      - **d** flow logs record network connections, not which user read which record.
+    points: 1
+
+  - key: s3-audit-evidence-retention
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      A financial services company must keep audit logs from all of its 150 projects, including
+      projects created in future, for seven years, in a form that no one, including project owners
+      and administrators, can delete or alter before the period ends. Which two actions should you
+      take? **Choose two.**
+    choices:
+      - { key: a, text: "Create a log sink in each existing project that routes audit logs to BigQuery." }
+      - { key: b, text: "Create an aggregated log sink at the organisation that routes audit logs from all projects to a central logging project." }
+      - { key: c, text: "Store the routed logs in a Cloud Storage bucket with a seven-year retention policy that is locked with Bucket Lock." }
+      - { key: d, text: "Rely on the _Required log bucket, which keeps Admin Activity logs indefinitely." }
+      - { key: e, text: "Grant the auditors the Owner role on the logging project so they can verify that nothing is deleted." }
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** are right. An aggregated sink at the organisation captures every current and
+      future project, and a locked retention policy makes objects undeletable until the period ends,
+      even by owners.
+
+      - **a** per-project sinks miss new projects, and BigQuery tables have no write-once guarantee.
+      - **d** the `_Required` bucket keeps logs for 400 days, not indefinitely or seven years.
+      - **e** Owner lets the auditors change or delete things, the opposite of an independent,
+        read-only role.
+    points: 1
+
+  - key: s3-soc2-compliance-reports
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      A SaaS company running on Google Cloud is preparing for its own SOC 2 Type II audit. The auditor
+      asks for evidence covering the physical and infrastructure controls operated by the cloud
+      provider. What should the company do?
+    choices:
+      - { key: a, text: "Ask the auditor to visit a Google data centre to test the physical controls." }
+      - { key: b, text: "Write its own description of Google's controls based on the public security whitepapers." }
+      - { key: c, text: "Tell the auditor that cloud-hosted infrastructure is out of scope for SOC 2." }
+      - { key: d, text: "Download Google Cloud's SOC 2 report from Compliance Reports Manager and provide it as evidence for the inherited controls." }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Google's independently audited SOC 2 report, available from Compliance Reports
+      Manager, is the standard evidence for controls the customer inherits from the provider. The
+      company still evidences its own controls.
+
+      - **a** auditors rely on the provider's third-party reports; customer audit visits to data
+        centres are not how this works.
+      - **b** a self-written description is not independent assurance.
+      - **c** inherited infrastructure controls are part of the system's control environment; they are
+        covered by the provider's report, not excluded.
+    points: 1

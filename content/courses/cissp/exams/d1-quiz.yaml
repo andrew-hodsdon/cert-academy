@@ -1,0 +1,1284 @@
+slug: d1-quiz
+ordinal: 11
+title: "Domain 1 quiz: Security and Risk Management"
+kind: quiz
+draw: 25
+time_limit_min: 35
+pass_pct: 80
+instructions_md: |
+  25 questions drawn at random from a 64-question bank covering all twelve Domain 1 objectives
+  (1.1–1.12), with a 35-minute clock. Most questions have one best answer; questions marked
+  "Choose two." need both correct choices to score.
+
+  Answer as a risk adviser to the business: people's safety first, legal and ethical before
+  convenient, policy before procedure, and the most complete answer wins. Read every
+  explanation afterwards, including for questions you got right. Retake until you hold 80%.
+questions:
+  # ---------- 1.1 Professional ethics ----------
+  - key: d1-ethics-canon-priority
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A security engineer at a water utility's software vendor finds a flaw that could let an attacker change chemical dosing at treatment plants. Her manager tells her to say nothing until the next annual release to protect the company's reputation. Under the ISC2 Code of Ethics, which canon should govern her decision?"
+    choices:
+      - { key: a, text: "Provide diligent and competent service to principals" }
+      - { key: b, text: "Advance and protect the profession" }
+      - { key: c, text: "Protect society, the common good, necessary public trust and confidence, and the infrastructure" }
+      - { key: d, text: "Act honorably, honestly, justly, responsibly, and legally" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The canons apply in order, and the first canon (protect society and
+      infrastructure) outranks the others. Public safety at water treatment plants is exactly
+      what it covers.
+
+      - **a** is the third canon. Duty to her employer is real, but it ranks below protecting society.
+      - **b** is the fourth canon and the lowest priority. It doesn't fit the central conflict here.
+      - **d** is the second canon and does apply (concealment is dishonest), but when canons
+        conflict the first one governs, so it isn't the *governing* canon.
+    points: 1
+
+  - key: d1-ethics-complaint-standing
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A consulting client believes an ISC2-certified consultant delivered careless, incompetent work in breach of the canon on service to principals. Under ISC2's complaint procedure, who may file an ethics complaint alleging a breach of that specific canon?"
+    choices:
+      - { key: a, text: "The principal, meaning the client or employer that received the service" }
+      - { key: b, text: "Any member of the public" }
+      - { key: c, text: "Any certified professional, whether or not they were affected" }
+      - { key: d, text: "Only the ISC2 Board of Directors, acting on its own initiative" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. ISC2 accepts complaints only from people affected by the alleged
+      breach. For the canon on service to principals, only the principals (employers or
+      clients) have standing.
+
+      - **b**: any member of the public may file only for canons 1 and 2 (society; honorable and legal conduct).
+      - **c**: other professionals have standing for canon 4 (the profession), not canon 3.
+      - **d**: the procedure is complaint-driven by affected parties. The Board doesn't hold
+        exclusive standing to file.
+    points: 1
+
+  - key: d1-ethics-report-peer
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "You discover that a CISSP who works for another company is selling what he claims are live CISSP exam questions on a private forum. What is the BEST action?"
+    choices:
+      - { key: a, text: "Do nothing, because he does not work for your organisation" }
+      - { key: b, text: "Post his name and the forum link on social media to warn other candidates" }
+      - { key: c, text: "Email his employer's HR department and ask them to dismiss him" }
+      - { key: d, text: "Report the conduct to ISC2 through its ethics complaint process" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. This harms the profession (canon 4), and certified professionals have
+      standing to complain about canon 4 breaches. ISC2's process is the proper channel.
+      Knowingly ignoring another member's breach is itself inconsistent with the code.
+
+      - **a**: the code isn't limited to your own employer, and staying silent fails your duty to the profession.
+      - **b**: public shaming isn't a proper channel. It may be defamatory and isn't honorable or just.
+      - **c**: his employer isn't the body that enforces the certification, and demanding his
+        dismissal goes beyond reporting the facts.
+    points: 1
+
+  - key: d1-ethics-organisational-code
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "The HR director asks the CISO to help draft the company's code of ethics. Which statement BEST describes how that organisational code relates to the ISC2 Code of Ethics?"
+    choices:
+      - { key: a, text: "The organisational code replaces the ISC2 code for any certified staff the company employs" }
+      - { key: b, text: "It applies to all employees, is enforced by the employer through HR and discipline, and sits alongside the ISC2 code for certified staff" }
+      - { key: c, text: "It is enforced by ISC2's Ethics Committee once the CISO approves it" }
+      - { key: d, text: "It should cover only the security team, because other staff are not bound by ethics" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. An organisational code is written and enforced by the employer and
+      covers everyone it employs. Certified members are also bound by the ISC2 code. Both
+      apply at once.
+
+      - **a**: a member's ISC2 obligations don't lapse because an employer has its own code.
+      - **c**: ISC2 enforces only its own code against its members, not employers' codes.
+      - **d**: organisational codes deliberately cover all staff (conflicts of interest,
+        acceptable use, reporting), not just security.
+    points: 1
+
+  - key: d1-ethics-accidental-vulnerability
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "While shopping online at home, a security analyst accidentally notices that a retailer's order page shows other customers' addresses when an order number is changed in the URL. Which TWO actions are MOST consistent with the ISC2 Code of Ethics? Choose two."
+    choices:
+      - { key: a, text: "Report the issue privately to the retailer's security contact or published disclosure channel" }
+      - { key: b, text: "Download several hundred records to prove the scale of the problem" }
+      - { key: c, text: "Stop testing immediately and do not access further records beyond what was accidentally seen" }
+      - { key: d, text: "Publish the flaw on social media so customers can protect themselves" }
+      - { key: e, text: "Offer to keep quiet in exchange for a consulting contract" }
+    answer: [a, c]
+    explanation_md: |
+      **a and c** are right. Stopping (c) avoids unauthorised access, which is legal and
+      honorable conduct (canon 2). Responsible private disclosure (a) protects the affected
+      customers (canon 1) without exposing them further.
+
+      - **b**: deliberately pulling records is unauthorised access and a privacy breach, and
+        likely a crime.
+      - **d**: public disclosure before the retailer can fix it exposes customers to more harm.
+      - **e**: this is extortion. It is dishonest and illegal.
+    points: 1
+
+  # ---------- 1.2 Security concepts ----------
+  - key: d1-cia-hmac-nonrepudiation
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Two companies exchange purchase orders protected by an HMAC that uses a key both companies share. One company later denies having sent a particular order. Which change would BEST give the receiving company proof of origin it could use in a dispute?"
+    choices:
+      - { key: a, text: "Increase the HMAC key length to 512 bits" }
+      - { key: b, text: "Send the orders over mutually authenticated TLS" }
+      - { key: c, text: "Require each order to be digitally signed with the sender's private key" }
+      - { key: d, text: "Add a SHA-256 hash of each order to the message" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Only the sender holds the private key, so a valid signature ties the
+      order to that sender. That gives nonrepudiation of origin.
+
+      - **a**: a longer shared key is still shared. Either party could have made the tag, so
+        it still can't prove who sent the order.
+      - **b**: TLS protects the channel during the session. It leaves no durable, third-party-verifiable
+        proof attached to the order.
+      - **d**: anyone can compute a plain hash. It detects accidental change but proves nothing
+        about origin.
+    points: 1
+
+  - key: d1-cia-double-extortion
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A ransomware group encrypts a law firm's file servers and threatens to publish stolen client files unless paid. Which two security properties are PRIMARILY affected?"
+    choices:
+      - { key: a, text: "Availability and confidentiality" }
+      - { key: b, text: "Integrity and authenticity" }
+      - { key: c, text: "Availability and nonrepudiation" }
+      - { key: d, text: "Confidentiality and nonrepudiation" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Encryption denies the firm access to its files (availability), and the
+      stolen files threaten unauthorised disclosure (confidentiality).
+
+      - **b**: the files are made unusable, not subtly altered or forged. Integrity and
+        authenticity aren't the primary impact.
+      - **c**: availability fits, but nobody is denying an action. Nonrepudiation isn't at stake.
+      - **d**: confidentiality fits, but nonrepudiation doesn't, and the loss of access is missing.
+    points: 1
+
+  - key: d1-cia-insulin-pump
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A manufacturer is setting security priorities for a wireless insulin pump that receives dosage commands from a phone app. Which property should receive the HIGHEST priority?"
+    choices:
+      - { key: a, text: "Confidentiality of the patient's usage history" }
+      - { key: b, text: "Nonrepudiation of commands sent from the app" }
+      - { key: c, text: "Availability of the vendor's cloud reporting portal" }
+      - { key: d, text: "Integrity of the dosage commands the pump receives" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. A tampered dosage command can kill the patient, and protecting life
+      comes first. Integrity (with authenticity) of commands is the critical property.
+
+      - **a**: the usage history is sensitive, but disclosing it doesn't threaten life.
+      - **b**: logging who sent a command helps afterwards. It doesn't stop a harmful dose.
+      - **c**: the reporting portal is secondary. The pump must work safely without it.
+    points: 1
+
+  - key: d1-cia-shared-admin-account
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Five database administrators share one administrator account. A production table is dropped, and the audit log shows only that the shared account did it. Which concept is MOST directly undermined?"
+    choices:
+      - { key: a, text: "Availability" }
+      - { key: b, text: "Accountability" }
+      - { key: c, text: "Confidentiality" }
+      - { key: d, text: "Data classification" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Accountability (and nonrepudiation) depends on tying actions to a unique
+      identity. A shared account makes that impossible, so no individual can be held responsible.
+
+      - **a**: the dropped table did hurt availability, but the question is why the actor
+        can't be identified, which is a failure of accountability.
+      - **c**: nothing was disclosed.
+      - **d**: classification labels data by sensitivity. It isn't related to tracing who acted.
+    points: 1
+
+  - key: d1-cia-dad-pairs
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "The DAD triad describes the opposites of the CIA triad. Which TWO pairings of an outcome with the property it violates are correct? Choose two."
+    choices:
+      - { key: a, text: "Alteration violates availability" }
+      - { key: b, text: "Disclosure violates confidentiality" }
+      - { key: c, text: "Denial violates integrity" }
+      - { key: d, text: "Alteration violates confidentiality" }
+      - { key: e, text: "Destruction violates availability" }
+    answer: [b, e]
+    explanation_md: |
+      **b and e** are right. Disclosure is the opposite of confidentiality, and destruction
+      (or denial) is the opposite of availability.
+
+      - **a and d**: alteration is the opposite of **integrity**, not availability or confidentiality.
+      - **c**: denial of access is an **availability** failure, not an integrity failure.
+    points: 1
+
+  # ---------- 1.3 Security governance principles ----------
+  - key: d1-gov-first-step-programme
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A newly hired CISO is asked to build an information security programme at a company that has never had one. What should the CISO do FIRST?"
+    choices:
+      - { key: a, text: "Understand the business's objectives and risk appetite and secure visible senior management sponsorship" }
+      - { key: b, text: "Deploy a SIEM so that threats become visible as soon as possible" }
+      - { key: c, text: "Write technical hardening standards for every server platform" }
+      - { key: d, text: "Commission an external penetration test of the perimeter" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Security has to align with the business's mission and objectives, and
+      it needs executive sponsorship to get authority and budget. Every later decision depends
+      on both.
+
+      - **b**: a tool bought before you know the business's priorities may protect the wrong
+        things, and nobody may act on its alerts.
+      - **c**: standards sit below policy, and policy needs management approval first.
+      - **d**: a pen test is useful input but too narrow, and it doesn't establish the programme.
+    points: 1
+
+  - key: d1-gov-ultimate-responsibility
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "After a major breach, a regulator asks who in the organisation bears ultimate responsibility for the protection of its information assets. What is the correct answer?"
+    choices:
+      - { key: a, text: "The chief information security officer" }
+      - { key: b, text: "The data custodians who administer the systems" }
+      - { key: c, text: "Senior management" }
+      - { key: d, text: "The internal audit function" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Senior management holds ultimate responsibility and accountability for
+      security. It can delegate tasks, but not accountability.
+
+      - **a**: the CISO runs the programme and advises, but acts on management's authority.
+      - **b**: custodians carry out the owners' decisions day to day.
+      - **d**: audit gives independent assurance. It doesn't own the risk.
+    points: 1
+
+  - key: d1-gov-due-diligence
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Which activity is the BEST example of due diligence rather than due care?"
+    choices:
+      - { key: a, text: "Applying operating system patches every month as the patch standard requires" }
+      - { key: b, text: "Reviewing a cloud provider's SOC 2 Type II report and contract terms before signing" }
+      - { key: c, text: "Running nightly backups and checking that they completed" }
+      - { key: d, text: "Disabling a leaver's accounts on their last day, as the procedure says" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Due diligence is the investigating and knowing: researching a supplier's
+      risks before committing.
+
+      - **a, c and d** are all **due care**: carrying out the protections a prudent
+        organisation has committed to, consistently. Patching, backups and deprovisioning are
+        the ongoing doing.
+    points: 1
+
+  - key: d1-gov-acquisition-connect
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Your company has just closed the acquisition of a small software startup. IT wants to join the two corporate networks on day one so staff can collaborate. What should the security manager recommend?"
+    choices:
+      - { key: a, text: "Connect the networks immediately and monitor the link with an intrusion detection system" }
+      - { key: b, text: "Refuse any connection until the startup achieves ISO/IEC 27001 certification" }
+      - { key: c, text: "Connect the networks, because security due diligence was already done before the deal" }
+      - { key: d, text: "Assess the acquired environment and remediate or segment it before connecting, with interim collaboration through controlled services" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. The acquired network's real security posture is unknown until it's
+      assessed. Joining it straight away imports its compromises and weaknesses. Segmentation
+      and controlled collaboration tools keep the business moving in the meantime.
+
+      - **a**: an IDS detects. It doesn't prevent an existing compromise from spreading across the link.
+      - **b**: certification can take a year or more. This blocks the business without proportionate reason.
+      - **c**: pre-deal due diligence is usually document-based and limited. It doesn't replace a technical assessment.
+    points: 1
+
+  - key: d1-gov-fedramp
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A SaaS company wants to sell its platform to US federal civilian agencies. Which framework or programme will it MOST likely need to satisfy?"
+    choices:
+      - { key: a, text: "ISO/IEC 27001 certification alone" }
+      - { key: b, text: "FedRAMP authorization" }
+      - { key: c, text: "PCI DSS" }
+      - { key: d, text: "COBIT 2019" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. FedRAMP standardises security authorisation of cloud services for US
+      federal use, based on NIST SP 800-53 controls.
+
+      - **a**: ISO 27001 is valuable, but agencies need FedRAMP authorisation, not ISO certification alone.
+      - **c**: PCI DSS covers payment card data, not federal cloud use.
+      - **d**: COBIT is an IT governance framework, not an authorisation programme for cloud services.
+    points: 1
+
+  - key: d1-gov-data-owner
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "Which TWO are responsibilities of a data (information) owner? Choose two."
+    choices:
+      - { key: a, text: "Deciding the data's classification level" }
+      - { key: b, text: "Running and verifying the nightly backups" }
+      - { key: c, text: "Configuring file system permissions on the server" }
+      - { key: d, text: "Approving who may be granted access to the data" }
+      - { key: e, text: "Independently auditing the controls protecting the data" }
+    answer: [a, d]
+    explanation_md: |
+      **a and d** are right. The owner, usually a business manager accountable for the data,
+      classifies it and decides who may access it.
+
+      - **b and c** are **custodian** duties: the hands-on carrying out of the owner's decisions.
+      - **e** is the auditor's job. Independent assurance can't come from the owner.
+    points: 1
+
+  # ---------- 1.4 Legal, regulatory and compliance ----------
+  - key: d1-law-pci-nature
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "An online merchant is told it must comply with PCI DSS. Which statement BEST describes the nature of that obligation?"
+    choices:
+      - { key: a, text: "It is a US federal statute enforced by the Federal Trade Commission" }
+      - { key: b, text: "It is an EU regulation that applies only to European merchants" }
+      - { key: c, text: "It is an industry standard enforced through contracts with the card brands and acquiring banks" }
+      - { key: d, text: "It is an international treaty that signatory countries enforce through criminal law" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The PCI Security Standards Council publishes PCI DSS, and card brands
+      enforce it through merchant and acquirer agreements, with fines and loss of card-processing
+      privileges.
+
+      - **a**: no legislature enacted it. (A few US states reference it, but it isn't a federal law.)
+      - **b**: it applies worldwide to anyone handling card data and isn't EU legislation.
+      - **d**: no treaty is involved.
+    points: 1
+
+  - key: d1-law-gdpr-72-hours
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A company that is a controller under GDPR discovers a personal data breach that is likely to pose a risk to the people affected. By when must it notify its lead supervisory authority?"
+    choices:
+      - { key: a, text: "Without undue delay and, where feasible, within 72 hours of becoming aware of it" }
+      - { key: b, text: "Within 30 days of the breach occurring" }
+      - { key: c, text: "Within 24 hours of the breach occurring, whether or not it has been detected" }
+      - { key: d, text: "Only once the forensic investigation is complete and the root cause is known" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. GDPR Article 33 requires notification without undue delay and, where
+      feasible, within 72 hours of becoming aware. A late notification must explain the delay.
+      Information can be supplied in phases.
+
+      - **b**: 30 days is far too long and isn't the GDPR rule.
+      - **c**: the clock starts at awareness, not occurrence, and the period is 72 hours.
+      - **d**: waiting for a full investigation is exactly what phased notification is meant to avoid.
+    points: 1
+
+  - key: d1-law-trade-secret
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A beverage company wants to protect its drink formula for as long as possible. Competitors cannot work out the formula by analysing the product. Which protection BEST meets the goal?"
+    choices:
+      - { key: a, text: "A patent, because it gives a legally enforceable monopoly" }
+      - { key: b, text: "Copyright on the written formula document" }
+      - { key: c, text: "A trademark registration for the formula" }
+      - { key: d, text: "Trade secret protection, supported by NDAs, need-to-know access and marking" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. A trade secret lasts as long as it stays secret and the owner takes
+      reasonable measures to protect it. That suits a formula that can't be reverse-engineered.
+
+      - **a**: a patent requires public disclosure of the formula and generally expires 20
+        years after filing.
+      - **b**: copyright protects the expression in the document, not the underlying recipe.
+      - **c**: trademarks protect brand identifiers such as names and logos, not formulas.
+    points: 1
+
+  - key: d1-law-transfer-mechanism
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "An EU-based company wants to send employee HR records to an unaffiliated payroll processor in a country that has no EU adequacy decision. Which mechanism is MOST appropriate for this routine, ongoing transfer?"
+    choices:
+      - { key: a, text: "Binding corporate rules" }
+      - { key: b, text: "Standard contractual clauses, supported by a transfer impact assessment" }
+      - { key: c, text: "Explicit consent collected from each employee" }
+      - { key: d, text: "No mechanism, because the payroll firm is only a processor" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. With no adequacy decision, SCCs are the standard tool for transfers to
+      an unrelated party. A transfer impact assessment (and supplementary measures if needed)
+      checks that the clauses work in practice.
+
+      - **a**: BCRs cover transfers **within** one corporate group, not to an unaffiliated vendor.
+      - **c**: consent is a narrow derogation meant for occasional transfers, and employee
+        consent is rarely freely given because of the power imbalance.
+      - **d**: transfer rules apply to processors too. Being a processor doesn't exempt the transfer.
+    points: 1
+
+  - key: d1-law-export-encryption
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A US company plans to start selling a network appliance that includes strong encryption to customers in several other countries. What should the security leader do FIRST?"
+    choices:
+      - { key: a, text: "Reduce the key length so the product falls below export thresholds" }
+      - { key: b, text: "Ship the product and file any required export paperwork once orders arrive" }
+      - { key: c, text: "Engage legal or trade-compliance staff to classify the product under export regulations and identify any licence requirements" }
+      - { key: d, text: "Remove encryption from all units sold outside the US" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Encryption is a dual-use item under the Wassenaar Arrangement and, in
+      the US, the Export Administration Regulations. The product has to be classified, and any
+      licence or notification needs identified, **before** export. Destination countries may
+      also have import rules.
+
+      - **a**: weakening security to dodge a compliance step harms customers, and may not be needed at all.
+      - **b**: exporting before classification risks violating the law.
+      - **d**: this throws away an essential protection without knowing whether it's necessary.
+    points: 1
+
+  - key: d1-law-ip-statements
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "Which TWO statements about intellectual property protection are correct? Choose two."
+    choices:
+      - { key: a, text: "Trade secrets must be registered with a government office to be protected" }
+      - { key: b, text: "Trademark registrations expire permanently after 20 years" }
+      - { key: c, text: "Copyright protects the expression of an idea, such as source code, but not the idea itself" }
+      - { key: d, text: "Copyright exists only after the work has been registered" }
+      - { key: e, text: "A patent requires public disclosure of the invention in exchange for a time-limited exclusive right" }
+    answer: [c, e]
+    explanation_md: |
+      **c and e** are right. Copyright covers expression, not ideas. A patent trades public
+      disclosure for exclusivity, generally 20 years from filing.
+
+      - **a**: trade secrets aren't registered. They're protected by keeping them secret with reasonable measures.
+      - **b**: US trademark registrations can be renewed every 10 years indefinitely while the mark is in use.
+      - **d**: copyright arises automatically when the work is created. Registration mainly helps enforcement.
+    points: 1
+
+  - key: d1-law-privacy-reuse
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "Customers were told their support calls are recorded 'for quality and training of support staff'. Marketing now wants to use the recordings to build voice profiles for targeted advertising. Which TWO privacy principles MOST directly constrain this plan? Choose two."
+    choices:
+      - { key: a, text: "Availability" }
+      - { key: b, text: "Purpose limitation (use limitation)" }
+      - { key: c, text: "Transparency (openness) about how personal data is used" }
+      - { key: d, text: "Nonrepudiation" }
+      - { key: e, text: "Data quality (accuracy)" }
+    answer: [b, c]
+    explanation_md: |
+      **b and c** are right. The data was collected for a stated purpose, and reusing it for
+      an incompatible one breaches purpose and use limitation. Customers weren't told about
+      advertising use, which breaches transparency. A new lawful basis and fresh notice would
+      be needed.
+
+      - **a and d** are security properties, not privacy principles governing reuse.
+      - **e**: accuracy is a privacy principle, but nothing here suggests the recordings are inaccurate.
+    points: 1
+
+  # ---------- 1.5 Investigation types ----------
+  - key: d1-inv-civil-standard
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A company sues a former engineer for breaching his non-disclosure agreement by taking design files to a competitor. What standard of proof will the court apply in this civil case?"
+    choices:
+      - { key: a, text: "Beyond a reasonable doubt" }
+      - { key: b, text: "Preponderance of the evidence" }
+      - { key: c, text: "Probable cause" }
+      - { key: d, text: "No standard; the company decides internally" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Civil cases are generally decided on the preponderance of the evidence,
+      meaning more likely than not.
+
+      - **a**: beyond a reasonable doubt is the criminal standard.
+      - **c**: probable cause is the threshold for warrants and arrests, not for deciding a case.
+      - **d**: describes an administrative (internal) investigation, not a lawsuit.
+    points: 1
+
+  - key: d1-inv-admin-escalates
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "During an administrative investigation into an employee's breach of acceptable-use policy, the analyst finds evidence that the employee has been diverting customer payments to a personal account. What should the analyst do FIRST?"
+    choices:
+      - { key: a, text: "Confront the employee to obtain a confession while the evidence is fresh" }
+      - { key: b, text: "Telephone the police directly and hand over the laptop" }
+      - { key: c, text: "Reimage the laptop so the employee cannot destroy evidence remotely" }
+      - { key: d, text: "Preserve the evidence under chain of custody and consult legal counsel on next steps, including involving law enforcement" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. The matter may now be criminal. Evidence must be preserved in a way
+      that keeps it admissible, and legal counsel should decide on notifying law enforcement,
+      since that decision has consequences for the organisation.
+
+      - **a**: confronting the employee risks tipping them off and spoiling the evidence and the case.
+      - **b**: law enforcement may well be needed, but the decision belongs to counsel and management, not one analyst.
+      - **c**: reimaging destroys the evidence.
+    points: 1
+
+  - key: d1-inv-industry-standard
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "After a card-data compromise at a merchant, the card brands require an investigation by a PCI Forensic Investigator. What type of investigation is this?"
+    choices:
+      - { key: a, text: "An industry standards investigation" }
+      - { key: b, text: "A criminal investigation" }
+      - { key: c, text: "An administrative investigation" }
+      - { key: d, text: "A civil investigation" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. The investigation checks compliance with an industry standard (PCI DSS),
+      is required by the industry bodies, and is carried out by investigators they approve.
+
+      - **b**: no prosecutor or law enforcement agency is leading it, though a separate criminal case might follow.
+      - **c**: it isn't an internal investigation into the organisation's own operational matters.
+      - **d**: no lawsuit between parties is involved.
+    points: 1
+
+  - key: d1-inv-criminal-traits
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "Which TWO characteristics distinguish a criminal investigation from an administrative one? Choose two."
+    choices:
+      - { key: a, text: "It is led by law enforcement and prosecutors rather than by the organisation" }
+      - { key: b, text: "It is usually led by HR and line management" }
+      - { key: c, text: "Its findings need only be more likely than not to be true" }
+      - { key: d, text: "Guilt must be proven beyond a reasonable doubt, so evidence handling must meet strict admissibility rules" }
+      - { key: e, text: "Its evidence handling can be informal because the outcome is internal discipline" }
+    answer: [a, d]
+    explanation_md: |
+      **a and d** are right. Criminal matters are investigated by law enforcement and
+      prosecuted by the state, at the highest standard of proof, which requires rigorous
+      chain of custody and admissible evidence.
+
+      - **b and e** describe **administrative** investigations (and even those should preserve
+        evidence in case they escalate).
+      - **c** is the civil standard (preponderance of the evidence).
+    points: 1
+
+  # ---------- 1.6 Policies, standards, procedures, guidelines ----------
+  - key: d1-pol-identify-standard
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A document states: 'All company laptops must use AES-256 full-disk encryption through the approved endpoint management tool.' What type of document is this?"
+    choices:
+      - { key: a, text: "Policy" }
+      - { key: b, text: "Guideline" }
+      - { key: c, text: "Standard" }
+      - { key: d, text: "Procedure" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. It is a specific, mandatory requirement naming a technology and setting.
+      That makes it a standard, which puts policy into concrete terms.
+
+      - **a**: a policy states intent in technology-neutral terms (for example, sensitive data must be protected at rest).
+      - **b**: guidelines are optional. "Must" signals a mandatory requirement.
+      - **d**: a procedure would list the steps to turn the encryption on.
+    points: 1
+
+  - key: d1-pol-discretionary
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Which type of security document is discretionary, offering recommended practice that staff may adapt to their situation?"
+    choices:
+      - { key: a, text: "Baseline" }
+      - { key: b, text: "Standard" }
+      - { key: c, text: "Procedure" }
+      - { key: d, text: "Guideline" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Guidelines are recommendations, and people may use judgement in applying them.
+
+      - **a**: a baseline is a mandatory minimum configuration.
+      - **b**: standards are mandatory, specific requirements.
+      - **c**: procedures are mandatory step-by-step instructions.
+    points: 1
+
+  - key: d1-pol-approval
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Who should formally approve an organisation's overall information security policy so that it carries authority across all business units?"
+    choices:
+      - { key: a, text: "The CISO, as the policy's author" }
+      - { key: b, text: "Senior management" }
+      - { key: c, text: "The IT operations director" }
+      - { key: d, text: "The legal department" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. The policy states **management's** intent. Senior management approval
+      gives it organisation-wide authority and shows support.
+
+      - **a**: the CISO usually drafts it, but authoring isn't approval, and the CISO's
+        authority alone doesn't bind other business units.
+      - **c**: IT operations is one stakeholder and lacks enterprise authority.
+      - **d**: legal reviews enforceability but doesn't own or approve business policy.
+    points: 1
+
+  - key: d1-pol-baseline-update
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A new server operating system release introduces settings that need different hardening values. The security policy and encryption standard are unaffected. Which document should be updated?"
+    choices:
+      - { key: a, text: "The baseline for that server platform" }
+      - { key: b, text: "The information security policy" }
+      - { key: c, text: "The acceptable use policy" }
+      - { key: d, text: "The guidelines for remote working" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Baselines set the minimum secure configuration for a class of system and
+      change as platforms change.
+
+      - **b**: the policy is technology-neutral and shouldn't change for an OS release.
+      - **c**: acceptable use governs user behaviour, not server configuration.
+      - **d**: unrelated, and optional guidance wouldn't enforce a configuration anyway.
+    points: 1
+
+  - key: d1-pol-policy-content
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "A draft organisational information security policy is being reviewed. Which TWO elements belong in it? Choose two."
+    choices:
+      - { key: a, text: "Step-by-step instructions for configuring the VPN client" }
+      - { key: b, text: "A statement of management's intent, purpose and scope" }
+      - { key: c, text: "The brand and version of the firewall to be purchased" }
+      - { key: d, text: "Optional tips for choosing memorable passphrases" }
+      - { key: e, text: "Roles and responsibilities, and the consequences of non-compliance" }
+    answer: [b, e]
+    explanation_md: |
+      **b and e** are right. A policy is a high-level, mandatory statement: why it exists, what
+      it covers, who is responsible, and what happens if it's broken.
+
+      - **a** belongs in a procedure.
+      - **c** belongs in a standard (and naming products makes policies go stale).
+      - **d** belongs in a guideline.
+    points: 1
+
+  # ---------- 1.7 Business continuity requirements ----------
+  - key: d1-bc-rto-from-mtd
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A BIA sets the maximum tolerable downtime (MTD) of the order-fulfilment process at 48 hours. After systems are restored, staff need about 6 hours to reconcile and clear the backlog. What is the LONGEST acceptable recovery time objective (RTO) for its systems?"
+    choices:
+      - { key: a, text: "54 hours" }
+      - { key: b, text: "48 hours" }
+      - { key: c, text: "42 hours" }
+      - { key: d, text: "6 hours" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. RTO plus work recovery time must fit inside the MTD: 48 − 6 = 42 hours.
+
+      - **a**: adds instead of subtracting, so the MTD is exceeded.
+      - **b**: leaves no time for work recovery, so the process would be down longer than the MTD.
+      - **d**: that is the work recovery time, not the RTO.
+    points: 1
+
+  - key: d1-bc-rpo-backups
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "The BIA sets a recovery point objective (RPO) of one hour for the trading database. It is currently backed up nightly to tape, and restores take 30 minutes. What change is needed to meet the RPO?"
+    choices:
+      - { key: a, text: "Buy faster restore hardware so restores finish in under 10 minutes" }
+      - { key: b, text: "Back up or replicate the database at least hourly" }
+      - { key: c, text: "Contract a hot site so the database can run elsewhere" }
+      - { key: d, text: "Reduce the maximum tolerable downtime to one hour" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. RPO measures tolerable **data loss**. Nightly backups can lose up to 24
+      hours of data, so data must be captured at least hourly.
+
+      - **a**: restore speed affects RTO, not how much data is lost.
+      - **c**: an alternate site helps availability (RTO), but stale data is stale wherever it runs.
+      - **d**: the business sets MTD from impact. Changing it doesn't reduce data loss.
+    points: 1
+
+  - key: d1-bc-bia-first-step
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A BCP team, with senior management sponsorship, is starting its business impact analysis. What is the FIRST step of the BIA?"
+    choices:
+      - { key: a, text: "Select a warm or hot alternate processing site" }
+      - { key: b, text: "Schedule a tabletop exercise of the recovery plan" }
+      - { key: c, text: "Write recovery runbooks for each critical server" }
+      - { key: d, text: "Identify the organisation's business processes and determine their criticality" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. NIST SP 800-34 starts the BIA by determining business processes and
+      their recovery criticality. Resource requirements and recovery priorities follow.
+
+      - **a**: site selection is a recovery **strategy**, chosen after the BIA sets the requirements.
+      - **b**: exercises test a finished plan.
+      - **c**: runbooks are written during plan development, after priorities are known.
+    points: 1
+
+  - key: d1-bc-who-sets-mtd
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "During the BIA, who should determine the maximum tolerable downtime for the insurance claims-processing function?"
+    choices:
+      - { key: a, text: "The head of claims, as the business process owner" }
+      - { key: b, text: "The IT infrastructure manager" }
+      - { key: c, text: "The BCP coordinator" }
+      - { key: d, text: "The external auditor" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. The MTD reflects business impact over time, and the business process
+      owner understands that impact. The BIA gathers owners' judgements.
+
+      - **b**: IT knows how long recovery **takes**, not how long the business can **tolerate** the outage.
+      - **c**: the coordinator runs the process and consolidates results but doesn't own the business impact.
+      - **d**: auditors review the plan independently. They don't set its requirements.
+    points: 1
+
+  - key: d1-bc-external-dependency
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "An online retailer's BIA sets a 4-hour MTD for checkout. The payment gateway's contract commits only to restoring service within 24 hours. What should the BCP coordinator do?"
+    choices:
+      - { key: a, text: "Accept the gateway's SLA, since the outage would be the provider's fault" }
+      - { key: b, text: "Raise the checkout MTD to 24 hours to match the provider" }
+      - { key: c, text: "Record the dependency gap and pursue a remedy such as a second payment provider, a fallback process or a renegotiated SLA" }
+      - { key: d, text: "Buy cyber insurance to cover lost sales during a gateway outage" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. An external dependency whose recovery commitment exceeds the MTD is a
+      continuity gap. It has to be documented and closed through an alternative, a fallback or
+      a contract change.
+
+      - **a**: blame doesn't change the impact. The retailer still suffers past its MTD.
+      - **b**: the MTD comes from business impact, not supplier convenience. Changing it hides the gap.
+      - **d**: insurance can offset some money, but it doesn't keep checkout running or cover reputational harm.
+    points: 1
+
+  - key: d1-bc-statements
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "Which TWO statements about business continuity planning are correct? Choose two."
+    choices:
+      - { key: a, text: "The IT department should carry out the BIA alone, because it knows the systems best" }
+      - { key: b, text: "The recovery time objective may exceed the maximum tolerable downtime if the budget is limited" }
+      - { key: c, text: "The safety of people takes priority over recovering systems and data" }
+      - { key: d, text: "The BCP effort needs senior management sponsorship to obtain authority and resources" }
+      - { key: e, text: "Business continuity planning and disaster recovery planning are two names for the same plan" }
+    answer: [c, d]
+    explanation_md: |
+      **c and d** are right. Life safety always comes first, and BCP needs management's
+      authority and budget because it crosses every department.
+
+      - **a**: the BIA needs every business unit. IT doesn't know the business impact of each process.
+      - **b**: an RTO beyond the MTD means the business fails before recovery finishes. A budget
+        problem calls for a risk decision, not a broken objective.
+      - **e**: DRP restores IT and facilities. It is one part of the broader BCP.
+    points: 1
+
+  # ---------- 1.8 Personnel security ----------
+  - key: d1-pers-hostile-termination
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A senior system administrator is about to be dismissed for misconduct, and managers expect the meeting to be hostile. When should the administrator's access be disabled?"
+    choices:
+      - { key: a, text: "At the end of the day, after the exit interview is finished" }
+      - { key: b, text: "At the same time as the administrator is told of the termination" }
+      - { key: c, text: "One week before the meeting, so there is time to check for problems" }
+      - { key: d, text: "After the administrator has returned all company equipment" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Revoking access as the person is notified, coordinated with HR, closes
+      the window for sabotage without signalling the decision in advance.
+
+      - **a and d**: both leave a privileged, possibly angry user with access after being told.
+      - **c**: cutting access a week early tips the person off and disrupts legitimate work.
+        It also makes the termination plain before it's delivered.
+    points: 1
+
+  - key: d1-pers-privilege-creep
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "An audit finds that an employee who has moved through four departments in six years still holds the access rights of every role she has held. Which control would MOST directly have prevented this?"
+    choices:
+      - { key: a, text: "Mandatory vacations" }
+      - { key: b, text: "Job rotation" }
+      - { key: c, text: "A stronger non-disclosure agreement" }
+      - { key: d, text: "Removing prior access as part of every transfer, backed by periodic access reviews" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. This is privilege creep. The transfer process should take away old
+      access when it grants new access, and recertification catches what slips through.
+
+      - **a**: mandatory vacations detect fraud. They don't remove excess rights.
+      - **b**: job rotation without deprovisioning actually **causes** privilege creep.
+      - **c**: an NDA governs disclosure of information, not system access.
+    points: 1
+
+  - key: d1-pers-mandatory-vacation
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A bank requires its payment operations staff to take two consecutive weeks of leave each year, during which colleagues perform their duties and their access is suspended. What is the PRIMARY security purpose?"
+    choices:
+      - { key: a, text: "To detect fraud or irregularities that the absent employee may have been concealing" }
+      - { key: b, text: "To reduce burnout so that staff make fewer errors" }
+      - { key: c, text: "To enforce separation of duties between payment initiation and approval" }
+      - { key: d, text: "To reduce licence costs during quiet periods" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Mandatory vacation is a detective control. Schemes that need daily
+      upkeep tend to surface when someone else does the work.
+
+      - **b**: wellbeing is a side benefit, not the security purpose.
+      - **c**: separation of duties is a separate, preventive control that splits one task between people.
+      - **d**: unrelated to security.
+    points: 1
+
+  - key: d1-pers-screening
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "HR is designing pre-employment screening for a new role with administrative access to the payroll system. Which approach is BEST?"
+    choices:
+      - { key: a, text: "Apply the same minimal identity check to every role so that hiring is consistent" }
+      - { key: b, text: "Run full credit and criminal checks on every applicant for every role, regardless of local law" }
+      - { key: c, text: "Use background checks proportionate to the role's sensitivity, within what local law permits, with the candidate's consent where required" }
+      - { key: d, text: "Skip screening and rely on the signed NDA and acceptable-use policy" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Screening should match the risk of the role (payroll admin access is
+      high-risk) and must comply with privacy and employment law.
+
+      - **a**: under-screens a sensitive role.
+      - **b**: over-collects personal data and may break the law where credit or criminal checks are restricted.
+      - **d**: agreements set expectations but don't verify anything about the person.
+    points: 1
+
+  - key: d1-pers-separation-of-duties
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "Which TWO statements about separation of duties are correct? Choose two."
+    choices:
+      - { key: a, text: "It prevents a single person from completing a sensitive transaction alone" }
+      - { key: b, text: "It is primarily a detective control" }
+      - { key: c, text: "It eliminates insider threat entirely" }
+      - { key: d, text: "It is another name for job rotation" }
+      - { key: e, text: "Fraud under separation of duties requires collusion between two or more people" }
+    answer: [a, e]
+    explanation_md: |
+      **a and e** are right. Separation of duties splits critical tasks between people, which
+      **prevents** solo fraud, so committing it requires collusion.
+
+      - **b**: it is preventive. Job rotation and mandatory vacation are the detective counterparts.
+      - **c**: colluding insiders can still defeat it. It reduces risk but doesn't eliminate it.
+      - **d**: job rotation moves people between roles over time, which is a different control with a different purpose.
+    points: 1
+
+  # ---------- 1.9 Risk management ----------
+  - key: d1-risk-ale-calculation
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A warehouse management system is valued at $200,000. A ransomware incident is expected to cost 40% of its value each time, and is expected once every two years. What is the annualised loss expectancy (ALE)?"
+    choices:
+      - { key: a, text: "$80,000" }
+      - { key: b, text: "$100,000" }
+      - { key: c, text: "$20,000" }
+      - { key: d, text: "$40,000" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. SLE = AV × EF = 200,000 × 0.40 = \$80,000. ARO = 1/2 = 0.5. ALE = SLE ×
+      ARO = 80,000 × 0.5 = **\$40,000**.
+
+      - **a**: that is the SLE. It leaves out the annual rate.
+      - **b**: AV × ARO. It skips the exposure factor.
+      - **c**: applies the rate twice (80,000 × 0.5 × 0.5).
+    points: 1
+
+  - key: d1-risk-safeguard-value
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A risk has an ALE of \\$90,000. A proposed control would reduce the ALE to \\$20,000 and costs \\$50,000 per year to run. What is the annual value of the control?"
+    choices:
+      - { key: a, text: "$70,000" }
+      - { key: b, text: "$20,000" }
+      - { key: c, text: "-$30,000" }
+      - { key: d, text: "$40,000" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Value = ALE before − ALE after − annual cost = 90,000 − 20,000 − 50,000 =
+      **\$20,000**. It is positive, so the control is cost-justified.
+
+      - **a**: the ALE reduction alone. It leaves out the control's cost.
+      - **c**: subtracts the cost from the residual ALE (20,000 − 50,000), which isn't the formula.
+      - **d**: subtracts the cost from the original ALE (90,000 − 50,000) and ignores the residual ALE.
+    points: 1
+
+  - key: d1-risk-aro
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Geological records indicate that a damaging earthquake strikes a data centre's region about once every 50 years. What annualised rate of occurrence (ARO) should be used?"
+    choices:
+      - { key: a, text: "0.02" }
+      - { key: b, text: "50" }
+      - { key: c, text: "0.5" }
+      - { key: d, text: "0.2" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Once in 50 years gives ARO = 1/50 = 0.02.
+
+      - **b**: confuses the interval with the rate. It would mean 50 earthquakes a year.
+      - **c**: once every two years.
+      - **d**: once every five years.
+    points: 1
+
+  - key: d1-risk-insurance
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A mid-sized company buys a cyber insurance policy that covers incident response costs and some business interruption losses. Which risk response is this?"
+    choices:
+      - { key: a, text: "Risk mitigation" }
+      - { key: b, text: "Risk avoidance" }
+      - { key: c, text: "Risk transfer (sharing)" }
+      - { key: d, text: "Risk acceptance" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Insurance shifts part of the financial impact to a third party, which is
+      risk transfer, also called sharing.
+
+      - **a**: mitigation reduces likelihood or impact through controls. Insurance changes neither.
+      - **b**: avoidance stops the risky activity altogether.
+      - **d**: acceptance means bearing the risk yourself, deliberately and with documentation.
+    points: 1
+
+  - key: d1-risk-avoidance
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "After a risk assessment, a fintech company cancels plans to offer its app in a country whose laws would require it to store unencrypted customer data on government-accessible servers. Which risk response has it chosen?"
+    choices:
+      - { key: a, text: "Transfer" }
+      - { key: b, text: "Avoidance" }
+      - { key: c, text: "Mitigation" }
+      - { key: d, text: "Acceptance" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Not doing the activity that creates the risk is avoidance.
+
+      - **a**: no third party takes on any of the impact.
+      - **c**: no control was added to reduce likelihood or impact. The activity was dropped.
+      - **d**: the company declined the risk rather than taking it on.
+    points: 1
+
+  - key: d1-risk-acceptance-authority
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A vulnerability in a legacy system cannot be patched, and compensating controls leave some residual risk. Who should formally accept that residual risk?"
+    choices:
+      - { key: a, text: "The security analyst who found the vulnerability" }
+      - { key: b, text: "The internal auditor" }
+      - { key: c, text: "The system administrator" }
+      - { key: d, text: "The system or business owner (or a senior manager) with authority over the risk" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Risk acceptance is a management decision. It should be made and signed by
+      someone accountable for the asset and with the authority to accept that level of risk,
+      such as the authorising official in NIST RMF. It should also be recorded in the risk register.
+
+      - **a and c**: technical staff identify and manage risk but lack the business authority to accept it.
+      - **b**: auditors must stay independent, so accepting risk would compromise their role.
+    points: 1
+
+  - key: d1-risk-delphi
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A risk team wants expert estimates of the likelihood of several threats without a senior executive's opinion swaying the group. It collects anonymous written estimates, shares a summary, and repeats until views converge. Which technique is this?"
+    choices:
+      - { key: a, text: "Delphi technique" }
+      - { key: b, text: "Annualised loss expectancy analysis" }
+      - { key: c, text: "Attack tree analysis" }
+      - { key: d, text: "Monte Carlo simulation" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. The Delphi technique uses anonymous, iterative rounds of expert input to
+      reach consensus while avoiding groupthink and dominant voices. It is a qualitative method.
+
+      - **b**: ALE is a quantitative calculation, not a way of gathering opinions.
+      - **c**: attack trees break down how an attacker reaches a goal.
+      - **d**: Monte Carlo simulation models outcomes statistically from input distributions.
+        It doesn't involve anonymous rounds of expert opinion.
+    points: 1
+
+  - key: d1-risk-control-classification
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "Which TWO controls are correctly classified by type and function? Choose two."
+    choices:
+      - { key: a, text: "Mandatory vacation: administrative, preventive" }
+      - { key: b, text: "Intrusion detection system: technical, detective" }
+      - { key: c, text: "Perimeter fence: physical, preventive" }
+      - { key: d, text: "Security awareness training: technical, corrective" }
+      - { key: e, text: "Firewall rule set: physical, detective" }
+    answer: [b, c]
+    explanation_md: |
+      **b and c** are right. An IDS is a technical control that detects. A fence is a physical
+      control that prevents (or delays) entry, and it also deters.
+
+      - **a**: mandatory vacation is administrative but **detective**: it uncovers fraud.
+      - **d**: awareness training is **administrative** and mainly preventive (or directive).
+      - **e**: a firewall rule set is **technical** and **preventive**.
+    points: 1
+
+  - key: d1-risk-transfer-limits
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "A company buys cyber insurance covering breach-response costs. After a breach, which TWO consequences does the company STILL bear itself? Choose two."
+    choices:
+      - { key: a, text: "The forensic investigator's fees covered under the policy" }
+      - { key: b, text: "Breach-notification mailing costs covered under the policy" }
+      - { key: c, text: "Nothing, because the risk has been fully transferred to the insurer" }
+      - { key: d, text: "Accountability to regulators and customers for protecting the data" }
+      - { key: e, text: "Damage to its reputation and customer trust" }
+    answer: [d, e]
+    explanation_md: |
+      **d and e** are right. Insurance shifts some financial loss, but accountability can't be
+      transferred, and reputational harm stays with the organisation.
+
+      - **a and b**: these are exactly the costs the policy covers, so they are the transferred part.
+      - **c**: risk is never fully transferred. Accountability, reputation, deductibles and
+        exclusions all remain.
+    points: 1
+
+  # ---------- 1.10 Threat modeling ----------
+  - key: d1-tm-stride-repudiation
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "In a STRIDE review of an ordering API, the team notes that a customer could place an order and later deny it, and the system has no record that could prove otherwise. Which STRIDE category is this?"
+    choices:
+      - { key: a, text: "Spoofing" }
+      - { key: b, text: "Tampering" }
+      - { key: c, text: "Repudiation" }
+      - { key: d, text: "Information disclosure" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Repudiation threats exploit the lack of evidence tying an action to an
+      actor. The mitigations are audit logging and signatures, which support nonrepudiation.
+
+      - **a**: spoofing is pretending to be someone else, an authenticity problem.
+      - **b**: tampering is unauthorised modification, an integrity problem.
+      - **d**: information disclosure is exposing data, a confidentiality problem.
+    points: 1
+
+  - key: d1-tm-pasta
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A bank wants a threat modeling method that starts from business objectives, runs through seven stages including attack simulation, and ends with risk and impact analysis that executives can act on. Which method fits BEST?"
+    choices:
+      - { key: a, text: "PASTA" }
+      - { key: b, text: "STRIDE" }
+      - { key: c, text: "DREAD" }
+      - { key: d, text: "LINDDUN" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. PASTA (Process for Attack Simulation and Threat Analysis) is a
+      risk-centric, seven-stage method that links threats to business impact.
+
+      - **b**: STRIDE is a threat classification applied to system elements. It doesn't start from business objectives.
+      - **c**: DREAD is a scoring scheme for ranking threats, not a full method.
+      - **d**: LINDDUN focuses on privacy threats.
+    points: 1
+
+  - key: d1-tm-timing
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "When is threat modeling MOST cost-effective for a new application?"
+    choices:
+      - { key: a, text: "After deployment, once real attack traffic can be observed" }
+      - { key: b, text: "Just before release, as part of the final penetration test" }
+      - { key: c, text: "Only after a security incident has occurred" }
+      - { key: d, text: "During design, and revisited whenever the design changes significantly" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Design flaws are cheapest to fix before they're built, and the model has
+      to change as the system changes.
+
+      - **a**: by then design flaws are expensive to fix, and users are already exposed.
+      - **b**: pen testing just before release finds problems late. It complements threat modeling but doesn't replace it.
+      - **c**: purely reactive. The incident has already caused harm.
+    points: 1
+
+  - key: d1-tm-linddun
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A health start-up is designing a symptom-tracking app and is most concerned about threats such as users being linked across datasets, re-identified, or unaware of how their data is used. Which threat modeling method is designed for these concerns?"
+    choices:
+      - { key: a, text: "VAST" }
+      - { key: b, text: "LINDDUN" }
+      - { key: c, text: "Attack trees" }
+      - { key: d, text: "STRIDE" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. LINDDUN is a privacy threat framework whose categories cover linking,
+      identifying, non-repudiation, detecting, data disclosure, unawareness and non-compliance.
+
+      - **a**: VAST is built for scaling threat modeling across agile teams. It isn't privacy-specific.
+      - **c**: attack trees analyse how an attacker reaches a goal, with no privacy taxonomy.
+      - **d**: STRIDE targets security properties, and it treats non-repudiation as desirable,
+        whereas privacy can treat it as a threat.
+    points: 1
+
+  - key: d1-tm-stride-mapping
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "Which TWO pairings of a STRIDE threat with the security property it violates are correct? Choose two."
+    choices:
+      - { key: a, text: "Tampering violates integrity" }
+      - { key: b, text: "Spoofing violates availability" }
+      - { key: c, text: "Information disclosure violates confidentiality" }
+      - { key: d, text: "Elevation of privilege violates nonrepudiation" }
+      - { key: e, text: "Denial of service violates integrity" }
+    answer: [a, c]
+    explanation_md: |
+      **a and c** are right. Tampering is unauthorised modification, which violates integrity.
+      Information disclosure exposes data, which violates confidentiality.
+
+      - **b**: spoofing violates **authenticity** (authentication).
+      - **d**: elevation of privilege violates **authorisation**.
+      - **e**: denial of service violates **availability**.
+    points: 1
+
+  # ---------- 1.11 Supply chain risk management ----------
+  - key: d1-sc-sbom
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A critical vulnerability is announced in a widely used open-source logging library. The CISO needs to know within hours which of the company's 40 products include it, directly or as a nested dependency. What would MOST directly make this possible?"
+    choices:
+      - { key: a, text: "Each supplier's most recent SOC 2 Type II report" }
+      - { key: b, text: "A current software bill of materials (SBOM) for each product" }
+      - { key: c, text: "A silicon root of trust in the company's servers" }
+      - { key: d, text: "An annual external penetration test of each product" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. An SBOM is a machine-readable inventory of components and their dependency
+      relationships, which is exactly what you need to find where a library is used.
+
+      - **a**: SOC 2 reports describe a service organisation's controls, not component inventories.
+      - **c**: a hardware root of trust protects boot integrity. It says nothing about software composition.
+      - **d**: a yearly test is too slow and isn't designed to inventory components.
+    points: 1
+
+  - key: d1-sc-puf
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "An IoT manufacturer wants each chip to derive a unique identity from tiny, uncontrollable variations in its own silicon, so no device key needs to be stored where it could be read out and clones can be detected. Which technology does this describe?"
+    choices:
+      - { key: a, text: "A software bill of materials" }
+      - { key: b, text: "A hardware security module in the factory" }
+      - { key: c, text: "Secure boot with a signed bootloader" }
+      - { key: d, text: "A physically unclonable function (PUF)" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. A PUF turns manufacturing variation into a device-unique response that
+      works as a fingerprint for identity and key derivation, with no stored secret to extract.
+
+      - **a**: an SBOM lists software components and has nothing to do with chip identity.
+      - **b**: an HSM stores and uses keys centrally. It doesn't derive a per-chip identity from the silicon.
+      - **c**: secure boot checks firmware signatures, typically anchored in a silicon root of
+        trust, but it doesn't create unique identities from physical variation.
+    points: 1
+
+  - key: d1-sc-soc2-type-ii
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Before outsourcing payroll processing, a company wants independent assurance that the provider's controls have operated effectively over a period of time, not just that they were designed properly. What should it request?"
+    choices:
+      - { key: a, text: "A SOC 2 Type II report" }
+      - { key: b, text: "A SOC 2 Type I report" }
+      - { key: c, text: "The provider's own completed security questionnaire" }
+      - { key: d, text: "The provider's marketing security white paper" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. A SOC 2 Type II report is an independent auditor's opinion on whether
+      controls operated effectively over a review period, typically 6–12 months.
+
+      - **b**: Type I covers only the design of controls at a single point in time.
+      - **c**: a self-assessment isn't independent assurance.
+      - **d**: marketing material isn't assurance at all.
+    points: 1
+
+  - key: d1-sc-contract-terms
+    kind: multi
+    domain: d1-security-risk-management
+    prompt_md: "A company is negotiating with a SaaS provider that will process its customers' personal data. Which TWO terms should be included as minimum security requirements in the contract? Choose two."
+    choices:
+      - { key: a, text: "The provider may use subcontractors freely without notifying the customer" }
+      - { key: b, text: "Notification of security incidents affecting customer data within a defined time" }
+      - { key: c, text: "The provider keeps customer data indefinitely after the contract ends" }
+      - { key: d, text: "A right to audit or assess the provider's controls, or to receive independent assurance reports" }
+      - { key: e, text: "Encryption is left entirely to the provider's discretion, with no minimum requirement" }
+    answer: [b, d]
+    explanation_md: |
+      **b and d** are right. Defined breach notification lets the customer meet its own legal
+      duties, and audit or assurance rights make ongoing third-party monitoring possible.
+
+      - **a**: unapproved subcontractors (fourth parties) bring unmanaged risk. Contracts should require approval or notice.
+      - **c**: data should be returned or verifiably destroyed at exit.
+      - **e**: minimum requirements exist to set a floor. Leaving encryption entirely open defeats the purpose.
+    points: 1
+
+  # ---------- 1.12 Security awareness, education and training ----------
+  - key: d1-aw-effectiveness-metric
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "The board asks whether the security awareness programme is working. Which metric gives the BEST evidence of effectiveness?"
+    choices:
+      - { key: a, text: "The percentage of staff who completed the annual online course" }
+      - { key: b, text: "The number of awareness posters displayed in offices" }
+      - { key: c, text: "Trends over time in phishing-simulation click rates and suspicious-email report rates" }
+      - { key: d, text: "The total hours of training delivered this year" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Effectiveness means changed **behaviour**. Falling click rates and rising
+      report rates over time show that people act differently.
+
+      - **a**: completion shows attendance, not behaviour change.
+      - **b**: an output count with no link to behaviour.
+      - **d**: measures effort put in, not results.
+    points: 1
+
+  - key: d1-aw-training-level
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "Developers attend a two-day, hands-on course on preventing injection flaws in the company's own frameworks. Where does this sit on the awareness–training–education continuum?"
+    choices:
+      - { key: a, text: "Training" }
+      - { key: b, text: "Awareness" }
+      - { key: c, text: "Education" }
+      - { key: d, text: "Gamification" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Training builds role-specific skills (the "how") for a defined group,
+      here developers.
+
+      - **b**: awareness targets everyone's attention and behaviour, the "what", for example posters or phishing simulations.
+      - **c**: education builds deep understanding and judgement (the "why") through degrees or professional certifications.
+      - **d**: gamification is a delivery technique, not a level on the continuum.
+    points: 1
+
+  - key: d1-aw-security-champions
+    kind: single
+    domain: d1-security-risk-management
+    prompt_md: "A company has 60 product teams and a security team of five. It wants secure practices built into each team's daily work and a two-way channel for raising concerns. What is the BEST approach?"
+    choices:
+      - { key: a, text: "Require every engineer to watch a longer annual awareness video" }
+      - { key: b, text: "Have the security team review every code change personally" }
+      - { key: c, text: "Publish a quarterly security newsletter" }
+      - { key: d, text: "Establish a security champions programme with a trained volunteer in each team" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Security champions extend a small security team's reach. Each one brings
+      security practice into a team and passes questions and concerns back to the security team.
+
+      - **a**: more annual video content rarely changes daily habits and gives no two-way channel.
+      - **b**: five people can't review the work of 60 teams, so it becomes a bottleneck.
+      - **c**: a newsletter informs in one direction only and doesn't build practice into the teams' work.
+    points: 1

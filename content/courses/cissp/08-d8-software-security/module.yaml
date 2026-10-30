@@ -1,0 +1,17 @@
+title: "Domain 8: Software Development Security"
+domain: d8-software-security
+summary_md: |
+  Software Development Security is 10% of the CISSP exam, and its theme is simple: security is
+  cheapest and most effective when it is built in from the first requirement, not bolted on after
+  release. This module covers every objective in the 2024 outline: **8.1** understand and integrate
+  security in the Software Development Life Cycle (development methodologies such as waterfall,
+  agile, DevOps/DevSecOps and scaled agile; maturity models such as CMMI, OWASP SAMM and BSIMM;
+  operation and maintenance; change management; the integrated product team); **8.2** identify and
+  apply security controls in software development ecosystems (languages, libraries, tool sets, IDEs,
+  runtimes, CI/CD, configuration management, code repositories and application security testing:
+  SAST, DAST, IAST and SCA); **8.3** assess the effectiveness of software security (auditing and
+  logging of changes, risk analysis and mitigation); **8.4** assess the security impact of acquired
+  software (COTS, open source, third-party and managed services, with SBOM and supply-chain
+  controls); and **8.5** define and apply secure coding guidelines and standards (weaknesses and
+  vulnerabilities at the source-code level, API security, secure coding practices and
+  software-defined security).

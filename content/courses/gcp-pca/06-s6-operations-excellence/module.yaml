@@ -1,0 +1,14 @@
+title: "Section 6: Ensuring solution and operations excellence"
+domain: s6-operations-excellence
+summary_md: |
+  Section 6 (~12.5% of the exam) tests whether the solution keeps running well after launch.
+  Lesson 1 covers **6.1**: the five principles of the operational excellence pillar of the Google
+  Cloud Well-Architected Framework, and SLIs, SLOs and error budgets with a worked example.
+  Lesson 2 covers **6.2**: Google Cloud Observability (Cloud Monitoring, Cloud Logging, the Log
+  Router and sinks, Cloud Trace, Cloud Profiler, Error Reporting, Managed Service for Prometheus),
+  profiling and benchmarking, and alerting strategies including SLO burn-rate alerts. Lesson 3
+  covers **6.3**: deployment and release management with canary, blue/green, rolling and A/B
+  releases, traffic splitting on Cloud Run and GKE, and rollbacks. Lesson 4 covers **6.4–6.6**:
+  supporting deployed solutions (incident response, postmortems, Cloud Customer Care, Service
+  Health), quality control measures, and reliability in production through chaos engineering,
+  load testing and penetration testing.

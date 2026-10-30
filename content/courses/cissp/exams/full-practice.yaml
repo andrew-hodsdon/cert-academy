@@ -1,0 +1,14 @@
+slug: full-practice
+ordinal: 1
+title: "Full practice exam (125 questions, 3 hours)"
+kind: practice
+draw: 125
+time_limit_min: 180
+pass_pct: 80
+instructions_md: |
+  125 questions drawn at random from every domain bank, weighted like the real exam, with a
+  3-hour clock. The real exam is adaptive (100–150 items); this is a fixed-length stand-in at
+  the middle of that range. Questions you have seen least are drawn first.
+
+  Answer every question: blanks score zero. When the clock hits zero your answers are submitted.
+  This exam counts toward readiness: **average 80% or more over your last three to be exam-ready.**

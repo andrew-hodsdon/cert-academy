@@ -1,0 +1,872 @@
+slug: s2-quiz
+ordinal: 12
+title: "Section 2 quiz: Managing and provisioning"
+kind: quiz
+draw: 20
+time_limit_min: 45
+pass_pct: 80
+instructions_md: |
+  20 questions drawn at random from a bank of 36, covering objectives 2.1–2.5: network
+  topologies, storage, compute, Agent Platform ML workflows, and prebuilt AI solutions. You have
+  45 minutes. Multiple-select questions say how many to choose, and you must pick all of them for
+  the point. Pick the option that meets **every** stated requirement with the least operational
+  burden. Hold 80% before moving on to Section 3.
+questions:
+  # ---------- 2.1 Network topologies ----------
+  - key: s2-peering-not-transitive
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A company has a central services VPC (H) peered with three application VPCs (A, B and C)
+      in the same organization. A new requirement says workloads in A must call services in C
+      over internal IPs. Ranges don't overlap, and the network team wants to avoid managing an
+      ever-growing mesh of peerings as more VPCs are added. What should the architect do?
+    choices:
+      - { key: a, text: "Nothing: traffic from A will reach C through H because both are peered with H" }
+      - { key: b, text: "Add a custom static route in A that uses the peering with H as the next hop to C's range" }
+      - { key: c, text: "Attach the VPCs as VPC spokes to a Network Connectivity Center hub" }
+      - { key: d, text: "Convert A, B and C into separate Shared VPC host projects" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. NCC VPC spokes on one hub get full-mesh reachability, which scales without
+      an N×N peering mesh.
+
+      **a** is wrong because VPC Network Peering is not transitive: A cannot reach C through H.
+      **b** is wrong because a peering connection can't be used as a next hop to transit to a
+      third network. **d** is wrong because making each VPC its own Shared VPC host gives no
+      connectivity between them.
+    points: 1
+
+  - key: s2-psc-overlapping-ranges
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A logistics partner exposes a shipment-tracking API from its own Google Cloud organization.
+      Your VPC uses 10.0.0.0/8, and so does theirs. You must consume the API privately, without
+      exposing either network's other resources to the other side. What should you use?
+    choices:
+      - { key: a, text: "A Private Service Connect endpoint in your VPC that targets the partner's service attachment" }
+      - { key: b, text: "VPC Network Peering between the two VPCs, with exported custom routes" }
+      - { key: c, text: "HA VPN between the two VPCs, with Cloud Router advertising all subnets" }
+      - { key: d, text: "An external Application Load Balancer in the partner project, allow-listed to your Cloud NAT IP" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. PSC publishes one service through a service attachment and gives you an
+      internal endpoint IP. No routes are exchanged, so overlapping ranges don't matter and only
+      that service is reachable.
+
+      **b** is wrong because peering requires non-overlapping ranges and exposes every subnet.
+      **c** is wrong because VPN with BGP would also exchange the overlapping ranges and expose
+      whole networks. **d** is wrong because it crosses the public internet, which fails
+      "privately".
+    points: 1
+
+  - key: s2-interconnect-9999-topology
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      EHR Healthcare needs Dedicated Interconnect from its data centre to Google Cloud with the
+      **99.99%** availability SLA, for workloads that run in two Google Cloud regions. Which two
+      design elements are required? **Choose two.**
+    choices:
+      - { key: a, text: "Four Interconnect connections: two in each of two metropolitan areas, in different edge availability domains" }
+      - { key: b, text: "Two Interconnect connections in a single metropolitan area, in the same edge availability domain" }
+      - { key: c, text: "Static routes on each VLAN attachment, in place of BGP" }
+      - { key: d, text: "Cloud Routers in two regions, with the VPC's dynamic routing mode set to global" }
+      - { key: e, text: "Classic VPN tunnels as the primary path, with Interconnect as backup" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right. The documented 99.99% topology uses four connections across two
+      metros and edge availability domains, with Cloud Routers in two regions and global dynamic
+      routing so that either region's routers can serve every subnet.
+
+      **b** is wrong on two counts: one metro is the 99.9% design at best, and a single edge
+      availability domain gives no redundancy. **c** is wrong because Interconnect uses BGP
+      through Cloud Router, which is what makes failover automatic. **e** is wrong because Classic
+      VPN gives a weaker topology and doesn't help meet the Interconnect SLA.
+    points: 1
+
+  - key: s2-lb-udp-client-ip
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A game studio runs a UDP game server fleet in `europe-west1`. Players connect from the
+      internet, and the servers must see each player's original source IP for anti-cheat checks.
+      Which load balancer should front the fleet?
+    choices:
+      - { key: a, text: "Global external Application Load Balancer" }
+      - { key: b, text: "External proxy Network Load Balancer" }
+      - { key: c, text: "Internal passthrough Network Load Balancer" }
+      - { key: d, text: "External passthrough Network Load Balancer" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. The external passthrough Network Load Balancer is regional, supports UDP,
+      and delivers packets with the client's source IP intact.
+
+      **a** is wrong because the Application Load Balancer handles HTTP(S) only, and it
+      terminates connections at a proxy. **b** is wrong because the proxy Network Load Balancer
+      is TCP-only, and backends see the proxy rather than the client. **c** is wrong because an
+      internal load balancer isn't reachable from the internet.
+    points: 1
+
+  - key: s2-shared-vpc-central-control
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      Cymbal Retail has 25 product teams, each with its own projects and billing. Security
+      requires that a central network team own all subnets, routes and firewall rules, while
+      teams deploy their own VMs and GKE clusters. All projects are in one organization. Which
+      design meets this with the least ongoing effort?
+    choices:
+      - { key: a, text: "Give each team its own VPC, and peer all of them with a central VPC owned by the network team" }
+      - { key: b, text: "A Shared VPC host project owned by the network team, with each team's projects attached as service projects" }
+      - { key: c, text: "One project for all teams, separated by IAM conditions on resource names" }
+      - { key: d, text: "Give each team its own VPC, connected through HA VPN to a central hub VPC" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Shared VPC is the documented pattern for central network administration
+      with decentralised project ownership. Teams get `compute.networkUser` on their subnets, and
+      the network team keeps routes and firewalls in the host project.
+
+      **a** is wrong because each team would still own its own VPC's firewall rules and routes,
+      and peering is non-transitive. **c** is wrong because it breaks per-team billing and
+      isolation, and makes IAM fragile. **d** is wrong because it adds tunnels to run and still
+      leaves each team in control of its own network.
+    points: 1
+
+  - key: s2-cloud-nat-private-egress
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      Back-end VMs in a managed instance group have no external IP addresses, by organization
+      policy. They must download packages from public internet repositories, and they must
+      **never** accept inbound connections from the internet. What should you configure?
+    choices:
+      - { key: a, text: "Assign ephemeral external IPs, and add an ingress deny-all firewall rule" }
+      - { key: b, text: "Turn on Private Google Access on the subnet" }
+      - { key: c, text: "Deploy a pair of NAT gateway VMs, with custom routes tagged to the back-end VMs" }
+      - { key: d, text: "Configure Cloud NAT on a Cloud Router in the VMs' region" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Cloud NAT gives managed outbound internet access to VMs without external
+      IPs, and it never allows unsolicited inbound connections.
+
+      **a** is wrong because it violates the organization policy against external IPs. **b** is
+      wrong because Private Google Access reaches only Google APIs and services, not public
+      package repositories. **c** is wrong because NAT VMs work but add patching, scaling and HA
+      to manage, which a managed service avoids.
+    points: 1
+
+  - key: s2-ngfw-enterprise-ips
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      After a breach, KnightMotives requires that traffic between workloads in its VPC be
+      inspected **inline**, and that known exploit attempts be **blocked** automatically, with
+      minimal appliances to manage. What should the architect recommend?
+    choices:
+      - { key: a, text: "Cloud IDS with packet mirroring on the production subnets" }
+      - { key: b, text: "Cloud NGFW Enterprise with security profiles that turn on intrusion prevention" }
+      - { key: c, text: "Cloud Armor security policies with preconfigured WAF rules" }
+      - { key: d, text: "VPC Flow Logs exported to BigQuery for analysis" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Cloud NGFW Enterprise adds intrusion prevention through Google-managed
+      firewall endpoints and security profiles. Firewall rules with the
+      `apply_security_profile_group` action send traffic through it inline, so threats are blocked.
+
+      **a** is wrong because Cloud IDS only detects and alerts, working on mirrored copies of
+      traffic. **c** is wrong because Cloud Armor protects external load balancers, not east-west
+      VPC traffic. **d** is wrong because flow logs are metadata for after-the-fact analysis, and
+      block nothing.
+    points: 1
+
+  - key: s2-hierarchical-fw-rdp
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      Security wants RDP (TCP 3389) from the internet blocked for every VM in the organization,
+      in a way that project owners **cannot** override. Administrators must still reach VMs over
+      RDP through IAP TCP forwarding (source range 35.235.240.0/20). Which two actions should you
+      take? **Choose two.**
+    choices:
+      - { key: a, text: "In an organization-level hierarchical firewall policy, add a rule denying TCP 3389 from 0.0.0.0/0" }
+      - { key: b, text: "Ask each project owner to create a VPC firewall rule denying TCP 3389 from 0.0.0.0/0" }
+      - { key: c, text: "Attach a Cloud Armor policy that blocks port 3389 to every VM" }
+      - { key: d, text: "In the same hierarchical policy, add a higher-priority rule allowing TCP 3389 from 35.235.240.0/20" }
+      - { key: e, text: "Turn on Cloud IDS to detect RDP brute-force attempts" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are right. Hierarchical firewall policies are evaluated before VPC rules,
+      and project owners can't change them. A higher-priority allow for the IAP range lets
+      administrators through, while the deny blocks everyone else.
+
+      **b** is wrong because project-level rules can be edited or deleted by the same project
+      owners. **c** is wrong because Cloud Armor attaches to external load balancers, not to VM
+      interfaces. **e** is wrong because Cloud IDS detects attacks but blocks nothing.
+    points: 1
+
+  # ---------- 2.2 Storage systems ----------
+  - key: s2-gcs-bucket-lock-worm
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A financial firm must keep trade records in Cloud Storage for 7 years. Auditors require
+      proof that **no one**, including project owners, can delete or modify records before the
+      7 years are up. What should you configure?
+    choices:
+      - { key: a, text: "A 7-year retention policy on the bucket, then lock it with Bucket Lock" }
+      - { key: b, text: "Object Versioning, plus a lifecycle rule that deletes noncurrent versions after 7 years" }
+      - { key: c, text: "An IAM deny policy on storage.objects.delete for every user" }
+      - { key: d, text: "Archive storage class, which forbids deletion before 365 days" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. A locked retention policy is irreversible WORM protection: objects can't be
+      deleted or overwritten until they reach the retention period, and the policy can't be
+      removed or shortened.
+
+      **b** is wrong because versioning keeps old copies, but an owner can still delete them.
+      **c** is wrong because a sufficiently privileged administrator can remove an IAM deny
+      policy, so it isn't provably immutable. **d** is wrong because Archive's 365-day minimum is a
+      billing rule: early deletion is allowed and charged, not prevented.
+    points: 1
+
+  - key: s2-autoclass-unpredictable
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      Altostrat Media stores millions of clips. Most are rarely accessed, but older clips
+      unpredictably become popular again when a story trends. The team wants the lowest storage
+      cost **without** writing or tuning rules, and without retrieval fees when old clips warm up.
+      What should they use?
+    choices:
+      - { key: a, text: "Lifecycle rules that move objects to Coldline after 30 days" }
+      - { key: b, text: "Standard storage in a multi-region bucket" }
+      - { key: c, text: "Autoclass on the bucket" }
+      - { key: d, text: "Archive storage class for all objects, with Cloud CDN in front" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Autoclass moves each object between classes based on its own access, and
+      charges no retrieval fees or early-deletion fees. It is designed for unknown or changing
+      access patterns.
+
+      **a** is wrong because fixed rules don't adapt when old clips get hot, so retrieval fees
+      follow. **b** is wrong because keeping everything in Standard misses the savings on cold
+      data. **d** is wrong because Archive incurs retrieval fees and minimum-duration charges
+      whenever trending clips are read, and CDN doesn't remove origin fees on cache misses.
+    points: 1
+
+  - key: s2-archive-class-latency
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A hospital must keep imaging studies for 10 years. After the first year they are read
+      less than once a year, but when a physician requests one it must open **within seconds**.
+      Which Cloud Storage class is the cheapest that meets the requirement for studies older than
+      one year?
+    choices:
+      - { key: a, text: "Coldline, because Archive requires a restore job that takes hours" }
+      - { key: b, text: "Archive, because all classes offer millisecond access" }
+      - { key: c, text: "Nearline, because it is the coldest class with immediate access" }
+      - { key: d, text: "Standard, because colder classes cannot be read directly" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Every Cloud Storage class has millisecond first-byte latency. Archive is
+      the cheapest to store, and for data read less than once a year its retrieval fee and
+      365-day minimum are acceptable.
+
+      **a**, **c** and **d** all rest on the same false premise: that colder classes have restore
+      delays or can't be read directly. Coldline and Nearline cost more to store than Archive,
+      and Standard costs the most.
+    points: 1
+
+  - key: s2-transfer-appliance-bandwidth
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A company must move 1.5 PB of archived video from its data centre to Cloud Storage within
+      six weeks. Its only internet link is 1 Gbps and is heavily used by production traffic.
+      What is the most appropriate transfer method?
+    choices:
+      - { key: a, text: "Storage Transfer Service with on-premises transfer agents over the existing link" }
+      - { key: b, text: "gcloud storage rsync from several servers in parallel" }
+      - { key: c, text: "Partner Interconnect at 1 Gbps, dedicated to the migration" }
+      - { key: d, text: "Transfer Appliance" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Even at full utilisation, 1.5 PB over 1 Gbps takes more than four months.
+      Shipping Transfer Appliances is Google's documented answer when network transfer can't meet
+      the timeline or would starve production traffic.
+
+      **a** and **b** are wrong because both are still bound by the same 1 Gbps link and would
+      saturate it. **c** is wrong because a 1 Gbps attachment changes nothing about the arithmetic
+      and takes time to provision.
+    points: 1
+
+  - key: s2-cloud-sql-ha-failover
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      An order database runs on Cloud SQL for PostgreSQL in one zone. The business requires
+      automatic failover with no committed transactions lost if that zone fails. Which
+      configuration meets this?
+    choices:
+      - { key: a, text: "Turn on high availability, which adds a standby in another zone with synchronous replication" }
+      - { key: b, text: "Add a cross-region read replica, and promote it if the zone fails" }
+      - { key: c, text: "Take automated backups every hour, and restore them into another zone" }
+      - { key: d, text: "Add two read replicas in other zones of the same region" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Cloud SQL HA keeps a standby in a second zone with synchronous replication
+      to regional persistent storage, and fails over automatically without losing committed
+      data.
+
+      **b** is wrong because replicas are asynchronous and promotion is manual, so there is
+      potential data loss and no automatic failover. **c** is wrong because a restore loses data
+      since the last backup, and it is slow and manual. **d** is wrong because read replicas
+      don't fail over automatically.
+    points: 1
+
+  - key: s2-hyperdisk-provisioned-iops
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A self-managed database VM needs 500 GB of capacity but 60,000 IOPS. With Persistent Disk,
+      the team would have to oversize the disk far beyond 500 GB to get that performance. What
+      should they use?
+    choices:
+      - { key: a, text: "Local SSD, for its high IOPS" }
+      - { key: b, text: "A regional Persistent Disk, sized at 10 TB" }
+      - { key: c, text: "Hyperdisk Extreme, with 500 GB and 60,000 IOPS provisioned" }
+      - { key: d, text: "A Filestore Basic HDD share mounted over NFS" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Hyperdisk lets you provision IOPS and throughput independently of
+      capacity, and Hyperdisk Extreme targets high-IOPS databases.
+
+      **a** is wrong because Local SSD is ephemeral, so the data is lost when the VM stops or
+      the host fails, which is risky for a database's primary copy. **b** is wrong because it is
+      exactly the oversizing the team wants to avoid. **d** is wrong because Basic HDD Filestore
+      is a low-performance file share, not a high-IOPS block device.
+    points: 1
+
+  - key: s2-gcs-lifecycle-versions
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      A bucket has Object Versioning turned on. Requirements: objects, which are rarely read once they are 90 days old,
+      should then cost less to store, and noncurrent versions should be kept for only 30 days after
+      they become noncurrent. Access is predictable, and there is no compliance lock. Which two
+      lifecycle rules should you add? **Choose two.**
+    choices:
+      - { key: a, text: "SetStorageClass to Coldline with condition age: 90" }
+      - { key: b, text: "Delete with condition age: 30" }
+      - { key: c, text: "SetStorageClass to Archive with condition numNewerVersions: 1" }
+      - { key: d, text: "Turn on Bucket Lock with a 30-day retention policy" }
+      - { key: e, text: "Delete with conditions isLive: false and daysSinceNoncurrentTime: 30" }
+    answer: [a, e]
+    explanation_md: |
+      **a** and **e** are right. An age-based class change handles the predictable cooling, and
+      `isLive: false` with `daysSinceNoncurrentTime: 30` removes noncurrent versions 30 days after
+      they were superseded.
+
+      **b** is wrong because it would delete *live* objects 30 days after creation. **c** is
+      wrong because it changes the class of versions but never deletes them. **d** is wrong
+      because a retention policy *prevents* deletion, and nothing here calls for a lock.
+    points: 1
+
+  - key: s2-protect-accidental-delete
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      A data team has twice lost important objects to scripts that overwrote or deleted them
+      by mistake. They want to recover from both accidental overwrites and accidental deletions
+      at low operational effort, without blocking legitimate deletes. Which two features should
+      they rely on? **Choose two.**
+    choices:
+      - { key: a, text: "A locked retention policy of 1 year" }
+      - { key: b, text: "Object Versioning" }
+      - { key: c, text: "Uniform bucket-level access" }
+      - { key: d, text: "Soft delete, with a retention window that matches how quickly mistakes are noticed" }
+      - { key: e, text: "Turbo replication on a dual-region bucket" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right. Versioning keeps the previous generation when an object is
+      overwritten, and soft delete keeps deleted objects restorable for its retention window.
+      Neither blocks legitimate operations.
+
+      **a** is wrong because a locked retention policy *blocks* legitimate deletes for a year.
+      **c** is wrong because it simplifies access control but doesn't restore data. **e** is wrong
+      because replication faithfully copies deletions and overwrites to the second region.
+    points: 1
+
+  # ---------- 2.3 Compute systems ----------
+  - key: s2-spot-batch-render
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A studio renders animation frames each night. Each frame is an independent 5-minute task,
+      and failed tasks can simply be retried. The job must finish within 8 hours, and cost is the
+      top concern. What compute choice is most appropriate?
+    choices:
+      - { key: a, text: "A 3-year committed use discount on enough standard VMs for the peak" }
+      - { key: b, text: "Sole-tenant nodes, sized for the render fleet" }
+      - { key: c, text: "A GKE Autopilot cluster on standard capacity" }
+      - { key: d, text: "A MIG or batch job on Spot VMs, retrying tasks that are preempted" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Short, idempotent, retryable tasks are the textbook fit for Spot VMs, which
+      cost up to 91% less than on-demand. Preempted frames are simply rerun.
+
+      **a** is wrong because a commitment pays for capacity 24 hours a day for a nightly job.
+      **b** is wrong because sole-tenant nodes cost more and solve a licensing or isolation
+      problem the studio doesn't have. **c** is wrong because standard capacity works, but at
+      several times the cost of Spot.
+    points: 1
+
+  - key: s2-gke-autopilot-default
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A small team is moving stateless microservices to Kubernetes. They have no special node
+      requirements, don't want to size, patch or upgrade nodes, and want to pay only for the
+      resources their Pods request. Which option fits best?
+    choices:
+      - { key: a, text: "GKE Standard, with cluster autoscaler and node auto-upgrade turned on" }
+      - { key: b, text: "GKE Autopilot" }
+      - { key: c, text: "Self-managed Kubernetes on a Compute Engine MIG" }
+      - { key: d, text: "Google Cloud VMware Engine running Tanzu" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. With Autopilot, Google manages the nodes and you are billed for Pod
+      resource requests. It is the recommended default when no node-level control is needed.
+
+      **a** is wrong because you would still design node pools and pay for whole nodes, idle
+      capacity included. **c** is wrong because it maximises operational burden. **d** is wrong
+      because VMware Engine is for moving VMware estates and is far heavier than this need.
+    points: 1
+
+  - key: s2-gke-gpu-node-pool-taint
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A GKE Standard cluster runs general web workloads. The team adds GPU inference services
+      and wants (1) GPU Pods to run only on GPU nodes and (2) general Pods to **never** land on
+      the expensive GPU nodes. What should they configure?
+    choices:
+      - { key: a, text: "Replace every machine type in the default node pool with a GPU machine type" }
+      - { key: b, text: "A separate GKE cluster for GPUs, joined by VPC peering" }
+      - { key: c, text: "A dedicated GPU node pool with a taint. GPU Pods get a matching toleration and a node selector" }
+      - { key: d, text: "A Horizontal Pod Autoscaler on GPU utilisation" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. A taint keeps Pods without the toleration off the GPU pool, and the node
+      selector (or affinity) pins GPU Pods to it. (GKE adds a GPU taint automatically to GPU node
+      pools, and the pattern is the same.)
+
+      **a** is wrong because it puts every workload on costly GPU nodes. **b** is wrong because a
+      second cluster doubles the operational overhead for no benefit. **d** is wrong because HPA
+      scales replica counts and does nothing about placement.
+    points: 1
+
+  - key: s2-cloud-run-static-egress-ip
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A Cloud Run service must call a payment partner's API, and the partner accepts traffic only
+      from one allow-listed public IP address. What should you configure?
+    choices:
+      - { key: a, text: "Assign a static external IP address directly to the Cloud Run service" }
+      - { key: b, text: "Put a global external Application Load Balancer with a reserved IP in front of the service" }
+      - { key: c, text: "Set the service's ingress to internal" }
+      - { key: d, text: "Send all egress through the VPC (Direct VPC egress), and use Cloud NAT with a reserved static IP" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Routing all of the service's egress into the VPC, and then out through a
+      Cloud NAT gateway with a manually reserved address, gives one stable source IP.
+
+      **a** is wrong because Cloud Run services can't hold a static external IP themselves.
+      **b** is wrong because a load balancer handles *inbound* traffic and doesn't change the
+      outbound source IP. **c** is wrong because ingress settings control who can call the service,
+      not its egress.
+    points: 1
+
+  - key: s2-gcve-lift-shift
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A colocation lease ends in four months. The company runs 600 VMs on vSphere, and its
+      operations staff rely on vCenter and NSX tooling. Leadership wants the data centre exited
+      quickly, with no application changes and no retraining for operations now. What should
+      the architect recommend first?
+    choices:
+      - { key: a, text: "Rewrite the applications as containers on GKE Autopilot" }
+      - { key: b, text: "Google Cloud VMware Engine, migrating the VMs with VMware tools such as HCX" }
+      - { key: c, text: "Migrate to Virtual Machines, converting every VM to a Compute Engine instance" }
+      - { key: d, text: "Bare Metal Solution servers running the same hypervisor, managed by the team" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. VMware Engine runs the same vSphere, vSAN and NSX stack as a managed
+      service, so VMs move unchanged and staff keep their tools. Modernisation can follow later.
+
+      **a** is wrong because it is a re-architecture that can't finish in four months. **c** is
+      wrong because conversion changes the platform and operational tooling, which leadership
+      wants to avoid for now. **d** is wrong because Bare Metal Solution targets specialised
+      workloads such as Oracle, and leaves the hypervisor for the team to run.
+    points: 1
+
+  - key: s2-vm-manager-patching
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      An enterprise runs 1,200 long-lived Compute Engine VMs across many projects (not in
+      MIGs). Compliance requires monthly OS patching, rolled out zone by zone, with reports
+      showing which VMs are out of compliance. What is the most managed approach?
+    choices:
+      - { key: a, text: "VM Manager OS patch management, with recurring patch deployments and compliance reporting" }
+      - { key: b, text: "A cron job on each VM that runs the OS package manager's upgrade command" }
+      - { key: c, text: "Recreate every VM monthly from a new image with Terraform" }
+      - { key: d, text: "Cloud Deployment Manager templates that run startup scripts" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. VM Manager patch deployments schedule patching across fleets, support
+      zone-by-zone rollout with pre- and post-patch scripts, and report patch compliance.
+
+      **b** is wrong because unmanaged cron jobs give no central control or compliance reporting.
+      **c** is wrong because rebuilding is the right pattern for immutable MIG fleets, but it is
+      heavy and disruptive for long-lived individual VMs. **d** is wrong because Deployment Manager
+      has reached end of support and was never a patching tool.
+    points: 1
+
+  - key: s2-regional-mig-autohealing
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      A stateless web tier on Compute Engine must keep serving if a zone fails, and must
+      automatically replace VMs whose application process hangs even though the VM is still
+      running. Which two configurations should you use? **Choose two.**
+    choices:
+      - { key: a, text: "A regional managed instance group spread across multiple zones" }
+      - { key: b, text: "A zonal managed instance group with a larger target size" }
+      - { key: c, text: "An autohealing policy with an application-level health check on the MIG" }
+      - { key: d, text: "A snapshot schedule on each VM's boot disk" }
+      - { key: e, text: "Live migration turned on for the instances" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right. A regional MIG distributes instances across zones and keeps
+      capacity through a zone outage, and autohealing recreates instances that fail an
+      application health check.
+
+      **b** is wrong because more VMs in one zone still fail together. **d** is wrong because
+      snapshots protect data but don't replace hung instances. **e** is wrong because live
+      migration keeps VMs running through host maintenance, and does nothing for a hung process
+      or a zone outage.
+    points: 1
+
+  - key: s2-terraform-state-pipeline
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      Several teams provision Google Cloud infrastructure with Terraform from their laptops.
+      State files are getting out of sync, and changes aren't auditable. The platform lead
+      wants a shared, consistent source of truth with the least custom tooling. Which two
+      changes should be made? **Choose two.**
+    choices:
+      - { key: a, text: "Migrate the configurations to Cloud Deployment Manager" }
+      - { key: b, text: "Store Terraform state in a Cloud Storage backend with Object Versioning turned on" }
+      - { key: c, text: "Commit the local terraform.tfstate files to Git after each apply" }
+      - { key: d, text: "Run Terraform from Git through Infrastructure Manager, instead of from laptops" }
+      - { key: e, text: "Replace Terraform with gcloud shell scripts kept in a shared folder" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right. A remote Cloud Storage backend gives shared state with locking,
+      and versioning gives recovery. Infrastructure Manager runs Terraform as a managed service,
+      so applies are consistent and auditable.
+
+      **a** is wrong because Deployment Manager reached end of support on March 31, 2026.
+      **c** is wrong because committing state to Git risks leaking secrets and gives no locking.
+      **e** is wrong because imperative scripts lose declarative state and drift detection.
+    points: 1
+
+  # ---------- 2.4 Agent Platform ML workflows ----------
+  - key: s2-agent-platform-pipelines-orchestrate
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      Data scientists run preprocessing, training, evaluation and deployment by hand from
+      notebooks. The team wants a repeatable workflow that deploys only if the new model beats
+      production, records artifact lineage, and needs no cluster to manage. What should they
+      use?
+    choices:
+      - { key: a, text: "Kubeflow Pipelines installed on a GKE Standard cluster" }
+      - { key: b, text: "A cron job on a Compute Engine VM that runs the notebooks in order" }
+      - { key: c, text: "Agent Platform Pipelines with a KFP pipeline that includes a conditional deploy step" }
+      - { key: d, text: "Cloud Scheduler triggering one Cloud Run function that does every step" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Agent Platform Pipelines (formerly Vertex AI Pipelines) is serverless,
+      supports conditional steps, and records lineage in ML Metadata automatically.
+
+      **a** is wrong because it works but adds a cluster to operate. **b** is wrong because it is
+      brittle and gives no lineage or conditional logic. **d** is wrong because a function isn't
+      suited to long training runs, and gives no lineage or step-level retries.
+    points: 1
+
+  - key: s2-feature-store-skew
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A fraud model's features are computed in BigQuery SQL for training and recomputed in
+      application code for online serving. Model Monitoring now reports training-serving skew.
+      What is the best long-term fix?
+    choices:
+      - { key: a, text: "Retrain the model daily so it adapts to the serving features" }
+      - { key: b, text: "Move training to AutoML tabular" }
+      - { key: c, text: "Raise Model Monitoring's alert thresholds" }
+      - { key: d, text: "Define the features once in Agent Platform Feature Store, and serve them online from it" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Feature Store uses BigQuery as the offline source and serves the same
+      feature values online, which removes the second implementation that causes skew.
+
+      **a** is wrong because frequent retraining doesn't fix two inconsistent feature
+      definitions. **b** is wrong because changing the training method leaves the feature
+      pipelines unchanged. **c** is wrong because it hides the symptom.
+    points: 1
+
+  - key: s2-mlops-level-2
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A team already retrains automatically whenever new data lands. Now 15 data scientists are
+      changing pipeline components every week, and broken pipeline code has reached production
+      twice. According to Google's MLOps maturity model, what should the team add next?
+    choices:
+      - { key: a, text: "CI/CD for the pipeline itself: build, test and deploy pipeline code through a pipeline such as Cloud Build" }
+      - { key: b, text: "More frequent scheduled retraining" }
+      - { key: c, text: "Manual approval of each model file by an ML engineer" }
+      - { key: d, text: "Moving training to larger GPU machine types" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Level 1 automates training. Level 2 adds CI/CD that tests and deploys the
+      **pipeline code** itself, which is exactly the failure described.
+
+      **b** is wrong because it doesn't test code changes. **c** is wrong because it is a step
+      back toward level 0, and checks models, not pipeline code. **d** is wrong because compute
+      size is unrelated to code quality.
+    points: 1
+
+  - key: s2-dws-flex-start-training
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A research team will fine-tune a large model on 128 GPUs for about 10 days. Every node
+      must start at the same time for the distributed job. The team can wait for capacity,
+      doesn't want a 1- or 3-year commitment, and can't tolerate preemption mid-run. Which AI
+      Hypercomputer consumption option fits best?
+    choices:
+      - { key: a, text: "Spot VMs, with checkpoints every hour" }
+      - { key: b, text: "Dynamic Workload Scheduler (Flex-start), which provisions all requested nodes together" }
+      - { key: c, text: "A 3-year committed use discount" }
+      - { key: d, text: "On-demand VMs, requested one at a time as they become available" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Flex-start queues the request and provisions the whole block of
+      accelerators atomically for a bounded duration, with no long-term commitment.
+
+      **a** is wrong because Spot can be preempted, which the team can't tolerate for a
+      tightly coupled job. **c** is wrong because it imposes the commitment the team wants to avoid.
+      **d** is wrong because piecemeal on-demand requests can leave the job partly provisioned and
+      paying for idle GPUs.
+    points: 1
+
+  - key: s2-retraining-triggers
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      Altostrat wants its content-classification pipeline on Agent Platform Pipelines to rerun
+      (1) whenever a new batch of labelled data lands in Cloud Storage and (2) when production
+      input data drifts. Which two mechanisms should trigger runs? **Choose two.**
+    choices:
+      - { key: a, text: "A Cloud Run function, triggered by Eventarc on the Cloud Storage object-finalized event, that submits a pipeline run" }
+      - { key: b, text: "A Compute Engine VM that polls the bucket every minute" }
+      - { key: c, text: "A Model Monitoring drift alert that starts a retraining pipeline run" }
+      - { key: d, text: "A weekly manual run started by a data scientist" }
+      - { key: e, text: "Cloud CDN cache invalidation on the bucket" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right. Cloud Run functions are the outline's lightweight event glue for
+      ML workflows, and Model Monitoring detects drift and can drive retraining. Together they give
+      event-driven continuous training.
+
+      **b** is wrong because a polling VM is a server to run and patch, for no benefit. **d** is
+      wrong because a manual weekly run fails "whenever data lands" and adds toil. **e** is wrong
+      because CDN invalidation has nothing to do with pipelines.
+    points: 1
+
+  - key: s2-spot-tpu-sweep
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      A team runs hyperparameter sweeps of hundreds of short, independent training trials of a
+      JAX transformer model. They want the lowest cost and accept that some trials may be
+      interrupted. Which two choices best meet this? **Choose two.**
+    choices:
+      - { key: a, text: "Write checkpoints only to Local SSD on each VM" }
+      - { key: b, text: "Run trials on Spot capacity (Spot VMs or Spot TPUs)" }
+      - { key: c, text: "Reserve capacity for one year so that trials are never interrupted" }
+      - { key: d, text: "Checkpoint trial state to Cloud Storage so that interrupted trials resume" }
+      - { key: e, text: "Run every trial sequentially on one on-demand VM" }
+    answer: [b, d]
+    explanation_md: |
+      **b** and **d** are right. Interruptible, independent trials fit Spot pricing, and
+      checkpointing to durable Cloud Storage means preemption costs minutes rather than whole
+      trials.
+
+      **a** is wrong because Local SSD data is lost with the preempted VM. **c** is wrong
+      because a long reservation costs more and isn't needed when interruption is acceptable.
+      **e** is wrong because running sequentially is slow and wastes the parallelism of a sweep.
+    points: 1
+
+  # ---------- 2.5 Prebuilt solutions and APIs ----------
+  - key: s2-document-ai-invoices
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      Accounts payable receives 20,000 scanned supplier invoices a month in many layouts. They
+      need the supplier, dates, totals and line items as structured fields, and the team has no
+      ML engineers. What should the architect choose?
+    choices:
+      - { key: a, text: "Cloud Vision API text detection, followed by custom regular expressions" }
+      - { key: b, text: "Document AI's Invoice Parser processor" }
+      - { key: c, text: "A custom object-detection model trained on Agent Platform" }
+      - { key: d, text: "Cloud Translation document translation" }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Document AI's specialized Invoice Parser returns structured invoice fields,
+      line items included, with no model training. It is the most managed fit.
+
+      **a** is wrong because OCR returns raw text, and hand-written parsing breaks across
+      layouts. **c** is wrong because custom training adds data labelling and MLOps burden the
+      team can't carry. **d** is wrong because translation doesn't extract fields.
+    points: 1
+
+  - key: s2-video-explicit-content
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      Altostrat needs to flag explicit content inside uploaded **video** files, with per-segment
+      scores it can store for audit, and it doesn't want to train a model. Which service fits
+      best?
+    choices:
+      - { key: a, text: "Cloud Vision API SafeSearch on the uploaded video files" }
+      - { key: b, text: "Natural Language API moderation on the video's file name and description" }
+      - { key: c, text: "Video Intelligence API explicit content detection" }
+      - { key: d, text: "Speech-to-Text with profanity filtering" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. The Video Intelligence API's explicit content detection analyses video
+      frames and returns likelihoods with time offsets, which suits audit storage.
+
+      **a** is wrong because SafeSearch analyses still images, not video files, unless you build
+      your own frame extraction. **b** is wrong because it checks text, not what is in the frames.
+      **d** is wrong because it covers audio only, and profanity filtering masks words rather
+      than flagging visual content.
+    points: 1
+
+  - key: s2-model-garden-open-model
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      A bank wants to use an open-weight language model whose weights it controls, fine-tune it
+      on internal data, and serve it privately inside Google Cloud with managed infrastructure.
+      Where should the architect start?
+    choices:
+      - { key: a, text: "Model Garden: select the open model, tune it, and deploy it to an Agent Platform endpoint" }
+      - { key: b, text: "Gemini Enterprise's agent gallery" }
+      - { key: c, text: "The Cloud Natural Language API" }
+      - { key: d, text: "NotebookLM Enterprise, uploading the training data as sources" }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Model Garden lists open models that can be tuned and deployed to dedicated
+      Agent Platform endpoints (or GKE), which gives weight control on managed serving.
+
+      **b** is wrong because the agent gallery shares employee-facing agents and doesn't host
+      tuned open models. **c** is wrong because it is a fixed prebuilt API with no custom weights.
+      **d** is wrong because NotebookLM grounds answers in sources and doesn't train or host
+      models.
+    points: 1
+
+  - key: s2-notebooklm-policy-qa
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      EHR Healthcare's compliance team wants staff to ask questions about 200 internal policy
+      documents and get answers grounded only in those documents, with audio overviews for
+      onboarding. Data must stay under enterprise controls, and there's no budget to build an
+      application. What should the architect recommend?
+    choices:
+      - { key: a, text: "A custom RAG application on Agent Runtime, with RAG Engine and a web front end" }
+      - { key: b, text: "Fine-tuning a Gemini model on the 200 documents" }
+      - { key: c, text: "Agent Search with a website search widget on the public site" }
+      - { key: d, text: "NotebookLM Enterprise, with the policy documents as notebook sources" }
+    answer: [d]
+    explanation_md: |
+      **d** is right. NotebookLM Enterprise grounds answers in the uploaded sources, produces audio
+      overviews, and runs under enterprise controls (IAM, CMEK, VPC Service Controls, data
+      residency), with nothing to build.
+
+      **a** is wrong because it works, but it is an application the team has no budget to build.
+      **b** is wrong because tuning bakes in style, gives no source-grounding or citations, and
+      goes stale when policies change. **c** is wrong because a public website widget doesn't fit
+      internal policy documents.
+    points: 1
+
+  - key: s2-model-armor-prompt-injection
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      Cymbal Retail's shopping assistant uses a Model Garden model. Security testing found that
+      users can inject instructions that make it reveal internal data, and some responses contain
+      customer phone numbers. The team wants a managed, model-agnostic control that screens both
+      prompts and responses. What should they add?
+    choices:
+      - { key: a, text: "Cloud Armor WAF rules on the load balancer" }
+      - { key: b, text: "A higher temperature setting, so responses are less predictable" }
+      - { key: c, text: "Model Armor, with prompt-injection detection and Sensitive Data Protection filters" }
+      - { key: d, text: "VPC Service Controls around the project" }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Model Armor screens prompts and responses for prompt injection and
+      jailbreaks, sensitive data (through Sensitive Data Protection), malicious URLs and harmful
+      content, regardless of the model.
+
+      **a** is wrong because Cloud Armor inspects HTTP requests for web attacks and doesn't
+      understand LLM prompts or responses. **b** is wrong because temperature changes randomness,
+      not safety. **d** is wrong because VPC Service Controls stop data exfiltration through
+      Google APIs, not leaks through the model's answers.
+    points: 1
+
+  - key: s2-grounding-catalogue-and-web
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      A support assistant built on Gemini must answer from Cymbal's **current** product catalogue
+      and policies (which change daily), cite its sources, and also handle questions about
+      recent public events such as carrier delays. Which two techniques meet these needs?
+      **Choose two.**
+    choices:
+      - { key: a, text: "Ground responses in Cymbal's own data through Agent Search or a RAG Engine corpus" }
+      - { key: b, text: "Supervised-tune the model weekly on the catalogue" }
+      - { key: c, text: "Ground responses with Google Search for fresh public information" }
+      - { key: d, text: "Raise max output tokens so that answers include more detail" }
+      - { key: e, text: "Train a custom language model from scratch on Agent Platform" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** are right. Grounding in your own data retrieves the current catalogue at
+      query time and returns citations, and grounding with Google Search adds fresh public facts.
+
+      **b** is wrong because tuning bakes in knowledge that is stale within a day, and gives no
+      citations. **d** is wrong because length doesn't improve accuracy. **e** is wrong because
+      training from scratch is enormously costly and still isn't current.
+    points: 1

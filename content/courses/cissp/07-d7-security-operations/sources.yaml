@@ -1,0 +1,289 @@
+sources:
+  - slug: d7-isc2-cissp-outline
+    kind: standard
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline (effective 15 April 2024)"
+    site: ISC2
+    tags: [cissp, outline]
+    summary_md: |
+      The official outline. Domain 7 lists objectives 7.1–7.15, including the seven incident
+      management steps (detection, response, mitigation, reporting, recovery, remediation,
+      lessons learned) and the DR test types (read-through/tabletop, walkthrough, simulation,
+      parallel, full interruption). Every lesson in this module maps to it.
+  - slug: d7-nist-sp-800-86
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/86/final
+    title: "NIST SP 800-86: Guide to Integrating Forensic Techniques into Incident Response"
+    authors: [Karen Kent, Suzanne Chevalier, Tim Grance, Hung Dang]
+    site: NIST CSRC
+    published: 2006-08-01
+    tags: [forensics, evidence]
+    summary_md: |
+      Defines the forensic process as collection, examination, analysis and reporting; covers
+      data sources (files, OS, network, applications), write blocking, imaging and hashing, and
+      collecting volatile data before non-volatile. Used in lesson 1.
+  - slug: d7-rfc-3227
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc3227
+    title: "RFC 3227: Guidelines for Evidence Collection and Archiving"
+    authors: [Dominique Brezinski, Tom Killalea]
+    site: IETF
+    published: 2002-02-01
+    tags: [forensics, order-of-volatility, chain-of-custody]
+    summary_md: |
+      The classic order of volatility (registers and cache, then routing/ARP/process tables and
+      memory, temporary file systems, disk, remote logs, physical configuration, archival media),
+      plus guidance to document everything, not alter evidence, and keep a chain of custody.
+      Used in lesson 1.
+  - slug: d7-iso-27037
+    kind: standard
+    url: https://www.iso.org/standard/44381.html
+    title: "ISO/IEC 27037: Guidelines for identification, collection, acquisition and preservation of digital evidence"
+    site: ISO
+    tags: [forensics, evidence]
+    summary_md: |
+      International guidance for the first handling of digital evidence: identification,
+      collection, acquisition and preservation, with emphasis on auditability, repeatability,
+      reproducibility and justifiability. Second source for lesson 1.
+  - slug: d7-fre
+    kind: standard
+    url: https://www.law.cornell.edu/rules/fre
+    title: "Federal Rules of Evidence (US)"
+    site: Cornell Legal Information Institute
+    tags: [evidence, law]
+    summary_md: |
+      US rules on relevance (Art. IV), hearsay (Art. VIII), authentication (Rule 901) and the
+      best evidence / original writing rule (Art. X, Rules 1001–1008), which underpin the CISSP's
+      evidence admissibility vocabulary. Used in lesson 1.
+  - slug: d7-nist-sp-800-92
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/92/final
+    title: "NIST SP 800-92: Guide to Computer Security Log Management"
+    authors: [Karen Kent, Murugiah Souppaya]
+    site: NIST CSRC
+    published: 2006-09-01
+    tags: [logging, siem]
+    summary_md: |
+      Log generation, transmission, storage, analysis and disposal; centralized log management
+      infrastructure; protecting log integrity; time synchronization. Used in lesson 2.
+  - slug: d7-nist-sp-800-137
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/137/final
+    title: "NIST SP 800-137: Information Security Continuous Monitoring (ISCM)"
+    site: NIST CSRC
+    published: 2011-09-30
+    tags: [monitoring]
+    summary_md: |
+      Defines continuous monitoring as maintaining ongoing awareness of security, vulnerabilities
+      and threats to support risk decisions; the define–establish–implement–analyze–respond–review
+      cycle. Used in lesson 2.
+  - slug: d7-nist-sp-800-150
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/150/final
+    title: "NIST SP 800-150: Guide to Cyber Threat Information Sharing"
+    site: NIST CSRC
+    published: 2016-10-04
+    tags: [threat-intelligence]
+    summary_md: |
+      Types of threat information (indicators, TTPs, alerts, reports, tool configurations),
+      benefits and challenges of sharing, and handling rules for shared information. Used in
+      lesson 2.
+  - slug: d7-mitre-attack
+    kind: web
+    url: https://attack.mitre.org/
+    title: "MITRE ATT&CK"
+    site: MITRE
+    tags: [threat-intelligence, threat-hunting]
+    summary_md: |
+      A knowledge base of adversary tactics and techniques from real-world observation. Used in
+      lesson 2 as the common vocabulary for hypothesis-driven threat hunting and detection
+      coverage.
+  - slug: d7-nist-sp-800-53
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    title: "NIST SP 800-53 Rev. 5: Security and Privacy Controls"
+    site: NIST CSRC
+    tags: [controls]
+    summary_md: |
+      The control catalog. Relevant families: AC (AC-5 separation of duties, AC-6 least
+      privilege), AU (audit and accountability), CM (configuration management, CM-2 baselines,
+      CM-3 change control), CP (contingency planning, CP-9 backup), IR (incident response), MP
+      (media protection), PE (physical and environmental), PS (personnel), SI (SI-2 flaw
+      remediation, SI-3 malware, SI-4 system monitoring). Cited across the module.
+  - slug: d7-nist-sp-800-128
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/128/upd1/final
+    title: "NIST SP 800-128: Guide for Security-Focused Configuration Management of Information Systems"
+    site: NIST CSRC
+    tags: [configuration-management, change-management]
+    summary_md: |
+      Security-focused configuration management: planning, identifying and implementing
+      configurations (baselines), controlling configuration changes, and monitoring. Used in
+      lesson 3.
+  - slug: d7-nist-sp-800-40
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/40/r4/final
+    title: "NIST SP 800-40 Rev. 4: Guide to Enterprise Patch Management Planning"
+    authors: [Murugiah Souppaya, Karen Scarfone]
+    site: NIST CSRC
+    published: 2022-04-06
+    tags: [patch-management]
+    summary_md: |
+      Treats patching as preventive maintenance; maintenance plans, risk-based prioritization,
+      routine versus emergency patching, and mitigations when a patch cannot be applied. Used in
+      lesson 3.
+  - slug: d7-cisa-kev
+    kind: web
+    url: https://www.cisa.gov/known-exploited-vulnerabilities-catalog
+    title: "CISA Known Exploited Vulnerabilities Catalog"
+    site: CISA
+    tags: [vulnerability-management]
+    summary_md: |
+      An authoritative list of vulnerabilities known to be exploited in the wild, used to
+      prioritize remediation beyond raw severity scores. Used in lesson 3.
+  - slug: d7-first-cvss
+    kind: standard
+    url: https://www.first.org/cvss/
+    title: "Common Vulnerability Scoring System (CVSS)"
+    site: FIRST
+    tags: [vulnerability-management]
+    summary_md: |
+      The CVSS specification for scoring vulnerability severity (base, threat/temporal,
+      environmental metrics). Lesson 3 uses it to explain why severity alone is not risk.
+  - slug: d7-iso-27002
+    kind: standard
+    url: https://www.iso.org/standard/75652.html
+    title: "ISO/IEC 27002:2022: Information security controls"
+    site: ISO
+    published: 2022-02-15
+    tags: [controls]
+    summary_md: |
+      Control guidance including segregation of duties (5.3), information security incident
+      management (5.24–5.28, including collection of evidence 5.28), ICT readiness for business
+      continuity (5.30), physical controls (7.1–7.14), remote working (6.7), privileged access
+      rights (8.2), configuration management (8.9), backup (8.13), redundancy (8.14), logging
+      (8.15), monitoring (8.16), change management (8.32). Cited across the module.
+  - slug: d7-nist-sp-800-61
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/61/r3/final
+    title: "NIST SP 800-61 Rev. 3: Incident Response Recommendations and Considerations for Cybersecurity Risk Management"
+    site: NIST CSRC
+    published: 2025-04-03
+    tags: [incident-response]
+    summary_md: |
+      Revision 3 (April 2025) aligns incident response with the NIST CSF 2.0 functions (Govern,
+      Identify, Protect, Detect, Respond, Recover) and replaces Rev. 2's four-phase lifecycle
+      (preparation; detection and analysis; containment, eradication and recovery;
+      post-incident activity). Lesson 4 maps both to the ISC2 seven steps.
+  - slug: d7-nist-sp-800-94
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/94/final
+    title: "NIST SP 800-94: Guide to Intrusion Detection and Prevention Systems (IDPS)"
+    authors: [Karen Scarfone, Peter Mell]
+    site: NIST CSRC
+    published: 2007-02-20
+    tags: [ids, ips]
+    summary_md: |
+      IDPS types (network, wireless, network behavior analysis, host-based), detection
+      methodologies (signature, anomaly, stateful protocol analysis), false positives and false
+      negatives, and tuning. Used in lessons 2 and 4.
+  - slug: d7-nist-sp-800-41
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/41/r1/final
+    title: "NIST SP 800-41 Rev. 1: Guidelines on Firewalls and Firewall Policy"
+    site: NIST CSRC
+    published: 2009-09-28
+    tags: [firewalls]
+    summary_md: |
+      Packet filtering, stateful inspection, application firewalls and proxies, and policy
+      guidance such as default deny for inbound and outbound traffic. Used in lesson 4.
+  - slug: d7-nist-sp-800-83
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/83/r1/final
+    title: "NIST SP 800-83 Rev. 1: Guide to Malware Incident Prevention and Handling"
+    site: NIST CSRC
+    published: 2013-07-22
+    tags: [malware, sandboxing]
+    summary_md: |
+      Malware prevention (policy, awareness, vulnerability mitigation, threat mitigation such as
+      antivirus, IPS, sandboxing, application allow-listing) and the malware incident response
+      lifecycle. Used in lesson 4.
+  - slug: d7-nist-sp-800-34
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final
+    title: "NIST SP 800-34 Rev. 1: Contingency Planning Guide for Federal Information Systems"
+    site: NIST CSRC
+    tags: [disaster-recovery, business-continuity]
+    summary_md: |
+      Business impact analysis (MTD, RTO, RPO), backup methods, alternate sites (cold, warm,
+      hot, mobile, mirrored), reciprocal agreements, plan activation, recovery and
+      reconstitution phases, and plan testing. Used in lessons 5 and 6.
+  - slug: d7-nist-sp-800-209
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/209/final
+    title: "NIST SP 800-209: Security Guidelines for Storage Infrastructure"
+    site: NIST CSRC
+    published: 2020-10-26
+    tags: [backup, storage, raid]
+    summary_md: |
+      Storage security including data protection (backup, replication, immutable and isolated
+      copies) and the role of RAID and redundancy in availability. Used in lesson 5.
+  - slug: d7-nist-sp-800-84
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/84/final
+    title: "NIST SP 800-84: Guide to Test, Training, and Exercise Programs for IT Plans and Capabilities"
+    site: NIST CSRC
+    published: 2006-09-01
+    tags: [exercises, disaster-recovery, business-continuity]
+    summary_md: |
+      Tabletop versus functional exercises, design and conduct of exercises, after-action
+      reports. Used in lessons 5 and 6.
+  - slug: d7-iso-22301
+    kind: standard
+    url: https://www.iso.org/standard/75106.html
+    title: "ISO 22301:2019: Business continuity management systems — Requirements"
+    site: ISO
+    published: 2019-10-31
+    tags: [business-continuity]
+    summary_md: |
+      Requirements for a business continuity management system, including business impact
+      analysis, continuity strategies, plans, and the requirement to exercise and test them at
+      planned intervals. Used in lesson 6.
+  - slug: d7-ready-gov-business
+    kind: web
+    url: https://www.ready.gov/business
+    title: "Ready Business: emergency preparedness and business continuity planning"
+    site: Ready.gov (FEMA)
+    tags: [emergency-management, business-continuity]
+    summary_md: |
+      US government guidance for business preparedness: risk assessment, emergency response
+      plans (evacuation, shelter-in-place, lockdown), crisis communications, business
+      continuity and testing through exercises. Used in lesson 6.
+  - slug: d7-osha-eap
+    kind: web
+    url: https://www.osha.gov/etools/evacuation-plans-procedures
+    title: "OSHA Evacuation Plans and Procedures eTool"
+    site: US Occupational Safety and Health Administration
+    tags: [personnel-safety, emergency-management]
+    summary_md: |
+      Emergency action plans: evacuation routes, assembly areas, accounting for employees
+      after evacuation, wardens, and alarm systems. Used in lesson 6 for life-safety first.
+  - slug: d7-nist-sp-800-46
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/46/r2/final
+    title: "NIST SP 800-46 Rev. 2: Guide to Enterprise Telework, Remote Access, and BYOD Security"
+    site: NIST CSRC
+    published: 2016-07-29
+    tags: [travel, remote-access]
+    summary_md: |
+      Securing devices used outside the organization's facilities: assume hostile networks, use
+      VPNs, full-disk encryption, minimal data on devices. Used in lesson 6 for travel security.
+  - slug: d7-cisa-physical-security
+    kind: web
+    url: https://www.cisa.gov/topics/physical-security
+    title: "CISA: Physical Security"
+    site: CISA
+    tags: [physical-security, insider-threat]
+    summary_md: |
+      CISA's physical security resources, including insider threat mitigation, active-assailant
+      preparedness and protecting facilities. Used in lesson 6.

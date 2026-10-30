@@ -1,0 +1,1016 @@
+slug: case-studies-quiz
+ordinal: 17
+title: "Case studies quiz"
+kind: quiz
+draw: 16
+time_limit_min: 40
+pass_pct: 80
+instructions_md: |
+  16 questions drawn at random from a bank of 40: ten for each of the four v6.1 case studies
+  (Altostrat Media, Cymbal Retail, EHR Healthcare, KnightMotives Automotive). You have 40
+  minutes, the same pace as the real exam. Keep the case-study PDFs open in another tab, as the
+  real exam shows the case text beside these questions.
+
+  Multiple-select questions say how many to choose and score only when every choice is right.
+  Pass mark 80%. Every question also feeds the full practice exam under the section it really
+  tests.
+questions:
+  # ---------------------------------------------------------------- Altostrat Media
+  - key: cs-altostrat-autoclass-back-catalogue
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: Altostrat Media.** Altostrat's documentary back catalogue is several
+      petabytes in Cloud Storage. Most titles are rarely watched, but any of them can suddenly
+      trend after a news event and be streamed heavily for weeks. Leadership wants lower
+      storage cost without the operations team tuning rules by hand. What should you do?
+    choices:
+      - { key: a, text: "Add a lifecycle rule that moves every object to Archive storage 30 days after creation." }
+      - { key: b, text: "Enable Autoclass on the bucket that holds the back catalogue." }
+      - { key: c, text: "Move the back catalogue to Filestore Basic HDD and mount it on the GKE content platform." }
+      - { key: d, text: "Keep the catalogue in Standard storage and put Cloud CDN in front of it." }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Autoclass moves each object to colder classes as it goes unread and back
+      to Standard when it's read again, with no retrieval or early-deletion charges for those
+      transitions. That fits unpredictable access and needs no manual tuning.
+
+      - **a** is wrong. Archive charges retrieval fees on every read and has a 365-day minimum
+        storage duration, so a title that trends becomes expensive and stays cold.
+      - **c** is wrong. Filestore is file storage priced for performance, not a cheaper home
+        for petabytes of rarely read media, and it adds capacity management.
+      - **d** is wrong. Cloud CDN reduces latency and egress for hot content but doesn't
+        reduce the at-rest cost of petabytes of idle objects.
+    points: 1
+  - key: cs-altostrat-hybrid-ingestion-link
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: Altostrat Media.** Altostrat's on-premises ingestion system uploads
+      several terabytes of raw video to Google Cloud every day until it is retired. The
+      technical requirements call for secure, high-performance hybrid connectivity, and the
+      executive statement makes reliability a top priority. What should you recommend?
+    choices:
+      - { key: a, text: "A single Classic VPN tunnel from the ingestion site to the content VPC." }
+      - { key: b, text: "Direct Peering with Google at the nearest edge location." }
+      - { key: c, text: "Dedicated Interconnect in a redundant topology, with HA VPN as a backup path." }
+      - { key: d, text: "Uploads over the public internet using signed URLs from the ingestion servers." }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Dedicated Interconnect gives private, high-bandwidth, SLA-backed
+      connectivity into the VPC, and a redundant topology plus an HA VPN backup meets the
+      reliability priority.
+
+      - **a** is wrong. A single Classic VPN tunnel is limited in throughput and is a single
+        point of failure, so it fails both "high-performance" and reliability.
+      - **b** is wrong. Direct Peering reaches Google's public services rather than giving
+        private access to your VPC, and it carries no SLA.
+      - **d** is wrong. Signed URLs secure individual uploads, but the public internet gives
+        no predictable bandwidth or latency for terabytes a day.
+    points: 1
+  - key: cs-altostrat-central-cicd
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      **Case study: Altostrat Media.** Altostrat runs Kubernetes both on GKE and on-premises.
+      Each team currently builds images on its own Jenkins server and deploys with `kubectl`.
+      The technical requirements call for modern CI/CD for containerised deployments with a
+      centralised management platform. Which approach best meets the requirement?
+    choices:
+      - { key: a, text: "Register all clusters to a GKE fleet; build with Cloud Build into Artifact Registry; promote releases with Cloud Deploy; enforce attested images with Binary Authorization." }
+      - { key: b, text: "Standardise every team on the same Jenkins plugins and keep one Jenkins server per cluster." }
+      - { key: c, text: "Give developers cluster-admin on every cluster so they can deploy directly without waiting for a pipeline." }
+      - { key: d, text: "Replace all clusters with Compute Engine managed instance groups deployed by startup scripts." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. A fleet gives one management plane across cloud and on-premises
+      clusters. Cloud Build, Artifact Registry and Cloud Deploy give one managed pipeline with
+      promotion and rollback, and Binary Authorization secures the supply chain.
+
+      - **b** is wrong. Many Jenkins servers are still decentralised and self-managed. Plugin
+        standardisation doesn't create central management.
+      - **c** is wrong. It removes the pipeline and breaks least privilege, which makes
+        releases less reliable, not more.
+      - **d** is wrong. It abandons the Kubernetes environments the requirements say must be
+        provided on-premises and in the cloud.
+    points: 1
+  - key: cs-altostrat-auditable-moderation
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      **Case study: Altostrat Media.** Altostrat will use pretrained APIs and Gemini to flag
+      inappropriate content, plus a small custom classifier for one category. Regulators and
+      creators must be able to challenge removals, so the technical requirements say the AI
+      must be auditable and its decisions explainable. Which two actions best meet this?
+      (Choose two.)
+    choices:
+      - { key: a, text: "Record every moderation decision (asset reference, model and version, scores, threshold, outcome, reviewer) in BigQuery with a defined retention period." }
+      - { key: b, text: "Use Explainable AI feature attributions for the custom classifier, and route borderline or appealed items to a human reviewer." }
+      - { key: c, text: "Disable Data Access audit logs on the moderation project to reduce log volume and cost." }
+      - { key: d, text: "Delete flagged assets automatically as soon as the score passes the threshold, so harmful content is never served." }
+      - { key: e, text: "Retrain the classifier nightly on the latest flags, overwriting the previous model version each time." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. A durable decision record makes each outcome reconstructable
+      for audit. Feature attributions explain the custom model's decisions, and human review
+      covers disputed and borderline cases where pretrained and generative scores alone
+      aren't an explanation.
+
+      - **c** is wrong. Removing audit logs reduces auditability, the opposite of the
+        requirement.
+      - **d** is wrong. Silent automatic deletion leaves nothing to audit or appeal.
+        Quarantine plus a record is the safer pattern.
+      - **e** is wrong. Overwriting model versions makes it impossible to say which model made
+        a past decision.
+    points: 1
+  - key: cs-altostrat-support-agent
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: Altostrat Media.** Altostrat wants 24/7 natural-language support that
+      answers questions about its catalogue, subscriptions and help articles, and can look up
+      a viewer's account. The team has no ML engineers and wants answers grounded in
+      Altostrat's own content. What should you use?
+    choices:
+      - { key: a, text: "Train a language model from scratch on TPUs using Altostrat's help articles." }
+      - { key: b, text: "Deploy an open-weight model on a GKE GPU node pool and paste help articles into each prompt by hand." }
+      - { key: c, text: "Use the Natural Language API to classify each question and return a canned answer per category." }
+      - { key: d, text: "Build an Agent Builder agent on Gemini, grounded on the catalogue and help content, with a tool that calls Altostrat's account API." }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Agent Builder provides a managed, grounded conversational agent on
+      Gemini with tools for actions, so it meets 24/7 support, grounding and personalisation
+      with no model operations.
+
+      - **a** is wrong. Training a model from scratch needs ML skills, large data and time
+        the team doesn't have, and it still wouldn't be grounded in live content.
+      - **b** is wrong. It adds GPU infrastructure to run, and manual context stuffing isn't
+        a scalable grounding approach.
+      - **c** is wrong. Classification with canned answers isn't natural-language
+        conversation and can't personalise.
+    points: 1
+  - key: cs-altostrat-automatic-summaries
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: Altostrat Media.** Altostrat wants a short summary generated for every new
+      podcast episode and news video as soon as it lands in Cloud Storage, stored with the
+      asset's metadata for search and analytics. The team wants the least operational
+      overhead. Which design should you choose?
+    choices:
+      - { key: a, text: "A Cloud Storage object-finalised event triggers a Cloud Run function that sends the media to Gemini and writes the summary to BigQuery and the content record." }
+      - { key: b, text: "A nightly cron job on a Compute Engine VM lists the bucket and summarises new files with a self-hosted model." }
+      - { key: c, text: "Editors write summaries by hand in a shared spreadsheet that is loaded into BigQuery weekly." }
+      - { key: d, text: "A Dataproc cluster runs continuously, polling the bucket and summarising files with a Spark job." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. It's event-driven and serverless (nothing runs when nothing is
+      uploaded), Gemini accepts audio and video directly, and results land where search and
+      analytics already live.
+
+      - **b** is wrong. It delays summaries until the nightly run and adds a VM and a model to
+        operate.
+      - **c** is wrong. The requirement is automatic summarisation, so manual work doesn't
+        meet it.
+      - **d** is wrong. A permanently running cluster for per-file tasks is costly and heavy
+        to operate compared with an event trigger.
+    points: 1
+  - key: cs-altostrat-monitoring-modernise
+    kind: multi
+    domain: s6-operations-excellence
+    prompt_md: |
+      **Case study: Altostrat Media.** Altostrat uses Cloud Monitoring plus self-run
+      Prometheus servers, and alerts go mainly to email. Outages have gone unnoticed for
+      hours. Which two changes best improve reliability while reducing operational burden?
+      (Choose two.)
+    choices:
+      - { key: a, text: "Move Prometheus metrics to Google Cloud Managed Service for Prometheus, keeping existing PromQL queries and dashboards." }
+      - { key: b, text: "Define SLOs for key user journeys and route alerting policies to on-call notification channels such as a paging tool." }
+      - { key: c, text: "Add more people to the alert email distribution list." }
+      - { key: d, text: "Run a larger self-managed Prometheus cluster with Thanos for long-term storage in every region." }
+      - { key: e, text: "Export all logs to Cloud Storage and review them weekly for errors." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. Managed Service for Prometheus keeps the familiar
+      Prometheus model without running servers, and SLO-based alerts routed to on-call tools
+      make sure someone acts promptly on user-visible problems.
+
+      - **c** is wrong. More email recipients doesn't fix ignored email alerts and adds noise.
+      - **d** is wrong. It increases the self-managed footprint, the opposite of reducing
+        burden.
+      - **e** is wrong. Weekly log review is retrospective and can't shorten outage detection.
+    points: 1
+  - key: cs-altostrat-chatbot-prompt-injection
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      **Case study: Altostrat Media.** During testing of Altostrat's support chatbot, users
+      persuaded it to ignore its instructions and output offensive text, and one prompt tried
+      to extract another viewer's email address. Which control should you add?
+    choices:
+      - { key: a, text: "Increase the model's temperature so responses vary and are harder to manipulate." }
+      - { key: b, text: "Put Cloud Armor in front of the chatbot's load balancer with the OWASP preconfigured rules." }
+      - { key: c, text: "Screen prompts and responses with Model Armor for prompt injection, jailbreaks, harmful content and sensitive data." }
+      - { key: d, text: "Rewrite the system prompt to tell the model never to follow user instructions that change its role." }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Model Armor screens both prompts and responses for prompt injection,
+      jailbreak attempts, harmful content and sensitive data, independent of the model.
+
+      - **a** is wrong. Temperature changes randomness, not safety, and can make behaviour
+        less predictable.
+      - **b** is wrong. Cloud Armor protects against web attacks and DDoS at layer 7. It
+        doesn't understand LLM prompt semantics.
+      - **d** is wrong. System-prompt wording helps, but it's exactly what jailbreaks are
+        designed to bypass. It isn't a control on its own.
+    points: 1
+  - key: cs-altostrat-content-trends
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: Altostrat Media.** Altostrat extracts topics, people and labels from every
+      asset and already holds viewing behaviour in BigQuery. Editors want to see which topics
+      are rising and to forecast demand to inform content strategy, with minimal new
+      infrastructure. Which two steps should you take? (Choose two.)
+    choices:
+      - { key: a, text: "Write the extracted metadata to BigQuery tables that join to the existing viewing data." }
+      - { key: b, text: "Use BigQuery ML forecasting models and Looker dashboards on the joined data." }
+      - { key: c, text: "Copy the viewing data into Cloud SQL for MySQL so that analysts can use familiar SQL tools." }
+      - { key: d, text: "Store the metadata in Memorystore for Redis so that trend queries return quickly." }
+      - { key: e, text: "Load the metadata into Bigtable and query it with ad hoc SQL joins against viewing data." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. Keeping metadata beside the behaviour data in BigQuery
+      avoids new silos, and BigQuery ML plus dashboards gives forecasts and insight in SQL
+      with no new platform to run.
+
+      - **c** is wrong. Cloud SQL is an operational database, not an analytics warehouse for
+        large-scale aggregation, and copying data creates a silo.
+      - **d** is wrong. Memorystore is an in-memory cache, not an analytics store.
+      - **e** is wrong. Bigtable is a wide-column store for key-based access at scale. It
+        isn't designed for ad hoc relational joins.
+    points: 1
+  - key: cs-altostrat-archive-migration
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: Altostrat Media.** As part of the migration plan, Altostrat must move about
+      400 TB from its on-premises archive file servers to Cloud Storage. A 10 Gbps
+      Interconnect is already in place, new files keep arriving during the migration, and the
+      team wants scheduled, incremental copies with integrity checks and no custom scripts.
+      What should you use?
+    choices:
+      - { key: a, text: "Transfer Appliance, shipped once, followed by manual copies of any new files." }
+      - { key: b, text: "A cron job running `gcloud storage cp` on each file server." }
+      - { key: c, text: "Database Migration Service with a continuous migration job." }
+      - { key: d, text: "Storage Transfer Service with transfer agents installed on-premises, run on a schedule." }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Storage Transfer Service with on-premises agents is managed, schedulable
+      and incremental, verifies data, and can use the existing Interconnect bandwidth. 400 TB
+      at 10 Gbps is a matter of days to weeks, not months.
+
+      - **a** is wrong. Transfer Appliance suits cases where the network can't move the data
+        in time. Here it can, and the manual follow-up copies don't meet the "no custom
+        scripts" constraint.
+      - **b** is wrong. It's a custom script with no central scheduling, monitoring or
+        verification.
+      - **c** is wrong. Database Migration Service migrates databases, not file archives.
+    points: 1
+  # ---------------------------------------------------------------- Cymbal Retail
+  - key: cs-cymbal-attribute-generation
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: Cymbal Retail.** Supplier data arrives as short titles, inconsistent
+      descriptions and product photos. Cymbal needs product attributes derived from all three
+      that match each category's existing attribute fields and allowed values. What is the
+      best approach?
+    choices:
+      - { key: a, text: "Use the Cloud Vision API's label detection on the photos and store the labels as attributes." }
+      - { key: b, text: "Send the title, description and images to Gemini with the category's attribute schema in the prompt, and use structured output so responses must match that schema." }
+      - { key: c, text: "Ask Gemini for a free-text paragraph and extract attributes from it with regular expressions." }
+      - { key: d, text: "Fine-tune a custom model on all historical products before attempting any prompting." }
+    answer: [b]
+    explanation_md: |
+      **b** is right. A multimodal model uses all three inputs, and structured output
+      constrains the response to Cymbal's fields and allowed values, which is the "align with
+      the catalogue structure" requirement.
+
+      - **a** is wrong. Generic image labels ignore the text inputs and don't map to Cymbal's
+        attribute schema.
+      - **c** is wrong. Free text parsed with regex is brittle and produces inconsistent
+        values, the error-prone process Cymbal wants to leave behind.
+      - **d** is wrong. Fine-tuning first is costly and slow. Prompting with schemas is the
+        documented starting point, and tuning comes only if that falls short.
+    points: 1
+  - key: cs-cymbal-image-variations
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: Cymbal Retail.** From one supplier photo of a sofa, Cymbal wants versions
+      in four other fabric colours, a lifestyle background instead of the warehouse floor, and
+      a "New" badge overlay, without running its own GPU infrastructure. What should you use?
+    choices:
+      - { key: a, text: "Imagen on Agent Platform for mask-based editing, background replacement and colour variants, compositing the overlay in the pipeline." }
+      - { key: b, text: "An open-source diffusion model on a Compute Engine GPU VM managed by the catalogue team." }
+      - { key: c, text: "The Cloud Vision API's image properties feature to recolour the sofa." }
+      - { key: d, text: "Ask suppliers to send a separate photo shoot for every colour and background." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Imagen is a managed image generation and editing model that supports
+      mask-based edits and background changes, so no GPUs need to be run.
+
+      - **b** is wrong. It violates the "no GPU infrastructure" constraint and adds operations.
+      - **c** is wrong. Vision's image properties *detects* dominant colours. It doesn't edit
+        images.
+      - **d** is wrong. It's the manual, slow process the requirement exists to remove.
+    points: 1
+  - key: cs-cymbal-hitl-review
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: Cymbal Retail.** Cymbal's associates must be able to approve, reject or
+      edit every gen AI suggestion before it reaches the product catalogue. Which two design
+      elements meet this requirement? (Choose two.)
+    choices:
+      - { key: a, text: "Write generated attributes, descriptions and images to a staging store with a pending status, and publish to the catalogue only on approval." }
+      - { key: b, text: "Build a review web app on Cloud Run, protected by Identity-Aware Proxy, that lets associates approve, reject or edit each suggestion." }
+      - { key: c, text: "Publish suggestions directly when the model's confidence is above 0.9 and review only the rest." }
+      - { key: d, text: "Send a weekly CSV of published changes to associates so they can report errors." }
+      - { key: e, text: "Let the model overwrite catalogue fields and keep a backup table for rollback." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. Separating generation from publication with a staging status
+      and giving associates a secured UI to act on each item is exactly a human-in-the-loop
+      control.
+
+      - **c** is wrong. Auto-publishing any subset skips the required human review.
+      - **d** is wrong. Reviewing after publication is too late, because customers have
+        already seen the content.
+      - **e** is wrong. Rollback is remediation, not review before update.
+    points: 1
+  - key: cs-cymbal-product-discovery
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: Cymbal Retail.** Cymbal's storefront search queries its relational
+      databases by product name and category, so a search for "something warm for winter
+      hiking" returns nothing useful. Cymbal wants natural-language queries to return highly
+      relevant products across its very large catalogue. What should you recommend?
+    choices:
+      - { key: a, text: "Add full-text indexes to the MySQL product tables and tune the queries." }
+      - { key: b, text: "Build a custom embeddings index on GKE and maintain the ranking model in-house." }
+      - { key: c, text: "Adopt Search for commerce (Discovery AI for retail), ingesting the catalogue and user events, and call it from the site and the virtual agents." }
+      - { key: d, text: "Put Memorystore in front of the database to make the existing searches faster." }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Search for commerce is Google's managed Discovery AI for retail. It
+      understands natural-language intent and learns from Cymbal's own user events, and one
+      engine can serve both the site and the conversational agents.
+
+      - **a** is wrong. Full-text indexes match keywords. They don't understand intent such
+        as "warm for winter hiking".
+      - **b** is wrong. It could work, but it builds and runs what a managed product already
+        provides, which adds operational burden.
+      - **d** is wrong. Caching makes irrelevant results faster. It doesn't make them
+        relevant.
+    points: 1
+  - key: cs-cymbal-call-centre-cost
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: Cymbal Retail.** Many calls reach Cymbal's human agents only because
+      customers couldn't finish an order online, after which an agent keys the order in by
+      hand. Cymbal wants to reduce call-centre staffing costs while keeping customers
+      satisfied. What should you recommend?
+    choices:
+      - { key: a, text: "Add more menu options to the IVR so callers can route themselves more precisely." }
+      - { key: b, text: "Outsource the call centre to a lower-cost region and keep the manual order entry." }
+      - { key: c, text: "Replace phone support with an email form that customers fill in." }
+      - { key: d, text: "Deploy a Conversational Agents (Dialogflow CX) virtual agent on voice and web, with tools to search products and place orders through Cymbal's order API, handing off to a human with context when needed." }
+    answer: [d]
+    explanation_md: |
+      **d** is right. A virtual agent that can find products and place the order completes
+      the exact calls that today need a human to key orders, and the hand-off protects
+      satisfaction for the rest.
+
+      - **a** is wrong. More IVR options still end with a human keying the order.
+      - **b** is wrong. It may cut the hourly rate but keeps the manual, error-prone process
+        and doesn't use the conversational commerce the case calls for.
+      - **c** is wrong. It degrades customer experience and still needs people to process the
+        forms.
+    points: 1
+  - key: cs-cymbal-customer-data-protection
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      **Case study: Cymbal Retail.** Conversations with Cymbal's virtual agents are stored for
+      analytics, and some customers read out card numbers and addresses. Cymbal must handle
+      customer data securely and in line with industry regulations. Which two controls should
+      you apply? (Choose two.)
+    choices:
+      - { key: a, text: "Use Sensitive Data Protection to inspect and de-identify card numbers and other PII in transcripts before they're stored or logged." }
+      - { key: b, text: "Place the projects that hold customer data and the AI services in a VPC Service Controls perimeter." }
+      - { key: c, text: "Grant the analytics team the Owner role on the data project so they can audit access themselves." }
+      - { key: d, text: "Rely on Google's default encryption at rest as the complete PCI DSS control." }
+      - { key: e, text: "Disable Data Access audit logs on the data project so PII never appears in logs." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. De-identification keeps card numbers and PII out of stored
+      transcripts and analytics, which shrinks compliance scope. A service perimeter guards
+      the remaining sensitive data against exfiltration, even by someone with stolen
+      credentials.
+
+      - **c** is wrong. Owner is far beyond least privilege for analysts.
+      - **d** is wrong. Encryption at rest is necessary but is only one of many controls. It
+        doesn't stop card data spreading into transcripts.
+      - **e** is wrong. Removing audit logs destroys the evidence compliance needs. Redact the
+        data instead.
+    points: 1
+  - key: cs-cymbal-database-migration
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: Cymbal Retail.** To cut data-centre hosting costs, Cymbal will move its
+      on-premises MySQL and SQL Server catalogue databases to Google Cloud. The applications
+      should change as little as possible and the cutover window must be short. What should
+      you recommend?
+    choices:
+      - { key: a, text: "Migrate both to Cloud SQL (MySQL and SQL Server editions) using Database Migration Service with continuous replication, then cut over." }
+      - { key: b, text: "Rewrite both schemas for Bigtable and bulk-load nightly exports." }
+      - { key: c, text: "Install MySQL and SQL Server on Compute Engine VMs and restore last night's backups during a weekend outage." }
+      - { key: d, text: "Export both databases to CSV and load them into BigQuery as the new operational store." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Cloud SQL supports both engines unchanged, so the application changes
+      very little. Database Migration Service keeps the target in sync so the final cutover
+      is short, and the managed service removes the hardware and admin costs.
+
+      - **b** is wrong. Bigtable isn't relational, so this is a rewrite, not a minimal-change
+        move.
+      - **c** is wrong. It keeps all the database administration, and a backup-restore with a
+        weekend outage isn't a short cutover.
+      - **d** is wrong. BigQuery is an analytics warehouse, not an OLTP database for a
+        storefront.
+    points: 1
+  - key: cs-cymbal-file-integrations
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      **Case study: Cymbal Retail.** Supplier SFTP drops feed a nightly ETL batch. When a file
+      is malformed, the batch fails and staff spend the morning finding and fixing it by hand.
+      Suppliers won't stop sending files this year. How should you redesign the process to
+      reduce manual error handling?
+    choices:
+      - { key: a, text: "Keep the nightly batch but run it twice a night so failures are noticed sooner." }
+      - { key: b, text: "Land supplier files in Cloud Storage, trigger processing per file through Eventarc and Pub/Sub into Dataflow, and route invalid records to a dead-letter topic with alerting." }
+      - { key: c, text: "Ask every supplier to switch to a new REST API immediately and stop accepting files." }
+      - { key: d, text: "Move the SFTP server and ETL scripts unchanged to a Compute Engine VM." }
+    answer: [b]
+    explanation_md: |
+      **b** is right. Per-file, event-driven processing isolates bad files, and dead-letter
+      handling with alerts turns a failed nightly batch into a targeted, visible exception.
+      It still accepts files, so suppliers don't have to change.
+
+      - **a** is wrong. It's the same fragile batch, just run more often.
+      - **c** is wrong. It ignores the stated constraint that suppliers will keep sending
+        files.
+      - **d** is wrong. Rehosting moves the problem without changing the process.
+    points: 1
+  - key: cs-cymbal-observability-consolidation
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      **Case study: Cymbal Retail.** Cymbal monitors with Grafana, Nagios and Elastic, each run
+      by a different team, and incidents are often spotted by customers first. As workloads
+      move to GKE, Cymbal wants proactive monitoring with less tooling to maintain, and its
+      engineers want to keep their Grafana dashboards. What should you recommend?
+    choices:
+      - { key: a, text: "Run all three tools on a GKE cluster so that they share infrastructure." }
+      - { key: b, text: "Replace them with uptime checks only, because GKE restarts failed pods automatically." }
+      - { key: c, text: "Adopt Google Cloud Observability with Managed Service for Prometheus, point Grafana at it, and define alerting policies on SLOs routed to on-call." }
+      - { key: d, text: "Export all metrics to BigQuery and review them in a daily report." }
+    answer: [c]
+    explanation_md: |
+      **c** is right. It consolidates on a managed observability stack, keeps Grafana
+      dashboards working through the Prometheus-compatible query API, and makes alerting
+      proactive.
+
+      - **a** is wrong. It keeps three tools to maintain and does nothing for alerting.
+      - **b** is wrong. Uptime checks alone miss latency, errors and saturation, and
+        self-healing doesn't replace monitoring.
+      - **d** is wrong. A daily report is retrospective, not proactive.
+    points: 1
+  - key: cs-cymbal-enrichment-at-scale
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: Cymbal Retail.** Cymbal must enrich a backlog of several million existing
+      products and then about 20,000 new supplier items each day, without performance problems
+      as the catalogue grows. Which two approaches should you use? (Choose two.)
+    choices:
+      - { key: a, text: "Run Gemini batch inference over the backlog from Cloud Storage or BigQuery." }
+      - { key: b, text: "Process new supplier items as they arrive with event-driven online requests from a serverless pipeline (Pub/Sub and Cloud Run)." }
+      - { key: c, text: "Call the online Gemini endpoint synchronously in a single loop from one VM for all items." }
+      - { key: d, text: "Self-host an open model on always-on GPU VMs sized for the backlog peak." }
+      - { key: e, text: "Generate attributes in the shopper's browser at page-view time." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. Batch inference handles very large, non-urgent volumes at a
+      lower price and without online quota pressure. Event-driven online calls keep new items
+      flowing, and the serverless pipeline scales with arrivals.
+
+      - **c** is wrong. One synchronous loop is slow, fragile and quota-bound at this volume.
+      - **d** is wrong. Always-on GPUs sized for a one-off peak waste money and add
+        operations.
+      - **e** is wrong. Generating at page view adds latency, skips human review and repeats
+        work for every visitor.
+    points: 1
+  # ---------------------------------------------------------------- EHR Healthcare
+  - key: cs-ehr-lease-migration-approach
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: EHR Healthcare.** The colocation lease for one of EHR's data centres
+      expires in five months. Its customer-facing web apps are already containerised on
+      Kubernetes, and its databases are MySQL and SQL Server. Which migration approach best
+      fits the deadline?
+    choices:
+      - { key: a, text: "Refactor each application into Cloud Run functions before moving anything." }
+      - { key: b, text: "Rebuild the data tier on Spanner first, then migrate the applications." }
+      - { key: c, text: "Negotiate a two-year lease extension and start migration planning after it is signed." }
+      - { key: d, text: "Redeploy the containers to GKE largely unchanged and migrate the databases to Cloud SQL with Database Migration Service, deferring refactoring." }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Containers move to GKE with little change, and Database Migration
+      Service gives a short, low-risk database cutover. That fits a five-month deadline, and
+      optimisation can follow.
+
+      - **a** is wrong. A full refactor is the slowest path and puts the deadline at risk.
+      - **b** is wrong. Re-platforming to Spanner means schema and code changes before
+        anything moves, which is too slow and not required.
+      - **c** is wrong. Google Cloud was chosen to replace colocation, and delaying planning
+        wastes the time available.
+    points: 1
+  - key: cs-ehr-hybrid-connectivity
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR's legacy insurer integrations will stay on-premises
+      for several years. Applications moving to GKE must reach them with secure,
+      high-performance, highly available connectivity, and EHR's colocation facility is in a
+      metro with a Google Cloud Interconnect location. What should you recommend?
+    choices:
+      - { key: a, text: "Redundant Dedicated Interconnect connections in separate edge availability domains, with HA VPN as an interim and backup path." }
+      - { key: b, text: "Expose the insurer systems on public IP addresses and restrict access with firewall rules on the colocation edge." }
+      - { key: c, text: "A single Classic VPN tunnel with static routes." }
+      - { key: d, text: "Migrate the insurer integrations to Compute Engine so that no hybrid link is needed." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Dedicated Interconnect gives private, high-bandwidth connectivity, and
+      redundancy across edge availability domains supports high availability. HA VPN can
+      carry traffic while the circuits are provisioned and back them up afterwards.
+
+      - **b** is wrong. Exposing health-related systems on the public internet fails the
+        "secure" requirement and gives no predictable performance.
+      - **c** is wrong. A single tunnel is a single point of failure with limited throughput.
+      - **d** is wrong. The case says there's no plan to move these integrations now.
+    points: 1
+  - key: cs-ehr-availability-design
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR must provide at least 99.9% availability for every
+      customer-facing system. The web tier runs on GKE and uses MySQL. Which two design
+      choices most directly support this target? (Choose two.)
+    choices:
+      - { key: a, text: "Run the web tier on regional GKE clusters that spread nodes across multiple zones." }
+      - { key: b, text: "Use Cloud SQL for MySQL in a high-availability (regional) configuration with automatic failover." }
+      - { key: c, text: "Run the web tier on one large zonal cluster with bigger nodes for headroom." }
+      - { key: d, text: "Put all customer-facing pods on Spot VM node pools to free budget for more replicas." }
+      - { key: e, text: "Add a read replica in the same zone as the primary database and fail over to it by hand." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. Both remove single-zone failure points, for compute and for
+      the database, which is the minimum shape for a 99.9% commitment.
+
+      - **c** is wrong. Bigger nodes in one zone still fail together if the zone fails.
+      - **d** is wrong. Spot VMs can be preempted at any time, which is unsuitable for a
+        customer-facing availability target.
+      - **e** is wrong. A same-zone replica shares the zone's fate, and manual failover is slow.
+    points: 1
+  - key: cs-ehr-ad-identity
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR manages its staff in Microsoft Active Directory and
+      wants them to sign in to Google Cloud with their existing credentials. AD must remain the
+      single source of truth for joiners and leavers. What should you do?
+    choices:
+      - { key: a, text: "Deploy Managed Service for Microsoft Active Directory and have staff sign in to the console with it." }
+      - { key: b, text: "Create matching user accounts by hand in Cloud Identity and ask staff to keep the passwords the same." }
+      - { key: c, text: "Provision users and groups from AD into Cloud Identity with Google Cloud Directory Sync, and configure SAML single sign-on against AD FS or Entra ID." }
+      - { key: d, text: "Share a small set of service account keys among staff, mapped to AD groups." }
+    answer: [c]
+    explanation_md: |
+      **c** is right. This is Google's documented federation pattern. Directory Sync keeps
+      users and groups aligned with AD, and SSO authenticates against AD, so AD stays
+      authoritative.
+
+      - **a** is wrong. Managed Microsoft AD provides domain controllers for AD-dependent
+        workloads in Google Cloud. It isn't how console sign-in is federated.
+      - **b** is wrong. Manual accounts drift from AD and break joiner and leaver control.
+      - **d** is wrong. Shared service account keys destroy individual accountability and are
+        a serious security risk.
+    points: 1
+  - key: cs-ehr-baa-first
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR is about to move protected health information for
+      U.S. customers into Google Cloud. What should EHR do **first** to maintain regulatory
+      compliance?
+    choices:
+      - { key: a, text: "Enable CMEK on every storage service before any data is moved." }
+      - { key: b, text: "Review and accept Google Cloud's Business Associate Agreement, and limit health data to the products it covers." }
+      - { key: c, text: "Request a SOC 2 report from Google and file it as proof of HIPAA compliance." }
+      - { key: d, text: "Turn on Security Command Center and treat its findings as the compliance sign-off." }
+    answer: [b]
+    explanation_md: |
+      **b** is right. HIPAA requires a Business Associate Agreement before a cloud provider
+      handles PHI, and the BAA covers only listed products. This is the contractual
+      prerequisite, and the configuration work follows it.
+
+      - **a** is wrong. CMEK may be a useful control, but HIPAA doesn't require it and it
+        doesn't replace the BAA.
+      - **c** is wrong. A SOC 2 report is useful assurance, but it isn't a BAA or HIPAA
+        compliance.
+      - **d** is wrong. Security Command Center finds risks. It isn't a compliance sign-off
+        and doesn't create the contractual basis.
+    points: 1
+  - key: cs-ehr-central-log-retention
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR needs consistent logging and log retention across
+      every project and environment, with audit logs kept for a regulated period and protected
+      from deletion, even by project owners. What should you configure?
+    choices:
+      - { key: a, text: "Default _Default log buckets in every project, with owners reminded to keep them." }
+      - { key: b, text: "A weekly script that exports each project's logs to an analyst's personal bucket." }
+      - { key: c, text: "Log-based metrics in each project, deleting the raw logs after 7 days to save cost." }
+      - { key: d, text: "An aggregated sink at the organization (or environment folder) level routing logs to a central log bucket with the required retention, locked so retention can't be reduced." }
+    answer: [d]
+    explanation_md: |
+      **d** is right. An aggregated sink captures logs from every current and future project
+      consistently, and a locked bucket enforces retention that project owners can't shorten.
+
+      - **a** is wrong. Per-project defaults are inconsistent and can be changed by owners.
+      - **b** is wrong. Personal buckets break separation of duties, and weekly scripts leave
+        gaps.
+      - **c** is wrong. Deleting raw logs after 7 days fails a regulated retention period.
+    points: 1
+  - key: cs-ehr-actionable-alerting
+    kind: single
+    domain: s6-operations-excellence
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR's alerts go to a shared mailbox and are often ignored.
+      Leadership wants proactive action on system performance. What should you change **first**?
+    choices:
+      - { key: a, text: "Define SLOs for customer-facing services and create alerting policies on SLO burn rate and key symptoms, routed to an on-call paging channel." }
+      - { key: b, text: "Add more threshold alerts on CPU and memory for every VM and container." }
+      - { key: c, text: "Change the email subject lines to say URGENT." }
+      - { key: d, text: "Increase log retention so engineers can investigate after customers report problems." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Alerts tied to user-facing SLOs are fewer and more meaningful, and
+      routing them to on-call guarantees an owner responds, which addresses both noise and
+      neglect.
+
+      - **b** is wrong. More low-level threshold alerts add noise, the reason alerts are
+        ignored today.
+      - **c** is wrong. Cosmetic changes don't fix routing or relevance.
+      - **d** is wrong. Longer retention helps investigation after the fact, not proactive
+        action.
+    points: 1
+  - key: cs-ehr-insurer-onboarding-apis
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR wants to onboard new insurance providers as fast as
+      possible. Today every insurer gets a custom integration. The development team asks how
+      to expose EHR's claims and records APIs to new partners securely and consistently. What
+      should you advise?
+    choices:
+      - { key: a, text: "Give each insurer a dedicated GKE namespace running a copy of the API." }
+      - { key: b, text: "Publish the APIs through Apigee with a developer portal, API keys or OAuth, quotas and analytics, backed by standard FHIR endpoints in the Cloud Healthcare API." }
+      - { key: c, text: "Share database read replicas with each insurer over VPC Network Peering." }
+      - { key: d, text: "Open a public bucket per insurer for file drops and email them the bucket name." }
+    answer: [b]
+    explanation_md: |
+      **b** is right. An API management layer turns onboarding into self-service
+      configuration with consistent security, quotas and visibility, and FHIR is the standard
+      health data interface partners expect.
+
+      - **a** is wrong. Per-insurer copies multiply operations and are still custom work.
+      - **c** is wrong. Giving partners direct database access breaks least privilege and
+        couples them to EHR's schema.
+      - **d** is wrong. Public buckets for health-related data are a severe security failure.
+    points: 1
+  - key: cs-ehr-trend-analytics
+    kind: multi
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR wants to predict and report on healthcare trends
+      from provider data while staying compliant. Analysts must never see identifiable
+      patient data. Which two steps should you take? (Choose two.)
+    choices:
+      - { key: a, text: "Store clinical data in Cloud Healthcare API FHIR stores and export it to BigQuery for analytics." }
+      - { key: b, text: "De-identify the data (Cloud Healthcare API de-identification or Sensitive Data Protection) before analysts can query it, then use BigQuery ML for forecasts." }
+      - { key: c, text: "Grant analysts the Viewer role on the production project so they can query the source databases directly." }
+      - { key: d, text: "Copy production database snapshots to analysts' workstations for modelling." }
+      - { key: e, text: "Load the data into Memorystore so trend dashboards are fast." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. FHIR stores with BigQuery export give a managed analytics
+      path. De-identification before analyst access keeps PHI out of their reach, and
+      BigQuery ML adds predictions without a new platform.
+
+      - **c** is wrong. It exposes identifiable production data and mixes analytics load with
+        customer-facing databases.
+      - **d** is wrong. PHI on workstations is a major compliance and breach risk.
+      - **e** is wrong. Memorystore is a cache, not an analytics store, and it doesn't address
+        de-identification.
+    points: 1
+  - key: cs-ehr-consistent-environments
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      **Case study: EHR Healthcare.** EHR's executive blames many outages on misconfigured
+      systems. EHR runs several GKE environments (dev, test, prod and per-region) and wants
+      them consistent and able to be provisioned quickly. What should you advise the
+      operations team to do?
+    choices:
+      - { key: a, text: "Document each cluster's settings in a wiki and ask engineers to double-check before changes." }
+      - { key: b, text: "Make every change by hand in the console of each cluster, during a weekly change window." }
+      - { key: c, text: "Define infrastructure in Terraform modules, register clusters to a fleet, and use Config Sync with Policy Controller so every cluster reconciles to configuration and policy in Git." }
+      - { key: d, text: "Use one very large cluster for all environments, separated only by namespaces, to avoid drift." }
+    answer: [c]
+    explanation_md: |
+      **c** is right. Infrastructure as code makes new environments repeatable, and GitOps
+      with policy enforcement continuously corrects drift and blocks non-compliant
+      configuration, removing the misconfiguration cause of outages.
+
+      - **a** is wrong. A wiki and manual checks are the practices that produced the
+        misconfigurations.
+      - **b** is wrong. Manual console changes are the source of drift.
+      - **d** is wrong. Mixing prod and non-prod in one cluster weakens isolation and puts
+        production at risk from test changes.
+    points: 1
+  # ---------------------------------------------------------------- KnightMotives Automotive
+  - key: cs-knightmotives-eu-residency
+    kind: multi
+    domain: s3-security-compliance
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** Data from KnightMotives' autonomous test fleet
+      in Europe includes personal data about drivers and bystanders. EU data protection rules
+      are critical, and the security team wants residency enforced by policy, not by
+      convention. Which two controls should you apply? (Choose two.)
+    choices:
+      - { key: a, text: "Set the resource-locations organization policy on the EU folder so resources can be created only in EU locations." }
+      - { key: b, text: "Create the EU workloads in Assured Workloads with an EU data-boundary control package." }
+      - { key: c, text: "Store the data in a US multi-region bucket with default encryption." }
+      - { key: d, text: "Rely on IAM deny policies alone to keep data inside the EU." }
+      - { key: e, text: "Connect the EU and US VPCs with VPC Network Peering so that data can be processed anywhere." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. The resource-locations constraint blocks creating resources
+      outside allowed locations, and Assured Workloads applies a compliance control package
+      for EU data residency and access controls. Together they enforce residency by policy.
+
+      - **c** is wrong. A US multi-region places the data outside the EU, and encryption
+        doesn't change where it lives.
+      - **d** is wrong. IAM controls *who* can act, not *where* resources and data reside.
+      - **e** is wrong. Peering makes cross-region movement easier, which works against
+        residency.
+    points: 1
+  - key: cs-knightmotives-data-monetisation
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** KnightMotives wants to sell aggregated
+      road-condition insights from vehicle data to city authorities, to fund new technology.
+      The data must stay under KnightMotives' control, and no individual driver may be
+      identifiable. What should you recommend?
+    choices:
+      - { key: a, text: "Export the raw telemetry nightly to each city's Cloud Storage bucket." }
+      - { key: b, text: "Email monthly CSV extracts of the telemetry with vehicle IDs removed." }
+      - { key: c, text: "Give each city read access to the raw telemetry tables in BigQuery." }
+      - { key: d, text: "Publish the data through BigQuery sharing (formerly Analytics Hub) in a data clean room whose analysis rules release only aggregated results." }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Subscribers query in place, so the data never leaves KnightMotives'
+      control and access can be revoked. Clean-room analysis rules (such as aggregation
+      thresholds) prevent anyone identifying individual drivers.
+
+      - **a** is wrong. It copies raw personal data out of KnightMotives' control.
+      - **b** is wrong. Removing IDs doesn't reliably anonymise location traces, and emailed
+        files are uncontrolled copies.
+      - **c** is wrong. Raw-table access exposes individual-level data.
+    points: 1
+  - key: cs-knightmotives-siloed-data-governance
+    kind: single
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** KnightMotives' corporate data is siloed across
+      plants, business units and clouds. Before it builds AI and monetisation products, it
+      needs a governed data platform where teams can find data, see lineage and trust its
+      quality. What should you recommend?
+    choices:
+      - { key: a, text: "A BigQuery and Cloud Storage lakehouse governed by Dataplex Universal Catalog for discovery, lineage, data quality and access policies." }
+      - { key: b, text: "A separate Cloud SQL instance for each business unit, with nightly copies between them." }
+      - { key: c, text: "A shared Cloud Storage bucket where every team uploads its exports, with a naming convention." }
+      - { key: d, text: "Memorystore as a central cache that every application writes to." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. A lakehouse on BigQuery and Cloud Storage with Dataplex governance gives
+      one discoverable, governed platform with lineage and quality checks, which is the
+      "robust data management platform" the case asks for.
+
+      - **b** is wrong. Per-unit databases with copies preserve the silos and add sync jobs.
+      - **c** is wrong. A dumping ground with naming conventions has no catalogue, lineage,
+        quality checks or fine-grained governance.
+      - **d** is wrong. A cache isn't a governed analytical data platform.
+    points: 1
+  - key: cs-knightmotives-av-training-simulation
+    kind: multi
+    domain: s2-manage-provision
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** KnightMotives needs to train large perception
+      models and run millions of fault-tolerant driving simulations each week, at the lowest
+      reasonable cost. Which two choices fit? (Choose two.)
+    choices:
+      - { key: a, text: "Run simulation workers on GKE node pools that use Spot VMs, with checkpointing so preempted jobs resume." }
+      - { key: b, text: "Train models on GPU or TPU capacity through AI Hypercomputer and Agent Platform training jobs." }
+      - { key: c, text: "Train multi-day models in Cloud Run functions to avoid managing servers." }
+      - { key: d, text: "Run all simulations on on-demand standard VMs to avoid any preemption." }
+      - { key: e, text: "Run training on the supply-chain mainframe during off-peak hours." }
+    answer: [a, b]
+    explanation_md: |
+      **a** and **b** are right. Spot VMs give deep discounts for fault-tolerant, checkpointed
+      batch work, and AI Hypercomputer GPUs and TPUs are built for large-scale model training.
+
+      - **c** is wrong. Cloud Run functions are for short, event-driven tasks, not multi-day
+        accelerator training.
+      - **d** is wrong. Paying on-demand prices for work that tolerates preemption wastes
+        money.
+      - **e** is wrong. A mainframe isn't an ML training platform, and loading it risks the
+        supply chain.
+    points: 1
+  - key: cs-knightmotives-rural-connectivity
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** New AI features must work in all vehicles,
+      including in rural areas where connectivity is weak or absent. Some features (driver
+      alerts) are latency-critical. How should you design the in-vehicle AI architecture?
+    choices:
+      - { key: a, text: "Send every request to a cloud-hosted Gemini endpoint and show an error when there is no signal." }
+      - { key: b, text: "Wait for national 5G coverage before releasing AI features to rural customers." }
+      - { key: c, text: "Run latency-critical models on the vehicle, buffer telemetry locally and forward it to Pub/Sub when connected, and call cloud models for non-critical features when a link is available." }
+      - { key: d, text: "Stream raw sensor video continuously to Cloud Storage over satellite links for cloud inference." }
+    answer: [c]
+    explanation_md: |
+      **c** is right. An edge-first design keeps safety and latency-critical features working
+      offline, uses store-and-forward for data, and adds cloud intelligence opportunistically.
+
+      - **a** is wrong. It fails exactly where the case says connectivity is a problem.
+      - **b** is wrong. It ignores the five-year goal of a consistent experience across all
+        vehicles and depends on factors KnightMotives doesn't control.
+      - **d** is wrong. Continuous raw video over satellite is costly and slow, and still
+        fails latency needs.
+    points: 1
+  - key: cs-knightmotives-mainframe-erp
+    kind: single
+    domain: s1-design-plan
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** The supply chain runs on an outdated mainframe
+      and the ERP makes new dealer promotions hard to launch. KnightMotives wants a hybrid
+      strategy that modernises gradually without risking production. What should the
+      migration plan do?
+    choices:
+      - { key: a, text: "Assess the estate with Migration Center, wrap the mainframe and ERP with Apigee APIs so new apps can use them, then replace functions incrementally." }
+      - { key: b, text: "Rewrite the mainframe and ERP in one release and switch over on a single weekend." }
+      - { key: c, text: "Leave both systems untouched and build new dealer apps against nightly file exports." }
+      - { key: d, text: "Lift the mainframe workloads onto a large Compute Engine VM as they are." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. Assessment first, an API façade that decouples new consumers, then
+      incremental replacement (the strangler pattern) is the low-risk, gradual modernisation
+      the case asks for.
+
+      - **b** is wrong. A big-bang rewrite of core systems is the highest-risk option.
+      - **c** is wrong. Nightly files keep data stale and don't modernise anything.
+      - **d** is wrong. Mainframe workloads can't simply be lifted onto a VM, and doing so
+        would remove none of the agility problems.
+    points: 1
+  - key: cs-knightmotives-security-operations
+    kind: single
+    domain: s3-security-compliance
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** After past data breaches, KnightMotives needs a
+      comprehensive security framework. It must detect threats across both its on-premises
+      systems and Google Cloud, investigate quickly, and run a documented incident response
+      plan. What should you recommend?
+    choices:
+      - { key: a, text: "Enable Cloud Armor on the public load balancers and treat that as the security framework." }
+      - { key: b, text: "Ingest cloud and on-premises telemetry into Google Security Operations for detection and SOAR playbooks, use Security Command Center for cloud posture and threats, and test the incident response plan with tabletop exercises." }
+      - { key: c, text: "Rotate all passwords every 30 days and email staff a security policy." }
+      - { key: d, text: "Rely on each application team's own log searches when an incident is suspected." }
+    answer: [b]
+    explanation_md: |
+      **b** is right. It covers detection across the hybrid estate, cloud posture, response
+      automation and a tested plan, which is the "framework, incident response plan" the case
+      asks for.
+
+      - **a** is wrong. Cloud Armor protects web front ends from attacks. It's one control,
+        not a framework, and gives no on-premises detection.
+      - **c** is wrong. Frequent forced rotation isn't current guidance, and a policy email
+        isn't detection or response.
+      - **d** is wrong. Ad hoc, siloed searches are what slows breach detection.
+    points: 1
+  - key: cs-knightmotives-dealer-tools
+    kind: single
+    domain: s5-manage-implementation
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** The development team is building new dealer
+      tools for sales, service and inventory. Dealers have no budget for new equipment, and
+      the tools need inventory and order data from the legacy ERP without overloading it.
+      What should you advise?
+    choices:
+      - { key: a, text: "Ship a small server to every dealership that synchronises with the ERP overnight." }
+      - { key: b, text: "Give the dealer app direct database credentials for the ERP." }
+      - { key: c, text: "Build a desktop application that dealers install on new workstations." }
+      - { key: d, text: "Build browser-based tools hosted on Cloud Run, and reach ERP data through Apigee proxies with caching, quotas and authentication." }
+    answer: [d]
+    explanation_md: |
+      **d** is right. Browser-based tools need no new dealer hardware. Apigee gives managed,
+      secured access to the ERP, and caching and quotas protect the legacy system from load.
+
+      - **a** is wrong. It requires new equipment at dealerships, which the case rules out.
+      - **b** is wrong. Direct database credentials are insecure and tightly couple dealers to
+        the ERP schema.
+      - **c** is wrong. New workstations are new equipment, and installed apps are harder to
+        update.
+    points: 1
+  - key: cs-knightmotives-crm-disposition
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** KnightMotives needs a comprehensive CRM to track
+      customer interactions and personalise experiences. Its engineering capacity is already
+      committed to the in-vehicle platform and autonomous driving. What should the architect
+      recommend?
+    choices:
+      - { key: a, text: "Adopt a SaaS CRM and integrate it with vehicle, dealer and ERP data through APIs." }
+      - { key: b, text: "Build a custom CRM on GKE so that it can be tailored exactly to automotive needs." }
+      - { key: c, text: "Extend the outdated ERP with CRM screens." }
+      - { key: d, text: "Postpone CRM until the autonomous-driving programme is complete." }
+    answer: [a]
+    explanation_md: |
+      **a** is right. CRM is a commodity capability, so the right workload disposition is
+      **buy** and integrate, which keeps scarce engineers on the differentiators.
+
+      - **b** is wrong. Building a commodity system diverts engineers from the strategic
+        work.
+      - **c** is wrong. Extending an outdated system deepens the technical debt the case
+        complains about.
+      - **d** is wrong. CRM is part of the stated dealer and customer requirements, so
+        postponing it fails a business goal.
+    points: 1
+  - key: cs-knightmotives-upskilling
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      **Case study: KnightMotives Automotive.** Most of KnightMotives' IT staff know only
+      on-premises and mainframe systems, and business and technical teams rarely talk. The
+      company wants to upskill employees and improve that communication as it adopts a hybrid
+      cloud strategy. What should you recommend **first**?
+    choices:
+      - { key: a, text: "Replace the existing IT staff with an outsourced cloud provider." }
+      - { key: b, text: "Assess current skills, then run a structured training and certification plan with a cross-functional cloud centre of excellence that owns shared KPIs, starting on a low-risk pilot workload." }
+      - { key: c, text: "Give every engineer Owner access to a sandbox project and let them learn on their own." }
+      - { key: d, text: "Postpone the cloud programme until enough experienced cloud engineers have been hired." }
+    answer: [b]
+    explanation_md: |
+      **b** is right. A skills assessment drives a targeted plan, a cross-functional centre of
+      excellence with shared KPIs fixes the communication gap, and a pilot gives safe
+      hands-on practice. This is the change-management approach §4.2 expects.
+
+      - **a** is wrong. It abandons the upskilling objective and loses domain knowledge.
+      - **c** is wrong. Unstructured access with broad roles isn't a plan and ignores least
+        privilege.
+      - **d** is wrong. It stalls the transformation and ignores the stated aim of upskilling
+        existing staff.
+    points: 1

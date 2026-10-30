@@ -1,0 +1,21 @@
+title: "Case studies"
+summary_md: |
+  The Professional Cloud Architect exam publishes four fictional companies in advance (case
+  studies v6.1: **Altostrat Media, Cymbal Retail, EHR Healthcare and KnightMotives Automotive**).
+  Each real exam uses **two of the four**, and questions that refer to them make up roughly
+  **20–30% of the exam**. The case text is shown beside those questions, but you will not have
+  time to read it cold, so learn all four before exam day.
+
+  Read a case study the way an architect reads a brief. Separate the **existing environment**
+  (what you must migrate, connect to or keep), the **business requirements** (the outcomes the
+  exam will grade you on) and the **technical requirements** (the constraints an answer must
+  not break), then note the executive statement's priorities, because they break ties. This
+  module has no single exam section: the case questions test every section, most often design
+  and migration (1.1–1.5), hybrid networking, storage, compute and AI services (2.1–2.5), and
+  security and compliance (3.1–3.2), with process, implementation and operations questions
+  (4.1–4.2, 5.1–5.2, 6.1–6.6) mixed in.
+
+  Lesson 1 teaches the method for attacking a case-study question. Lessons 2–5 take one company
+  each: the company in brief, every requirement mapped to the Google Cloud services that meet it,
+  a reference architecture, and the likely exam angles and traps. Finish with the case studies
+  quiz (10 questions per company) and hold 80% before relying on the full practice exam.

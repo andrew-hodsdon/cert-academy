@@ -1,0 +1,359 @@
+sources:
+  - slug: d5-isc2-cissp-outline
+    kind: standard
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline (effective 15 April 2024)"
+    authors: [ISC2]
+    site: isc2.org
+    tags: [cissp, outline, domain-5]
+    summary_md: |
+      The official outline. Domain 5 is 13% of the exam and has six objectives (5.1–5.6). Every
+      lesson in this module maps to the sub-bullets listed there (for example 5.5 names account
+      access review, provisioning and deprovisioning, role definition and transition, privilege
+      escalation and service accounts management).
+
+  - slug: d5-nist-sp-800-63-4
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/63/4/final
+    title: "NIST SP 800-63-4: Digital Identity Guidelines"
+    authors: [NIST]
+    site: csrc.nist.gov
+    published: 2025-08-01
+    tags: [identity, ial, aal, fal, assurance]
+    summary_md: |
+      The base volume of the fourth revision (final, August 2025). Defines the digital identity
+      model (applicant, subscriber, CSP, verifier, RP), the three assurance dimensions — identity
+      (IAL), authentication (AAL) and federation (FAL) — and the risk-based process for picking
+      levels. Used in lessons 2 and 3.
+
+  - slug: d5-nist-sp-800-63b-4
+    kind: standard
+    url: https://pages.nist.gov/800-63-4/sp800-63b.html
+    title: "NIST SP 800-63B-4: Authentication and Authenticator Management"
+    authors: [NIST]
+    site: pages.nist.gov
+    published: 2025-08-01
+    tags: [authentication, passwords, mfa, phishing-resistance, sessions]
+    summary_md: |
+      Authenticator types and AAL requirements: password rules (length over complexity, a
+      blocklist, no forced periodic change without evidence of compromise), restricted
+      authenticators such as SMS/voice OTP, phishing resistance (required at AAL3, offered at
+      AAL2), biometrics allowed only alongside a physical authenticator, and session
+      reauthentication limits. Used in lesson 2.
+
+  - slug: d5-nist-sp-800-63c-4
+    kind: standard
+    url: https://pages.nist.gov/800-63-4/sp800-63c.html
+    title: "NIST SP 800-63C-4: Federation and Assertions"
+    authors: [NIST]
+    site: pages.nist.gov
+    published: 2025-08-01
+    tags: [federation, assertions, fal, idp, rp]
+    summary_md: |
+      Federation roles (IdP, RP), assertion contents and protection, front-channel versus
+      back-channel presentation, and federation assurance levels — FAL3 adds holder-of-key
+      binding so a stolen assertion alone is useless. Used in lesson 3.
+
+  - slug: d5-nist-sp-800-53-r5
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    title: "NIST SP 800-53 Rev. 5: Security and Privacy Controls"
+    authors: [NIST]
+    site: csrc.nist.gov
+    tags: [controls, ac, ia, ps, least-privilege]
+    summary_md: |
+      The Access Control (AC), Identification and Authentication (IA) and Personnel Security
+      (PS) families: AC-2 account management (including reviews and disabling accounts),
+      AC-5 separation of duties, AC-6 least privilege and auditing privileged functions,
+      AC-11/AC-12 session lock and termination, PS-4/PS-5 termination and transfer. Used across
+      lessons 1, 4 and 5.
+
+  - slug: d5-nist-sp-800-162
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/162/upd2/final
+    title: "NIST SP 800-162: Guide to Attribute Based Access Control (ABAC)"
+    authors: [Vincent C. Hu, David Ferraiolo, Rick Kuhn]
+    site: csrc.nist.gov
+    tags: [abac, pdp, pep, authorization]
+    summary_md: |
+      Defines ABAC (decisions from subject, object and environment attributes evaluated against
+      policy), contrasts it with identity- and role-based approaches, and describes the
+      functional points — PEP, PDP, PIP, PAP. Used in lesson 4.
+
+  - slug: d5-nist-ir-7316
+    kind: standard
+    url: https://csrc.nist.gov/pubs/ir/7316/final
+    title: "NISTIR 7316: Assessment of Access Control Systems"
+    authors: [Vincent C. Hu, David Ferraiolo, D. Rick Kuhn]
+    site: csrc.nist.gov
+    tags: [dac, mac, rbac, access-control-matrix]
+    summary_md: |
+      Plain survey of access control policies and mechanisms: the access control matrix,
+      ACLs versus capability lists, DAC, MAC, RBAC and rule-based controls, with their strengths
+      and weaknesses. Used in lessons 1 and 4.
+
+  - slug: d5-nist-rbac-project
+    kind: standard
+    url: https://csrc.nist.gov/projects/role-based-access-control
+    title: "NIST Role Based Access Control project (ANSI/INCITS 359)"
+    authors: [NIST]
+    site: csrc.nist.gov
+    tags: [rbac, separation-of-duties]
+    summary_md: |
+      NIST's RBAC model, standardised as ANSI/INCITS 359: core RBAC, hierarchical RBAC, and
+      constrained RBAC with static and dynamic separation of duty. Used in lesson 4.
+
+  - slug: d5-nist-sp-800-116
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/116/r1/final
+    title: "NIST SP 800-116 Rev. 1: Guidelines for the Use of PIV Credentials in Facility Access"
+    authors: [NIST]
+    site: csrc.nist.gov
+    tags: [physical-access, pacs, piv, smart-card]
+    summary_md: |
+      How a physical access control system (PACS) authenticates PIV cards at doors, and why
+      reading a card number alone is weaker than cryptographic challenge–response with PIN or
+      biometric. Supports the physical side of objective 5.1 in lesson 1.
+
+  - slug: d5-nist-sp-800-207
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/207/final
+    title: "NIST SP 800-207: Zero Trust Architecture"
+    authors: [Scott Rose, Oliver Borchert, Stu Mitchell, Sean Connelly]
+    site: csrc.nist.gov
+    tags: [zero-trust, pdp, pep, risk-based]
+    summary_md: |
+      Zero trust's logical components — policy engine and policy administrator (together the
+      PDP) and the policy enforcement point — and per-request, context-aware access decisions.
+      Used in lessons 1 and 4 for policy enforcement and risk-based access.
+
+  - slug: d5-nist-sp-1800-18
+    kind: standard
+    url: https://www.nccoe.nist.gov/publication/1800-18/index.html
+    title: "NIST SP 1800-18: Privileged Account Management for the Financial Services Sector"
+    authors: [NIST NCCoE]
+    site: nccoe.nist.gov
+    tags: [pam, privileged-accounts, vault]
+    summary_md: |
+      NCCoE reference build for privileged account management: vaulting and rotating privileged
+      credentials, brokered and recorded sessions, and least-privilege elevation. Used in
+      lesson 5.
+
+  - slug: d5-cis-controls-v8
+    kind: standard
+    url: https://www.cisecurity.org/controls/v8
+    title: "CIS Critical Security Controls v8"
+    authors: [Center for Internet Security]
+    site: cisecurity.org
+    tags: [account-management, access-control-management, mfa]
+    summary_md: |
+      Control 5 (Account Management: inventory accounts, disable dormant ones, dedicated admin
+      accounts, inventory service accounts) and Control 6 (Access Control Management: grant and
+      revoke processes, MFA, role-based access, centralised access control). Used in lessons
+      2 and 5 as an independent second source next to NIST.
+
+  - slug: d5-rfc-6749-oauth2
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc6749
+    title: "RFC 6749: The OAuth 2.0 Authorization Framework"
+    authors: [Dick Hardt]
+    site: rfc-editor.org
+    published: 2012-10-01
+    tags: [oauth, authorization, delegation]
+    summary_md: |
+      Defines OAuth 2.0 roles (resource owner, client, authorization server, resource server),
+      grants, access tokens and scopes. OAuth is delegated authorization, not authentication.
+      Used in lesson 3.
+
+  - slug: d5-rfc-9700-oauth-bcp
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc9700
+    title: "RFC 9700: Best Current Practice for OAuth 2.0 Security"
+    authors: [Torsten Lodderstedt, John Bradley, Andrey Labunets, Daniel Fett]
+    site: rfc-editor.org
+    published: 2025-01-01
+    tags: [oauth, pkce, implicit-grant, security]
+    summary_md: |
+      Current OAuth security guidance: use authorization code with PKCE (RFC 7636) for all
+      clients, do not use the implicit grant or the resource owner password credentials grant,
+      exact redirect URI matching, sender-constrained and audience-restricted tokens. Used in
+      lesson 3.
+
+  - slug: d5-oidc-core
+    kind: standard
+    url: https://openid.net/specs/openid-connect-core-1_0.html
+    title: "OpenID Connect Core 1.0"
+    authors: [OpenID Foundation]
+    site: openid.net
+    tags: [oidc, id-token, jwt, authentication]
+    summary_md: |
+      The identity layer on OAuth 2.0: the openid scope, the ID token (a signed JWT with iss,
+      sub, aud, exp, nonce), the UserInfo endpoint and the authorization code flow. Used in
+      lesson 3.
+
+  - slug: d5-saml-tech-overview
+    kind: standard
+    url: https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html
+    title: "OASIS Security Assertion Markup Language (SAML) V2.0 Technical Overview"
+    authors: [OASIS Security Services TC]
+    site: oasis-open.org
+    tags: [saml, federation, sso, assertions]
+    summary_md: |
+      SAML 2.0 roles (asserting party/IdP, relying party/SP, principal), assertions
+      (authentication, attribute, authorization decision statements), protocols, bindings
+      (HTTP Redirect, HTTP POST, Artifact) and profiles such as Web Browser SSO with SP- and
+      IdP-initiated flows. Used in lesson 3.
+
+  - slug: d5-rfc-4120-kerberos
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc4120
+    title: "RFC 4120: The Kerberos Network Authentication Service (V5)"
+    authors: [Clifford Neuman, Tom Yu, Sam Hartman, Kenneth Raeburn]
+    site: rfc-editor.org
+    published: 2005-07-01
+    tags: [kerberos, kdc, tgt, tickets]
+    summary_md: |
+      Kerberos V5: the KDC's authentication service and ticket-granting service, the TGT,
+      service tickets, authenticators with timestamps to stop replay, and reliance on loosely
+      synchronised clocks. Used in lesson 4.
+
+  - slug: d5-mitre-attack-kerberos
+    kind: web
+    url: https://attack.mitre.org/techniques/T1558/
+    title: "MITRE ATT&CK T1558: Steal or Forge Kerberos Tickets"
+    authors: [MITRE]
+    site: attack.mitre.org
+    tags: [kerberos, golden-ticket, kerberoasting, attacks]
+    summary_md: |
+      Sub-techniques golden ticket (forged TGT using the KRBTGT hash), silver ticket (forged
+      service ticket), Kerberoasting (offline cracking of service-account tickets) and AS-REP
+      roasting, with mitigations such as strong service-account passwords and managed service
+      accounts. Used in lessons 4 and 5.
+
+  - slug: d5-rfc-2865-radius
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc2865
+    title: "RFC 2865: Remote Authentication Dial In User Service (RADIUS)"
+    authors: [Carl Rigney, Steve Willens, Allan C. Rubens, William Allen Simpson]
+    site: rfc-editor.org
+    published: 2000-06-01
+    tags: [radius, aaa, network-access]
+    summary_md: |
+      RADIUS over UDP (authentication on 1812; accounting in RFC 2866 on 1813), a shared secret
+      between NAS and server, and the hiding of only the User-Password attribute — the rest of
+      the packet travels in clear. Authentication and authorization are combined in the
+      Access-Accept. Used in lesson 4.
+
+  - slug: d5-rfc-8907-tacacs
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc8907
+    title: "RFC 8907: The TACACS+ Protocol"
+    authors: [Thorsten Dahm, Andrej Ota, Douglas Medway Gash, David Carrel, Lol Grant]
+    site: rfc-editor.org
+    published: 2020-09-01
+    tags: [tacacs, aaa, device-administration]
+    summary_md: |
+      TACACS+ over TCP port 49, separate authentication, authorization and accounting
+      exchanges (so per-command authorization for device administration), and obfuscation of
+      the whole packet body — which the RFC itself says is not strong encryption and should be
+      protected by a secure transport. Used in lesson 4.
+
+  - slug: d5-rfc-6238-totp
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc6238
+    title: "RFC 6238: TOTP: Time-Based One-Time Password Algorithm"
+    authors: [David M'Raihi, Johan Rydell, Mingliang Pei, Salah Machani]
+    site: rfc-editor.org
+    published: 2011-05-01
+    tags: [otp, totp, hotp, mfa]
+    summary_md: |
+      TOTP extends HOTP (RFC 4226, counter-based) by using the current time step as the moving
+      factor; codes are valid for a short window (30 seconds recommended). Used in lesson 2 for
+      synchronous tokens.
+
+  - slug: d5-w3c-webauthn
+    kind: standard
+    url: https://www.w3.org/TR/webauthn-2/
+    title: "W3C Web Authentication: Level 2"
+    authors: [W3C]
+    site: w3.org
+    tags: [webauthn, fido2, passkeys, phishing-resistance]
+    summary_md: |
+      Public-key credentials scoped to a relying party ID (origin binding), with user presence
+      and user verification flags. Origin binding is why WebAuthn/FIDO2 resists phishing. Used
+      in lesson 2.
+
+  - slug: d5-fido-passkeys
+    kind: vendor_docs
+    url: https://fidoalliance.org/passkeys/
+    title: "FIDO Alliance: Passkeys"
+    authors: [FIDO Alliance]
+    site: fidoalliance.org
+    tags: [fido2, passkeys, passwordless]
+    summary_md: |
+      Passkeys are FIDO credentials (private key on the device or synced by a credential
+      manager, public key at the service) unlocked with a local biometric or PIN; the private
+      key never leaves the authenticator and no shared secret is stored server-side. Used in
+      lesson 2.
+
+  - slug: d5-owasp-session-mgmt
+    kind: web
+    url: https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html
+    title: "OWASP Session Management Cheat Sheet"
+    authors: [OWASP]
+    site: owasp.org
+    tags: [sessions, cookies, fixation, timeouts]
+    summary_md: |
+      Session ID entropy, Secure/HttpOnly/SameSite cookies, regenerating the ID after login to
+      defeat fixation, idle and absolute timeouts, and server-side invalidation at logout.
+      Used in lesson 2.
+
+  - slug: d5-owasp-authn-cheatsheet
+    kind: web
+    url: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
+    title: "OWASP Authentication Cheat Sheet"
+    authors: [OWASP]
+    site: owasp.org
+    tags: [authentication, passwords, mfa, lockout]
+    summary_md: |
+      Practical authentication guidance aligned with NIST: length over composition, generic
+      error messages, throttling instead of hard lockout, MFA, and protecting credential
+      recovery. Used in lesson 2.
+
+  - slug: d5-iso-iec-19795-1
+    kind: standard
+    url: https://www.iso.org/standard/73515.html
+    title: "ISO/IEC 19795-1:2021 Biometric performance testing and reporting — Part 1: Principles and framework"
+    authors: [ISO/IEC JTC 1/SC 37]
+    site: iso.org
+    tags: [biometrics, far, frr, fmr, fnmr]
+    summary_md: |
+      Defines how biometric error rates are measured and reported: false match / false
+      non-match rates at the algorithm level, false accept / false reject rates at the system
+      level, failure-to-enrol, and the trade-off curve as the decision threshold moves. Used
+      for the FAR/FRR/CER worked example in lesson 2.
+
+  - slug: d5-ms-entra-hybrid
+    kind: vendor_docs
+    url: https://learn.microsoft.com/en-us/entra/identity/hybrid/whatis-hybrid-identity
+    title: "Microsoft Entra: What is hybrid identity?"
+    authors: [Microsoft]
+    site: learn.microsoft.com
+    tags: [hybrid-identity, synchronization, federation, cloud]
+    summary_md: |
+      The three hybrid sign-in patterns — password hash synchronisation, pass-through
+      authentication, and federation with an on-premises IdP — and their trade-offs. Used in
+      lesson 3 as a concrete example of hybrid identity.
+
+  - slug: d5-rfc-7644-scim
+    kind: standard
+    url: https://www.rfc-editor.org/rfc/rfc7644
+    title: "RFC 7644: System for Cross-domain Identity Management (SCIM): Protocol"
+    authors: [Phil Hunt, Kelly Grizzle, Morteza Ansari, Erik Wahlstroem, Chuck Mortimore]
+    site: rfc-editor.org
+    published: 2015-09-01
+    tags: [scim, provisioning, deprovisioning]
+    summary_md: |
+      A standard REST protocol for creating, updating and deleting user and group records
+      across domains — how an IdP or HR-driven system pushes joiner, mover and leaver changes
+      into SaaS applications. Used in lessons 3 and 5.

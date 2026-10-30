@@ -1,0 +1,671 @@
+sources:
+  # --- Lesson 1: resource hierarchy and IAM ---
+  - slug: s3-resource-hierarchy
+    kind: vendor_docs
+    url: https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy
+    title: "Resource hierarchy"
+    site: Google Cloud documentation
+    tags: [resource-manager, hierarchy, iam]
+    summary_md: |
+      Defines the organisation → folder → project → resource hierarchy, explains that allow policies
+      are inherited downward and that the effective policy is the union of a resource's own policy and
+      its ancestors'. Basis for lesson 1's hierarchy section.
+  - slug: s3-iam-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/overview
+    title: "IAM overview"
+    site: Google Cloud documentation
+    tags: [iam, principals, roles, allow-policy]
+    summary_md: |
+      The IAM model: principals (Google accounts, service accounts, groups, Cloud Identity domains,
+      federated identities), roles as collections of permissions, and allow policies that bind
+      principals to roles on a resource. Used in lesson 1.
+  - slug: s3-iam-roles-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/roles-overview
+    title: "Roles and permissions"
+    site: Google Cloud documentation
+    tags: [iam, basic-roles, predefined-roles, custom-roles]
+    summary_md: |
+      Basic (Owner, Editor, Viewer), predefined and custom roles; Google's advice to avoid basic roles
+      in production. Used in lesson 1 and quiz questions on least privilege.
+  - slug: s3-iam-custom-roles
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/creating-custom-roles
+    title: "Create and manage custom roles"
+    site: Google Cloud documentation
+    tags: [iam, custom-roles]
+    summary_md: |
+      Custom roles can be created at organisation or project level (not folder), carry a launch stage,
+      and are maintained by the customer when Google adds permissions. Used in lesson 1.
+  - slug: s3-iam-best-practices-sa
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/best-practices-service-accounts
+    title: "Best practices for using service accounts securely"
+    site: Google Cloud documentation
+    tags: [service-accounts, keys, least-privilege]
+    summary_md: |
+      Single-purpose service accounts, avoiding user-managed keys, preferring attached service accounts,
+      impersonation and Workload Identity Federation, and not granting basic roles to default service
+      accounts. Core source for lesson 1's keyless-authentication guidance.
+  - slug: s3-service-account-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/service-account-overview
+    title: "Service accounts overview"
+    site: Google Cloud documentation
+    tags: [service-accounts]
+    summary_md: |
+      What service accounts are, user-managed vs default vs service agents, how they are both a
+      principal and a resource, and the credential options. Used in lesson 1.
+  - slug: s3-sa-impersonation
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/service-account-impersonation
+    title: "Service account impersonation"
+    site: Google Cloud documentation
+    tags: [impersonation, short-lived-credentials]
+    summary_md: |
+      Impersonation with the Service Account Token Creator role to obtain short-lived credentials
+      instead of downloading keys; audit logs record both the caller and the impersonated account.
+      Used in lessons 1 and 3.
+  - slug: s3-workload-identity-federation
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/workload-identity-federation
+    title: "Workload Identity Federation"
+    site: Google Cloud documentation
+    tags: [wif, keyless, aws, azure, oidc, github]
+    summary_md: |
+      Lets workloads outside Google Cloud (AWS, Azure, on-prem OIDC/SAML, CI systems such as GitHub
+      Actions) exchange their own credentials for short-lived Google tokens, removing the need for
+      service account keys. Workload identity pools, providers and attribute conditions. Lessons 1 and 3.
+  - slug: s3-gke-workload-identity
+    kind: vendor_docs
+    url: https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity
+    title: "About Workload Identity Federation for GKE"
+    site: Google Cloud documentation
+    tags: [gke, wif, kubernetes-service-accounts]
+    summary_md: |
+      The recommended way for GKE workloads to call Google Cloud APIs: Kubernetes service accounts are
+      mapped to IAM principals, so no node service account or exported key is shared between pods.
+      Lesson 1.
+  - slug: s3-workforce-identity-federation
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/workforce-identity-federation
+    title: "Workforce Identity Federation"
+    site: Google Cloud documentation
+    tags: [workforce, sso, entra-id, okta]
+    summary_md: |
+      Lets an external IdP (for example Microsoft Entra ID or Okta) authenticate a workforce to Google
+      Cloud without syncing users into Cloud Identity. Lesson 1 contrasts it with Cloud Identity plus
+      Google Cloud Directory Sync.
+  - slug: s3-cloud-identity-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/identity/docs/overview
+    title: "Cloud Identity overview"
+    site: Google Cloud documentation
+    tags: [cloud-identity, groups, sso]
+    summary_md: |
+      Cloud Identity as the identity-as-a-service behind a Google Cloud organisation: users, groups,
+      SSO, MFA and device management. Lesson 1 uses it for the "grant roles to groups" pattern.
+  - slug: s3-org-policy-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/resource-manager/docs/organization-policy/overview
+    title: "Introduction to the Organization Policy Service"
+    site: Google Cloud documentation
+    tags: [org-policy, constraints, guardrails]
+    summary_md: |
+      Organisation policies constrain *what* can be configured (for example, no external IPs, no
+      service account keys, allowed locations), independent of *who* has IAM access; inheritance and
+      overrides down the hierarchy; managed and custom constraints; dry run. Lessons 1, 2 and 5.
+  - slug: s3-iam-deny
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/deny-overview
+    title: "Deny policies"
+    site: Google Cloud documentation
+    tags: [iam, deny]
+    summary_md: |
+      IAM deny policies are evaluated before allow policies and block named permissions for principals
+      regardless of their grants, with exception principals. Lesson 1.
+  - slug: s3-iam-conditions
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/conditions-overview
+    title: "Overview of IAM Conditions"
+    site: Google Cloud documentation
+    tags: [iam, conditions, abac]
+    summary_md: |
+      Conditional role bindings on attributes such as resource name, tag or request time; used for
+      time-bound or scoped access. Lesson 1.
+  - slug: s3-pam-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/iam/docs/pam-overview
+    title: "Privileged Access Manager overview"
+    site: Google Cloud documentation
+    tags: [pam, just-in-time, break-glass]
+    summary_md: |
+      Just-in-time, time-bound and optionally approved elevation of privileges, recorded in audit logs.
+      Lesson 1's separation-of-duties section and quiz questions on standing admin access.
+  - slug: s3-role-recommender
+    kind: vendor_docs
+    url: https://cloud.google.com/policy-intelligence/docs/role-recommendations-overview
+    title: "Role recommendations overview"
+    site: Google Cloud documentation
+    tags: [policy-intelligence, least-privilege]
+    summary_md: |
+      The IAM recommender uses observed permission usage to suggest removing or narrowing grants.
+      Lesson 1.
+  - slug: s3-security-foundations
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/security-foundations
+    title: "Enterprise foundations blueprint"
+    site: Google Cloud Architecture Center
+    tags: [blueprint, hierarchy, landing-zone]
+    summary_md: |
+      Google's reference landing zone: folder structure by environment, groups for duties, a central
+      logging project, hierarchical firewall policies, organisation policies and VPC Service Controls.
+      The second source behind most hierarchy and guardrail claims in lessons 1–3.
+  - slug: s3-waf-security-pillar
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/framework/security
+    title: "Well-Architected Framework: Security, privacy, and compliance pillar"
+    site: Google Cloud Architecture Center
+    tags: [well-architected, security-by-design, zero-trust]
+    summary_md: |
+      Principles: security by design, zero trust, shift-left, preemptive defence, secure AI, and
+      regulatory compliance. Frames every lesson in this module.
+
+  # --- Lesson 2: data protection ---
+  - slug: s3-default-encryption
+    kind: vendor_docs
+    url: https://cloud.google.com/docs/security/encryption/default-encryption
+    title: "Default encryption at rest"
+    site: Google Cloud documentation
+    tags: [encryption, at-rest, aes-256, envelope-encryption]
+    summary_md: |
+      All customer content is encrypted at rest by default with AES-256 using envelope encryption
+      (DEKs wrapped by KEKs), with no customer action. Lesson 2.
+  - slug: s3-encryption-in-transit
+    kind: vendor_docs
+    url: https://cloud.google.com/docs/security/encryption-in-transit
+    title: "Encryption in transit"
+    site: Google Cloud documentation
+    tags: [encryption, in-transit, tls, alts]
+    summary_md: |
+      TLS at the Google Front End, ALTS and network-layer encryption inside and between Google data
+      centres; what the customer still owns (for example traffic over their own links). Lesson 2.
+  - slug: s3-cmek
+    kind: vendor_docs
+    url: https://cloud.google.com/kms/docs/cmek
+    title: "Customer-managed encryption keys (CMEK)"
+    site: Google Cloud documentation
+    tags: [cmek, kms]
+    summary_md: |
+      CMEK lets the customer control the key-encryption key in Cloud KMS: rotation, location, disabling
+      and destroying (crypto-shredding), with key use visible in audit logs. Compatible services and
+      the CMEK organisation policies. Lesson 2.
+  - slug: s3-cloud-hsm
+    kind: vendor_docs
+    url: https://cloud.google.com/kms/docs/hsm
+    title: "Cloud HSM"
+    site: Google Cloud documentation
+    tags: [hsm, fips-140-2]
+    summary_md: |
+      Cloud HSM hosts keys in a Google-managed cluster of FIPS 140-2 Level 3 certified HSMs, fronted by
+      the Cloud KMS API. Lesson 2.
+  - slug: s3-cloud-ekm
+    kind: vendor_docs
+    url: https://cloud.google.com/kms/docs/ekm
+    title: "Cloud External Key Manager (Cloud EKM)"
+    site: Google Cloud documentation
+    tags: [ekm, hyok, key-access-justifications]
+    summary_md: |
+      Keys stay in a supported external key manager outside Google; Google services call out to it for
+      every wrap/unwrap, and Key Access Justifications can be used to approve or refuse each request.
+      Lessons 2 and 5 (sovereignty).
+  - slug: s3-kms-autokey
+    kind: vendor_docs
+    url: https://cloud.google.com/kms/docs/autokey-overview
+    title: "Autokey overview"
+    site: Google Cloud documentation
+    tags: [kms, autokey, cmek]
+    summary_md: |
+      Autokey provisions CMEK key rings and keys on demand in a dedicated key project when resources are
+      created, following recommended practices for location, protection level and separation of duties.
+      Lesson 2.
+  - slug: s3-kms-separation-of-duties
+    kind: vendor_docs
+    url: https://cloud.google.com/kms/docs/separation-of-duties
+    title: "Separation of duties (Cloud KMS)"
+    site: Google Cloud documentation
+    tags: [kms, separation-of-duties]
+    summary_md: |
+      Keep Cloud KMS keys in their own project, give key administration and key use to different
+      people, and avoid granting Owner on the key project. Lessons 1 and 2.
+  - slug: s3-secret-manager
+    kind: vendor_docs
+    url: https://cloud.google.com/secret-manager/docs/overview
+    title: "Secret Manager overview"
+    site: Google Cloud documentation
+    tags: [secrets, rotation, versions]
+    summary_md: |
+      Versioned secrets with IAM per secret, audit logging, replication policies (automatic or
+      user-managed locations), CMEK support and rotation notifications. Lesson 2.
+  - slug: s3-sdp-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/sensitive-data-protection/docs/sensitive-data-protection-overview
+    title: "Sensitive Data Protection overview"
+    site: Google Cloud documentation
+    tags: [dlp, sdp, discovery, de-identification]
+    summary_md: |
+      Sensitive Data Protection (which includes the Cloud DLP API) discovers, classifies and
+      de-identifies sensitive data using infoTypes; discovery profiles for BigQuery, Cloud SQL and Cloud
+      Storage. Lessons 2, 4 and 5.
+  - slug: s3-sdp-pseudonymization
+    kind: vendor_docs
+    url: https://cloud.google.com/sensitive-data-protection/docs/pseudonymization
+    title: "Pseudonymization (de-identification techniques)"
+    site: Google Cloud documentation
+    tags: [tokenization, format-preserving-encryption, masking]
+    summary_md: |
+      Masking, bucketing, deterministic encryption, format-preserving encryption and
+      re-identifiable tokenization; which methods are reversible. Lessons 2 and 5 (card data).
+  - slug: s3-vpc-sc-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc-service-controls/docs/overview
+    title: "Overview of VPC Service Controls"
+    site: Google Cloud documentation
+    tags: [vpc-sc, exfiltration, perimeters]
+    summary_md: |
+      Service perimeters around projects to stop data exfiltration through Google APIs even with valid
+      credentials; ingress/egress rules, access levels, bridges and dry-run mode. Lessons 2 and 4.
+  - slug: s3-access-context-manager
+    kind: vendor_docs
+    url: https://cloud.google.com/access-context-manager/docs/overview
+    title: "Access Context Manager overview"
+    site: Google Cloud documentation
+    tags: [access-levels, context-aware-access]
+    summary_md: |
+      Defines access levels from IP ranges, device policy, identity and geography; used by VPC Service
+      Controls and context-aware access. Lessons 2 and 3.
+
+  # --- Lesson 3: network, workload and supply-chain security ---
+  - slug: s3-iap-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/iap/docs/concepts-overview
+    title: "Identity-Aware Proxy overview"
+    site: Google Cloud documentation
+    tags: [iap, zero-trust, beyondcorp]
+    summary_md: |
+      IAP authenticates and authorises each request to web apps behind a load balancer (and TCP for
+      SSH/RDP) based on identity and context, without a VPN. Lesson 3.
+  - slug: s3-iap-tcp-forwarding
+    kind: vendor_docs
+    url: https://cloud.google.com/iap/docs/using-tcp-forwarding
+    title: "Using IAP for TCP forwarding"
+    site: Google Cloud documentation
+    tags: [iap, ssh, rdp, bastion]
+    summary_md: |
+      SSH/RDP to VMs with no external IP by allowing ingress from IAP's range 35.235.240.0/20 and
+      granting the IAP-secured Tunnel User role. Lesson 3.
+  - slug: s3-chrome-enterprise-premium
+    kind: vendor_docs
+    url: https://cloud.google.com/chrome-enterprise-premium/docs/overview
+    title: "Chrome Enterprise Premium overview"
+    site: Google Cloud documentation
+    tags: [zero-trust, context-aware-access, beyondcorp]
+    summary_md: |
+      Google's zero-trust access product (formerly BeyondCorp Enterprise): context-aware access to
+      Google Cloud, SaaS and private web apps, plus threat and data protection in Chrome. Lesson 3.
+  - slug: s3-cloud-armor
+    kind: vendor_docs
+    url: https://cloud.google.com/armor/docs/cloud-armor-overview
+    title: "Cloud Armor overview"
+    site: Google Cloud documentation
+    tags: [waf, ddos, rate-limiting]
+    summary_md: |
+      Security policies on external load balancers: preconfigured WAF rules (OWASP ModSecurity CRS),
+      DDoS protection, rate limiting, geo and IP rules, Adaptive Protection and bot management. Lesson 3.
+  - slug: s3-firewall-policies
+    kind: vendor_docs
+    url: https://cloud.google.com/firewall/docs/firewall-policies-overview
+    title: "Firewall policies overview"
+    site: Google Cloud documentation
+    tags: [cloud-ngfw, hierarchical-firewall, firewall-policy]
+    summary_md: |
+      Hierarchical firewall policies at organisation and folder level, global and regional network
+      firewall policies, evaluation order and the goto_next action. Lesson 3.
+  - slug: s3-private-google-access
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc/docs/private-google-access
+    title: "Private Google Access"
+    site: Google Cloud documentation
+    tags: [private-google-access, no-external-ip]
+    summary_md: |
+      Lets VMs with only internal IPs reach Google APIs; private.googleapis.com and
+      restricted.googleapis.com VIPs (the latter for VPC Service Controls). Lesson 3.
+  - slug: s3-private-service-connect
+    kind: vendor_docs
+    url: https://cloud.google.com/vpc/docs/private-service-connect
+    title: "Private Service Connect"
+    site: Google Cloud documentation
+    tags: [psc, private-endpoints]
+    summary_md: |
+      Private endpoints inside a VPC for Google APIs and published services. Lessons 3 and 4 (Model
+      Armor and AI endpoints reached privately).
+  - slug: s3-binary-authorization
+    kind: vendor_docs
+    url: https://cloud.google.com/binary-authorization/docs/overview
+    title: "Binary Authorization overview"
+    site: Google Cloud documentation
+    tags: [supply-chain, attestation, gke, cloud-run]
+    summary_md: |
+      Deploy-time policy enforcement on GKE and Cloud Run: only images with required attestations (for
+      example "built by Cloud Build", "passed vulnerability scan") may run; break-glass and continuous
+      validation. Lesson 3.
+  - slug: s3-artifact-analysis
+    kind: vendor_docs
+    url: https://cloud.google.com/artifact-analysis/docs/artifact-analysis
+    title: "Artifact Analysis overview"
+    site: Google Cloud documentation
+    tags: [vulnerability-scanning, artifact-registry]
+    summary_md: |
+      Automatic and on-demand vulnerability scanning of images in Artifact Registry, and metadata
+      (occurrences) used by Binary Authorization. Lesson 3.
+  - slug: s3-supply-chain-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/software-supply-chain-security/docs/overview
+    title: "Software supply chain security overview"
+    site: Google Cloud documentation
+    tags: [slsa, supply-chain]
+    summary_md: |
+      Google's end-to-end view of supply-chain security across source, build, artefacts, deployment and
+      runtime, and the services that cover each stage. Lesson 3.
+  - slug: s3-build-provenance
+    kind: vendor_docs
+    url: https://cloud.google.com/build/docs/securing-builds/generate-validate-build-provenance
+    title: "Generate and validate build provenance"
+    site: Google Cloud documentation
+    tags: [cloud-build, provenance, slsa]
+    summary_md: |
+      Cloud Build generates signed SLSA build provenance for images it builds. Lesson 3.
+  - slug: s3-slsa
+    kind: standard
+    url: https://slsa.dev/
+    title: "SLSA: Supply-chain Levels for Software Artifacts"
+    site: OpenSSF
+    tags: [slsa, provenance]
+    summary_md: |
+      The open framework of build levels and provenance requirements that Google's supply-chain
+      services align to. Independent second source for lesson 3's supply-chain claims.
+  - slug: s3-assured-oss
+    kind: vendor_docs
+    url: https://cloud.google.com/assured-open-source-software/docs/overview
+    title: "Assured Open Source Software overview"
+    site: Google Cloud documentation
+    tags: [open-source, dependencies]
+    summary_md: |
+      Google-built and -tested copies of popular open-source packages with provenance and SBOMs, for
+      reducing dependency risk. Lesson 3.
+  - slug: s3-shielded-vm
+    kind: vendor_docs
+    url: https://cloud.google.com/compute/shielded-vm/docs/shielded-vm
+    title: "Shielded VM"
+    site: Google Cloud documentation
+    tags: [secure-boot, vtpm, integrity-monitoring]
+    summary_md: |
+      Secure Boot, a virtual TPM with measured boot, and integrity monitoring to defend against
+      boot-level and kernel rootkits. Lesson 3.
+  - slug: s3-confidential-vm
+    kind: vendor_docs
+    url: https://cloud.google.com/confidential-computing/confidential-vm/docs/confidential-vm-overview
+    title: "Confidential VM overview"
+    site: Google Cloud documentation
+    tags: [confidential-computing, data-in-use, sev, tdx]
+    summary_md: |
+      Hardware memory encryption (AMD SEV / SEV-SNP, Intel TDX) so data in use is protected from the
+      host; attestation. Lesson 3.
+  - slug: s3-scc-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/security-command-center/docs/security-command-center-overview
+    title: "Security Command Center overview"
+    site: Google Cloud documentation
+    tags: [scc, posture, threat-detection]
+    summary_md: |
+      Google Cloud's security and risk platform: misconfiguration findings (Security Health Analytics),
+      threat detection, vulnerability findings, compliance reporting and AI protection. Lessons 3 and 5.
+  - slug: s3-scc-product
+    kind: vendor_docs
+    url: https://cloud.google.com/security/products/security-command-center
+    title: "Security Command Center (product page)"
+    site: Google Cloud
+    tags: [scc, tiers]
+    summary_md: |
+      Product overview of tiers and capabilities; second source for lesson 3's SCC summary.
+
+  # --- Lesson 4: securing AI ---
+  - slug: s3-model-armor
+    kind: vendor_docs
+    url: https://cloud.google.com/security-command-center/docs/model-armor-overview
+    title: "Model Armor overview"
+    site: Google Cloud documentation
+    tags: [model-armor, prompt-injection, jailbreak, responsible-ai]
+    summary_md: |
+      Model Armor screens prompts and responses for prompt injection and jailbreaks, responsible-AI
+      safety categories, malicious URLs and sensitive data (via Sensitive Data Protection), configured
+      by templates with confidence thresholds and floor settings; model- and cloud-agnostic. Lesson 4.
+  - slug: s3-genai-data-governance
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/data-governance
+    title: "Gemini Enterprise Agent Platform and zero data retention"
+    site: Google Cloud documentation
+    tags: [data-governance, training-restriction, zero-data-retention]
+    summary_md: |
+      Google's training restriction (customer data is not used to train models without permission),
+      the cases where prompts are retained (abuse monitoring, grounding, caching) and how to reach zero
+      data retention. Lesson 4.
+  - slug: s3-responsible-ai
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/responsible-ai
+    title: "Responsible AI (generative AI on Agent Platform)"
+    site: Google Cloud documentation
+    tags: [responsible-ai, safety-filters]
+    summary_md: |
+      Safety attribute scoring and configurable content filters, known limitations of generative
+      models, and recommended practices such as human review and evaluation. Lesson 4.
+  - slug: s3-agent-platform-vpc-sc
+    kind: vendor_docs
+    url: https://cloud.google.com/vertex-ai/docs/general/vpc-service-controls
+    title: "VPC Service Controls with Agent Platform"
+    site: Google Cloud documentation
+    tags: [vpc-sc, ai, exfiltration]
+    summary_md: |
+      Putting AI endpoints, training data and models inside a service perimeter to prevent exfiltration.
+      Lesson 4's secure model deployment section.
+
+  # --- Lesson 5: compliance ---
+  - slug: s3-shared-fate
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/framework/security/shared-responsibility-shared-fate
+    title: "Shared responsibilities and shared fate on Google Cloud"
+    site: Google Cloud Architecture Center
+    tags: [shared-responsibility, shared-fate]
+    summary_md: |
+      How responsibility splits across IaaS, PaaS and SaaS, and Google's "shared fate" approach
+      (secure blueprints, defaults and risk protection). Lesson 5.
+  - slug: s3-compliance-offerings
+    kind: vendor_docs
+    url: https://cloud.google.com/security/compliance
+    title: "Compliance resource center"
+    site: Google Cloud
+    tags: [compliance, certifications]
+    summary_md: |
+      Index of Google Cloud's certifications, attestations and regulatory mappings (ISO 27001/27017/
+      27018, SOC 1/2/3, PCI DSS, HIPAA, FedRAMP, GDPR and more). Lesson 5.
+  - slug: s3-compliance-reports-manager
+    kind: vendor_docs
+    url: https://cloud.google.com/security/compliance/compliance-reports-manager
+    title: "Compliance Reports Manager"
+    site: Google Cloud
+    tags: [soc-2, audit-reports]
+    summary_md: |
+      Where customers download Google's third-party audit reports and certificates (for example SOC 2
+      and ISO certificates, PCI DSS attestation of compliance). Lesson 5.
+  - slug: s3-hipaa
+    kind: vendor_docs
+    url: https://cloud.google.com/security/compliance/hipaa
+    title: "HIPAA compliance on Google Cloud"
+    site: Google Cloud
+    tags: [hipaa, baa, phi]
+    summary_md: |
+      Google signs a Business Associate Agreement; only covered products may hold PHI; the customer
+      remains responsible for configuring them compliantly. Lesson 5.
+  - slug: s3-hhs-hipaa
+    kind: standard
+    url: https://www.hhs.gov/hipaa/index.html
+    title: "Health Information Privacy (HIPAA)"
+    site: U.S. Department of Health and Human Services
+    tags: [hipaa, law]
+    summary_md: |
+      The regulator's own pages on the HIPAA Privacy, Security and Breach Notification Rules; second
+      source for lesson 5's health-records section.
+  - slug: s3-pci-dss-gcp
+    kind: vendor_docs
+    url: https://cloud.google.com/security/compliance/pci-dss
+    title: "PCI DSS on Google Cloud"
+    site: Google Cloud
+    tags: [pci-dss, cardholder-data]
+    summary_md: |
+      Google Cloud's PCI DSS validation as a service provider and the customer's remaining
+      responsibilities for their cardholder data environment. Lesson 5.
+  - slug: s3-pci-ssc
+    kind: standard
+    url: https://www.pcisecuritystandards.org/
+    title: "PCI Security Standards Council"
+    site: PCI SSC
+    tags: [pci-dss, standard]
+    summary_md: |
+      Owner of the PCI DSS standard; second source for lesson 5's card-data section (scope reduction,
+      tokenisation, segmentation).
+  - slug: s3-gdpr-gcp
+    kind: vendor_docs
+    url: https://cloud.google.com/privacy/gdpr
+    title: "Google Cloud and the GDPR"
+    site: Google Cloud
+    tags: [gdpr, processor, dpa]
+    summary_md: |
+      Google Cloud as processor under the Cloud Data Processing Addendum, customer as controller, and
+      tools that help meet GDPR obligations. Lesson 5.
+  - slug: s3-gdpr-text
+    kind: standard
+    url: https://eur-lex.europa.eu/eli/reg/2016/679/oj
+    title: "Regulation (EU) 2016/679 (GDPR)"
+    site: EUR-Lex
+    tags: [gdpr, law]
+    summary_md: |
+      The regulation itself: controller and processor duties, data subject rights, international
+      transfers, breach notification. Second source for lesson 5.
+  - slug: s3-coppa-gcp
+    kind: vendor_docs
+    url: https://cloud.google.com/security/compliance/coppa
+    title: "COPPA and Google Cloud"
+    site: Google Cloud
+    tags: [coppa, childrens-privacy]
+    summary_md: |
+      How Google Cloud customers that serve children under 13 in the US can use the platform while
+      meeting COPPA obligations, which remain the customer's. Lesson 5.
+  - slug: s3-coppa-ftc
+    kind: standard
+    url: https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa
+    title: "Children's Online Privacy Protection Rule (COPPA)"
+    site: U.S. Federal Trade Commission
+    tags: [coppa, law]
+    summary_md: |
+      The FTC rule: verifiable parental consent before collecting personal information from children
+      under 13, notice, and data minimisation and retention limits. Second source for lesson 5.
+  - slug: s3-soc2-gcp
+    kind: vendor_docs
+    url: https://cloud.google.com/security/compliance/soc-2
+    title: "SOC 2 on Google Cloud"
+    site: Google Cloud
+    tags: [soc-2, attestation]
+    summary_md: |
+      Google Cloud's SOC 2 Type II report against the AICPA Trust Services Criteria, available through
+      Compliance Reports Manager. Lesson 5.
+  - slug: s3-assured-workloads
+    kind: vendor_docs
+    url: https://cloud.google.com/assured-workloads/docs/overview
+    title: "Overview of Assured Workloads"
+    site: Google Cloud documentation
+    tags: [assured-workloads, data-residency, sovereignty]
+    summary_md: |
+      Folders with control packages (regional data boundaries such as the EU Data Boundary, regulatory
+      boundaries such as FedRAMP or CJIS, Sovereign Controls by Partners) enforced through organisation
+      policies, personnel access controls and key management; violation monitoring. Lesson 5.
+  - slug: s3-sovereign-cloud
+    kind: vendor_docs
+    url: https://cloud.google.com/sovereign-cloud
+    title: "Google Cloud sovereign cloud solutions"
+    site: Google Cloud
+    tags: [sovereignty, data-boundary, gdc]
+    summary_md: |
+      The sovereignty portfolio: Google Cloud Data Boundary (public cloud with residency, access and
+      external key controls), Google Cloud Dedicated (partner-operated, for example S3NS in France),
+      and Google Distributed Cloud on-premises. Lesson 5.
+  - slug: s3-resource-locations
+    kind: vendor_docs
+    url: https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations
+    title: "Restricting resource locations"
+    site: Google Cloud documentation
+    tags: [data-residency, gcp-resourcelocations]
+    summary_md: |
+      The gcp.resourceLocations constraint and value groups such as in:eu-locations. Lesson 5.
+  - slug: s3-audit-logs
+    kind: vendor_docs
+    url: https://cloud.google.com/logging/docs/audit
+    title: "Cloud Audit Logs overview"
+    site: Google Cloud documentation
+    tags: [audit-logs, admin-activity, data-access]
+    summary_md: |
+      Admin Activity, Data Access, System Event and Policy Denied audit logs; which are always on, which
+      must be enabled, and default retention. Lessons 2 and 5.
+  - slug: s3-log-routing
+    kind: vendor_docs
+    url: https://cloud.google.com/logging/docs/routing/overview
+    title: "Routing and storage overview"
+    site: Google Cloud documentation
+    tags: [log-sinks, aggregated-sinks]
+    summary_md: |
+      Sinks (including aggregated sinks at organisation or folder level) route logs to log buckets,
+      BigQuery, Cloud Storage or Pub/Sub. Lesson 5.
+  - slug: s3-log-buckets
+    kind: vendor_docs
+    url: https://cloud.google.com/logging/docs/buckets
+    title: "Configure log buckets"
+    site: Google Cloud documentation
+    tags: [log-buckets, retention, bucket-lock]
+    summary_md: |
+      Custom retention and locked retention on log buckets, regional buckets, Log Analytics. Lesson 5.
+  - slug: s3-gcs-bucket-lock
+    kind: vendor_docs
+    url: https://cloud.google.com/storage/docs/bucket-lock
+    title: "Bucket Lock (retention policies)"
+    site: Google Cloud documentation
+    tags: [worm, retention, cloud-storage]
+    summary_md: |
+      Locked retention policies on Cloud Storage make objects undeletable until they reach the retention
+      period: WORM storage for audit evidence. Lesson 5.
+  - slug: s3-access-transparency
+    kind: vendor_docs
+    url: https://cloud.google.com/assured-workloads/access-transparency/docs/overview
+    title: "Access Transparency overview"
+    site: Google Cloud documentation
+    tags: [access-transparency, provider-access]
+    summary_md: |
+      Logs of actions Google personnel take on customer content, with justification. Lesson 5.
+  - slug: s3-access-approval
+    kind: vendor_docs
+    url: https://cloud.google.com/assured-workloads/access-approval/docs/overview
+    title: "Access Approval overview"
+    site: Google Cloud documentation
+    tags: [access-approval, provider-access]
+    summary_md: |
+      Requires explicit customer approval before Google personnel access customer content (with
+      documented exceptions). Lesson 5.

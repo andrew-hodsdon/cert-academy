@@ -1,0 +1,625 @@
+slug: s4-quiz
+ordinal: 14
+title: "Section 4 quiz: Technical and business processes"
+kind: quiz
+draw: 20
+time_limit_min: 45
+pass_pct: 80
+instructions_md: |
+  20 questions drawn at random from a bank of 30 on Section 4 (objectives 4.1 and 4.2): SDLC and
+  CI/CD, testing, troubleshooting, provisioning, disaster recovery, stakeholder and change
+  management, skills, decision-making, customer success, cost optimisation and business continuity.
+  45 minutes. Multiple-select questions say how many to choose. Pick the answer that meets every
+  stated requirement at the lowest cost and operational burden. Retake until you hold 80%.
+questions:
+  # ---------- single answer ----------
+  - key: s4-build-once-promote
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A media company's teams each run their own Jenkins servers. Images are rebuilt separately for
+      staging and production, and production incidents are often traced to differences between
+      what was tested and what was released. Leadership wants one centralised container pipeline
+      for GKE with minimal infrastructure to maintain. What should you recommend?
+    choices:
+      - { key: a, text: "Keep per-team Jenkins but add a manual sign-off step before each production rebuild" }
+      - { key: b, text: "Run a shared Jenkins cluster on Compute Engine that rebuilds images for each environment from the same commit" }
+      - { key: c, text: "Build each image once with Cloud Build, store it in Artifact Registry, and promote the same image through environments with Cloud Deploy" }
+      - { key: d, text: "Have developers push images from their workstations to Artifact Registry and deploy with kubectl" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: build once, deploy many. Cloud Build (serverless CI), Artifact Registry and
+      Cloud Deploy (managed promotion through targets) make the tested artifact the released one,
+      with no build servers to run. **a** keeps the rebuild, which is the cause of the drift, and
+      adds manual toil. **b** still rebuilds per environment and adds self-managed servers.
+      **d** removes reproducibility and control entirely.
+    points: 1
+
+  - key: s4-rollback-before-rca
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      Ten minutes after a new revision of a Cloud Run service is released, the checkout error rate
+      climbs from 0.1% to 8%. The on-call engineer has a theory about the bug and wants to add debug
+      logging and redeploy. What should the engineer do FIRST?
+    choices:
+      - { key: a, text: "Route traffic back to the previous revision to restore service, then investigate" }
+      - { key: b, text: "Add the debug logging and redeploy to confirm the theory quickly" }
+      - { key: c, text: "Open a post-mortem document and start writing the timeline" }
+      - { key: d, text: "Scale the new revision to more instances to absorb the errors" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: stop the bleeding first. Shifting traffic to the last good revision is fast and
+      reversible; root cause analysis follows with the evidence preserved. **b** keeps users on a
+      failing release while experimenting in production. **c** matters, but after mitigation.
+      **d** treats errors as a capacity problem without evidence and does not remove the faulty code.
+    points: 1
+
+  - key: s4-warm-standby-fit
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      An online retailer's order system runs in one region on Compute Engine and Cloud SQL. After a
+      business impact analysis, the business sets an RTO of one hour and an RPO of 15 minutes for a
+      regional outage, and asks for the lowest-cost design that meets them. What should you design?
+    choices:
+      - { key: a, text: "Nightly Cloud SQL exports to a bucket in another region and Terraform to rebuild the stack on demand" }
+      - { key: b, text: "Migrate to Spanner multi-region with full-size compute serving from two regions" }
+      - { key: c, text: "Enable the Cloud SQL high-availability configuration and a regional managed instance group" }
+      - { key: d, text: "A Cloud SQL cross-region read replica and a minimum-size managed instance group in a second region behind a global load balancer" }
+    answer: [d]
+    explanation_md: |
+      **d** is a warm standby: asynchronous replication keeps data loss to seconds or minutes, and
+      promoting the replica and scaling up the small MIG fits within an hour. **a** is cold: nightly
+      exports give an RPO of up to 24 hours and restore is slow. **b** meets the targets but is the
+      most expensive and needs a database migration, so it is over-engineered. **c** protects only
+      against a zone failure; both zones are in the same region.
+    points: 1
+
+  - key: s4-cloudsql-ha-not-regional-dr
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A healthcare SaaS provider's compliance team must show that patient records survive the loss
+      of an entire Google Cloud region. The team points to the fact that their Cloud SQL instance
+      uses the high-availability configuration. What should the architect tell them?
+    choices:
+      - { key: a, text: "HA is sufficient because the standby uses synchronous replication" }
+      - { key: b, text: "HA places the standby in another zone of the same region; add a cross-region replica or cross-region backups for regional DR" }
+      - { key: c, text: "Switch to a larger machine type so the instance can survive a regional failure" }
+      - { key: d, text: "Move the database to a regional persistent disk attached to a Compute Engine VM" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Cloud SQL HA protects against a zonal failure only. Regional DR needs data in
+      another region, such as a cross-region read replica or backups stored elsewhere. **a** is
+      true about replication but misses that both copies are in one region. **c** changes capacity,
+      not location. **d** is also confined to one region and adds operational burden.
+    points: 1
+
+  - key: s4-budget-does-not-cap
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A company gives each data science team a sandbox project. Finance requires that a sandbox stop
+      incurring charges automatically when it reaches its monthly allowance, even if that stops
+      workloads. What should you implement?
+    choices:
+      - { key: a, text: "A budget on each sandbox project connected to a Pub/Sub topic, with a Cloud Run function that disables billing on the project when the threshold is reached" }
+      - { key: b, text: "A budget on each sandbox project with an email alert at 100%" }
+      - { key: c, text: "A weekly BigQuery query over billing export that emails the team leads" }
+      - { key: d, text: "Resource-based committed use discounts sized to each team's allowance" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: alerts-only budgets notify but **do not cap** spending. Programmatic
+      notifications through Pub/Sub let a function take action, such as disabling billing for a
+      sandbox. **b** only sends an email; spending continues. **c** is slow and also only informs.
+      **d** lowers rates but commits spend for one or three years; it does not stop charges.
+    points: 1
+
+  - key: s4-spot-for-batch
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      An automotive company runs nightly simulation batches on 300 on-demand Compute Engine VMs for
+      about five hours. Jobs checkpoint progress to Cloud Storage and can resume if a VM disappears.
+      Finance wants the largest reduction in compute cost for this workload. What should you
+      recommend?
+    choices:
+      - { key: a, text: "Buy 3-year resource-based committed use discounts for 300 VMs" }
+      - { key: b, text: "Rely on sustained use discounts by leaving the VMs running all month" }
+      - { key: c, text: "Run the batch in a managed instance group of Spot VMs" }
+      - { key: d, text: "Move the VMs to a larger machine type so the batch finishes faster" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the work is fault tolerant (checkpointed), short and interruptible, which is
+      what Spot VMs are for, at up to 91% off. **a** commits to paying for 300 VMs around the clock
+      for three years when they are used about five hours a day. **b** would cost far more:
+      running all month to earn a partial discount. **d** may shorten runtime but does not change
+      the rate and is unproven.
+    points: 1
+
+  - key: s4-flexible-cud
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A retailer spends steadily on Compute Engine, GKE and Cloud Run across several projects.
+      Over the next year it plans to change machine families and move some workloads to another
+      region. It wants a commitment discount without being locked to specific resources. What
+      should it buy?
+    choices:
+      - { key: a, text: "Resource-based committed use discounts for the current machine family in the current region" }
+      - { key: b, text: "Compute flexible (spend-based) committed use discounts for a baseline hourly spend" }
+      - { key: c, text: "Nothing: sustained use discounts already apply to all of this usage" }
+      - { key: d, text: "Spot VMs for all workloads" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: flexible CUDs commit to an hourly spend that applies across projects, regions
+      and machine families, and cover Compute Engine, GKE and Cloud Run. **a** ties the discount
+      to resources in one region, which the planned changes would strand. **c** is wrong: SUDs apply
+      only to some Compute Engine series (not E2, not Cloud Run). **d** is unsuitable for steady
+      production work that must not be interrupted.
+    points: 1
+
+  - key: s4-rightsize-before-commit
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A company's 400 VMs run 24/7. Recommender shows that 120 of them average under 10% CPU, and
+      there are 50 unattached persistent disks. The CFO wants to buy 3-year committed use discounts
+      this week to cut the bill. What should you advise?
+    choices:
+      - { key: a, text: "Buy CUDs for all 400 VMs at their current size now, to lock in the discount quickly" }
+      - { key: b, text: "Skip CUDs and move all VMs to Spot to maximise the discount" }
+      - { key: c, text: "Buy 1-year CUDs for twice the current usage to cover growth" }
+      - { key: d, text: "Apply rightsizing and delete idle disks first, then buy CUDs sized to the remaining steady baseline" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: optimise usage before rate. Committing first locks oversized capacity into a
+      non-cancellable contract. **a** commits to the waste for three years. **b** puts steady
+      production workloads at risk of preemption with no SLA. **c** commits to capacity that does
+      not exist yet, which is pure cost.
+    points: 1
+
+  - key: s4-billing-export-chargeback
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      Finance cannot tell which product teams are driving a rising Google Cloud bill. Teams share
+      several projects. Finance wants monthly cost per team and per environment, joined with sales
+      data to compute cost per order. What should you set up?
+    choices:
+      - { key: a, text: "Enforce team and env labels on resources and export detailed billing data to BigQuery for analysis and dashboards" }
+      - { key: b, text: "Download the monthly invoice PDF and split it manually by project" }
+      - { key: c, text: "Create one budget per project with email alerts" }
+      - { key: d, text: "Move each team into its own billing account" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: labels allocate cost inside shared projects, and billing export to BigQuery
+      lets you query cost by label and join it with business data for unit cost. **b** is manual
+      and cannot split shared projects by team. **c** alerts on project totals but doesn't allocate
+      or analyse. **d** adds administrative overhead and still doesn't separate environments or
+      give unit cost.
+    points: 1
+
+  - key: s4-service-catalog-self-service
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      Developers wait two to three weeks for the platform team to create projects and databases.
+      Security insists that every new environment has the same network, logging and IAM baseline.
+      What is the BEST way to meet both needs?
+    choices:
+      - { key: a, text: "Grant developers the Project Owner role so they can build what they need" }
+      - { key: b, text: "Hire more platform engineers to process tickets faster" }
+      - { key: c, text: "Publish approved Terraform templates with the baseline built in through Service Catalog, deployed with managed IaC, and keep organization policies as guardrails" }
+      - { key: d, text: "Write a wiki page describing the baseline and ask developers to follow it" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a curated catalog of approved IaC gives self-service speed with a consistent
+      baseline, and org policies hold the guardrails if someone bypasses it. **a** is fast but
+      breaks least privilege and consistency. **b** scales cost linearly and keeps the bottleneck.
+      **d** relies on manual compliance, which drifts.
+    points: 1
+
+  - key: s4-blameless-postmortem
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A configuration change pushed by an engineer caused a 40-minute outage. A director proposes
+      that the post-mortem name the engineer and that their production access be removed. What
+      should the architect recommend?
+    choices:
+      - { key: a, text: "Agree, so that accountability is clear and the change is not repeated" }
+      - { key: b, text: "Skip the post-mortem, because the cause is already known" }
+      - { key: c, text: "Keep the post-mortem private to the engineer's team to avoid embarrassment" }
+      - { key: d, text: "Write a blameless post-mortem that asks why the system allowed the change, with owned action items such as config validation and canarying" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: Google's SRE practice is blameless post-mortems that address systemic causes
+      and track action items. **a** discourages honest reporting, so hidden problems recur.
+      **b** leaves the system unchanged; knowing the trigger is not knowing the contributing
+      causes. **c** prevents other teams from learning; post-mortems should be shared.
+    points: 1
+
+  - key: s4-dr-test-first-step
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A company wrote a DR plan two years ago and has never tested it. Executives are worried that
+      a full production failover could itself cause an outage. What should the company do FIRST?
+    choices:
+      - { key: a, text: "Perform a full production failover during peak hours to get realistic results" }
+      - { key: b, text: "Review the plan and run a tabletop exercise with the people who would execute it" }
+      - { key: c, text: "Replace the DR plan with an active-active architecture so testing is unnecessary" }
+      - { key: d, text: "Wait for a real incident and measure the recovery then" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: start at the low-risk end of the testing ladder. A plan review and tabletop
+      find stale steps, missing access and unclear roles before component tests and a controlled
+      failover. **a** takes the highest risk first, at the worst time. **c** is costly and still
+      needs testing. **d** finds problems when they hurt most.
+    points: 1
+
+  - key: s4-bia-first
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A vehicle manufacturer is creating a business continuity plan for its newly migrated
+      dealer-ordering platform. Different executives demand "zero downtime" for every system.
+      What should the architect do FIRST?
+    choices:
+      - { key: a, text: "Deploy every system as active-active across two regions" }
+      - { key: b, text: "Buy the highest Customer Care tier for all projects" }
+      - { key: c, text: "Lead a business impact analysis to rank processes and agree RTO and RPO for each supporting system" }
+      - { key: d, text: "Schedule a full failover test for next month" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: the business impact analysis sets priorities and turns "zero downtime" into
+      measured RTO and RPO per system, which then drive design and cost. **a** applies the most
+      expensive pattern everywhere without justification. **b** affects support response, not
+      recovery design. **d** tests a plan whose targets are not yet defined.
+    points: 1
+
+  - key: s4-stakeholder-poc
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      The operations director prefers keeping self-managed Kubernetes, while the CTO wants GKE
+      Autopilot. Both have strong opinions and the decision is stalled. As the architect, what is
+      the BEST way to move the decision forward?
+    choices:
+      - { key: a, text: "Run a short proof of concept of a representative workload, compare it against agreed criteria such as cost, effort and SLOs, and facilitate a decision" }
+      - { key: b, text: "Side with the CTO because they are more senior" }
+      - { key: c, text: "Choose Autopilot yourself and inform both stakeholders afterwards" }
+      - { key: d, text: "Postpone the decision until the migration is complete" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: influence with evidence and facilitate a decision against criteria both
+      parties accept. **b** resolves by rank, leaving operations unconvinced and likely to resist.
+      **c** bypasses the stakeholders entirely. **d** blocks the migration, which depends on the
+      platform choice.
+    points: 1
+
+  - key: s4-skills-managed-services
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A team of experienced VM administrators will move a set of stateless web APIs to Google Cloud
+      in four months. None of them has operated containers or Kubernetes. Leadership wants a
+      low-risk path that the team can operate confidently. What should you recommend?
+    choices:
+      - { key: a, text: "Self-managed Kubernetes on Compute Engine so the team learns Kubernetes in depth" }
+      - { key: b, text: "Containerise the APIs onto Cloud Run, pair it with targeted training and a pilot service before migrating the rest" }
+      - { key: c, text: "Delay the migration until every team member holds a Professional certification" }
+      - { key: d, text: "Replace the team with a contractor that already knows Kubernetes" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: reduce the skill needed with a managed, serverless platform, close the gap
+      with training, and prove it on a pilot. **a** maximises operational burden for an
+      inexperienced team. **c** delays business value unnecessarily. **d** loses institutional
+      knowledge and leaves nobody internal able to run the platform.
+    points: 1
+
+  - key: s4-error-budget-decision
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A product team and the SRE team argue every week about whether to ship features or work on
+      reliability. The service has a 99.9% availability SLO. What process should the architect
+      introduce to settle this objectively?
+    choices:
+      - { key: a, text: "Let the product manager decide each release individually" }
+      - { key: b, text: "Freeze all releases until the service reaches 100% availability" }
+      - { key: c, text: "Raise the SLO to 99.99% so reliability work always takes priority" }
+      - { key: d, text: "Agree an error budget policy in advance: ship while budget remains; prioritise reliability work when it is exhausted" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: error budgets turn the trade-off into an agreed, data-driven rule.
+      **a** keeps the decision subjective and one-sided. **b** sets an unachievable target that
+      stops all delivery. **c** raises cost and toil without evidence that users need it and still
+      leaves no decision rule.
+    points: 1
+
+  - key: s4-sud-automatic
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A small company runs ten N2 VMs continuously. It does not want to sign any commitment because
+      the business may change direction in six months. Which discount will it receive with no
+      action needed?
+    choices:
+      - { key: a, text: "Sustained use discounts, applied automatically to eligible N2 usage over 25% of the month" }
+      - { key: b, text: "Resource-based committed use discounts" }
+      - { key: c, text: "Spot VM pricing" }
+      - { key: d, text: "Compute flexible committed use discounts" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: sustained use discounts apply automatically to eligible series such as N2
+      once a resource runs more than 25% of a billing month, up to 20% for N2. **b** and **d**
+      require purchasing a 1- or 3-year commitment. **c** requires creating Spot VMs, which can be
+      preempted; it is not applied to standard VMs.
+    points: 1
+
+  - key: s4-customer-care-tam
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      An electronic health records provider is moving its revenue-critical production platform to
+      Google Cloud. It wants the fastest response on critical cases and a named Google contact who
+      gives proactive architecture and operational guidance. Which option should you recommend?
+    choices:
+      - { key: a, text: "Standard Customer Care, with community forums for questions" }
+      - { key: b, text: "Enhanced Customer Care only for the development projects" }
+      - { key: c, text: "Premium Customer Care, which includes a Technical Account Manager" }
+      - { key: d, text: "No support plan; rely on Google Cloud documentation" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: Premium adds the fastest response targets and a Technical Account Manager for
+      proactive guidance, which suits mission-critical production. **a** offers slower response
+      and no named contact. **b** covers the wrong projects and still has no TAM. **d** leaves a
+      critical platform without a support path.
+    points: 1
+
+  - key: s4-adkar-reinforcement
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      After a migration, operations engineers completed training on Terraform and the CI/CD
+      pipeline, and they can use them well. Three months later many are still making changes by
+      hand in the console, causing drift. Which change-management action is MOST effective?
+    choices:
+      - { key: a, text: "Repeat the same training course for everyone" }
+      - { key: b, text: "Send a company-wide email explaining why the cloud migration happened" }
+      - { key: c, text: "Hire external consultants to make all future changes" }
+      - { key: d, text: "Reinforce the new way: make the pipeline the only path to production by restricting console write access, and recognise teams using it" }
+    answer: [d]
+    explanation_md: |
+      **d** is right: knowledge and ability exist; the gap is reinforcement, so make the new path
+      the default and remove the old one. **a** addresses knowledge, which they already have.
+      **b** addresses awareness, which is not the problem. **c** removes ownership from the team
+      and adds cost.
+    points: 1
+
+  - key: s4-binauthz-trusted-images
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      Security requires that only container images built by the official Cloud Build pipeline and
+      that passed vulnerability scanning can run on production GKE clusters. Developers currently
+      can deploy any image. What should you add?
+    choices:
+      - { key: a, text: "A weekly audit of running images against a spreadsheet" }
+      - { key: b, text: "Binary Authorization with a policy requiring attestations created by the pipeline after build and scan" }
+      - { key: c, text: "A firewall rule blocking developers' IP addresses from the cluster" }
+      - { key: d, text: "A larger node pool so that scanning can run on the cluster" }
+    answer: [b]
+    explanation_md: |
+      **b** is right: Binary Authorization enforces at deploy time that images carry required
+      attestations, so only pipeline-built, scanned images run. **a** is detective and slow; bad
+      images run for days. **c** blocks a network path, not untrusted images, and deployments
+      can come from elsewhere. **d** is unrelated to admission control.
+    points: 1
+
+  - key: s4-hot-spanner-global
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A global payments platform must keep accepting transactions through the loss of an entire
+      region, with no committed transactions lost and strongly consistent balances. Budget is a
+      secondary concern. Which design meets these requirements?
+    choices:
+      - { key: a, text: "Cloud SQL with HA in one region and nightly backups to another region" }
+      - { key: b, text: "Cloud SQL with a cross-region read replica that is promoted manually" }
+      - { key: c, text: "Spanner with a multi-region configuration, application instances in multiple regions, and a global load balancer" }
+      - { key: d, text: "Firestore in a single region with scheduled exports" }
+    answer: [c]
+    explanation_md: |
+      **c** is right: a multi-region Spanner configuration replicates synchronously with strong
+      consistency and keeps serving writes through a regional loss; with compute in several regions
+      behind global load balancing this is a hot, active-active design with an RPO of zero. **a**
+      is cold: hours of downtime and data loss. **b** is warm: asynchronous replication can lose
+      recent writes and promotion takes time. **d** is single-region and recovers only to the last
+      export.
+    points: 1
+
+  - key: s4-iac-testing-pyramid
+    kind: single
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A platform team maintains shared Terraform modules. A recent module change broke networking in
+      several projects. The team wants to catch such problems before release at reasonable cost.
+      What testing approach should it adopt?
+    choices:
+      - { key: a, text: "Run static checks on every change and integration tests that deploy each module into an ephemeral test project, assert on the result, and tear it down" }
+      - { key: b, text: "Apply every change directly to production during a maintenance window and watch for errors" }
+      - { key: c, text: "Rely on code review alone, with two approvers per change" }
+      - { key: d, text: "Run full end-to-end tests of the entire organisation's infrastructure on every commit" }
+    answer: [a]
+    explanation_md: |
+      **a** is right: Google's Terraform testing guidance uses a pyramid of cheap static analysis
+      plus module integration tests in ephemeral environments. **b** tests on users. **c** helps
+      but cannot catch runtime behaviour. **d** is slow and expensive; end-to-end tests should be
+      few, at the top of the pyramid.
+    points: 1
+
+  # ---------- multiple select ----------
+  - key: s4-cold-dr-components
+    kind: multi
+    domain: s4-analyze-optimize
+    prompt_md: |
+      An internal reporting application can tolerate one business day of downtime and the loss of
+      up to 24 hours of data after a regional disaster. Leadership wants DR at the lowest possible
+      cost. Which two measures should the design include? (Choose two.)
+    choices:
+      - { key: a, text: "Daily backups of the database stored in a different region" }
+      - { key: b, text: "A full-size, always-running copy of the application in a second region" }
+      - { key: c, text: "Infrastructure as code that can rebuild the environment in another region" }
+      - { key: d, text: "A Spanner multi-region instance to replace the current database" }
+      - { key: e, text: "Synchronous replication to a hot standby database" }
+    answer: [a, c]
+    explanation_md: |
+      **a** and **c** make a cold pattern: data recoverable to within a day, and IaC to provision
+      compute only when needed. **b**, **d** and **e** are warm or hot measures that cost far more
+      than the generous RTO and RPO require.
+    points: 1
+
+  - key: s4-game-day-safeguards
+    kind: multi
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A team is planning its first production game day, in which it will block traffic to one
+      region and fail over to the other. Which two preparations are MOST important for running it
+      safely? (Choose two.)
+    choices:
+      - { key: a, text: "Keep the test secret from support staff so their reactions are realistic" }
+      - { key: b, text: "Define abort criteria based on user-facing SLIs and a rehearsed rollback plan" }
+      - { key: c, text: "Run it at peak traffic so the results are realistic" }
+      - { key: d, text: "Disable alerting during the test to avoid noise" }
+      - { key: e, text: "Agree the scope with the business and notify stakeholders such as support in advance" }
+    answer: [b, e]
+    explanation_md: |
+      **b** and **e** are the documented safeguards: clear abort conditions with a way back, an
+      agreed scope, and communication. **a** risks support escalating a planned test as a real
+      incident. **c** maximises customer impact on a first test. **d** hides the very signals the
+      test is meant to observe.
+    points: 1
+
+  - key: s4-safe-release-practices
+    kind: multi
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A retailer deploys to GKE with Cloud Deploy. Recent releases caused outages that affected all
+      users at once, and production deployments are not reviewed by anyone. Which two changes
+      reduce release risk with the least manual effort? (Choose two.)
+    choices:
+      - { key: a, text: "Replace Cloud Deploy with manual kubectl deployments by a senior engineer" }
+      - { key: b, text: "Use a canary deployment strategy so a release reaches a small share of traffic before full rollout" }
+      - { key: c, text: "Deploy only once a quarter in large batches" }
+      - { key: d, text: "Require approval on the production target before promotion" }
+      - { key: e, text: "Rebuild the image for production so it uses the latest dependencies" }
+    answer: [b, d]
+    explanation_md: |
+      **b** limits blast radius, and **d** (`requireApproval` on the target) adds a review gate,
+      both native to Cloud Deploy. **a** adds manual work and removes repeatability. **c** makes
+      each release bigger and riskier. **e** breaks build-once-promote, so production runs an
+      untested artifact.
+    points: 1
+
+  - key: s4-finops-inform
+    kind: multi
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A company starting a FinOps practice wants engineering and finance to share accurate,
+      timely visibility of who is spending what. Which two actions belong in this first,
+      "Inform" phase? (Choose two.)
+    choices:
+      - { key: a, text: "Apply consistent cost-allocation labels such as team and environment to resources" }
+      - { key: b, text: "Buy 3-year committed use discounts for all current usage" }
+      - { key: c, text: "Migrate every workload to Spot VMs" }
+      - { key: d, text: "Ask each team to estimate its spend in a quarterly spreadsheet" }
+      - { key: e, text: "Enable Cloud Billing export to BigQuery and build shared cost dashboards" }
+    answer: [a, e]
+    explanation_md: |
+      **a** and **e** create allocation and visibility, which is what Inform is about. **b** and
+      **c** are rate optimisations from the Optimize phase, and premature before you know the
+      baseline (and **c** is unsafe for many workloads). **d** gives stale, unverified estimates
+      instead of actual data.
+    points: 1
+
+  - key: s4-replication-not-backup
+    kind: multi
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A warm-standby design uses a Cloud SQL cross-region replica. An auditor asks how the company
+      would recover if an operator accidentally deleted a critical table. Which two measures should
+      the architect add? (Choose two.)
+    choices:
+      - { key: a, text: "A second cross-region read replica" }
+      - { key: b, text: "A larger machine type for the replica" }
+      - { key: c, text: "Point-in-time recovery enabled on the primary instance" }
+      - { key: d, text: "Regular backups retained in a separate location from the primary data" }
+      - { key: e, text: "Faster replication between primary and replica" }
+    answer: [c, d]
+    explanation_md: |
+      **c** and **d** protect against logical corruption: you can restore to a moment before the
+      deletion. Replicas copy the deletion almost immediately, so **a** and **e** do not help, and
+      **e** actually spreads the damage faster. **b** changes capacity, not recoverability.
+    points: 1
+
+  - key: s4-incident-roles
+    kind: multi
+    domain: s4-analyze-optimize
+    prompt_md: |
+      During a major outage, the most senior engineer is simultaneously debugging, deciding what to
+      try next, and answering executives' requests for updates. Following Google's incident
+      management practice, which two roles should be assigned to other people? (Choose two.)
+    choices:
+      - { key: a, text: "Incident commander, who coordinates and makes decisions without hands-on debugging" }
+      - { key: b, text: "Release manager, who approves the next feature release" }
+      - { key: c, text: "Post-mortem author, who starts assigning blame while the incident is ongoing" }
+      - { key: d, text: "Communications lead, who sends regular updates to stakeholders" }
+      - { key: e, text: "Finance lead, who calculates the cost of the outage in real time" }
+    answer: [a, d]
+    explanation_md: |
+      **a** and **d** are SRE incident roles that free the engineer to act as operations lead.
+      **b** is not an incident role. **c** is wrong twice: post-mortems come afterwards and are
+      blameless. **e** is not a priority during response and is not a defined incident role.
+    points: 1
+
+  - key: s4-rca-practices
+    kind: multi
+    domain: s4-analyze-optimize
+    prompt_md: |
+      Service has been restored after an intermittent API failure, and the team now needs the root
+      cause. Which two practices should guide the investigation? (Choose two.)
+    choices:
+      - { key: a, text: "Accept the first metric that spiked at the same time as the cause" }
+      - { key: b, text: "Restart all services so the logs start clean" }
+      - { key: c, text: "Review what changed around the start time, using deployment history and Cloud Audit Logs" }
+      - { key: d, text: "Close the investigation once the immediate trigger is found" }
+      - { key: e, text: "Form a hypothesis and test it, for example by reproducing the failure in a non-production copy" }
+    answer: [c, e]
+    explanation_md: |
+      **c** and **e** reflect the SRE troubleshooting loop: gather evidence, especially recent
+      changes, then test hypotheses. **a** confuses correlation with causation. **b** destroys
+      evidence. **d** stops at the trigger and misses the systemic contributing causes.
+    points: 1
+
+  - key: s4-capex-to-opex
+    kind: multi
+    domain: s4-analyze-optimize
+    prompt_md: |
+      A manufacturer's CFO asks what changes financially when the company moves from its owned data
+      centre to Google Cloud. Which two statements are accurate? (Choose two.)
+    choices:
+      - { key: a, text: "Cloud spend becomes fixed and identical every month" }
+      - { key: b, text: "Large up-front hardware purchases are replaced by ongoing operating expenses for services consumed" }
+      - { key: c, text: "Spend varies with usage, so forecasting, budgets and cost allocation become ongoing finance activities" }
+      - { key: d, text: "Cost governance is no longer needed because Google manages the infrastructure" }
+      - { key: e, text: "Every Google Cloud service must be paid for three years in advance" }
+    answer: [b, c]
+    explanation_md: |
+      **b** and **c** describe the CapEx-to-OpEx shift and why FinOps practices follow it. **a** is
+      wrong: consumption billing varies. **d** is wrong: variable spend needs more governance, not
+      less. **e** is wrong: commitments are optional discounts, not a payment requirement.
+    points: 1

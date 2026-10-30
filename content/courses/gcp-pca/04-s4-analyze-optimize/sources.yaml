@@ -1,0 +1,472 @@
+sources:
+  - slug: s4-wa-framework
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework
+    title: "Google Cloud Well-Architected Framework"
+    site: Google Cloud Architecture Center
+    tags: [well-architected, pillars]
+    summary_md: |
+      The framework the current PCA guide is built around: operational excellence, security,
+      reliability, cost optimisation and performance pillars. Used across all four lessons as the
+      "documented Google pattern" that exam answers should follow.
+
+  - slug: s4-wa-operational-excellence
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/operational-excellence
+    title: "Well-Architected Framework: Operational excellence pillar"
+    site: Google Cloud Architecture Center
+    tags: [operations, ci-cd, incident-management]
+    summary_md: |
+      Covers operational readiness, incident and problem management, automating change with CI/CD
+      and IaC, and continuous improvement through post-mortems. Supports lessons 1 and 4.
+
+  - slug: s4-wa-reliability
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/reliability
+    title: "Well-Architected Framework: Reliability pillar"
+    site: Google Cloud Architecture Center
+    tags: [reliability, slo, dr]
+    summary_md: |
+      Reliability principles: user-focused SLOs, redundancy across zones and regions, graceful
+      degradation, testing recovery from failures and data loss, and thorough post-mortems.
+      Supports lessons 1, 3 and 4.
+
+  - slug: s4-wa-cost
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/framework/cost-optimization
+    title: "Well-Architected Framework: Cost optimization pillar"
+    site: Google Cloud Architecture Center
+    tags: [cost, finops]
+    summary_md: |
+      Align spending with business value, foster a culture of cost awareness, optimise resource
+      usage, and optimise continuously. Explains attributing cost with labels, using billing
+      export and recommendations, and the shift from CapEx to OpEx. Supports lesson 2.
+
+  - slug: s4-dr-planning-guide
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/dr-scenarios-planning-guide
+    title: "Disaster recovery planning guide"
+    site: Google Cloud Architecture Center
+    tags: [dr, rto, rpo]
+    summary_md: |
+      Defines RTO (longest tolerable outage) and RPO (longest tolerable window of data loss),
+      explains that tighter targets cost more, and describes cold, warm and hot recovery patterns.
+      Lists DR best practices: test regularly, automate provisioning with IaC, match IAM in the DR
+      environment, and keep more than one recovery path. Core source for lessons 1, 3 and 4.
+
+  - slug: s4-dr-building-blocks
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/dr-scenarios-building-blocks
+    title: "Disaster recovery building blocks"
+    site: Google Cloud Architecture Center
+    tags: [dr, regions, zones]
+    summary_md: |
+      The Google Cloud features used to build DR: regions and zones, managed instance groups,
+      persistent disk snapshots, Cloud Storage location types, Cloud Load Balancing and IaC.
+      Supports lessons 1 and 3.
+
+  - slug: s4-dr-scenarios-apps
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/dr-scenarios-for-applications
+    title: "Disaster recovery scenarios for applications"
+    site: Google Cloud Architecture Center
+    tags: [dr, patterns]
+    summary_md: |
+      Worked scenarios for batch, ecommerce and video-streaming applications, showing which
+      pattern (cold, warm or hot standby) fits which RTO/RPO and budget. Model for lesson 3.
+
+  - slug: s4-dr-scenarios-data
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/dr-scenarios-for-data
+    title: "Disaster recovery scenarios for data"
+    site: Google Cloud Architecture Center
+    tags: [dr, backup, replication]
+    summary_md: |
+      Backup and recovery of data: backups vs replication, database DR options, and how data
+      RPO drives the choice. Supports lessons 1 and 3.
+
+  - slug: s4-dr-cloud-outages
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/solutions/disaster-recovery/architecture
+    title: "Architecting disaster recovery for cloud infrastructure outages"
+    site: Google Cloud Architecture Center
+    tags: [dr, zonal, regional, multi-region]
+    summary_md: |
+      Explains zonal, regional and multi-regional failure domains and how each Google Cloud
+      product behaves when a zone or region fails. Basis for the multi-region discussion in
+      lessons 1 and 3.
+
+  - slug: s4-backup-dr-service
+    kind: product_docs
+    url: https://docs.cloud.google.com/backup-disaster-recovery/docs/concepts/backup-dr
+    title: "Backup and DR Service overview"
+    site: Google Cloud documentation
+    tags: [backup, dr]
+    summary_md: |
+      The managed service for centrally managing backups of Compute Engine, databases and other
+      workloads, with backup plans and vaults. Supports lessons 1 and 3.
+
+  - slug: s4-cloud-build
+    kind: product_docs
+    url: https://docs.cloud.google.com/build/docs/overview
+    title: "Cloud Build overview"
+    site: Google Cloud documentation
+    tags: [ci, cloud-build]
+    summary_md: |
+      Serverless CI: builds run as a series of container steps defined in a build config,
+      triggered from source repositories, producing artifacts such as container images.
+      Supports lesson 1.
+
+  - slug: s4-artifact-registry
+    kind: product_docs
+    url: https://docs.cloud.google.com/artifact-registry/docs/overview
+    title: "Artifact Registry overview"
+    site: Google Cloud documentation
+    tags: [artifacts, containers]
+    summary_md: |
+      Stores container images and language packages in regional or multi-regional repositories
+      with IAM control, and integrates with vulnerability scanning. Supports lesson 1.
+
+  - slug: s4-cloud-deploy
+    kind: product_docs
+    url: https://docs.cloud.google.com/deploy/docs/overview
+    title: "Cloud Deploy overview"
+    site: Google Cloud documentation
+    tags: [cd, cloud-deploy]
+    summary_md: |
+      Managed continuous delivery to GKE and Cloud Run: delivery pipelines, targets, releases,
+      rollouts, promotion, approvals (`requireApproval`) and rollback to the last successful
+      release. Supports lesson 1.
+
+  - slug: s4-cloud-deploy-canary
+    kind: product_docs
+    url: https://docs.cloud.google.com/deploy/docs/deployment-strategies/canary
+    title: "Use a canary deployment strategy (Cloud Deploy)"
+    site: Google Cloud documentation
+    tags: [cd, canary]
+    summary_md: |
+      How Cloud Deploy rolls a release out to a percentage of traffic in phases before the
+      full deployment. Supports lesson 1.
+
+  - slug: s4-binary-authorization
+    kind: product_docs
+    url: https://docs.cloud.google.com/binary-authorization/docs/overview
+    title: "Binary Authorization overview"
+    site: Google Cloud documentation
+    tags: [supply-chain, policy]
+    summary_md: |
+      Deploy-time policy that allows only images with required attestations (for example, built
+      by the trusted pipeline and passed scanning) to run on GKE or Cloud Run. Supports lesson 1.
+
+  - slug: s4-infra-manager
+    kind: product_docs
+    url: https://docs.cloud.google.com/infrastructure-manager/docs/overview
+    title: "Infrastructure Manager overview"
+    site: Google Cloud documentation
+    tags: [iac, terraform, provisioning]
+    summary_md: |
+      Managed Terraform: deploys and manages Google Cloud resources from Terraform configurations,
+      with previews and state handled by Google. Supports the provisioning part of lesson 1.
+
+  - slug: s4-service-catalog
+    kind: product_docs
+    url: https://docs.cloud.google.com/service-catalog/docs
+    title: "Service Catalog documentation"
+    site: Google Cloud documentation
+    tags: [service-catalog, governance]
+    summary_md: |
+      Lets cloud admins publish approved solutions (Terraform configurations and links) so internal
+      users can discover and deploy them in a governed way. Checked 2026-10-30: active, no
+      deprecation notice. Supports lesson 1.
+
+  - slug: s4-terraform-testing
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/docs/terraform/best-practices/testing
+    title: "Best practices for testing (Terraform on Google Cloud)"
+    site: Google Cloud documentation
+    tags: [testing, iac]
+    summary_md: |
+      The testing pyramid for infrastructure: static analysis, module integration tests and
+      end-to-end tests, in ephemeral environments, cheapest checks first. Supports lesson 1.
+
+  - slug: s4-sre-release-engineering
+    kind: book
+    url: https://sre.google/sre-book/release-engineering/
+    title: "Site Reliability Engineering, Chapter 8: Release Engineering"
+    authors: [Dinah McNutt]
+    site: sre.google
+    tags: [sre, release]
+    summary_md: |
+      Self-service, high-velocity, hermetic builds and enforced policies: the principles behind
+      reproducible CI/CD. Supports lesson 1.
+
+  - slug: s4-sre-testing
+    kind: book
+    url: https://sre.google/sre-book/testing-reliability/
+    title: "Site Reliability Engineering, Chapter 17: Testing for Reliability"
+    authors: [Alex Perry, Max Luebbe]
+    site: sre.google
+    tags: [sre, testing]
+    summary_md: |
+      Unit, integration and system tests (smoke, performance, regression), plus production tests
+      such as canaries and configuration tests, and disaster testing. Supports lessons 1 and 4.
+
+  - slug: s4-sre-troubleshooting
+    kind: book
+    url: https://sre.google/sre-book/effective-troubleshooting/
+    title: "Site Reliability Engineering, Chapter 12: Effective Troubleshooting"
+    authors: [Chris Jones]
+    site: sre.google
+    tags: [sre, troubleshooting, rca]
+    summary_md: |
+      The hypothetico-deductive troubleshooting loop: triage, examine, diagnose, test and treat.
+      Stresses "stop the bleeding" before root-causing, and warns against pitfalls such as
+      confusing correlation with causation. Supports lesson 1.
+
+  - slug: s4-sre-managing-incidents
+    kind: book
+    url: https://sre.google/sre-book/managing-incidents/
+    title: "Site Reliability Engineering, Chapter 14: Managing Incidents"
+    authors: [Andrew Stribblehill]
+    site: sre.google
+    tags: [sre, incident-management]
+    summary_md: |
+      Incident roles (incident commander, operations lead, communications lead, planning lead),
+      a recursive separation of responsibilities, a live incident document and clear handoff.
+      Supports lesson 4.
+
+  - slug: s4-sre-postmortem
+    kind: book
+    url: https://sre.google/sre-book/postmortem-culture/
+    title: "Site Reliability Engineering, Chapter 15: Postmortem Culture: Learning from Failure"
+    authors: [John Lunney, Sue Lueder]
+    site: sre.google
+    tags: [sre, postmortem, blameless]
+    summary_md: |
+      Why post-mortems are written, when they are triggered, and why they must be blameless:
+      focus on contributing causes and systems, not on individuals. Supports lessons 1 and 4.
+
+  - slug: s4-sre-workbook-postmortem
+    kind: book
+    url: https://sre.google/workbook/postmortem-culture/
+    title: "The Site Reliability Workbook, Chapter 10: Postmortem Culture"
+    authors: [Daniel Rogers, Murali Suriar, Sue Lueder]
+    site: sre.google
+    tags: [sre, postmortem]
+    summary_md: |
+      Worked examples of good and bad post-mortems, action items with owners and priorities, and
+      how to review and share post-mortems across an organisation. Supports lesson 4.
+
+  - slug: s4-sre-embracing-risk
+    kind: book
+    url: https://sre.google/sre-book/embracing-risk/
+    title: "Site Reliability Engineering, Chapter 3: Embracing Risk"
+    authors: [Marc Alvidrez]
+    site: sre.google
+    tags: [sre, error-budget]
+    summary_md: |
+      Error budgets as a shared, objective decision-making tool between product and SRE: the
+      cost of extra reliability versus the value of release velocity. Supports lessons 2 and 4.
+
+  - slug: s4-dirt-acm-queue
+    kind: paper
+    url: https://queue.acm.org/detail.cfm?id=2371516
+    title: "Weathering the Unexpected"
+    authors: [Kripa Krishnan]
+    site: ACM Queue
+    published: 2012-09-16
+    tags: [dr-testing, game-day, dirt]
+    summary_md: |
+      Describes Google's annual Disaster Recovery Testing (DiRT) programme: planned, realistic
+      failure exercises across technical and business processes, run with safeguards, to find
+      weaknesses before real disasters do. Supports lesson 4.
+
+  - slug: s4-dora-cd
+    kind: web
+    url: https://dora.dev/capabilities/continuous-delivery/
+    title: "DORA capabilities: Continuous delivery"
+    site: DORA (dora.dev)
+    tags: [dora, ci-cd]
+    summary_md: |
+      DORA's research on continuous delivery: keeping software deployable, fast feedback, test
+      automation and trunk-based development, and the four key delivery metrics. Supports lesson 1.
+
+  - slug: s4-cloud-adoption-framework
+    kind: vendor_docs
+    url: https://services.google.com/fh/files/misc/google_cloud_adoption_framework_whitepaper.pdf
+    title: "Google Cloud Adoption Framework (whitepaper)"
+    site: Google Cloud
+    tags: [adoption, skills, change-management]
+    summary_md: |
+      Four themes (Learn, Lead, Scale, Secure) and three maturity phases (Tactical, Strategic,
+      Transformational). Learn covers upskilling and team readiness; Lead covers sponsorship and
+      cross-functional teams. Supports lesson 2.
+
+  - slug: s4-gc-training
+    kind: web
+    url: https://cloud.google.com/learn/training
+    title: "Google Cloud training"
+    site: Google Cloud
+    tags: [skills, training]
+    summary_md: |
+      Google Cloud's role-based learning paths, Skills Boost labs and certifications: the tools
+      for closing skills gaps found in a team assessment. Supports lesson 2.
+
+  - slug: s4-prosci-adkar
+    kind: web
+    url: https://www.prosci.com/methodology/adkar
+    title: "The Prosci ADKAR Model"
+    site: Prosci
+    tags: [change-management]
+    summary_md: |
+      Individual change model: Awareness, Desire, Knowledge, Ability, Reinforcement. Used in
+      lesson 2 as a memory aid for the people side of change management.
+
+  - slug: s4-adr
+    kind: vendor_docs
+    url: https://docs.cloud.google.com/architecture/architecture-decision-records
+    title: "Architecture decision records overview"
+    site: Google Cloud Architecture Center
+    tags: [decision-making, adr]
+    summary_md: |
+      Recording architecture decisions with their context, options and consequences so decisions
+      are transparent and revisitable. Supports lesson 2.
+
+  - slug: s4-gc-support
+    kind: web
+    url: https://cloud.google.com/support
+    title: "Google Cloud Customer Care"
+    site: Google Cloud
+    tags: [customer-success, support]
+    summary_md: |
+      Customer Care tiers (Standard, Enhanced, Premium) and what each adds, such as faster
+      response and, at Premium, a Technical Account Manager. Supports lesson 2.
+
+  - slug: s4-finops-framework
+    kind: web
+    url: https://www.finops.org/framework/
+    title: "FinOps Framework"
+    site: FinOps Foundation
+    tags: [finops, cost]
+    summary_md: |
+      The FinOps phases (Inform, Optimize, Operate), principles (teams collaborate, everyone
+      takes ownership of their cloud usage, decisions are driven by business value) and
+      personas. Supports lesson 2.
+
+  - slug: s4-cud
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/instances/committed-use-discounts-overview
+    title: "Committed use discounts (Compute Engine)"
+    site: Google Cloud documentation
+    tags: [cud, cost]
+    summary_md: |
+      Resource-based CUDs (commit to vCPU, memory, GPU, etc. in a region; 1- or 3-year; cannot be
+      cancelled) and Compute flexible (spend-based) CUDs (commit to an hourly spend across
+      projects and regions, covering Compute Engine, GKE and Cloud Run). Checked 2026-10-30:
+      resource-based up to 70% for memory-optimised and about 55% for other series; flexible
+      highest 1-year rate 28%. Supports lesson 2.
+
+  - slug: s4-sud
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/sustained-use-discounts
+    title: "Sustained use discounts"
+    site: Google Cloud documentation
+    tags: [sud, cost]
+    summary_md: |
+      Automatic discounts for N1, N2, N2D, C2, M1, M2 and sole-tenant nodes that run more than
+      25% of a month: up to 30% (N1, M1, M2) or 20% (N2, N2D, C2). E2 and usage covered by CUDs
+      do not get them. Checked 2026-10-30. Supports lesson 2.
+
+  - slug: s4-spot
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/instances/spot
+    title: "Spot VMs"
+    site: Google Cloud documentation
+    tags: [spot, cost]
+    summary_md: |
+      Spare-capacity VMs at up to 91% off, which Compute Engine can preempt at any time, with no
+      maximum runtime and no SLA. Suited to fault-tolerant, stateless or batch work. Checked
+      2026-10-30. Supports lesson 2.
+
+  - slug: s4-recommender
+    kind: product_docs
+    url: https://docs.cloud.google.com/recommender/docs/overview
+    title: "Recommender overview (Active Assist)"
+    site: Google Cloud documentation
+    tags: [recommender, active-assist]
+    summary_md: |
+      Recommender analyses usage and produces recommendations such as idle VMs, idle disks,
+      machine-type rightsizing and commitment purchases, with estimated savings. Supports lesson 2.
+
+  - slug: s4-rightsizing
+    kind: product_docs
+    url: https://docs.cloud.google.com/compute/docs/instances/apply-machine-type-recommendations-for-instances
+    title: "Apply machine type recommendations for VM instances"
+    site: Google Cloud documentation
+    tags: [rightsizing, cost]
+    summary_md: |
+      How Compute Engine uses observed CPU and memory utilisation to recommend a smaller or larger
+      machine type, and how to apply it. Supports lesson 2.
+
+  - slug: s4-budgets
+    kind: product_docs
+    url: https://docs.cloud.google.com/billing/docs/how-to/budgets
+    title: "Create, edit, or delete budgets and budget alerts"
+    site: Google Cloud documentation
+    tags: [budgets, billing]
+    summary_md: |
+      Alerts-only budgets do not cap spending. Thresholds can be on actual or forecasted spend;
+      scopes include billing account, folders, projects, services and labels; a Pub/Sub topic
+      gives programmatic notifications for automation. Checked 2026-10-30. Supports lesson 2.
+
+  - slug: s4-billing-export
+    kind: product_docs
+    url: https://docs.cloud.google.com/billing/docs/how-to/export-data-bigquery
+    title: "Export Cloud Billing data to BigQuery"
+    site: Google Cloud documentation
+    tags: [billing-export, bigquery]
+    summary_md: |
+      Exports standard usage cost, detailed (resource-level) usage cost and pricing data to a
+      BigQuery dataset for analysis and dashboards, including labels. Checked 2026-10-30: with a
+      multi-region dataset, standard and detailed exports backfill only from the start of the
+      previous month, and pricing data is not backfilled, so enable export early. Supports lesson 2.
+
+  - slug: s4-gcs-turbo-replication
+    kind: product_docs
+    url: https://docs.cloud.google.com/storage/docs/managing-turbo-replication
+    title: "Turbo replication (Cloud Storage)"
+    site: Google Cloud documentation
+    tags: [storage, dual-region, rpo]
+    summary_md: |
+      Dual-region buckets with turbo replication target replicating newly written objects to the
+      second region within 15 minutes; default replication is slower. Supports lesson 3.
+
+  - slug: s4-cloudsql-cross-region
+    kind: product_docs
+    url: https://docs.cloud.google.com/sql/docs/postgres/replication/cross-region-replicas
+    title: "Cross-region replicas (Cloud SQL for PostgreSQL)"
+    site: Google Cloud documentation
+    tags: [cloud-sql, replication, dr]
+    summary_md: |
+      Read replicas in another region, replicated asynchronously, that can be promoted to a
+      standalone primary during a regional outage. Supports lesson 3.
+
+  - slug: s4-cloudsql-ha
+    kind: product_docs
+    url: https://docs.cloud.google.com/sql/docs/postgres/high-availability
+    title: "About high availability (Cloud SQL for PostgreSQL)"
+    site: Google Cloud documentation
+    tags: [cloud-sql, ha]
+    summary_md: |
+      The HA configuration keeps a standby in a second zone of the same region with synchronous
+      disk replication; it protects against zonal, not regional, failure. Supports lesson 3.
+
+  - slug: s4-spanner-configs
+    kind: product_docs
+    url: https://docs.cloud.google.com/spanner/docs/instance-configurations
+    title: "Spanner regional, dual-region and multi-region configurations"
+    site: Google Cloud documentation
+    tags: [spanner, multi-region]
+    summary_md: |
+      Multi-region Spanner configurations replicate synchronously across regions with strong
+      consistency and continue serving writes through a regional outage. Supports lesson 3.

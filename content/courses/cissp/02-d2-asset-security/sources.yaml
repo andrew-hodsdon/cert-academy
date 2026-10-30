@@ -1,0 +1,344 @@
+sources:
+  - slug: d2-isc2-cissp-outline
+    kind: standard
+    url: https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline
+    title: "CISSP Certification Exam Outline (effective 15 April 2024)"
+    authors: [ISC2]
+    site: ISC2
+    tags: [cissp, outline]
+    summary_md: |
+      The official outline. Domain 2 (10%) lists objectives 2.1–2.6, including the data roles
+      (owners, controllers, custodians, processors, users/subjects), data states, scoping and
+      tailoring, and the protection methods DRM, DLP and CASB. Every lesson in this module maps to it.
+
+  - slug: d2-fips-199
+    kind: standard
+    url: https://csrc.nist.gov/pubs/fips/199/final
+    title: "FIPS 199: Standards for Security Categorization of Federal Information and Information Systems"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2004-02-01
+    tags: [classification, categorization, impact]
+    summary_md: |
+      Defines security categorization by potential impact (low, moderate, high) on confidentiality,
+      integrity and availability, and the high-water mark for a system holding several information
+      types. Used in lesson 1 (classification) and lesson 4 (baseline selection).
+
+  - slug: d2-nist-sp-800-60
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/60/v1/r1/final
+    title: "NIST SP 800-60 Vol. 1 Rev. 1: Guide for Mapping Types of Information and Information Systems to Security Categories"
+    authors: [NIST]
+    site: NIST CSRC
+    tags: [classification, categorization]
+    summary_md: |
+      Walks through identifying information types, assigning provisional impact levels, reviewing
+      and adjusting them, and deriving the system category. Supports lesson 1's worked example.
+
+  - slug: d2-eo-13526
+    kind: standard
+    url: https://www.archives.gov/isoo/policy-documents/cnsi-eo.html
+    title: "Executive Order 13526: Classified National Security Information"
+    authors: [The White House]
+    site: U.S. National Archives (ISOO)
+    published: 2009-12-29
+    tags: [classification, government]
+    summary_md: |
+      Defines the three U.S. classification levels (Top Secret, Secret, Confidential) by the damage
+      unauthorized disclosure could reasonably be expected to cause (exceptionally grave, serious,
+      damage), and sets original classification authority and declassification rules. Lesson 1.
+
+  - slug: d2-cui-32-cfr-2002
+    kind: standard
+    url: https://www.ecfr.gov/current/title-32/subtitle-B/chapter-XX/part-2002
+    title: "32 CFR Part 2002: Controlled Unclassified Information"
+    authors: [U.S. National Archives and Records Administration]
+    site: eCFR
+    tags: [classification, cui, marking]
+    summary_md: |
+      The CUI rule: unclassified information that law, regulation or government-wide policy says
+      needs safeguarding or dissemination controls, with marking, handling and decontrol rules.
+      Lessons 1 and 2 use it for marking and handling.
+
+  - slug: d2-nist-sp-800-37r2
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/37/r2/final
+    title: "NIST SP 800-37 Rev. 2: Risk Management Framework for Information Systems and Organizations"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2018-12-20
+    tags: [roles, rmf, categorize, tailoring]
+    summary_md: |
+      Appendix D describes the roles: information owner/steward, system owner, authorizing official,
+      and others. The Categorize and Select steps tie classification to baseline selection and
+      tailoring. Used in lessons 1 and 4.
+
+  - slug: d2-nist-sp-800-18r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/18/r1/final
+    title: "NIST SP 800-18 Rev. 1: Guide for Developing Security Plans for Federal Information Systems"
+    authors: [NIST]
+    site: NIST CSRC
+    tags: [roles, ownership]
+    summary_md: |
+      Describes the information owner (sets the rules of behavior and use for the information) and
+      the system owner (responsible for the system that processes it). Second source for the
+      ownership roles in lesson 1.
+
+  - slug: d2-gdpr
+    kind: standard
+    url: https://eur-lex.europa.eu/eli/reg/2016/679/oj
+    title: "Regulation (EU) 2016/679 (General Data Protection Regulation)"
+    authors: [European Parliament and Council of the European Union]
+    site: EUR-Lex
+    published: 2016-04-27
+    tags: [privacy, controller, processor, retention, minimization]
+    summary_md: |
+      Article 4 defines data subject, controller and processor; Article 5 sets the principles
+      including data minimisation and storage limitation; Article 17 the right to erasure;
+      Article 28 the controller–processor contract; Articles 44–49 international transfers.
+      Lessons 1, 3 and 4.
+
+  - slug: d2-iso-27001
+    kind: standard
+    url: https://www.iso.org/standard/27001
+    title: "ISO/IEC 27001:2022 Information security management systems — Requirements"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: ISO
+    published: 2022-10-25
+    tags: [isms, annex-a, inventory, classification]
+    summary_md: |
+      Annex A controls relevant here: 5.9 inventory of information and other associated assets,
+      5.10 acceptable use, 5.11 return of assets, 5.12 classification, 5.13 labelling,
+      7.10 storage media, 7.14 secure disposal or re-use of equipment, 8.10 information deletion,
+      8.12 data leakage prevention. Used in every lesson.
+
+  - slug: d2-iso-27002
+    kind: standard
+    url: https://www.iso.org/standard/75652.html
+    title: "ISO/IEC 27002:2022 Information security, cybersecurity and privacy protection — Information security controls"
+    authors: [ISO/IEC JTC 1/SC 27]
+    site: ISO
+    published: 2022-02-15
+    tags: [controls, guidance, classification, dlp]
+    summary_md: |
+      Implementation guidance for the Annex A controls: classification schemes based on
+      confidentiality, integrity and availability needs; labelling; owner-maintained inventories;
+      media handling; and data leakage prevention. Second source alongside ISO/IEC 27001.
+
+  - slug: d2-nist-sp-800-88r1
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/88/r1/final
+    title: "NIST SP 800-88 Rev. 1: Guidelines for Media Sanitization"
+    authors: [Richard Kissel, Andrew Regenscheid, Matthew Scholl, Kevin Stine]
+    site: NIST CSRC
+    published: 2014-12-17
+    tags: [sanitization, clear, purge, destroy, remanence]
+    summary_md: |
+      Defines the three sanitization categories (clear, purge, destroy), the decision flow based on
+      confidentiality and whether media leaves organizational control, verification, and
+      certificates of sanitization; discusses cryptographic erase and why overwriting is unreliable
+      on flash media. Lesson 3.
+
+  - slug: d2-nist-sp-800-88r2
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/88/r2/final
+    title: "NIST SP 800-88 Rev. 2: Guidelines for Media Sanitization"
+    authors: [NIST]
+    site: NIST CSRC
+    published: 2025-09-26
+    tags: [sanitization, program]
+    summary_md: |
+      The current revision. Keeps clear, purge and destroy, recasts the guidance around an
+      organizational sanitization program, and points to media-specific technique standards
+      (such as IEEE 2883) instead of carrying technique tables itself. Lesson 3 teaches the
+      categories, which are the same in both revisions.
+
+  - slug: d2-nist-sp-800-53r5
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    title: "NIST SP 800-53 Rev. 5: Security and Privacy Controls for Information Systems and Organizations"
+    authors: [NIST Joint Task Force]
+    site: NIST CSRC
+    tags: [controls, media-protection, component-inventory]
+    summary_md: |
+      Control families used in this module: CM-8 system component inventory, MP media protection
+      (MP-3 marking, MP-4 storage, MP-5 transport, MP-6 sanitization), SC-8 transmission
+      confidentiality, SC-28 protection of information at rest, SI-12 information management
+      and retention, SA-22 unsupported system components. Lessons 2–4.
+
+  - slug: d2-nist-sp-800-53b
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/53/b/upd1/final
+    title: "NIST SP 800-53B: Control Baselines for Information Systems and Organizations"
+    authors: [NIST Joint Task Force]
+    site: NIST CSRC
+    tags: [baselines, tailoring, scoping]
+    summary_md: |
+      Low, moderate and high control baselines plus the privacy baseline, and the tailoring
+      process: identifying and designating common controls, applying scoping considerations,
+      selecting compensating controls, assigning parameter values, and supplementing. Lesson 4.
+
+  - slug: d2-nist-sp-800-122
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/122/final
+    title: "NIST SP 800-122: Guide to Protecting the Confidentiality of Personally Identifiable Information (PII)"
+    authors: [Erika McCallister, Tim Grance, Karen Scarfone]
+    site: NIST CSRC
+    published: 2010-04-06
+    tags: [pii, classification, minimization]
+    summary_md: |
+      Defines PII, introduces PII confidentiality impact levels, and recommends minimising
+      collection and retention and de-identifying where possible. Lessons 1 and 3.
+
+  - slug: d2-cis-controls-v8
+    kind: web
+    url: https://www.cisecurity.org/controls/v8
+    title: "CIS Critical Security Controls v8"
+    authors: [Center for Internet Security]
+    site: CIS
+    tags: [inventory, asset-management, data-protection]
+    summary_md: |
+      Control 1 (inventory and control of enterprise assets), Control 2 (software assets) and
+      Control 3 (data protection: data inventory, data handling, retention, disposal, encryption,
+      DLP). Practical second source for lessons 2 and 4.
+
+  - slug: d2-nist-sp-1800-5
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/1800/5/final
+    title: "NIST SP 1800-5: IT Asset Management"
+    authors: [NIST National Cybersecurity Center of Excellence]
+    site: NIST CSRC
+    tags: [inventory, asset-management]
+    summary_md: |
+      Reference design for automated IT asset management: discovery, a single asset repository,
+      tracking physical and virtual assets through their lifecycle, and using the inventory for
+      security decisions. Lesson 2.
+
+  - slug: d2-nist-sp-800-128
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/128/upd1/final
+    title: "NIST SP 800-128: Guide for Security-Focused Configuration Management of Information Systems"
+    authors: [NIST]
+    site: NIST CSRC
+    tags: [configuration, provisioning, baselines]
+    summary_md: |
+      Secure baseline configurations, the configuration management plan and change control.
+      Supports lesson 2's guidance that assets are provisioned from an approved, hardened baseline.
+
+  - slug: d2-nist-sp-800-111
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/111/final
+    title: "NIST SP 800-111: Guide to Storage Encryption Technologies for End User Devices"
+    authors: [Karen Scarfone, Murugiah Souppaya, Matt Sexton]
+    site: NIST CSRC
+    tags: [data-at-rest, encryption]
+    summary_md: |
+      Full-disk, volume, virtual-disk and file/folder encryption for data at rest, and the role of
+      pre-boot authentication. Lesson 4 (data at rest).
+
+  - slug: d2-nist-sp-800-52r2
+    kind: standard
+    url: https://csrc.nist.gov/pubs/sp/800/52/r2/final
+    title: "NIST SP 800-52 Rev. 2: Guidelines for the Selection, Configuration, and Use of TLS Implementations"
+    authors: [Kerry McKay, David Cooper]
+    site: NIST CSRC
+    published: 2019-08-29
+    tags: [data-in-transit, tls]
+    summary_md: |
+      Requires TLS 1.2 and support for TLS 1.3 for protecting data in transit. Lesson 4 (data in
+      transit).
+
+  - slug: d2-confidential-computing
+    kind: web
+    url: https://confidentialcomputing.io/about/
+    title: "Confidential Computing Consortium: About"
+    authors: [Confidential Computing Consortium (Linux Foundation)]
+    site: confidentialcomputing.io
+    tags: [data-in-use, tee]
+    summary_md: |
+      Defines confidential computing as protecting data in use by performing computation in a
+      hardware-based, attested trusted execution environment. Lesson 4 (data in use).
+
+  - slug: d2-nist-sp-1800-28
+    kind: standard
+    url: https://www.nccoe.nist.gov/data-confidentiality-identifying-and-protecting-assets-against-data-breaches
+    title: "NIST SP 1800-28: Data Confidentiality — Identifying and Protecting Assets Against Data Breaches"
+    authors: [NIST National Cybersecurity Center of Excellence]
+    site: NCCoE
+    tags: [dlp, drm, data-protection]
+    summary_md: |
+      Reference architecture combining data discovery, policy enforcement, DLP, data protection
+      (including rights management/encryption that follows the file) and browser isolation.
+      Lesson 4.
+
+  - slug: d2-csa-guidance
+    kind: web
+    url: https://cloudsecurityalliance.org/research/guidance
+    title: "CSA Security Guidance for Critical Areas of Focus in Cloud Computing"
+    authors: [Cloud Security Alliance]
+    site: Cloud Security Alliance
+    tags: [cloud, casb, data-lifecycle]
+    summary_md: |
+      Describes the data security lifecycle (create, store, use, share, archive, destroy), and
+      cloud data security controls including CASB for discovery of cloud usage and policy
+      enforcement, DLP and DRM. Lessons 3 and 4.
+
+  - slug: d2-gartner-casb
+    kind: web
+    url: https://www.gartner.com/en/information-technology/glossary/cloud-access-security-brokers-casbs
+    title: "Gartner Glossary: Cloud Access Security Brokers (CASBs)"
+    authors: [Gartner]
+    site: Gartner
+    tags: [casb]
+    summary_md: |
+      Defines a CASB as a policy enforcement point between cloud consumers and providers that
+      interjects enterprise security policies (authentication, SSO, authorization, credential
+      mapping, device profiling, encryption, tokenization, logging, alerting, malware detection)
+      as cloud resources are accessed. Lesson 4.
+
+  - slug: d2-ms-purview-ip
+    kind: vendor_docs
+    url: https://learn.microsoft.com/en-us/purview/information-protection
+    title: "Microsoft Purview Information Protection"
+    authors: [Microsoft]
+    site: Microsoft Learn
+    tags: [labels, drm, dlp]
+    summary_md: |
+      A representative product: sensitivity labels that can apply encryption and usage rights
+      that travel with the file, and DLP policies keyed to labels and content inspection.
+      Illustrates labelling (lesson 2) and DRM/DLP (lesson 4); not exam material on its own.
+
+  - slug: d2-iso-15489
+    kind: standard
+    url: https://www.iso.org/standard/62542.html
+    title: "ISO 15489-1:2016 Information and documentation — Records management — Part 1: Concepts and principles"
+    authors: [ISO TC 46/SC 11]
+    site: ISO
+    tags: [retention, records]
+    summary_md: |
+      Records management principles: records retained per authorised disposition decisions
+      (retention schedules), and disposition carried out and documented. Lesson 3 (retention).
+
+  - slug: d2-nara-grs
+    kind: web
+    url: https://www.archives.gov/records-mgmt/grs
+    title: "General Records Schedules (GRS)"
+    authors: [U.S. National Archives and Records Administration]
+    site: archives.gov
+    tags: [retention, records]
+    summary_md: |
+      Example of a retention schedule in practice: record series with defined retention periods
+      and disposition instructions. Second source for lesson 3's retention-schedule discussion.
+
+  - slug: d2-pci-dss
+    kind: standard
+    url: https://www.pcisecuritystandards.org/document_library/
+    title: "PCI DSS v4.0.1"
+    authors: [PCI Security Standards Council]
+    site: PCI SSC
+    tags: [retention, scoping, cardholder-data]
+    summary_md: |
+      Requirement 3 limits storage of account data to what is needed, with a defined retention and
+      disposal policy, and forbids storing sensitive authentication data after authorization;
+      scoping guidance shows how segmentation reduces the cardholder data environment. Lessons 3 and 4.

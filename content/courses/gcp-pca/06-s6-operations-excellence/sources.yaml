@@ -1,0 +1,551 @@
+sources:
+  - slug: s6-pca-exam-guide
+    kind: standard
+    url: https://services.google.com/fh/files/misc/professional_cloud_architect_exam_guide_english.pdf
+    title: "Professional Cloud Architect Certification Exam Guide"
+    authors: [Google Cloud]
+    site: Google Cloud
+    tags: [pca, outline]
+    summary_md: |
+      The official outline. Section 6 (~12.5%): 6.1 operational excellence pillar of the
+      Well-Architected Framework; 6.2 Google Cloud Observability (monitoring and logging, profiling
+      and benchmarking, alerting strategies); 6.3 deployment and release management; 6.4 supporting
+      deployed solutions; 6.5 quality control measures; 6.6 reliability in production (chaos
+      engineering, penetration testing, load testing). All four lessons map to it.
+
+  # Lesson 1: operational excellence pillar, SLOs
+  - slug: s6-waf-operational-excellence
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/framework/operational-excellence
+    title: "Well-Architected Framework: Operational excellence pillar"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [well-architected, operational-excellence]
+    summary_md: |
+      Five core principles: ensure operational readiness and performance using CloudOps (SLOs,
+      monitoring, performance testing, capacity planning); manage incidents and problems; manage and
+      optimise cloud resources; automate and manage change; continuously improve and innovate.
+      Lesson 1, and lesson 4 for incidents.
+  - slug: s6-waf-overview
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/framework
+    title: "Google Cloud Well-Architected Framework"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [well-architected]
+    summary_md: |
+      The framework's pillars (operational excellence; security, privacy and compliance; reliability;
+      cost optimisation; performance optimisation, among others) and cross-pillar perspectives such as
+      AI and ML. Lesson 1 places operational excellence in context.
+  - slug: s6-waf-reliability
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/framework/reliability
+    title: "Well-Architected Framework: Reliability pillar"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [well-architected, reliability, slo]
+    summary_md: |
+      Reliability principles, including defining reliability through user-focused SLOs, error
+      budgets, and testing for recovery and failure. Second Google source for lessons 1 and 4.
+  - slug: s6-sre-book-slos
+    kind: book
+    url: https://sre.google/sre-book/service-level-objectives/
+    title: "Site Reliability Engineering, chapter 4: Service Level Objectives"
+    authors: [Chris Jones, John Wilkes, Niall Murphy, Cody Smith]
+    site: sre.google
+    published: 2016-04-01
+    tags: [sre, sli, slo, sla]
+    summary_md: |
+      Defines SLIs, SLOs and SLAs, why 100% is the wrong target, and choosing indicators that reflect
+      what users experience. Lesson 1.
+  - slug: s6-sre-workbook-error-budget-policy
+    kind: book
+    url: https://sre.google/workbook/error-budget-policy/
+    title: "The Site Reliability Workbook: Example error budget policy"
+    authors: [Google SRE]
+    site: sre.google
+    tags: [sre, error-budget]
+    summary_md: |
+      A sample policy: when a service exceeds its error budget, releases other than P0 and security
+      fixes halt until it is back within SLO. Lesson 1.
+  - slug: s6-monitoring-slo
+    kind: product_docs
+    url: https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring
+    title: "SLO monitoring (Cloud Monitoring)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [slo, cloud-monitoring]
+    summary_md: |
+      Cloud Monitoring's service and SLO model: request-based and windows-based SLIs, rolling and
+      calendar compliance periods, and error budget tracking. Lessons 1 and 2.
+
+  # Lesson 2: observability
+  - slug: s6-observability-docs
+    kind: product_docs
+    url: https://cloud.google.com/stackdriver/docs
+    title: "Google Cloud Observability documentation"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [observability]
+    summary_md: |
+      Entry point for Google Cloud Observability: Cloud Monitoring, Cloud Logging, Cloud Trace, Cloud
+      Profiler, Error Reporting and Managed Service for Prometheus. Lesson 2.
+  - slug: s6-monitoring-overview
+    kind: product_docs
+    url: https://cloud.google.com/monitoring/docs/monitoring-overview
+    title: "Cloud Monitoring overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-monitoring, metrics]
+    summary_md: |
+      Metrics from Google Cloud services, agents and applications; dashboards, uptime checks,
+      alerting and SLOs. Lesson 2.
+  - slug: s6-metrics-scopes
+    kind: product_docs
+    url: https://cloud.google.com/monitoring/settings
+    title: "Metrics scopes overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-monitoring, multi-project]
+    summary_md: |
+      A metrics scope lets one scoping project view and alert on metrics from many projects. Lesson 2
+      (central monitoring).
+  - slug: s6-alerting-overview
+    kind: product_docs
+    url: https://cloud.google.com/monitoring/alerts
+    title: "Alerting overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [alerting, notification-channels]
+    summary_md: |
+      Alerting policies (metric threshold, metric absence, forecast; log-based alerts), conditions,
+      incidents, documentation fields and notification channels such as email, SMS, mobile app,
+      PagerDuty, Slack, webhooks and Pub/Sub. Lesson 2.
+  - slug: s6-uptime-checks
+    kind: product_docs
+    url: https://cloud.google.com/monitoring/uptime-checks
+    title: "Uptime checks"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [uptime, synthetic-monitoring]
+    summary_md: |
+      Uptime checks probe HTTP(S), TCP or other endpoints from several global locations and can drive
+      alerting. Lesson 2.
+  - slug: s6-ops-agent
+    kind: product_docs
+    url: https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent
+    title: "Ops Agent overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [ops-agent, compute-engine]
+    summary_md: |
+      The Ops Agent collects logs and system and application metrics (memory, disk, third-party apps)
+      from Compute Engine VMs, which the hypervisor-level metrics do not include. Lesson 2.
+  - slug: s6-log-routing
+    kind: product_docs
+    url: https://cloud.google.com/logging/docs/routing/overview
+    title: "Routing and storage overview (Log Router and sinks)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-logging, log-router, sinks]
+    summary_md: |
+      Every log entry passes through the Log Router; the system-created _Required and _Default sinks
+      route to the matching buckets; user sinks route to log buckets, BigQuery, Cloud Storage,
+      Pub/Sub or another project, with inclusion and exclusion filters. Lesson 2.
+  - slug: s6-log-buckets
+    kind: product_docs
+    url: https://cloud.google.com/logging/docs/buckets
+    title: "Configure log buckets"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-logging, retention]
+    summary_md: |
+      _Required bucket (admin activity and system event audit logs; cannot be excluded or changed),
+      _Default bucket with a 30-day default retention, custom retention of 1 to 3,650 days, and
+      Log Analytics upgrades. Lesson 2.
+  - slug: s6-logging-quotas
+    kind: product_docs
+    url: https://cloud.google.com/logging/quotas
+    title: "Cloud Logging quotas and limits"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-logging, retention]
+    summary_md: |
+      Lists retention by bucket: _Required 400 days (not configurable), _Default 30 days
+      (configurable for project buckets). Second source for lesson 2's bucket facts.
+  - slug: s6-debugger-deprecation
+    kind: product_docs
+    url: https://cloud.google.com/stackdriver/docs/deprecations/debugger-deprecation
+    title: "Cloud Debugger deprecation"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [deprecated, cloud-debugger]
+    summary_md: |
+      Cloud Debugger was shut down on 31 May 2023; its open-source successor Snapshot Debugger was
+      archived in September 2023. Lesson 2's exam-trap callout.
+  - slug: s6-aggregated-sinks
+    kind: product_docs
+    url: https://cloud.google.com/logging/docs/export/aggregated_sinks
+    title: "Aggregated sinks"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-logging, organization]
+    summary_md: |
+      Sinks at organisation or folder level with includeChildren route logs from every child
+      project to one destination, for central security and audit logging. Lesson 2.
+  - slug: s6-log-analytics
+    kind: product_docs
+    url: https://cloud.google.com/logging/docs/log-analytics
+    title: "Log Analytics overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [log-analytics, sql]
+    summary_md: |
+      Query logs with SQL in upgraded log buckets, optionally through a linked BigQuery dataset,
+      without exporting a copy. Lesson 2.
+  - slug: s6-log-based-metrics
+    kind: product_docs
+    url: https://cloud.google.com/logging/docs/logs-based-metrics
+    title: "Log-based metrics overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [log-based-metrics]
+    summary_md: |
+      Counter and distribution metrics derived from log entries, usable in charts and alerting
+      policies. Lesson 2.
+  - slug: s6-audit-logs
+    kind: product_docs
+    url: https://cloud.google.com/logging/docs/audit
+    title: "Cloud Audit Logs overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [audit-logs]
+    summary_md: |
+      Admin Activity and System Event audit logs are always on; Data Access audit logs are off by
+      default (except BigQuery) and must be enabled. Lesson 2.
+  - slug: s6-trace-overview
+    kind: product_docs
+    url: https://cloud.google.com/trace/docs/overview
+    title: "Cloud Trace overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [tracing, latency]
+    summary_md: |
+      Distributed tracing for latency analysis across services, instrumented with OpenTelemetry.
+      Lesson 2.
+  - slug: s6-profiler-overview
+    kind: product_docs
+    url: https://cloud.google.com/profiler/docs/about-profiler
+    title: "About Cloud Profiler"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [profiling, cpu, heap]
+    summary_md: |
+      Continuous, low-overhead statistical profiling of CPU and memory in production, shown as flame
+      graphs, for supported languages such as Go, Java, Node.js and Python. Lesson 2.
+  - slug: s6-error-reporting
+    kind: product_docs
+    url: https://cloud.google.com/error-reporting/docs
+    title: "Error Reporting documentation"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [error-reporting, exceptions]
+    summary_md: |
+      Error Reporting groups and counts application errors (stack traces) found in logs and notifies
+      on new error groups. Lesson 2.
+  - slug: s6-managed-prometheus
+    kind: product_docs
+    url: https://cloud.google.com/stackdriver/docs/managed-prometheus
+    title: "Google Cloud Managed Service for Prometheus"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [prometheus, gke, promql]
+    summary_md: |
+      Fully managed, globally scalable Prometheus-compatible storage and querying (PromQL), with
+      managed collection on GKE, so teams keep Prometheus exporters and dashboards without running
+      Prometheus storage. Lesson 2.
+  - slug: s6-opentelemetry
+    kind: standard
+    url: https://opentelemetry.io/docs/
+    title: "OpenTelemetry documentation"
+    authors: [OpenTelemetry authors]
+    site: opentelemetry.io
+    tags: [opentelemetry, tracing, metrics]
+    summary_md: |
+      The vendor-neutral standard for traces, metrics and logs. Independent second source for
+      lesson 2's tracing and instrumentation material.
+  - slug: s6-sre-workbook-alerting-on-slos
+    kind: book
+    url: https://sre.google/workbook/alerting-on-slos/
+    title: "The Site Reliability Workbook: Alerting on SLOs"
+    authors: [Google SRE]
+    site: sre.google
+    tags: [alerting, burn-rate]
+    summary_md: |
+      Burn rate, and the recommended multiwindow, multi-burn-rate alerts (for example page when 2% of a
+      30-day budget burns in 1 hour, burn rate 14.4; 5% in 6 hours, burn rate 6; ticket for 10% in 3
+      days). Lessons 1 and 2.
+  - slug: s6-burn-rate-alerting
+    kind: product_docs
+    url: https://cloud.google.com/stackdriver/docs/solutions/slo-monitoring/alerting-on-budget-burn-rate
+    title: "Alerting on your burn rate (Cloud Monitoring)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [alerting, burn-rate, slo]
+    summary_md: |
+      How Cloud Monitoring implements burn-rate alerting policies on an SLO, including fast-burn and
+      slow-burn policies with different lookback windows. Lessons 1 and 2.
+  - slug: s6-perfkit-benchmarker
+    kind: repo
+    url: https://github.com/GoogleCloudPlatform/PerfKitBenchmarker
+    title: "PerfKit Benchmarker"
+    authors: [Google Cloud]
+    site: GitHub
+    tags: [benchmarking]
+    summary_md: |
+      Google's open-source tool that runs standard benchmarks consistently across machine types and
+      clouds. Lesson 2 (benchmarking) and lesson 4.
+
+  # Lesson 3: deployment and release management
+  - slug: s6-cloud-run-traffic
+    kind: product_docs
+    url: https://cloud.google.com/run/docs/rollouts-rollbacks-traffic-migration
+    title: "Rollbacks, gradual rollouts, and traffic migration (Cloud Run)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-run, traffic-splitting, rollback]
+    summary_md: |
+      Deploying a revision with --no-traffic, revision tags with their own URLs, splitting traffic by
+      percentage across revisions, and rolling back by sending 100% to an earlier revision. Lesson 3.
+  - slug: s6-cloud-deploy-canary
+    kind: product_docs
+    url: https://cloud.google.com/deploy/docs/deployment-strategies/canary
+    title: "Use a canary deployment strategy (Cloud Deploy)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-deploy, canary]
+    summary_md: |
+      Cloud Deploy canary strategies for GKE and Cloud Run with percentage phases, advanced
+      between phases manually or by automation. Lesson 3.
+  - slug: s6-cloud-deploy-verify
+    kind: product_docs
+    url: https://cloud.google.com/deploy/docs/verify-deployment
+    title: "Verify your deployment (Cloud Deploy)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [cloud-deploy, verification]
+    summary_md: |
+      Runs a verification container after a rollout (or a phase) and fails the rollout if checks fail.
+      Lessons 3 and 4 (quality gates).
+  - slug: s6-k8s-deployments
+    kind: standard
+    url: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+    title: "Kubernetes Deployments"
+    authors: [The Kubernetes Authors]
+    site: kubernetes.io
+    tags: [kubernetes, rolling-update, rollback]
+    summary_md: |
+      RollingUpdate strategy with maxSurge and maxUnavailable, readiness gating, rollout history and
+      `kubectl rollout undo`. Lesson 3.
+  - slug: s6-gateway-api-traffic-splitting
+    kind: standard
+    url: https://gateway-api.sigs.k8s.io/guides/traffic-splitting/
+    title: "Gateway API: HTTP traffic splitting"
+    authors: [Kubernetes SIG Network]
+    site: gateway-api.sigs.k8s.io
+    tags: [gateway-api, gke, canary]
+    summary_md: |
+      Weighted backendRefs in an HTTPRoute split traffic between Services, the mechanism GKE Gateway
+      uses for canary and blue/green on GKE. Lesson 3.
+  - slug: s6-gke-node-upgrade-strategies
+    kind: product_docs
+    url: https://cloud.google.com/kubernetes-engine/docs/concepts/node-pool-upgrade-strategies
+    title: "Node pool upgrade strategies (GKE)"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [gke, upgrades, blue-green]
+    summary_md: |
+      GKE's surge upgrades and blue-green node pool upgrades, with soak time and rollback for the
+      blue-green strategy. Lesson 3.
+  - slug: s6-mig-rolling-updates
+    kind: product_docs
+    url: https://cloud.google.com/compute/docs/instance-groups/rolling-out-updates-to-managed-instance-groups
+    title: "Automatically apply VM configuration updates in a MIG"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [mig, rolling-update, canary]
+    summary_md: |
+      Proactive rolling updates of a managed instance group with maxSurge and maxUnavailable, and
+      canary updates that run a second instance template on a target size. Lesson 3.
+  - slug: s6-app-deployment-strategies
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/application-deployment-and-testing-strategies
+    title: "Application deployment and testing strategies"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [deployment, canary, blue-green]
+    summary_md: |
+      Comparison of recreate, rolling, blue/green, canary, A/B and shadow patterns. Lesson 3.
+  - slug: s6-sre-workbook-canarying
+    kind: book
+    url: https://sre.google/workbook/canarying-releases/
+    title: "The Site Reliability Workbook: Canarying releases"
+    authors: [Google SRE]
+    site: sre.google
+    tags: [canary, release]
+    summary_md: |
+      How to size and time canaries, compare canary against control population, and choose metrics.
+      Lesson 3.
+  - slug: s6-sre-book-release-engineering
+    kind: book
+    url: https://sre.google/sre-book/release-engineering/
+    title: "Site Reliability Engineering, chapter 8: Release Engineering"
+    authors: [Dinah McNutt]
+    site: sre.google
+    tags: [release-engineering, hermetic-builds]
+    summary_md: |
+      Self-service, high-velocity, hermetic builds and enforced policies as the basis of reliable
+      releases. Lesson 3.
+
+  # Lesson 4: support, quality control, reliability in production
+  - slug: s6-sre-book-managing-incidents
+    kind: book
+    url: https://sre.google/sre-book/managing-incidents/
+    title: "Site Reliability Engineering, chapter 14: Managing Incidents"
+    authors: [Andrew Stribblehill]
+    site: sre.google
+    tags: [incident-management]
+    summary_md: |
+      Incident command roles (incident commander, operations, communications, planning), a single
+      working document, and declaring incidents early. Lesson 4.
+  - slug: s6-sre-book-postmortems
+    kind: book
+    url: https://sre.google/sre-book/postmortem-culture/
+    title: "Site Reliability Engineering, chapter 15: Postmortem Culture"
+    authors: [John Lunney, Sue Lueder]
+    site: sre.google
+    tags: [postmortem, blameless]
+    summary_md: |
+      Blameless postmortems with owned, tracked action items. Lesson 4.
+  - slug: s6-waf-manage-incidents
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/framework/operational-excellence/manage-incidents-and-problems
+    title: "Manage incidents and problems (Well-Architected Framework)"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [incident-management, well-architected]
+    summary_md: |
+      Recommendations on observability, clear incident response procedures, retrospectives and
+      preventive measures. Lesson 4.
+  - slug: s6-service-health
+    kind: product_docs
+    url: https://cloud.google.com/service-health/docs/overview
+    title: "Personalized Service Health overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [service-health, incidents]
+    summary_md: |
+      Shows Google Cloud incidents that affect your projects, with alerts and an API, so operators can
+      tell a platform incident from their own. Lesson 4.
+  - slug: s6-customer-care
+    kind: product_docs
+    url: https://cloud.google.com/support
+    title: "Google Cloud Customer Care"
+    authors: [Google Cloud]
+    site: Google Cloud
+    tags: [support]
+    summary_md: |
+      The paid support offerings (Standard, Enhanced, Premium) and their response-time targets.
+      Lesson 4.
+  - slug: s6-pentest-faq
+    kind: product_docs
+    url: https://support.google.com/cloud/answer/6262505
+    title: "Cloud Security FAQ: penetration testing"
+    authors: [Google Cloud]
+    site: Google Cloud Help
+    tags: [penetration-testing, policy]
+    summary_md: |
+      You are not required to notify Google before penetration testing your own projects, but must
+      follow the Acceptable Use Policy and Terms of Service and affect only your own projects.
+      Lesson 4.
+  - slug: s6-acceptable-use-policy
+    kind: standard
+    url: https://cloud.google.com/terms/aup
+    title: "Google Cloud Platform Acceptable Use Policy"
+    authors: [Google Cloud]
+    site: Google Cloud
+    tags: [policy, aup]
+    summary_md: |
+      Prohibits, among other things, attempting to violate the security or integrity of other
+      networks or customers. Second source for lesson 4's penetration testing rules.
+  - slug: s6-web-security-scanner
+    kind: product_docs
+    url: https://cloud.google.com/security-command-center/docs/concepts-web-security-scanner-overview
+    title: "Web Security Scanner overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [security-command-center, scanning]
+    summary_md: |
+      Security Command Center's managed scanner for public web apps on App Engine, GKE and Compute
+      Engine, finding issues such as XSS, mixed content and outdated libraries. Lesson 4.
+  - slug: s6-chaos-engineering-blog
+    kind: web
+    url: https://cloud.google.com/blog/products/devops-sre/getting-started-with-chaos-engineering
+    title: "Getting started with chaos engineering"
+    authors: [Google Cloud]
+    site: Google Cloud Blog
+    tags: [chaos-engineering]
+    summary_md: |
+      Google Cloud's introduction to chaos engineering: steady-state hypothesis, small blast radius,
+      run in production carefully, automate experiments. Lesson 4.
+  - slug: s6-principles-of-chaos
+    kind: web
+    url: https://principlesofchaos.org/
+    title: "Principles of Chaos Engineering"
+    authors: [Principles of Chaos contributors]
+    site: principlesofchaos.org
+    tags: [chaos-engineering]
+    summary_md: |
+      The original principles: define steady state, hypothesise it continues, introduce real-world
+      events, run in production, automate, minimise blast radius. Independent second source for
+      lesson 4.
+  - slug: s6-istio-fault-injection
+    kind: standard
+    url: https://istio.io/latest/docs/tasks/traffic-management/fault-injection/
+    title: "Istio: Fault injection"
+    authors: [Istio authors]
+    site: istio.io
+    tags: [service-mesh, fault-injection]
+    summary_md: |
+      Injecting HTTP delays and aborts through VirtualService rules, the mechanism Cloud Service Mesh
+      exposes for application-level chaos experiments. Lesson 4.
+  - slug: s6-distributed-load-testing
+    kind: vendor_docs
+    url: https://cloud.google.com/architecture/distributed-load-testing-using-gke
+    title: "Distributed load testing using Google Kubernetes Engine"
+    authors: [Google Cloud]
+    site: Google Cloud Architecture Center
+    tags: [load-testing, locust]
+    summary_md: |
+      Locust master and workers on GKE generating distributed load against a target. Lesson 4.
+  - slug: s6-dora-four-keys
+    kind: web
+    url: https://dora.dev/guides/dora-metrics-four-keys/
+    title: "DORA's software delivery metrics"
+    authors: [DORA]
+    site: dora.dev
+    tags: [dora, metrics, quality]
+    summary_md: |
+      Throughput (change lead time, deployment frequency, failed deployment recovery time) and
+      instability (change fail rate, deployment rework rate) metrics for software delivery; the
+      original "four keys" plus rework rate. Lesson 4 (quality control).
+  - slug: s6-artifact-analysis
+    kind: product_docs
+    url: https://cloud.google.com/artifact-analysis/docs/artifact-analysis
+    title: "Artifact Analysis overview"
+    authors: [Google Cloud]
+    site: Google Cloud documentation
+    tags: [vulnerability-scanning, supply-chain]
+    summary_md: |
+      Automatic and on-demand vulnerability scanning of images in Artifact Registry, with metadata
+      usable by Binary Authorization. Lesson 4 (quality gates).
